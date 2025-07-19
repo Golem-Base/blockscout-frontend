@@ -7,10 +7,7 @@ This guide provides instructions for running the Blockscout frontend with the `g
 The `golembase_l3_local` preset configures the frontend to connect to local services for development purposes. It's designed to work with:
 
 - **Frontend App**: `http://localhost:3000`
-- **API Server**: `http://localhost:3001`
-- **Stats API**: `http://localhost:8080`
-- **Visualize API**: `http://localhost:8081`
-- **RPC Endpoint**: `http://localhost:8545`
+- **API Server**: `http://localhost:80`
 
 ## Prerequisites
 
@@ -74,7 +71,7 @@ http://localhost:3000
 To update the preset configuration from the live instance:
 
 ```bash
-yarn dev:preset:sync --name=golembase_l3_local
+yarn dev:preset:sync:golembase_l3_local
 ```
 
 ### Docker Development
@@ -84,3 +81,7 @@ To run with Docker using this preset:
 ```bash
 yarn start:docker:preset golembase_l3_local
 ```
+
+## Customization
+
+For detailed customization instructions and environment variable configuration, see [ENVS.md](./ENVS.md).

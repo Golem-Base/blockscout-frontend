@@ -35,6 +35,7 @@ const PRESETS = {
   // main === staging
   main: 'https://eth-sepolia.k8s-dev.blockscout.com',
   golembase: 'https://explorer.golem-base.io',
+  golembase_l3_local: 'http://localhost:80',
 };
 
 const LOCAL_ENVS = {
