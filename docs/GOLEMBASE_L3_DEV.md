@@ -1,10 +1,14 @@
 # Golem Base L3 Development Guide
 
-This guide provides instructions for running the Blockscout frontend with the `golembase_l3_local` preset configuration. This preset is specifically designed for development of the Golem Base L3 network explorer.
+This guide provides instructions for running the Blockscout frontend with the `golembase_l3_local` preset configuration.
 
 ## Overview
 
-The `golembase_l3_local` preset configures the frontend to connect to local services for development purposes. It's designed to work with:
+The `golembase_l3_local` preset configures the frontend to connect to local services for development purposes.
+
+**Note**: There is also a `golembase` preset configuration available for connecting to the hosted Golem Base instance.
+
+The local preset is designed to work with:
 
 - **Frontend App**: `http://localhost:3000`
 - **API Server**: `http://localhost:80`
@@ -27,10 +31,7 @@ Before running the local development environment, ensure you have:
    ```
 
 3. **Local blockchain services running** (for local development):
-   - Blockscout API server on port 3001
-   - Stats API on port 8080
-   - Visualize API on port 8081
-   - Ethereum RPC endpoint on port 8545
+   - Blockscout API server on port 80
 
 ## Quick Start
 
