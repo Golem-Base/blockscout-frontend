@@ -57,19 +57,11 @@ Open your browser and navigate to:
 http://localhost:3000
 ```
 
-## Troubleshooting
-
-### Common Issues
-
-1. **Port Already in Use**
-
-   - Ensure no other services are running on ports 3000, 3001, 8080, 8081, or 8545
-
 ## Additional Commands
 
 ### Sync Configuration
 
-To update the preset configuration from the live instance:
+To update the preset configuration from the local instance:
 
 ```bash
 yarn dev:preset:sync:golembase_l3_local
