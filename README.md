@@ -25,9 +25,11 @@ For more information on migrating from the previous frontend, please see the [fr
 See our [Contribution guide](./docs/CONTRIBUTING.md) for pull request protocol. We expect contributors to follow our [code of conduct](./CODE_OF_CONDUCT.md) when submitting code or comments.
 
 ## Resources
+
 - [App ENVs list](./docs/ENVS.md)
 - [Contribution guide](./docs/CONTRIBUTING.md)
 - [Making a custom build](./docs/CUSTOM_BUILD.md)
+- [Golem Base L3 Development Guide](./docs/GOLEMBASE_L3_DEV.md) - Development guide for Golem Base L3 network
 - [Frontend migration guide](https://docs.blockscout.com/for-developers/frontend-migration)
 - [Manual deployment guide with backend and microservices](https://docs.blockscout.com/for-developers/deployment/manual-deployment-guide)
 

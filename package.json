@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "./tools/scripts/dev.sh",
     "dev:preset": "./tools/scripts/dev.preset.sh",
+    "dev:golembase": "yarn run dev:preset golembase",
+    "dev:golembase-l3-local": "yarn run dev:preset golembase_l3_local",
     "dev:preset:sync": "tsc -p ./tools/preset-sync/tsconfig.json && node ./tools/preset-sync/index.js",
     "build": "next build",
     "build:next": "./deploy/scripts/download_assets.sh ./public/assets/configs && yarn svg:build-sprite && ./deploy/scripts/make_envs_script.sh && next build",
