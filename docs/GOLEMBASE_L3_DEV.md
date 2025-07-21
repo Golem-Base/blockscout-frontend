@@ -11,7 +11,7 @@ The `golembase_l3_local` preset configures the frontend to connect to local serv
 The local preset is designed to work with:
 
 - **Frontend App**: `http://localhost:3000`
-- **API Server**: `http://localhost:80`
+- **API Server**: `http://localhost:4000`
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ Before running the local development environment, ensure you have:
    ```
 
 3. **Local blockchain services running** (for local development):
-   - Blockscout API server on port 80
+   - Blockscout API server on port 4000
 
 ## Quick Start
 
@@ -58,14 +58,6 @@ http://localhost:3000
 ```
 
 ## Additional Commands
-
-### Sync Configuration
-
-To update the preset configuration from the local instance:
-
-```bash
-yarn dev:preset:sync:golembase_l3_local
-```
 
 ### Docker Development
 
