@@ -7,5 +7,11 @@
     "typescript.preferences.autoImportFileExcludePatterns": [
         "./toolkit/package/**",
         "./toolkit/components/**/index.ts",
-    ]
+    ],
+    "prettier.disableLanguages": [
+        "markdown"
+    ],
+    "[markdown]": {
+        "editor.formatOnSave": false
+    }
 }
