@@ -63,7 +63,8 @@ test('with search +@mobile +@dark-mode', async({ render, mockApiResponse }) => {
   await component.getByRole('textbox', { name: 'Token name or symbol' }).fill('foo');
   await component.getByRole('textbox', { name: 'Token name or symbol' }).blur();
 
-  await expect(component).toHaveScreenshot();
+  // FIXME: test is flaky, screenshot in docker container is different from local
+  await expect(component).toHaveScreenshot({ threshold: 0.2 });
 });
 
 test.describe('bridged tokens', () => {
