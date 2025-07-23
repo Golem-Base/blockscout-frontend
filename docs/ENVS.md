@@ -324,7 +324,11 @@ Settings for meta tags, OG tags and SEO
 | NEXT_PUBLIC_HIDE_INDEXING_ALERT_BLOCKS | `boolean` | Set to `true` to hide indexing alert in the page header about indexing chain's blocks | - | `false` | `true` | v1.17.0+ |
 | NEXT_PUBLIC_HIDE_INDEXING_ALERT_INT_TXS | `boolean` | Set to `true` to hide indexing alert in the page footer about indexing block's internal transactions | - | `false` | `true` | v1.17.0+ |
 | NEXT_PUBLIC_MAINTENANCE_ALERT_MESSAGE | `string` | Used for displaying custom announcements or alerts in the header of the site. Could be a regular string or a HTML code. | - | - | `Hello world! 🤪` | v1.13.0+ |
-| NEXT_PUBLIC_COLOR_THEME_DEFAULT | `'light' \| 'dim' \| 'midnight' \| 'dark'` | Preferred color theme of the app | - | - | `midnight` | v1.30.0+ |
+| NEXT_PUBLIC_COLOR_THEME_DEFAULT | `'light' \| 'dark'` | Preferred color theme of the app | - | - | `light` | v1.30.0+ |
+| NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX | `string` | Hex color code for light theme background | - | `#FFFFFF` | `#FFFFFF` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG | `string` | CSS background value for light theme sample | - | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_DARK_HEX | `string` | Hex color code for dark theme background | - | `#101112` | `#101112` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG | `string` | CSS background value for dark theme sample | - | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | v2.2.0+ |
 | NEXT_PUBLIC_FONT_FAMILY_HEADING | `FontFamily`, see full description [below](#font-family-configuration-properties) | Special typeface to use in page headings (`<h1>`, `<h2>`, etc.) | - | - | `{'name':'Montserrat','url':'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap'}` | v1.35.0+ |
 | NEXT_PUBLIC_FONT_FAMILY_BODY | `FontFamily`, see full description [below](#font-family-configuration-properties) | Main typeface to use in page content elements. | - | - | `{'name':'Raleway','url':'https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap'}` | v1.35.0+ |
 | NEXT_PUBLIC_MAX_CONTENT_WIDTH_ENABLED | `boolean` | Set to `true` to restrict the page content width on extra-large screens. | - | `true` | `false` | v1.34.1+ |

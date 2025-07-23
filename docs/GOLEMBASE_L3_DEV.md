@@ -70,3 +70,29 @@ yarn start:docker:preset golembase_l3_local
 ## Customization
 
 For detailed customization instructions and environment variable configuration, see [ENVS.md](./ENVS.md).
+
+### Color Theme Configuration
+
+The Golem Base L3 preset includes enhanced theming capabilities with configurable color schemes. You can customize the appearance by modifying these environment variables:
+
+#### Light Theme
+
+- `NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX` - Background color for light theme (default: `#FFFFFF`)
+- `NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG` - Sample background gradient for light theme
+
+#### Dark Theme
+
+- `NEXT_PUBLIC_COLOR_THEME_DARK_HEX` - Background color for dark theme (default: `#101112`)
+- `NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG` - Sample background gradient for dark theme
+
+#### Example Configuration
+
+```bash
+# Custom light theme
+NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX=#F8F9FA
+NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG=linear-gradient(154deg, #E9ECEF 50%, rgba(255, 255, 255, 0.00) 330.86%)
+
+# Custom dark theme
+NEXT_PUBLIC_COLOR_THEME_DARK_HEX=#1A1B1E
+NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG=linear-gradient(161deg, #000 9.37%, #2C2E33 92.52%)
+```
