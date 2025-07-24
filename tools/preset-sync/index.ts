@@ -34,6 +34,7 @@ const PRESETS = {
   zora: 'https://explorer.zora.energy',
   // main === staging
   main: 'https://eth-sepolia.k8s-dev.blockscout.com',
+  golembase: 'https://explorer.golem-base.io',
 };
 
 const LOCAL_ENVS = {
