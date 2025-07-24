@@ -9,9 +9,28 @@
         "./toolkit/components/**/index.ts",
     ],
     "prettier.disableLanguages": [
-        "markdown"
+        "markdown",
+        "typescript",
+        "javascript",
+        "typescriptreact",
+        "javascriptreact"
     ],
     "[markdown]": {
         "editor.formatOnSave": false
+    },
+    "[typescript]": {
+        "editor.formatOnSave": false
+    },
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": false
+    },
+    "[javascriptreact]": {
+        "editor.formatOnSave": false
+    },
+    "files.exclude": {
+        "**/lib/web3/useProvider.tsx": false
     }
 }

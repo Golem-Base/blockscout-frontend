@@ -190,6 +190,7 @@
 	| "verified_slim"
 	| "verified"
 	| "wallet"
+	| "wallets/brave"
 	| "wallets/coinbase"
 	| "wallets/metamask"
 	| "wallets/token-pocket"
