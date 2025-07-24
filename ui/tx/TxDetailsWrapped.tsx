@@ -106,7 +106,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       <DetailedInfo.ItemDivider/>
 
-      <TxDetailsOther type={ data.type } nonce={ data.nonce } position={ null }/>
+      <TxDetailsOther type={ data.type } nonce={ data.nonce } position={ null } rawInput={ data.raw_input }/>
 
       <DetailedInfo.ItemLabel
         hint="Binary data included with the transaction. See logs tab for additional info"
