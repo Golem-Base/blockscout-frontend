@@ -13,4 +13,8 @@ export const WALLETS_INFO: Record<Exclude<WalletType, 'none'>, WalletInfo> = {
     name: 'TokenPocket',
     icon: 'wallets/token-pocket',
   },
+  brave: {
+    name: 'Brave Wallet',
+    icon: 'wallets/brave',
+  },
 };
