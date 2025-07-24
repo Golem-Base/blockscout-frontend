@@ -5,7 +5,6 @@ import React from 'react';
 import type { Transaction } from 'types/api/transaction';
 import type { ExcludeUndefined } from 'types/utils';
 
-import hexToLength from 'lib/hexToLength';
 import { currencyUnits } from 'lib/units';
 import { Badge } from 'toolkit/chakra/badge';
 import CurrencyValue from 'ui/shared/CurrencyValue';
@@ -107,16 +106,7 @@ const TxDetailsWrapped = ({ data }: Props) => {
 
       <DetailedInfo.ItemDivider/>
 
-      <TxDetailsOther type={ data.type } nonce={ data.nonce } position={ null }/>
-
-      <DetailedInfo.ItemLabel
-        hint="Binary data included with the transaction. See logs tab for additional info"
-      >
-        Size
-      </DetailedInfo.ItemLabel>
-      <DetailedInfo.ItemValue>
-        { hexToLength(data.raw_input) } bytes
-      </DetailedInfo.ItemValue>
+      <TxDetailsOther type={ data.type } nonce={ data.nonce } position={ null } rawInput={ data.raw_input }/>
 
       <DetailedInfo.ItemLabel
         hint="Binary data included with the transaction. See logs tab for additional info"

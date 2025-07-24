@@ -923,7 +923,7 @@ const TxInfo = ({ data, tacOperations, isLoading, socketStatus }: Props) => {
           </>
         ) }
 
-        <TxDetailsOther nonce={ data.nonce } type={ data.type } position={ data.position } queueIndex={ data.scroll?.queue_index }/>
+        <TxDetailsOther nonce={ data.nonce } type={ data.type } position={ data.position } queueIndex={ data.scroll?.queue_index } rawInput={ data.raw_input }/>
 
         <DetailedInfo.ItemLabel
           hint="Binary data included with the transaction. See logs tab for additional info"

@@ -3,12 +3,18 @@ import React from 'react';
 
 import type { Transaction } from 'types/api/transaction';
 
+import hexToSize from 'lib/hexToSize';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
 import TextSeparator from 'ui/shared/TextSeparator';
 
-type Props = Pick<Transaction, 'nonce' | 'type' | 'position'> & { queueIndex?: number };
+type Props = Pick<Transaction, 'nonce' | 'type' | 'position'> & {
+  queueIndex?: number;
+  rawInput?: string;
+};
 
-const TxDetailsOther = ({ nonce, type, position, queueIndex }: Props) => {
+const TxDetailsOther = ({ nonce, type, position, queueIndex, rawInput }: Props) => {
+  const txSize = rawInput !== undefined ? hexToSize(rawInput) : null;
+
   return (
     <>
       <DetailedInfo.ItemLabel
@@ -43,6 +49,12 @@ const TxDetailsOther = ({ nonce, type, position, queueIndex }: Props) => {
               <Box key="position">
                 <Text as="span" fontWeight="500">Position: </Text>
                 <Text fontWeight="600" as="span">{ position }</Text>
+              </Box>
+            ),
+            txSize !== null && (
+              <Box key="size">
+                <Text as="span" fontWeight="500">Size: </Text>
+                <Text fontWeight="600" as="span">{ txSize.toLocaleString() } B</Text>
               </Box>
             ),
           ]
