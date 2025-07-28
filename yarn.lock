@@ -1568,6 +1568,9 @@
   resolved "https://registry.yarnpkg.com/@blockscout/bens-types/-/bens-types-1.4.1.tgz#9182a79d9015b7fa2339edf0bfa3cd0c32045e66"
   integrity sha512-TlZ1HVdZ2Cswm/CcvNoxS+Ydiht/YGaLo//PJR/UmkmihlEFoY4HfVJvVcUnOQXi+Si7FwJ486DPii889nTJsQ==
 
+"@blockscout/golem-base-indexer-types@file:./types/golem-base-indexer-types":
+  version "0.0.1"
+
 "@blockscout/multichain-aggregator-types@1.6.0-alpha.0":
   version "1.6.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@blockscout/multichain-aggregator-types/-/multichain-aggregator-types-1.6.0-alpha.0.tgz#13e26516af2568daecaee9c1e43066baa4050838"

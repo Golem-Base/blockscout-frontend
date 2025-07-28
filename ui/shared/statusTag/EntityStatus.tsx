@@ -1,7 +1,7 @@
 import { pascalCase } from 'es-toolkit';
 import React from 'react';
 
-import type { EntityStatus as EntityStatusEnum } from '@blockscout/golem-base-indexer-types';
+import type { EntityStatus as EntityStatusEnum } from 'types/golem-base-indexer-types';
 
 import type { StatusTagType } from './StatusTag';
 import StatusTag from './StatusTag';

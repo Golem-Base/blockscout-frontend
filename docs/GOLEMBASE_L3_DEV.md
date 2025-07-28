@@ -33,6 +33,16 @@ Before running the local development environment, ensure you have:
 3. **Local blockchain services running** (for local development):
    - Blockscout API server on port 4000
 
+4. **Golem Base Indexer Types**:
+   
+   Build the TypeScript types from protobuf definitions:
+   
+   ```bash
+   yarn build:golem-types
+   ```
+   
+   **Note**: This will automatically fetch the blockscout-rs-neti submodule if needed.
+
 ## Quick Start
 
 ### 1. Install Dependencies

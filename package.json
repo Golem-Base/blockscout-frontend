@@ -44,7 +44,7 @@
     "sitemap:generate:dev": "./tools/scripts/sitemap-generator.dev.sh",
     "monitoring:prometheus:local": "docker run --name blockscout_prometheus -d -p 127.0.0.1:9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus",
     "monitoring:grafana:local": "docker run -d -p 4000:3000 --name=blockscout_grafana --user $(id -u) --volume $(pwd)/grafana:/var/lib/grafana grafana/grafana-enterprise",
-    "postinstall": "yarn build:golem-types && chakra typegen ./toolkit/theme/theme.ts"
+    "postinstall": "chakra typegen ./toolkit/theme/theme.ts"
   },
   "dependencies": {
     "@blockscout/bens-types": "1.4.1",

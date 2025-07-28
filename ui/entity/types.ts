@@ -1,6 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 
-import type { FullEntity } from '@blockscout/golem-base-indexer-types';
+import type { FullEntity } from 'types/golem-base-indexer-types';
 
 import type { ResourceError } from 'lib/api/resources';
 
