@@ -14,6 +14,7 @@
     "dev:golembase-l3-local": "yarn run dev:preset golembase_l3_local",
     "dev:preset:sync": "tsc -p ./tools/preset-sync/tsconfig.json && node ./tools/preset-sync/index.js",
     "build": "next build",
+    "build:golem-types": "./tools/scripts/build-golem-types.sh",
     "build:next": "./deploy/scripts/download_assets.sh ./public/assets/configs && yarn svg:build-sprite && ./deploy/scripts/make_envs_script.sh && next build",
     "build:docker": "./tools/scripts/build.docker.sh",
     "start": "next start",
@@ -43,7 +44,7 @@
     "sitemap:generate:dev": "./tools/scripts/sitemap-generator.dev.sh",
     "monitoring:prometheus:local": "docker run --name blockscout_prometheus -d -p 127.0.0.1:9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus",
     "monitoring:grafana:local": "docker run -d -p 4000:3000 --name=blockscout_grafana --user $(id -u) --volume $(pwd)/grafana:/var/lib/grafana grafana/grafana-enterprise",
-    "postinstall": "chakra typegen ./toolkit/theme/theme.ts"
+    "postinstall": "yarn build:golem-types && chakra typegen ./toolkit/theme/theme.ts"
   },
   "dependencies": {
     "@blockscout/bens-types": "1.4.1",
