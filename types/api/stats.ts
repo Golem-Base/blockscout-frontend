@@ -23,6 +23,7 @@ export type HomeStats = {
   celo?: {
     epoch_number: number;
   };
+  chain_id?: number | null;
 };
 
 export type GasPrices = {
