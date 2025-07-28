@@ -1,3 +1,4 @@
+import { pascalCase } from 'es-toolkit';
 import React from 'react';
 
 import type { EntityStatus as EntityStatusEnum } from '@blockscout/golem-base-indexer-types';
@@ -15,10 +16,12 @@ const EntityStatus = ({ status, isLoading }: Props) => {
     return null;
   }
 
+  const pascalCaseStatus = pascalCase(status); // @FIXME: update once returned type is fixed
+
   let text: string;
   let type: StatusTagType;
 
-  switch (status) {
+  switch (pascalCaseStatus) {
     case 'Active':
       text = 'Active';
       type = 'ok';

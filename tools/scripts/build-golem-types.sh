@@ -29,4 +29,4 @@ cat > "$TARGET_DIR/index.d.ts" << 'EOF'
 export * from './dist/golem-base-indexer-proto/proto/v1/golem-base-indexer';
 EOF
 
-echo "✅ golem-base-indexer-types built successfully!" 
+echo "✅ golem-base-indexer-types built successfully!"
