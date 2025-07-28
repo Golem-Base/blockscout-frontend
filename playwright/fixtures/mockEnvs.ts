@@ -112,4 +112,7 @@ export const ENVS_MAP: Record<string, Array<[string, string]>> = {
   celo: [
     [ 'NEXT_PUBLIC_CELO_ENABLED', 'true' ],
   ],
+  golemBaseIndexer: [
+    [ 'NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST', 'http://localhost:8050' ],
+  ],
 };

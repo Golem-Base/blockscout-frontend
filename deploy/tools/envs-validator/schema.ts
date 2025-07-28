@@ -296,6 +296,16 @@ const tacSchema = yup
       }),
   });
 
+const golemSchema = yup
+  .object()
+  .shape({
+    NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST: yup.string().test(urlTest),
+    NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX: yup.string(),
+    NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG: yup.string(),
+    NEXT_PUBLIC_COLOR_THEME_DARK_HEX: yup.string(),
+    NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG: yup.string(),
+  });
+
 const parentChainCurrencySchema = yup
   .object()
   .shape({
@@ -973,10 +983,6 @@ const schema = yup
     NEXT_PUBLIC_HIDE_INDEXING_ALERT_INT_TXS: yup.boolean(),
     NEXT_PUBLIC_MAINTENANCE_ALERT_MESSAGE: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DEFAULT: yup.string().oneOf(COLOR_THEME_IDS),
-    NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX: yup.string(),
-    NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG: yup.string(),
-    NEXT_PUBLIC_COLOR_THEME_DARK_HEX: yup.string(),
-    NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG: yup.string(),
     NEXT_PUBLIC_FONT_FAMILY_HEADING: yup
       .mixed()
       .test('shape', 'Invalid schema were provided for NEXT_PUBLIC_FONT_FAMILY_HEADING', (data) => {
@@ -1161,6 +1167,7 @@ const schema = yup
   .concat(bridgedTokensSchema)
   .concat(sentrySchema)
   .concat(tacSchema)
+  .concat(golemSchema)
   .concat(address3rdPartyWidgetsConfigSchema)
   .concat(addressMetadataSchema);
 
