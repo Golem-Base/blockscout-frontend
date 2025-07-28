@@ -1,10 +1,12 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { EntityQuery } from './types';
 
+import formatDataSize from 'lib/formatDataSize';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
+import { Tag } from 'toolkit/chakra/tag';
+import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import RawInputData from 'ui/shared/RawInputData';
 
 interface Props {
@@ -12,67 +14,48 @@ interface Props {
 }
 
 const EntityData = ({ entityQuery }: Props) => {
-  const formatDataSize = (sizeInBytes?: number) => {
-    if (!sizeInBytes) return 'Unknown';
-    const bytes = sizeInBytes;
-    if (bytes < 1024) return `${ bytes } bytes`;
-    if (bytes < 1024 * 1024) return `${ (bytes / 1024).toFixed(2) } KB`;
-    return `${ (bytes / (1024 * 1024)).toFixed(2) } MB`;
-  };
+  const { data, isPlaceholderData: isLoading } = entityQuery;
 
-  if (!entityQuery.data) {
+  if (!data) {
     return null;
   }
 
+  const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
+
   return (
     <Container>
-      <ItemLabel>Entity Data</ItemLabel>
+      <ItemLabel hint="Raw data content of this entity">Entity Data</ItemLabel>
       <ItemValue>
         <RawInputData
-          hex={ entityQuery.data.data || '' }
-          isLoading={ entityQuery.isPlaceholderData }
+          hex={ data.data || '' }
+          isLoading={ isLoading }
           defaultDataType="UTF-8"
         />
       </ItemValue>
 
-      <ItemLabel>Size</ItemLabel>
+      <ItemLabel hint="Size of the stored data">Size</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
-          <Text>{ formatDataSize(entityQuery.data.data_size) }</Text>
+        <Skeleton loading={ isLoading }>
+          <Text>{ formatDataSize(data.data_size) }</Text>
         </Skeleton>
       </ItemValue>
 
-      { entityQuery.data.string_annotations && entityQuery.data.string_annotations.length > 0 && (
+      { annotations.length > 0 && (
         <>
-          <ItemLabel>String Annotations</ItemLabel>
+          <ItemDivider/>
+          <ItemLabel hint="Key-Value annotations attached to this entity">Annotations</ItemLabel>
           <ItemValue>
-            <Skeleton loading={ entityQuery.isPlaceholderData }>
-              <Box>
-                { entityQuery.data.string_annotations.map((annotation, index) => (
-                  <Box key={ index } mb={ 2 }>
-                    <Text fontWeight="bold">{ annotation.key }:</Text>
-                    <Text>{ annotation.value }</Text>
-                  </Box>
+            <Skeleton loading={ isLoading }>
+              <Flex flexWrap="wrap" gap={ 2 }>
+                { annotations.map((annotation, index) => (
+                  <Tag key={ index } size="lg">
+                    <Flex alignItems="center" gap={ 1 }>
+                      <Text fontWeight="normal" fontSize="xs">{ annotation.key }:</Text>
+                      <Text fontWeight="bold" fontSize="xs">{ annotation.value }</Text>
+                    </Flex>
+                  </Tag>
                 )) }
-              </Box>
-            </Skeleton>
-          </ItemValue>
-        </>
-      ) }
-
-      { entityQuery.data.numeric_annotations && entityQuery.data.numeric_annotations.length > 0 && (
-        <>
-          <ItemLabel>Numeric Annotations</ItemLabel>
-          <ItemValue>
-            <Skeleton loading={ entityQuery.isPlaceholderData }>
-              <Box>
-                { entityQuery.data.numeric_annotations.map((annotation, index) => (
-                  <Box key={ index } mb={ 2 }>
-                    <Text fontWeight="bold">{ annotation.key }:</Text>
-                    <Text>{ annotation.value }</Text>
-                  </Box>
-                )) }
-              </Box>
+              </Flex>
             </Skeleton>
           </ItemValue>
         </>

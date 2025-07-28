@@ -4,10 +4,13 @@ import { formatUnits } from 'viem';
 
 import type { EntityQuery } from './types';
 
-import { Badge } from 'toolkit/chakra/badge';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
+import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
+import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
+import TxEntity from 'ui/shared/entities/tx/TxEntity';
+import EntityStatus from 'ui/shared/statusTag/EntityStatus';
 
 import CopyToClipboard from '../shared/CopyToClipboard';
 import HashStringShortenDynamic from '../shared/HashStringShortenDynamic';
@@ -19,22 +22,13 @@ interface Props {
 const EntityDetails = ({ entityQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityQuery;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Active': return 'green';
-      case 'Expired': return 'red';
-      case 'Deleted': return 'gray';
-      default: return 'gray';
-    }
-  };
-
   if (!data) {
     return null;
   }
 
   return (
     <Container>
-      <ItemLabel hint="Unique Entity Key" isLoading={ isLoading }>Entity Key</ItemLabel>
+      <ItemLabel hint="Unique identifier for this entity" isLoading={ isLoading }>Entity Key</ItemLabel>
       <ItemValue>
         <Flex flexWrap="nowrap" alignItems="center" overflow="hidden">
           <Skeleton loading={ isLoading } overflow="hidden">
@@ -44,40 +38,90 @@ const EntityDetails = ({ entityQuery }: Props) => {
         </Flex>
       </ItemValue>
 
-      <ItemLabel>Status</ItemLabel>
+      <ItemLabel hint="Current status of this entity">Status</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
-          <Badge colorPalette={ getStatusColor(entityQuery.data.status) }>
-            { entityQuery.data.status }
-          </Badge>
-        </Skeleton>
+        <EntityStatus status={ data.status } isLoading={ isLoading }/>
       </ItemValue>
 
-      <ItemLabel>Owner</ItemLabel>
+      <ItemLabel hint="Address that owns this entity">Owner</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
+        <Skeleton loading={ isLoading }>
           <AddressEntity
-            address={{
-              hash: entityQuery.data.owner,
-              name: null,
-              is_contract: false,
-              is_verified: null,
-              ens_domain_name: null,
-              implementations: null,
-              private_tags: null,
-              watchlist_names: null,
-              public_tags: null,
-            }}
+            address={{ hash: data.owner }}
             truncation="constant"
           />
         </Skeleton>
       </ItemValue>
 
-      <ItemLabel>Gas Used</ItemLabel>
+      <ItemLabel hint="Total gas consumed by this entity">Gas Used</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
-          <Text>{ formatUnits(BigInt(entityQuery.data.gas_used || '0'), 0) }</Text>
+        <Skeleton loading={ isLoading }>
+          <Text>{ formatUnits(BigInt(data.gas_used || '0'), 0) }</Text>
         </Skeleton>
+      </ItemValue>
+
+      <ItemDivider/>
+
+      { data.created_at_block_number && (
+        <>
+          <ItemLabel hint="Block number when this entity was created">Created at Block</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <BlockEntity number={ data.created_at_block_number }/>
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
+
+      <ItemLabel hint="Timestamp when this entity was created">Created at</ItemLabel>
+      <ItemValue>
+        { data.created_at_timestamp && (
+          <DetailedInfoTimestamp
+            timestamp={ data.created_at_timestamp }
+            isLoading={ isLoading }
+          />
+        ) }
+      </ItemValue>
+
+      { data.created_at_tx_hash && (
+        <>
+          <ItemLabel hint="Transaction that created this entity">Creation Transaction</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <TxEntity hash={ data.created_at_tx_hash }/>
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
+
+      { data.created_at_operation_index && (
+        <>
+          <ItemLabel hint="Operation index within the creation transaction">Operation Index</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <Text>({ data.created_at_operation_index })</Text>
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
+
+      <ItemDivider/>
+
+      <ItemLabel hint="Block number when this entity expires">Expires at Block</ItemLabel>
+      <ItemValue>
+        <Skeleton loading={ isLoading }>
+          <BlockEntity number={ data.expires_at_block_number }/>
+        </Skeleton>
+      </ItemValue>
+
+      <ItemLabel hint="Timestamp when this entity expires">Expires at</ItemLabel>
+      <ItemValue>
+        { data.expires_at_timestamp && (
+          <DetailedInfoTimestamp
+            timestamp={ data.expires_at_timestamp }
+            isLoading={ isLoading }
+          />
+        ) }
       </ItemValue>
     </Container>
   );

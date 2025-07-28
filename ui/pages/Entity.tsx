@@ -10,7 +10,6 @@ import getQueryParamString from 'lib/router/getQueryParamString';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
 import EntityData from 'ui/entity/EntityData';
 import EntityDetails from 'ui/entity/EntityDetails';
-import EntityLifecycle from 'ui/entity/EntityLifecycle';
 import EntitySubHeading from 'ui/entity/EntitySubHeading';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
@@ -38,13 +37,8 @@ const EntityPageContent = () => {
     },
     {
       id: 'data',
-      title: 'Data & Content',
+      title: 'Data & Annotations',
       component: <EntityData entityQuery={ entityQuery }/>,
-    },
-    {
-      id: 'lifecycle',
-      title: 'Lifecycle',
-      component: <EntityLifecycle entityQuery={ entityQuery }/>,
     },
   ];
 
