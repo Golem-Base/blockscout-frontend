@@ -2,21 +2,14 @@
 
 set -e
 
-REPO_URL="git@github.com:Golem-Base/blockscout-rs-neti.git"
-EXTERNAL_DIR="./external"
-REPO_DIR="$EXTERNAL_DIR/blockscout-rs"
-TYPES_DIR="$REPO_DIR/golem-base-indexer/types"
+SUBMODULE_DIR="./external/blockscout-rs-neti"
+TYPES_DIR="$SUBMODULE_DIR/golem-base-indexer/types"
 TARGET_DIR="./node_modules/@blockscout/golem-base-indexer-types"
 
 echo "Building golem-base-indexer-types..."
 
-mkdir -p "$EXTERNAL_DIR"
-
-if [ ! -d "$REPO_DIR" ]; then
-  git clone "$REPO_URL" "$REPO_DIR"
-else
-  git -C "$REPO_DIR" pull origin main
-fi
+# Update submodule to latest
+git submodule update --init --remote external/blockscout-rs-neti
 
 if [ ! -d "$TYPES_DIR" ]; then
   echo "Error: golem-base-indexer/types directory not found"
@@ -24,6 +17,9 @@ if [ ! -d "$TYPES_DIR" ]; then
 fi
 
 (cd "$TYPES_DIR" && npm install && npm run compile:proto)
+
+# Clean up npm artifacts to avoid git conflicts
+rm -f "$TYPES_DIR/package-lock.json"
 
 mkdir -p "$TARGET_DIR"
 cp "$TYPES_DIR/package.json" "$TARGET_DIR/"

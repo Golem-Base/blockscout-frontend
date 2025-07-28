@@ -68,6 +68,9 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/operations': 'Operations',
   '/operation/[id]': 'Operation details',
 
+  // Golem Base specific routes
+  '/entity/[key]': 'Entity details',
+
   // service routes, added only to make typescript happy
   '/login': 'Login',
   '/sprite': 'Sprite',

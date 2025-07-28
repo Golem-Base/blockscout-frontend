@@ -64,8 +64,5 @@ yarn-error.log*
 /tools/preset-sync/index.js
 /toolkit/package/dist
 
-# external dependencies
-/external
-
 # InteliJ
 .idea

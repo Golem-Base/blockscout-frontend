@@ -1,0 +1,3 @@
+[submodule "external/blockscout-rs-neti"]
+	path = external/blockscout-rs-neti
+	url = ../blockscout-rs-neti.git
