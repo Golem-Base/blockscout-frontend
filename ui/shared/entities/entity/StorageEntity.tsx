@@ -46,14 +46,13 @@ const Content = chakra((props: ContentProps) => {
   );
 });
 
-type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'hash'>;
+type CopyProps = Omit<EntityBase.CopyBaseProps, 'text'> & Pick<EntityProps, 'entityKey'>;
 
 const Copy = (props: CopyProps) => {
   return (
     <EntityBase.Copy
       { ...props }
-      text={ props.hash }
-      // by default we don't show copy icon, maybe this should be revised
+      text={ props.entityKey }
       noCopy={ props.noCopy ?? true }
     />
   );

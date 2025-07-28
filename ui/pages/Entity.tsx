@@ -59,9 +59,7 @@ const EntityPageContent = () => {
     return;
   }, [ router.query.from ]);
 
-  const titleSecondRow = key ? (
-    <EntitySubHeading entityKey={ key }/>
-  ) : null;
+  const titleSecondRow = <EntitySubHeading entityKey={ key }/>;
 
   return (
     <>
@@ -69,7 +67,6 @@ const EntityPageContent = () => {
       <PageTitle
         title="Entity Details"
         backLink={ backLink }
-        contentAfter={ null }
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>

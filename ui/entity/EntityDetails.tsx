@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { formatUnits } from 'viem';
 
@@ -9,11 +9,16 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 
+import CopyToClipboard from '../shared/CopyToClipboard';
+import HashStringShortenDynamic from '../shared/HashStringShortenDynamic';
+
 interface Props {
   entityQuery: EntityQuery;
 }
 
 const EntityDetails = ({ entityQuery }: Props) => {
+  const { data, isPlaceholderData: isLoading } = entityQuery;
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Active': return 'green';
@@ -23,19 +28,20 @@ const EntityDetails = ({ entityQuery }: Props) => {
     }
   };
 
-  if (!entityQuery.data) {
+  if (!data) {
     return null;
   }
 
   return (
     <Container>
-      <ItemLabel>Entity Key</ItemLabel>
+      <ItemLabel hint="Unique Entity Key" isLoading={ isLoading }>Entity Key</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
-          <Text fontFamily="mono" fontSize="sm" wordBreak="break-all">
-            { entityQuery.data.key }
-          </Text>
-        </Skeleton>
+        <Flex flexWrap="nowrap" alignItems="center" overflow="hidden">
+          <Skeleton loading={ isLoading } overflow="hidden">
+            <HashStringShortenDynamic hash={ data.key }/>
+          </Skeleton>
+          <CopyToClipboard text={ data.key } isLoading={ isLoading }/>
+        </Flex>
       </ItemValue>
 
       <ItemLabel>Status</ItemLabel>

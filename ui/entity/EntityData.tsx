@@ -28,13 +28,11 @@ const EntityData = ({ entityQuery }: Props) => {
     <Container>
       <ItemLabel>Entity Data</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ entityQuery.isPlaceholderData }>
-          <RawInputData
-            hex={ entityQuery.data.data || '' }
-            isLoading={ entityQuery.isPlaceholderData }
-            defaultDataType="UTF-8"
-          />
-        </Skeleton>
+        <RawInputData
+          hex={ entityQuery.data.data || '' }
+          isLoading={ entityQuery.isPlaceholderData }
+          defaultDataType="UTF-8"
+        />
       </ItemValue>
 
       <ItemLabel>Size</ItemLabel>
