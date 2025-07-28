@@ -5,6 +5,7 @@ import { formatUnits } from 'viem';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import dayjs from 'lib/date/dayjs';
+import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { Badge } from 'toolkit/chakra/badge';
@@ -27,6 +28,7 @@ const EntityPageContent = () => {
     },
   });
 
+  throwOnAbsentParamError(key);
   throwOnResourceLoadError(entityQuery);
 
   const formatDataSize = (sizeInBytes?: number) => {
