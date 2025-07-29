@@ -47,6 +47,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/csv-export">
     | StaticRoute<"/deposits">
     | StaticRoute<"/dispute-games">
+    | DynamicRoute<"/entity/[key]", { "key": string }>
     | DynamicRoute<"/epochs/[number]", { "number": string }>
     | StaticRoute<"/epochs">
     | StaticRoute<"/gas-tracker">

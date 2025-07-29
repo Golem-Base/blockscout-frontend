@@ -14,6 +14,7 @@
     "dev:golembase-l3-local": "yarn run dev:preset golembase_l3_local",
     "dev:preset:sync": "tsc -p ./tools/preset-sync/tsconfig.json && node ./tools/preset-sync/index.js",
     "build": "next build",
+    "generate:golem-types": "./tools/scripts/generate-golem-types.sh",
     "build:next": "./deploy/scripts/download_assets.sh ./public/assets/configs && yarn svg:build-sprite && ./deploy/scripts/make_envs_script.sh && next build",
     "build:docker": "./tools/scripts/build.docker.sh",
     "start": "next start",
@@ -32,8 +33,6 @@
     "test:pw:local": "export NODE_PATH=$(pwd)/node_modules && yarn test:pw",
     "test:pw:docker": "docker run --rm --ipc=host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.49.0-noble ./tools/scripts/pw.docker.sh",
     "test:pw:docker:deps": "docker run --rm --ipc=host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.49.0-noble ./tools/scripts/pw.docker.deps.sh",
-    "test:pw:docker:run": "./tools/scripts/pw-docker-wrapper.sh",
-    "test:pw:docker:update": "./tools/scripts/pw-docker-wrapper.sh --update-snapshots",
     "test:pw:ci": "yarn test:pw --project=$PW_PROJECT",
     "test:pw:detect-affected": "node ./deploy/tools/affected-tests/index.js",
     "test:jest": "jest",
@@ -189,6 +188,9 @@
     "vite-plugin-svgr": "^2.2.2",
     "vite-tsconfig-paths": "4.3.2",
     "ws": "^8.17.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix"

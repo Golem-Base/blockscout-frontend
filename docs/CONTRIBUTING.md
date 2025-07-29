@@ -140,16 +140,6 @@ We have 3 pre-configured projects. You can run your test with the desired projec
 
 *Note* that, since we are developing not on the same operating system as our CI system, we have to use Docker to generate or update the screenshots. In order to do that use `yarn test:pw:docker <path-to-file> --update-snapshots` command. Please **do not commit** any screenshots generated via `yarn test:pw:local` command, their associated tests will fail in the CI run.
 
-For easier development on macOS, we provide convenient npm scripts:
-- `yarn test:pw:docker:run <test-file>` - Run specific Playwright tests in Docker
-- `yarn test:pw:docker:update <test-file>` - Run tests and update snapshots in Docker
-
-Usage examples:
-```bash
-yarn test:pw:docker:run ui/snippets/navigation/horizontal/NavigationDesktop.pw.tsx
-yarn test:pw:docker:update ui/snippets/navigation/horizontal/NavigationDesktop.pw.tsx
-```
-
 &nbsp;
 
 ## Making a Pull Request

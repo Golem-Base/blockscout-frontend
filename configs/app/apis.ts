@@ -68,6 +68,17 @@ const bensApi = (() => {
   });
 })();
 
+const golemBaseIndexerApi = (() => {
+  const apiHost = getEnvValue('NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST');
+  if (!apiHost) {
+    return;
+  }
+
+  return Object.freeze({
+    endpoint: apiHost,
+  });
+})();
+
 const contractInfoApi = (() => {
   const apiHost = getEnvValue('NEXT_PUBLIC_CONTRACT_INFO_API_HOST');
   if (!apiHost) {
@@ -164,6 +175,7 @@ const apis: Apis = Object.freeze({
   admin: adminApi,
   bens: bensApi,
   contractInfo: contractInfoApi,
+  golemBaseIndexer: golemBaseIndexerApi,
   metadata: metadataApi,
   multichain: multichainApi,
   rewards: rewardsApi,
