@@ -16,6 +16,7 @@ export const SEARCH_RESULT_TYPES = {
   blob: 'blob',
   metadata_tag: 'metadata_tag',
   tac_operation: 'tac_operation',
+  golembase_entity: 'entity',
 } as const;
 
 export type SearchResultType = typeof SEARCH_RESULT_TYPES[keyof typeof SEARCH_RESULT_TYPES];
@@ -118,6 +119,11 @@ export interface SearchResultUserOp {
   url?: string; // not used by the frontend, we build the url ourselves
 }
 
+export interface SearchResultGolembaseEntity {
+  type: 'golembase_entity';
+  golembase_entity: string; // entity key
+}
+
 export type SearchResultItem =
   SearchResultToken |
   SearchResultAddressOrContract |
@@ -128,7 +134,8 @@ export type SearchResultItem =
   SearchResultBlob |
   SearchResultDomain |
   SearchResultMetadataTag |
-  SearchResultTacOperation;
+  SearchResultTacOperation |
+  SearchResultGolembaseEntity;
 
 export interface SearchResult {
   items: Array<SearchResultItem>;
@@ -152,5 +159,5 @@ export interface SearchResultFilters {
 export interface SearchRedirectResult {
   parameter: string | null;
   redirect: boolean;
-  type: 'address' | 'block' | 'transaction' | 'user_operation' | 'blob' | null;
+  type: 'address' | 'block' | 'transaction' | 'user_operation' | 'blob' | 'golembase_entity' | null;
 }

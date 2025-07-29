@@ -33,6 +33,7 @@
     "test:pw:local": "export NODE_PATH=$(pwd)/node_modules && yarn test:pw",
     "test:pw:docker": "docker run --rm --ipc=host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.49.0-noble ./tools/scripts/pw.docker.sh",
     "test:pw:docker:deps": "docker run --rm --ipc=host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.49.0-noble ./tools/scripts/pw.docker.deps.sh",
+    "test:pw:update": "yarn test:pw:docker --update-snapshots",
     "test:pw:ci": "yarn test:pw --project=$PW_PROJECT",
     "test:pw:detect-affected": "node ./deploy/tools/affected-tests/index.js",
     "test:jest": "jest",

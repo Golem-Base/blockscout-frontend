@@ -11,9 +11,8 @@ import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
 import EntityData from 'ui/entity/EntityData';
 import EntityDetails from 'ui/entity/EntityDetails';
 import EntitySubHeading from 'ui/entity/EntitySubHeading';
+import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
-
-import TextAd from '../shared/ad/TextAd';
 
 const EntityPageContent = () => {
   const router = useRouter();
@@ -42,17 +41,6 @@ const EntityPageContent = () => {
     },
   ];
 
-  const backLink = React.useMemo(() => {
-    // @TODO: test it once search is implemented
-    if (router.query.from === 'search') {
-      return {
-        label: 'Back to search results',
-        url: '/search',
-      };
-    }
-    return;
-  }, [ router.query.from ]);
-
   const titleSecondRow = <EntitySubHeading entityKey={ key }/>;
 
   return (
@@ -60,7 +48,6 @@ const EntityPageContent = () => {
       <TextAd mb={ 6 }/>
       <PageTitle
         title="Entity Details"
-        backLink={ backLink }
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>
