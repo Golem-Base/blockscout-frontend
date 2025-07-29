@@ -206,6 +206,13 @@ const Stats = () => {
         href: { pathname: '/epochs/[number]' as const, query: { number: String(apiData.celo.epoch_number) } },
         isLoading,
       },
+      {
+        id: 'chain_id' as const,
+        icon: 'gear_slim' as const,
+        label: 'Chain ID',
+        value: config.chain.id,
+        isLoading,
+      },
     ]
       .filter(Boolean)
       .filter(({ id }) => config.UI.homepage.stats.includes(id))
