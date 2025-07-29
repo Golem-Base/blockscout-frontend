@@ -23,7 +23,7 @@ const EntityData = ({ entityQuery }: Props) => {
   const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
 
   return (
-    <Container>
+    <Container data-testid="entity-data">
       <ItemLabel hint="Raw data content of this entity">Entity Data</ItemLabel>
       <ItemValue>
         <RawInputData

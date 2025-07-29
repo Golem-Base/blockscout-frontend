@@ -27,7 +27,7 @@ const EntityDetails = ({ entityQuery }: Props) => {
   }
 
   return (
-    <Container>
+    <Container data-testid="entity-details">
       <ItemLabel hint="Unique identifier for this entity" isLoading={ isLoading }>Entity Key</ItemLabel>
       <ItemValue>
         <Flex flexWrap="nowrap" alignItems="center" overflow="hidden">
