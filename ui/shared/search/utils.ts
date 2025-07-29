@@ -3,7 +3,8 @@ import type { SearchResultItem } from 'types/client/search';
 
 import config from 'configs/app';
 
-export type ApiCategory = 'token' | 'nft' | 'address' | 'public_tag' | 'transaction' | 'block' | 'user_operation' | 'blob' | 'domain' | 'tac_operation';
+export type ApiCategory =
+  'token' | 'nft' | 'address' | 'public_tag' | 'transaction' | 'block' | 'user_operation' | 'blob' | 'domain' | 'tac_operation' | 'golembase_entity';
 export type Category = ApiCategory | 'app';
 
 export type ItemsCategoriesMap =
@@ -24,6 +25,7 @@ export const searchCategories: Array<{ id: Category; title: string }> = [
   { id: 'transaction', title: 'Transactions' },
   { id: 'block', title: 'Blocks' },
   { id: 'tac_operation', title: 'Operations' },
+  { id: 'golembase_entity', title: 'Entities' },
 ];
 
 if (config.features.userOps.isEnabled) {
@@ -50,6 +52,7 @@ export const searchItemTitles: Record<Category, { itemTitle: string; itemTitleSh
   user_operation: { itemTitle: 'User operation', itemTitleShort: 'User op' },
   blob: { itemTitle: 'Blob', itemTitleShort: 'Blob' },
   tac_operation: { itemTitle: 'Operations', itemTitleShort: 'Operations' },
+  golembase_entity: { itemTitle: 'Entity', itemTitleShort: 'Entity' },
 };
 
 export function getItemCategory(item: SearchResultItem | SearchResultAppItem): Category | undefined {
@@ -88,6 +91,9 @@ export function getItemCategory(item: SearchResultItem | SearchResultAppItem): C
     }
     case 'tac_operation': {
       return 'tac_operation';
+    }
+    case 'golembase_entity': {
+      return 'golembase_entity';
     }
   }
 }

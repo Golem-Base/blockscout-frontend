@@ -9,6 +9,7 @@ import SearchBarSuggestAddress from './SearchBarSuggestAddress';
 import SearchBarSuggestBlob from './SearchBarSuggestBlob';
 import SearchBarSuggestBlock from './SearchBarSuggestBlock';
 import SearchBarSuggestDomain from './SearchBarSuggestDomain';
+import SearchBarSuggestEntity from './SearchBarSuggestEntity';
 import SearchBarSuggestItemLink from './SearchBarSuggestItemLink';
 import SearchBarSuggestLabel from './SearchBarSuggestLabel';
 import SearchBarSuggestTacOperation from './SearchBarSuggestTacOperation';
@@ -59,6 +60,9 @@ const SearchBarSuggestItem = ({ data, isMobile, searchTerm, onClick, addressForm
       }
       case 'tac_operation': {
         return route({ pathname: '/operation/[id]', query: { id: data.tac_operation.operation_id } });
+      }
+      case 'golembase_entity': {
+        return route({ pathname: '/entity/[key]', query: { key: data.golembase_entity } });
       }
     }
   })();
@@ -114,6 +118,9 @@ const SearchBarSuggestItem = ({ data, isMobile, searchTerm, onClick, addressForm
       }
       case 'tac_operation': {
         return <SearchBarSuggestTacOperation data={ data } searchTerm={ searchTerm } isMobile={ isMobile } addressFormat={ addressFormat }/>;
+      }
+      case 'golembase_entity': {
+        return <SearchBarSuggestEntity data={ data } searchTerm={ searchTerm }/>;
       }
     }
   })();
