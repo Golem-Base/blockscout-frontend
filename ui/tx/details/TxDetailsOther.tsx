@@ -1,8 +1,10 @@
 import { Box, Text } from '@chakra-ui/react';
+import { isNull, isUndefined } from 'es-toolkit';
 import React from 'react';
 
 import type { Transaction } from 'types/api/transaction';
 
+import formatDataSize from 'lib/formatDataSize';
 import hexToSize from 'lib/hexToSize';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
 import TextSeparator from 'ui/shared/TextSeparator';
@@ -13,7 +15,7 @@ type Props = Pick<Transaction, 'nonce' | 'type' | 'position'> & {
 };
 
 const TxDetailsOther = ({ nonce, type, position, queueIndex, rawInput }: Props) => {
-  const txSize = rawInput !== undefined ? hexToSize(rawInput) : null;
+  const txSize = !isUndefined(rawInput) ? formatDataSize(hexToSize(rawInput)) : null;
 
   return (
     <>
@@ -51,10 +53,10 @@ const TxDetailsOther = ({ nonce, type, position, queueIndex, rawInput }: Props) 
                 <Text fontWeight="600" as="span">{ position }</Text>
               </Box>
             ),
-            txSize !== null && (
+            !isNull(txSize) && (
               <Box key="size">
                 <Text as="span" fontWeight="500">Size: </Text>
-                <Text fontWeight="600" as="span">{ txSize.toLocaleString() } B</Text>
+                <Text fontWeight="600" as="span">{ txSize }</Text>
               </Box>
             ),
           ]
