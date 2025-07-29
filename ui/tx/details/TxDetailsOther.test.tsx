@@ -99,7 +99,7 @@ describe('TxDetailsOther', () => {
       render(<TxDetailsOther { ...defaultProps } rawInput="0x123456"/>);
 
       expect(screen.getByText('Size:')).toBeTruthy();
-      expect(screen.getByText('3 B')).toBeTruthy();
+      expect(screen.getByText('3 bytes')).toBeTruthy();
     });
 
     it('should not render transaction size when rawInput is not provided', () => {
@@ -112,7 +112,7 @@ describe('TxDetailsOther', () => {
       render(<TxDetailsOther { ...defaultProps } rawInput=""/>);
 
       expect(screen.getByText('Size:')).toBeTruthy();
-      expect(screen.getByText('0 B')).toBeTruthy();
+      expect(screen.getByText('0 bytes')).toBeTruthy();
     });
 
     it('should handle large transaction size with proper formatting', () => {
@@ -120,7 +120,7 @@ describe('TxDetailsOther', () => {
       render(<TxDetailsOther { ...defaultProps } rawInput={ largeHex }/>);
 
       expect(screen.getByText('Size:')).toBeTruthy();
-      expect(screen.getByText('800 B')).toBeTruthy();
+      expect(screen.getByText('800 bytes')).toBeTruthy();
     });
   });
 
@@ -138,7 +138,7 @@ describe('TxDetailsOther', () => {
       expect(screen.getByText('Queue index:')).toBeTruthy();
       expect(screen.getByText('Position:')).toBeTruthy();
       expect(screen.getByText('Size:')).toBeTruthy();
-      expect(screen.getByText('8 B')).toBeTruthy();
+      expect(screen.getByText('8 bytes')).toBeTruthy();
     });
 
     it('should render only nonce when minimal props are provided', () => {
