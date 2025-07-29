@@ -172,6 +172,17 @@ test('search by user op hash +@mobile', async({ render, page, mockApiResponse, m
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1200, height: 300 } });
 });
 
+test('search by entity hash +@mobile', async({ render, page, mockApiResponse }) => {
+  const apiUrl = await mockApiResponse('general:quick_search', [
+    searchMock.entity1,
+  ], { queryParams: { q: searchMock.entity1.golembase_entity } });
+  await render(<SearchBar/>);
+  await page.getByPlaceholder(/search/i).fill(searchMock.entity1.golembase_entity);
+  await page.waitForResponse(apiUrl);
+
+  await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1200, height: 300 } });
+});
+
 test('search with view all link', async({ render, page, mockApiResponse }) => {
   const apiUrl = await mockApiResponse('general:quick_search', [
     searchMock.token1,

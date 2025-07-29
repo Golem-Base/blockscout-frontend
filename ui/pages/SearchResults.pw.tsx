@@ -202,6 +202,23 @@ test('search by user op hash +@mobile', async({ render, mockApiResponse, mockEnv
   await expect(component.locator('main')).toHaveScreenshot();
 });
 
+test('search by entity hash +@mobile', async({ render, mockApiResponse, page }) => {
+  const hooksConfig = {
+    router: {
+      query: { q: searchMock.entity1.golembase_entity },
+    },
+  };
+  const data = {
+    items: [ searchMock.entity1 ],
+    next_page_params: null,
+  };
+  await mockApiResponse('general:search', data, { queryParams: { q: searchMock.entity1.golembase_entity } });
+  const component = await render(<SearchResults/>, { hooksConfig });
+  await resetScroll(page);
+
+  await expect(component.locator('main')).toHaveScreenshot();
+});
+
 test.describe('with apps', () => {
   test('default view +@mobile', async({ render, mockApiResponse, mockConfigResponse, mockAssetResponse, mockEnvs, page }) => {
     const MARKETPLACE_CONFIG_URL = 'https://localhost:4000/marketplace-config.json';
