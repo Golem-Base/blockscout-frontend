@@ -152,5 +152,5 @@ export interface SearchResultFilters {
 export interface SearchRedirectResult {
   parameter: string | null;
   redirect: boolean;
-  type: 'address' | 'block' | 'transaction' | 'user_operation' | 'blob' | null;
+  type: 'address' | 'block' | 'transaction' | 'user_operation' | 'blob' | 'golembase_entity' | null;
 }
