@@ -5,35 +5,35 @@ describe('formatDataSize', () => {
     it('should format all units correctly', () => {
       expect(formatDataSize(BigInt(0))).toBe('0 bytes');
       expect(formatDataSize(BigInt(512))).toBe('512 bytes');
-      expect(formatDataSize(BigInt(1024))).toBe('1 KB');
-      expect(formatDataSize(BigInt(1536))).toBe('1.50 KB');
-      expect(formatDataSize(BigInt(1048576))).toBe('1 MB');
-      expect(formatDataSize(BigInt(1572864))).toBe('1.50 MB');
-      expect(formatDataSize(BigInt(1073741824))).toBe('1 GB');
-      expect(formatDataSize(BigInt(1610612736))).toBe('1.50 GB');
-      expect(formatDataSize(BigInt(1099511627776))).toBe('1 TB');
-      expect(formatDataSize(BigInt(1649267441664))).toBe('1.50 TB');
+      expect(formatDataSize(BigInt(1024))).toBe('1 KiB');
+      expect(formatDataSize(BigInt(1536))).toBe('1.50 KiB');
+      expect(formatDataSize(BigInt(1048576))).toBe('1 MiB');
+      expect(formatDataSize(BigInt(1572864))).toBe('1.50 MiB');
+      expect(formatDataSize(BigInt(1073741824))).toBe('1 GiB');
+      expect(formatDataSize(BigInt(1610612736))).toBe('1.50 GiB');
+      expect(formatDataSize(BigInt(1099511627776))).toBe('1 TiB');
+      expect(formatDataSize(BigInt(1649267441664))).toBe('1.50 TiB');
     });
   });
 
   describe('number inputs', () => {
     it('should format all units correctly', () => {
       expect(formatDataSize(0)).toBe('0 bytes');
-      expect(formatDataSize(1024)).toBe('1 KB');
-      expect(formatDataSize(1048576)).toBe('1 MB');
-      expect(formatDataSize(1073741824)).toBe('1 GB');
-      expect(formatDataSize(1099511627776)).toBe('1 TB');
+      expect(formatDataSize(1024)).toBe('1 KiB');
+      expect(formatDataSize(1048576)).toBe('1 MiB');
+      expect(formatDataSize(1073741824)).toBe('1 GiB');
+      expect(formatDataSize(1099511627776)).toBe('1 TiB');
     });
   });
 
   describe('string inputs', () => {
     it('should format valid numeric strings correctly', () => {
       expect(formatDataSize('0')).toBe('0 bytes');
-      expect(formatDataSize('1024')).toBe('1 KB');
-      expect(formatDataSize('1048576')).toBe('1 MB');
-      expect(formatDataSize('1073741824')).toBe('1 GB');
-      expect(formatDataSize('1099511627776')).toBe('1 TB');
-      expect(formatDataSize('9223372036854775807')).toBe('8388607.99 TB');
+      expect(formatDataSize('1024')).toBe('1 KiB');
+      expect(formatDataSize('1048576')).toBe('1 MiB');
+      expect(formatDataSize('1073741824')).toBe('1 GiB');
+      expect(formatDataSize('1099511627776')).toBe('1 TiB');
+      expect(formatDataSize('9223372036854775807')).toBe('8388607.99 TiB');
     });
 
     it('should return "Unknown" for invalid strings', () => {
@@ -64,27 +64,27 @@ describe('formatDataSize', () => {
 
     it('should handle boundary values correctly', () => {
       expect(formatDataSize(1023)).toBe('1023 bytes');
-      expect(formatDataSize(1048575)).toBe('1023.99 KB'); // 1024^2 - 1
-      expect(formatDataSize(1073741823)).toBe('1023.99 MB'); // 1024^3 - 1
-      expect(formatDataSize(1099511627775)).toBe('1023.99 GB'); // 1024^4 - 1
+      expect(formatDataSize(1048575)).toBe('1023.99 KiB'); // 1024^2 - 1
+      expect(formatDataSize(1073741823)).toBe('1023.99 MiB'); // 1024^3 - 1
+      expect(formatDataSize(1099511627775)).toBe('1023.99 GiB'); // 1024^4 - 1
     });
   });
 
   describe('precision and formatting', () => {
     it('should format fractions correctly', () => {
-      expect(formatDataSize(1536)).toBe('1.50 KB'); // .5 -> .50
-      expect(formatDataSize(1562)).toBe('1.52 KB'); // Shows exactly 2 decimals
+      expect(formatDataSize(1536)).toBe('1.50 KiB'); // .5 -> .50
+      expect(formatDataSize(1562)).toBe('1.52 KiB'); // Shows exactly 2 decimals
     });
 
     it('should show no decimal places for whole numbers', () => {
-      expect(formatDataSize(1024)).toBe('1 KB');
-      expect(formatDataSize(2048)).toBe('2 KB');
-      expect(formatDataSize(1048576)).toBe('1 MB');
+      expect(formatDataSize(1024)).toBe('1 KiB');
+      expect(formatDataSize(2048)).toBe('2 KiB');
+      expect(formatDataSize(1048576)).toBe('1 MiB');
     });
 
     it('should handle very small fractions correctly', () => {
-      expect(formatDataSize(1025)).toBe('1 KB'); // Very small fraction, shows as whole number
-      expect(formatDataSize(1035)).toBe('1.01 KB'); // 11/1024 ≈ 0.01074219, rounds to .01
+      expect(formatDataSize(1025)).toBe('1 KiB'); // Very small fraction, shows as whole number
+      expect(formatDataSize(1035)).toBe('1.01 KiB'); // 11/1024 ≈ 0.01074219, rounds to .01
     });
   });
 });

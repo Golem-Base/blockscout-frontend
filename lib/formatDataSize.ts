@@ -1,7 +1,7 @@
 /**
- * Formats data size in bytes to a human-readable string (bytes, KB, MB, GB, etc.)
+ * Formats data size in bytes to a human-readable string (bytes, KiB, MiB, GiB, etc.)
  * @param sizeInBytes - Size in bytes as string, number, bigint, or undefined
- * @returns Formatted string like "1.23 KB" or "Unknown" if input is invalid
+ * @returns Formatted string like "1.23 KiB" or "Unknown" if input is invalid
  */
 export default function formatDataSize(sizeInBytes?: string | number | bigint): string {
   if (typeof sizeInBytes === 'undefined' || sizeInBytes === null) {
@@ -24,10 +24,10 @@ export default function formatDataSize(sizeInBytes?: string | number | bigint): 
 
   if (bytes < kb) return `${ bytes } bytes`;
 
-  if (bytes < mb) return formatUnit(bytes, kb, 'KB');
-  if (bytes < gb) return formatUnit(bytes, mb, 'MB');
-  if (bytes < tb) return formatUnit(bytes, gb, 'GB');
-  return formatUnit(bytes, tb, 'TB');
+  if (bytes < mb) return formatUnit(bytes, kb, 'KiB');
+  if (bytes < gb) return formatUnit(bytes, mb, 'MiB');
+  if (bytes < tb) return formatUnit(bytes, gb, 'GiB');
+  return formatUnit(bytes, tb, 'TiB');
 }
 
 function formatUnit(value: bigint, divisor: bigint, unit: string): string {

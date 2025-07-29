@@ -34,14 +34,11 @@ Before running the local development environment, ensure you have:
    - Blockscout API server on port 4000
 
 4. **Golem Base Indexer Types**:
-   
-   Build the TypeScript types from protobuf definitions:
+
+   In case golem-types are updated, run the command below to build the TypeScript types from the protobuf definitions:
    
    ```bash
-   yarn build:golem-types
-   ```
-   
-   **Note**: This will automatically fetch the blockscout-rs-neti submodule if needed.
+   yarn generate:golem-types
 
 ## Quick Start
 

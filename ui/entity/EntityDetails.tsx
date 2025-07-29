@@ -88,7 +88,7 @@ const EntityDetails = ({ entityQuery }: Props) => {
           <ItemLabel hint="Transaction that created this entity">Creation Transaction</ItemLabel>
           <ItemValue>
             <Skeleton loading={ isLoading }>
-              <TxEntity hash={ data.created_at_tx_hash }/>
+              <TxEntity hash={ data.created_at_tx_hash } truncation="constant"/>
             </Skeleton>
           </ItemValue>
         </>
