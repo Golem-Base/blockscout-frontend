@@ -77,6 +77,7 @@ All json-like values should be single-quoted. If it contains a hash (`#`) or a d
   - [Rewards service API](#rewards-service-api)
   - [DEX pools](#dex-pools)
   - [Address 3rd party widgets](#address-3rd-party-widgets)
+  - [Golem Base Indexer](#golem-base-indexer)
 - [3rd party services configuration](#external-services-configuration)
 
 &nbsp;
@@ -135,7 +136,7 @@ All json-like values should be single-quoted. If it contains a hash (`#`) or a d
 | Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
 | --- | --- | --- | --- | --- | --- | --- |
 | NEXT_PUBLIC_HOMEPAGE_CHARTS | `Array<'daily_txs' \| 'daily_operational_txs' \| 'coin_price'  \| 'secondary_coin_price' \| 'market_cap' \| 'tvl'>` | List of charts displayed on the home page | - | - | `['daily_txs','coin_price','market_cap']` | v1.0.x+ |
-| NEXT_PUBLIC_HOMEPAGE_STATS | `Array<'latest_batch' \| 'total_blocks'  \| 'average_block_time' \| 'total_txs' \| 'total_operational_txs' \| 'latest_l1_state_batch' \| 'wallet_addresses' \| 'gas_tracker' \| 'btc_locked' \| 'current_epoch'>` | List of stats widgets displayed on the home page | - | For zkSync, zkEvm and Arbitrum rollups: `['latest_batch','average_block_time','total_txs','wallet_addresses','gas_tracker']`, for other cases: `['total_blocks','average_block_time','total_txs','wallet_addresses','gas_tracker']` | `['total_blocks','total_txs','wallet_addresses']` | v1.35.x+ |
+| NEXT_PUBLIC_HOMEPAGE_STATS | `Array<'latest_batch' \| 'total_blocks'  \| 'average_block_time' \| 'total_txs' \| 'total_operational_txs' \| 'latest_l1_state_batch' \| 'wallet_addresses' \| 'gas_tracker' \| 'btc_locked' \| 'current_epoch' \| 'chain_id'>` | List of stats widgets displayed on the home page | - | For zkSync, zkEvm and Arbitrum rollups: `['latest_batch','average_block_time','total_txs','wallet_addresses','gas_tracker']`, for other cases: `['total_blocks','average_block_time','total_txs','wallet_addresses','gas_tracker']` | `['total_blocks','total_txs','wallet_addresses']` | v1.35.x+ |
 | NEXT_PUBLIC_HOMEPAGE_PLATE_TEXT_COLOR | `string` | Text color of the hero plate on the homepage (escape "#" symbol if you use HEX color codes or use rgba-value instead). **DEPRECATED** _Use `NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG` instead_  | - | `white` | `\#DCFE76` | v1.0.x+ |
 | NEXT_PUBLIC_HOMEPAGE_PLATE_BACKGROUND | `string` | Background css value for hero plate on the homepage (escape "#" symbol if you use HEX color codes or use rgba-value instead). **DEPRECATED** _Use `NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG` instead_  | - | `radial-gradient(103.03% 103.03% at 0% 0%, rgba(183, 148, 244, 0.8) 0%, rgba(0, 163, 196, 0.8) 100%), var(--chakra-colors-blue-400)` | `radial-gradient(at 15% 86%, hsla(350,65%,70%,1) 0px, transparent 50%)` \| `no-repeat bottom 20% right 0px/100% url(https://placekitten/1400/200)` | v1.1.0+ |
 | NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG | `HeroBannerConfig`, see details [below](#hero-banner-configuration-properties) | Configuration of hero banner appearance. | - | - | See [below](#hero-banner-configuration-properties) | v1.35.0+ |
@@ -325,10 +326,6 @@ Settings for meta tags, OG tags and SEO
 | NEXT_PUBLIC_HIDE_INDEXING_ALERT_INT_TXS | `boolean` | Set to `true` to hide indexing alert in the page footer about indexing block's internal transactions | - | `false` | `true` | v1.17.0+ |
 | NEXT_PUBLIC_MAINTENANCE_ALERT_MESSAGE | `string` | Used for displaying custom announcements or alerts in the header of the site. Could be a regular string or a HTML code. | - | - | `Hello world! 🤪` | v1.13.0+ |
 | NEXT_PUBLIC_COLOR_THEME_DEFAULT | `'light' \| 'dark'` | Preferred color theme of the app | - | - | `light` | v1.30.0+ |
-| NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX | `string` | Hex color code for light theme background | - | `#FFFFFF` | `#FFFFFF` | v2.2.0+ |
-| NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG | `string` | CSS background value for light theme sample | - | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | v2.2.0+ |
-| NEXT_PUBLIC_COLOR_THEME_DARK_HEX | `string` | Hex color code for dark theme background | - | `#101112` | `#101112` | v2.2.0+ |
-| NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG | `string` | CSS background value for dark theme sample | - | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | v2.2.0+ |
 | NEXT_PUBLIC_FONT_FAMILY_HEADING | `FontFamily`, see full description [below](#font-family-configuration-properties) | Special typeface to use in page headings (`<h1>`, `<h2>`, etc.) | - | - | `{'name':'Montserrat','url':'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap'}` | v1.35.0+ |
 | NEXT_PUBLIC_FONT_FAMILY_BODY | `FontFamily`, see full description [below](#font-family-configuration-properties) | Main typeface to use in page content elements. | - | - | `{'name':'Raleway','url':'https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap'}` | v1.35.0+ |
 | NEXT_PUBLIC_MAX_CONTENT_WIDTH_ENABLED | `boolean` | Set to `true` to restrict the page content width on extra-large screens. | - | `true` | `false` | v1.34.1+ |
@@ -958,6 +955,18 @@ This feature allows to display widgets on the address page with data from 3rd pa
 | Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
 | --- | --- | --- | --- | --- | --- | --- |
 | NEXT_PUBLIC_PUZZLE_GAME_BADGE_CLAIM_LINK | `string` | Provide to enable the easter egg puzzle badge feature | - | - | `https://example.com` | v2.2.0+ |
+
+&nbsp;
+
+### Golem Base Indexer
+
+| Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
+| --- | --- | --- | --- | --- | --- | --- |
+| NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST | `string` | Golem Base Indexer API endpoint url | - | - | `https://golem-indexer.services.blockscout.com` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX | `string` | Hex color code for light theme background | - | `#FFFFFF` | `#FFFFFF` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG | `string` | CSS background value for light theme sample | - | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_DARK_HEX | `string` | Hex color code for dark theme background | - | `#101112` | `#101112` | v2.2.0+ |
+| NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG | `string` | CSS background value for dark theme sample | - | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | v2.2.0+ |
 
 &nbsp;
 

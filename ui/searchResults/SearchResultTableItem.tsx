@@ -1,4 +1,4 @@
-import { chakra, Text, Flex, Box } from '@chakra-ui/react';
+import { Box, chakra, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import xss from 'xss';
 
@@ -24,6 +24,7 @@ import * as AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import * as BlobEntity from 'ui/shared/entities/blob/BlobEntity';
 import * as BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import * as EnsEntity from 'ui/shared/entities/ens/EnsEntity';
+import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import * as OperationEntity from 'ui/shared/entities/operation/OperationEntity';
 import * as TokenEntity from 'ui/shared/entities/token/TokenEntity';
 import * as TxEntity from 'ui/shared/entities/tx/TxEntity';
@@ -352,6 +353,14 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
               <Text color="text.secondary">{ dayjs(data.tac_operation.timestamp).format('llll') }</Text>
             </TableCell>
           </>
+        );
+      }
+
+      case 'golembase_entity': {
+        return (
+          <TableCell colSpan={ 3 } fontSize="sm">
+            <StorageEntity entityKey={ data.golembase_entity } isLoading={ isLoading }/>
+          </TableCell>
         );
       }
 

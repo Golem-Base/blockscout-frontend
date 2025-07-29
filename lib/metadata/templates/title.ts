@@ -69,6 +69,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/chain/[chain-slug]/tx/[hash]': '%network_name% transaction %hash% details',
   '/operations': '%network_name% operations',
   '/operation/[id]': '%network_name% operation %id%',
+  '/entity/[key]': '%network_name% entity %key%',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',

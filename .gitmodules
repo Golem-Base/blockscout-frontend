@@ -1,0 +1,3 @@
+[submodule "blockscout-rs-neti"]
+	path = blockscout-rs-neti
+	url = ../blockscout-rs-neti.git

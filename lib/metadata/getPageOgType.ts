@@ -58,6 +58,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/epochs/[number]': 'Regular page',
   '/gas-tracker': 'Root page',
   '/mud-worlds': 'Root page',
+  '/entity/[key]': 'Regular page',
   '/token-transfers': 'Root page',
   '/advanced-filter': 'Root page',
   '/pools': 'Root page',

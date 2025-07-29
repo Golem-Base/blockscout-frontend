@@ -65,6 +65,10 @@ const SearchResultsPageContent = () => {
           router.replace({ pathname: '/tx/[hash]', query: { hash: redirectCheckQuery.data.parameter } });
           return;
         }
+        case 'golembase_entity': {
+          router.replace({ pathname: '/entity/[key]', query: { key: redirectCheckQuery.data.parameter } });
+          return;
+        }
         case 'user_operation': {
           if (config.features.userOps.isEnabled) {
             router.replace({ pathname: '/op/[hash]', query: { hash: redirectCheckQuery.data.parameter } });

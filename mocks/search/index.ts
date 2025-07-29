@@ -10,6 +10,7 @@ import type {
   SearchResultDomain,
   SearchResultMetadataTag,
   SearchResultTacOperation,
+  SearchResultGolembaseEntity,
 } from 'types/api/search';
 
 import * as tacOperationMock from 'mocks/operations/tac';
@@ -192,6 +193,16 @@ export const tacOperation1: SearchResultTacOperation = {
   tac_operation: tacOperationMock.tacOperation,
 };
 
+export const entity1: SearchResultGolembaseEntity = {
+  type: 'golembase_entity',
+  golembase_entity: '0x05aedd8ecc28afebe23ec9be2fa31fb917d95ed78e9adb4b525c1a6562b262e3',
+};
+
+export const entity2: SearchResultGolembaseEntity = {
+  type: 'golembase_entity',
+  golembase_entity: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a7c',
+};
+
 export const baseResponse: SearchResult = {
   items: [
     token1,
@@ -204,6 +215,8 @@ export const baseResponse: SearchResult = {
     domain1,
     metatag1,
     tacOperation1,
+    entity1,
+    entity2,
   ],
   next_page_params: null,
 };

@@ -1,8 +1,8 @@
 import type { HTMLChakraProps } from '@chakra-ui/react';
-import { chakra, Center } from '@chakra-ui/react';
+import { Center, chakra } from '@chakra-ui/react';
 import { throttle } from 'es-toolkit';
+import type { ChangeEvent, FocusEvent, FormEvent } from 'react';
 import React from 'react';
-import type { ChangeEvent, FormEvent, FocusEvent } from 'react';
 
 import { useScrollDirection } from 'lib/contexts/scrollDirection';
 import useIsMobile from 'lib/hooks/useIsMobile';
@@ -10,6 +10,7 @@ import { Input } from 'toolkit/chakra/input';
 import { InputGroup } from 'toolkit/chakra/input-group';
 import { ClearButton } from 'toolkit/components/buttons/ClearButton';
 import IconSvg from 'ui/shared/IconSvg';
+
 interface Props extends Omit<HTMLChakraProps<'form'>, 'onChange'> {
   onChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -156,7 +157,7 @@ const SearchBarInput = (
       >
         <Input
           size="md"
-          placeholder={ isMobile ? 'Search by address / ... ' : 'Search by address / txn hash / block / token... ' }
+          placeholder={ isMobile ? 'Search by address / ... ' : 'Search by address / entity key / txn hash / block / token... ' }
           value={ value }
           onChange={ handleChange }
           onFocus={ onFocus }
