@@ -40,6 +40,8 @@
     "./deploy/tools/favicon-generator",
     "./deploy/tools/multichain-config-generator",
     "./toolkit/package",
-    "external"
+    "external",
+    // @TODO: remove once we switch to npm package
+    "blockscout-rs-neti"
   ],
 }
