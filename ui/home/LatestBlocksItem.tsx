@@ -6,6 +6,7 @@ import type { Block } from 'types/api/block';
 import config from 'configs/app';
 import getBlockTotalReward from 'lib/block/getBlockTotalReward';
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
+import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -58,6 +59,19 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
       <Grid gridGap={ 2 } templateColumns="auto minmax(0, 1fr)" textStyle="sm">
         <Skeleton loading={ isLoading }>Txn</Skeleton>
         <Skeleton loading={ isLoading } color="text.secondary"><span>{ block.transactions_count }</span></Skeleton>
+        <Tooltip content={ block.hash }>
+          <>
+            <Skeleton loading={ isLoading }>Hash</Skeleton>
+            <Link
+              href={ `/block/${ block.hash }` }
+              color="link"
+              textStyle="sm"
+              _hover={{ textDecoration: 'underline' }}
+            >
+              { block.hash.substring(0, 4) }...{ block.hash.substring(block.hash.length - 6) }
+            </Link>
+          </>
+        </Tooltip>
 
         { !config.features.rollup.isEnabled && !config.UI.views.block.hiddenFields?.total_reward && (
           <>
