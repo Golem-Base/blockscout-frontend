@@ -1,11 +1,10 @@
-import { createListCollection } from '@chakra-ui/react';
+import { chakra, createListCollection, Flex } from '@chakra-ui/react';
 import type { ValueChangeDetails } from '@zag-js/select';
 import React, { useCallback, useMemo } from 'react';
 
 import config from 'configs/app';
 import { setRpcPreference } from 'lib/web3/rpcPreference';
 import { Select } from 'toolkit/chakra/select';
-import { Tooltip } from 'toolkit/chakra/tooltip';
 
 function getEndpointDisplayName(url: string): string {
   try {
@@ -36,7 +35,8 @@ const RpcEndpointSwitcher = () => {
   }
 
   return (
-    <Tooltip content="Select preferred RPC endpoint">
+    <Flex alignItems="center" columnGap={ 2 } rowGap={ 1 }>
+      <chakra.span fontWeight={ 500 } fontSize="sm">RPC:</chakra.span>
       <Select
         collection={ collection }
         defaultValue={ [ config.chain.rpcUrls[0] ] }
@@ -46,7 +46,7 @@ const RpcEndpointSwitcher = () => {
         maxW="200px"
         w="fit-content"
       />
-    </Tooltip>
+    </Flex>
   );
 };
 

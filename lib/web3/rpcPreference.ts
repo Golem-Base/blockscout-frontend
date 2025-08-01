@@ -1,31 +1,24 @@
 const RPC_PREFERENCE_KEY = 'rpc_endpoint_preference';
 
-function wrap<T>(fn: () => T): T | void {
-  if (typeof window === 'undefined') return;
-  try {
-    return fn();
-  } catch {}
-}
-
 export function getRpcPreference(): string | null {
-  return wrap(() => localStorage.getItem(RPC_PREFERENCE_KEY)) ?? null;
+  if (typeof window === 'undefined') return null;
+  try {
+    return localStorage.getItem(RPC_PREFERENCE_KEY);
+  } catch {
+    return null;
+  }
 }
 
 export function setRpcPreference(rpc: string): void {
-  wrap(() => localStorage.setItem(RPC_PREFERENCE_KEY, rpc));
-}
-
-export function clearRpcPreference(): void {
-  wrap(() => localStorage.removeItem(RPC_PREFERENCE_KEY));
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(RPC_PREFERENCE_KEY, rpc);
+  } catch {}
 }
 
 export function getPrioritizedRpcUrls(originalUrls: Array<string>): Array<string> {
   const preferredEndpoint = getRpcPreference();
-  if (originalUrls.length <= 1 || !preferredEndpoint) {
-    return originalUrls;
-  }
-
-  if (!originalUrls.includes(preferredEndpoint)) {
+  if (originalUrls.length <= 1 || !preferredEndpoint || !originalUrls.includes(preferredEndpoint)) {
     return originalUrls;
   }
 
