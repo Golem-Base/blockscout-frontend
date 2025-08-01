@@ -6,7 +6,6 @@ import type { Block } from 'types/api/block';
 import config from 'configs/app';
 import getBlockTotalReward from 'lib/block/getBlockTotalReward';
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
-import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -62,14 +61,13 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
         <Tooltip content={ block.hash }>
           <>
             <Skeleton loading={ isLoading }>Hash</Skeleton>
-            <Link
-              href={ `/block/${ block.hash }` }
-              color="link"
+            <BlockEntity
+              hash={ block.hash }
+              number={ block.hash }
+              truncation="constant"
+              noIcon
               textStyle="sm"
-              _hover={{ textDecoration: 'underline' }}
-            >
-              { block.hash.substring(0, 4) }...{ block.hash.substring(block.hash.length - 6) }
-            </Link>
+            />
           </>
         </Tooltip>
 
