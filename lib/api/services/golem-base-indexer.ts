@@ -1,5 +1,5 @@
 import type { ApiResource } from '../types';
-import type * as golemBaseIndexer from 'types/golem-base-indexer-types';
+import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
 
 export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   entity: {

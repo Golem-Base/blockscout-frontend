@@ -16,6 +16,7 @@ import { copy } from 'toolkit/utils/htmlEntities';
 import IconSvg from 'ui/shared/IconSvg';
 import { CONTENT_MAX_WIDTH } from 'ui/shared/layout/utils';
 import NetworkAddToWallet from 'ui/shared/NetworkAddToWallet';
+import RpcEndpointSwitcher from 'ui/shared/RpcEndpointSwitcher';
 
 import FooterLinkItem from './FooterLinkItem';
 import IntTxsIndexingStatus from './IntTxsIndexingStatus';
@@ -112,6 +113,7 @@ const Footer = () => {
       >
         { !config.UI.indexingAlert.intTxs.isHidden && <IntTxsIndexingStatus/> }
         <NetworkAddToWallet/>
+        <RpcEndpointSwitcher/>
       </Flex>
     );
   }, []);

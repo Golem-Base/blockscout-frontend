@@ -58,6 +58,18 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
       <Grid gridGap={ 2 } templateColumns="auto minmax(0, 1fr)" textStyle="sm">
         <Skeleton loading={ isLoading }>Txn</Skeleton>
         <Skeleton loading={ isLoading } color="text.secondary"><span>{ block.transactions_count }</span></Skeleton>
+        <Tooltip content={ block.hash }>
+          <>
+            <Skeleton loading={ isLoading }>Hash</Skeleton>
+            <BlockEntity
+              hash={ block.hash }
+              number={ block.hash }
+              truncation="constant"
+              noIcon
+              textStyle="sm"
+            />
+          </>
+        </Tooltip>
 
         { !config.features.rollup.isEnabled && !config.UI.views.block.hiddenFields?.total_reward && (
           <>

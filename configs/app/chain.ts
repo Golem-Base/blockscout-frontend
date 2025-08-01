@@ -1,6 +1,7 @@
 import type { RollupType } from 'types/client/rollup';
 import type { NetworkVerificationType, NetworkVerificationTypeEnvs } from 'types/networks';
 
+import { getPrioritizedRpcUrls } from 'lib/web3/rpcPreference';
 import { urlValidator } from 'toolkit/components/forms/validators/url';
 
 import { getEnvValue, parseEnvJson } from './utils';
@@ -19,7 +20,7 @@ const verificationType: NetworkVerificationType = (() => {
   return getEnvValue('NEXT_PUBLIC_NETWORK_VERIFICATION_TYPE') as NetworkVerificationTypeEnvs || 'mining';
 })();
 
-const rpcUrls = (() => {
+const staticRpcUrls = (() => {
   const envValue = getEnvValue('NEXT_PUBLIC_NETWORK_RPC_URL');
   const isUrl = urlValidator(envValue);
 
@@ -47,7 +48,9 @@ const chain = Object.freeze({
   },
   hasMultipleGasCurrencies: getEnvValue('NEXT_PUBLIC_NETWORK_MULTIPLE_GAS_CURRENCIES') === 'true',
   tokenStandard: getEnvValue('NEXT_PUBLIC_NETWORK_TOKEN_STANDARD_NAME') || 'ERC',
-  rpcUrls,
+  get rpcUrls() {
+    return getPrioritizedRpcUrls(staticRpcUrls);
+  },
   isTestnet: getEnvValue('NEXT_PUBLIC_IS_TESTNET') === 'true',
   verificationType,
 });
