@@ -13,6 +13,7 @@ export const HOME_STATS_WIDGET_IDS = [
   'btc_locked',
   'current_epoch',
   'chain_id',
+  'total_gas_used',
 ] as const;
 export type HomeStatsWidgetId = typeof HOME_STATS_WIDGET_IDS[number];
 

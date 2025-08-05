@@ -33,13 +33,6 @@ Before running the local development environment, ensure you have:
 3. **Local blockchain services running** (for local development):
    - Blockscout API server on port 4000
 
-4. **Golem Base Indexer Types**:
-
-   In case golem-types are updated, run the command below to build the TypeScript types from the protobuf definitions:
-   
-   ```bash
-   yarn generate:golem-types
-
 ## Quick Start
 
 ### 1. Install Dependencies

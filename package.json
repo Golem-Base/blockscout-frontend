@@ -14,7 +14,6 @@
     "dev:golembase-l3-local": "yarn run dev:preset golembase_l3_local",
     "dev:preset:sync": "tsc -p ./tools/preset-sync/tsconfig.json && node ./tools/preset-sync/index.js",
     "build": "next build",
-    "generate:golem-types": "./tools/scripts/generate-golem-types.sh",
     "build:next": "./deploy/scripts/download_assets.sh ./public/assets/configs && yarn svg:build-sprite && ./deploy/scripts/make_envs_script.sh && next build",
     "build:docker": "./tools/scripts/build.docker.sh",
     "start": "next start",
@@ -55,6 +54,7 @@
     "@chakra-ui/react": "3.15.0",
     "@cloudnouns/kit": "1.1.6",
     "@emotion/react": "11.14.0",
+    "@golembase/l3-indexer-types": "^0.0.1",
     "@growthbook/growthbook-react": "0.21.0",
     "@helia/verified-fetch": "2.6.12",
     "@hypelab/sdk-react": "^1.0.0",
@@ -198,7 +198,8 @@
   },
   "resolutions": {
     "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1"
+    "@types/react-dom": "18.3.1",
+    "esbuild": "0.21.5"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

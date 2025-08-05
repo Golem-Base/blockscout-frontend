@@ -213,6 +213,13 @@ const Stats = () => {
         value: config.chain.id,
         isLoading,
       },
+      apiData?.total_gas_used && {
+        id: 'total_gas_used' as const,
+        icon: 'gas' as const,
+        label: 'Total gas used',
+        value: `${ BigNumber(apiData.total_gas_used).toFormat() } gas`,
+        isLoading,
+      },
     ]
       .filter(Boolean)
       .filter(({ id }) => config.UI.homepage.stats.includes(id))
