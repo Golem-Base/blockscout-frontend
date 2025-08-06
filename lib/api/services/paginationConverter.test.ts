@@ -20,8 +20,7 @@ describe('paginationConverter', () => {
       const mockResponse = {
         items: [ { id: 1 } ],
         next_page_params: {
-          page: '2',
-          page_size: '10',
+          page: 2,
         },
       };
 
@@ -52,8 +51,8 @@ describe('paginationConverter', () => {
       expect(result).toEqual({
         items: [ { id: 1 }, { id: 2 } ],
         next_page_params: {
-          page: '2',
-          page_size: '10',
+          page: 2,
+          page_size: 10,
         },
       });
     });
