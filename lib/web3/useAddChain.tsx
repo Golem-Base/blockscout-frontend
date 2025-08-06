@@ -2,6 +2,7 @@ import React from 'react';
 import type { AddEthereumChainParameter } from 'viem';
 
 import config from 'configs/app';
+import getErrorObj from 'lib/errors/getErrorObj';
 import { SECOND } from 'toolkit/utils/consts';
 
 import useRewardsActivity from '../hooks/useRewardsActivity';
@@ -37,10 +38,21 @@ export default function useAddChain() {
 
     const start = Date.now();
 
-    await provider.request({
-      method: 'wallet_addEthereumChain',
-      params: [ getParams() ],
-    });
+    try {
+      await provider.request({
+        method: 'wallet_addEthereumChain',
+        params: [ getParams() ],
+      });
+    } catch (error) {
+      const errorObj = getErrorObj(error) as { code?: number; message?: string };
+
+      // Suppress MetaMask error occurring on Firefox
+      if (errorObj.code === -32603 && errorObj.message === 'f is not a function') {
+        return;
+      }
+
+      throw error;
+    }
 
     // if network is already added, the promise resolves immediately
     if (Date.now() - start > SECOND) {
