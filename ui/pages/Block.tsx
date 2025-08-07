@@ -18,6 +18,7 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
 import BlockCeloEpochTag from 'ui/block/BlockCeloEpochTag';
 import BlockDetails from 'ui/block/BlockDetails';
+import BlockEntityOps from 'ui/block/BlockEntityOps';
 import BlockInternalTxs from 'ui/block/BlockInternalTxs';
 import BlockWithdrawals from 'ui/block/BlockWithdrawals';
 import useBlockBlobTxsQuery from 'ui/block/useBlockBlobTxsQuery';
@@ -25,6 +26,7 @@ import useBlockInternalTxsQuery from 'ui/block/useBlockInternalTxsQuery';
 import useBlockQuery from 'ui/block/useBlockQuery';
 import useBlockTxsQuery from 'ui/block/useBlockTxsQuery';
 import useBlockWithdrawalsQuery from 'ui/block/useBlockWithdrawalsQuery';
+import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import TextAd from 'ui/shared/ad/TextAd';
 import ServiceDegradationWarning from 'ui/shared/alerts/ServiceDegradationWarning';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -82,6 +84,14 @@ const BlockPageContent = () => {
         </>
       ),
     },
+    {
+      id: 'entity_ops',
+      title: 'Entity operations',
+      component: (
+        <BlockEntityOps heightOrHash={ heightOrHash }/>
+      ),
+      subTabs: ENTITY_OPS_TABS,
+    },
     blockQuery.data?.internal_transactions_count ? {
       id: 'internal_txs',
       title: 'Internal txns',
@@ -111,7 +121,7 @@ const BlockPageContent = () => {
           </>
         ),
       } : null,
-  ].filter(Boolean)), [ blockBlobTxsQuery, blockInternalTxsQuery, blockQuery, blockTxsQuery, blockWithdrawalsQuery, hasPagination ]);
+  ].filter(Boolean)), [ blockBlobTxsQuery, blockInternalTxsQuery, blockQuery, blockTxsQuery, blockWithdrawalsQuery, hasPagination, heightOrHash ]);
 
   let pagination;
   if (tab === 'txs') {

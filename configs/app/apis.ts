@@ -76,6 +76,7 @@ const golemBaseIndexerApi = (() => {
 
   return Object.freeze({
     endpoint: apiHost,
+    basePath: stripTrailingSlash(getEnvValue('NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_BASE_PATH') || ''),
   });
 })();
 

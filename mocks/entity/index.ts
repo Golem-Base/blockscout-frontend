@@ -4,7 +4,7 @@ export const base: golemBaseIndexer.FullEntity = {
   key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a7c',
   data: '0x48656c6c6f20576f726c64',
   data_size: '11',
-  status: 'Active' as golemBaseIndexer.EntityStatus,
+  status: 'ACTIVE' as golemBaseIndexer.EntityStatus,
   string_annotations: [
     {
       key: 'name',
@@ -40,7 +40,7 @@ export const deleted: golemBaseIndexer.FullEntity = {
   key: 'a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234',
   data: '0x44656c6574656420456e74697479',
   data_size: '14',
-  status: 'Deleted' as golemBaseIndexer.EntityStatus,
+  status: 'DELETED' as golemBaseIndexer.EntityStatus,
   string_annotations: [],
   numeric_annotations: [],
   created_at_tx_hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
@@ -58,7 +58,7 @@ export const expired: golemBaseIndexer.FullEntity = {
   key: 'z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4j3h2g1f0e9d8c7b6a5z4y3x2w1v0u9',
   data: '0x457870697265642045',
   data_size: '9',
-  status: 'Expired' as golemBaseIndexer.EntityStatus,
+  status: 'EXPIRED' as golemBaseIndexer.EntityStatus,
   string_annotations: [
     {
       key: 'note',
@@ -86,7 +86,7 @@ export const withLargeData: golemBaseIndexer.FullEntity = {
   key: 'large123456789abcdef123456789abcdef123456789abcdef123456789abcdef12',
   data: '0x' + '48656c6c6f20576f726c642120'.repeat(100), // "Hello World! " repeated 100 times
   data_size: '1300',
-  status: 'Active' as golemBaseIndexer.EntityStatus,
+  status: 'ACTIVE' as golemBaseIndexer.EntityStatus,
   string_annotations: [
     {
       key: 'type',

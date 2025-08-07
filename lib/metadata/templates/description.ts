@@ -73,6 +73,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/operations': DEFAULT_TEMPLATE,
   '/operation/[id]': DEFAULT_TEMPLATE,
   '/entity/[key]': DEFAULT_TEMPLATE,
+  '/entity/create': 'Create a new entity on %network_title% with file upload and annotations.',
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,

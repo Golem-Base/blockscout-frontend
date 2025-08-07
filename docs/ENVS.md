@@ -963,6 +963,7 @@ This feature allows to display widgets on the address page with data from 3rd pa
 | Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
 | --- | --- | --- | --- | --- | --- | --- |
 | NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST | `string` | Golem Base Indexer API endpoint url | - | - | `https://golem-indexer.services.blockscout.com` | v2.2.0+ |
+| NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_BASE_PATH | `string` | Golem Base Indexer API base path            | -              | -                                                                         | `/golem-base-indexer`                                                     | v2.2.0+ |
 | NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX | `string` | Hex color code for light theme background | - | `#FFFFFF` | `#FFFFFF` | v2.2.0+ |
 | NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG | `string` | CSS background value for light theme sample | - | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | v2.2.0+ |
 | NEXT_PUBLIC_COLOR_THEME_DARK_HEX | `string` | Hex color code for dark theme background | - | `#101112` | `#101112` | v2.2.0+ |

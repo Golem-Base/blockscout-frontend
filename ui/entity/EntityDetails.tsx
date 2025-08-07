@@ -26,6 +26,18 @@ const EntityDetails = ({ entityQuery }: Props) => {
     return null;
   }
 
+  let expirationLabel;
+  switch (data.status) {
+    case 'EXPIRED':
+      expirationLabel = 'Expired at';
+      break;
+    case 'DELETED':
+      expirationLabel = 'Deleted at';
+      break;
+    default:
+      expirationLabel = 'Expires at';
+  }
+
   return (
     <Container data-testid="entity-details">
       <ItemLabel hint="Unique identifier for this entity" isLoading={ isLoading }>Entity Key</ItemLabel>
@@ -107,14 +119,14 @@ const EntityDetails = ({ entityQuery }: Props) => {
 
       <ItemDivider/>
 
-      <ItemLabel hint="Block number when this entity expires">Expires at Block</ItemLabel>
+      <ItemLabel hint="Block number when this entity expires">{ expirationLabel } Block</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <BlockEntity number={ data.expires_at_block_number }/>
         </Skeleton>
       </ItemValue>
 
-      <ItemLabel hint="Timestamp when this entity expires">Expires at</ItemLabel>
+      <ItemLabel hint="Timestamp when this entity expires">{ expirationLabel }</ItemLabel>
       <ItemValue>
         { data.expires_at_timestamp && (
           <DetailedInfoTimestamp

@@ -30,6 +30,7 @@ import AddressBlocksValidated from 'ui/address/AddressBlocksValidated';
 import AddressCoinBalance from 'ui/address/AddressCoinBalance';
 import AddressContract from 'ui/address/AddressContract';
 import AddressDetails from 'ui/address/AddressDetails';
+import AddressEntityOps from 'ui/address/AddressEntityOps';
 import AddressEpochRewards from 'ui/address/AddressEpochRewards';
 import AddressInternalTxs from 'ui/address/AddressInternalTxs';
 import AddressLogs from 'ui/address/AddressLogs';
@@ -50,6 +51,7 @@ import useAddressCountersQuery from 'ui/address/utils/useAddressCountersQuery';
 import useAddressQuery from 'ui/address/utils/useAddressQuery';
 import useCheckAddressFormat from 'ui/address/utils/useCheckAddressFormat';
 import useCheckDomainNameParam from 'ui/address/utils/useCheckDomainNameParam';
+import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import AccountActionsMenu from 'ui/shared/AccountActionsMenu/AccountActionsMenu';
 import TextAd from 'ui/shared/ad/TextAd';
 import AddressAddToWallet from 'ui/shared/address/AddressAddToWallet';
@@ -221,6 +223,13 @@ const AddressPageContent = () => {
         title: 'Transactions',
         count: addressTabsCountersQuery.data?.transactions_count,
         component: <AddressTxs shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
+      },
+      {
+        id: 'entity_ops',
+        title: 'Entity operations',
+        count: addressTabsCountersQuery.data?.golembase_operations_count,
+        component: <AddressEntityOps shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
+        subTabs: ENTITY_OPS_TABS,
       },
       txInterpretation.isEnabled && txInterpretation.provider === 'noves' ?
         {

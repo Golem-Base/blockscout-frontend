@@ -202,6 +202,7 @@ export type AddressTabsCounters = {
   validations_count: number | null;
   withdrawals_count: number | null;
   celo_election_rewards_count?: number | null;
+  golembase_operations_count: number | null;
 };
 
 // MUD framework

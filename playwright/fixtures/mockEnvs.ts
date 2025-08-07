@@ -114,5 +114,6 @@ export const ENVS_MAP: Record<string, Array<[string, string]>> = {
   ],
   golemBaseIndexer: [
     [ 'NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST', 'http://localhost:8050' ],
+    [ 'NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_BASE_PATH', '' ],
   ],
 };
