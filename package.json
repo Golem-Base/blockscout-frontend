@@ -92,6 +92,7 @@
     "dom-to-image": "^2.6.0",
     "es-toolkit": "1.31.0",
     "focus-visible": "^5.2.0",
+    "golem-base-sdk": "^0.1.16",
     "gradient-avatar": "git+https://github.com/blockscout/gradient-avatar.git",
     "graphiql": "^2.2.0",
     "graphql": "^16.8.1",
