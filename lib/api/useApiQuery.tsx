@@ -6,6 +6,7 @@ import { useMultichainContext } from 'lib/contexts/multichain';
 import type { Params as FetchParams } from 'lib/hooks/useFetch';
 
 import type { ResourceError, ResourceName, ResourcePathParams, ResourcePayload } from './resources';
+import { convertGolemBasePagination, hasGolemBasePagination } from './services/paginationConverter';
 import useApiFetch from './useApiFetch';
 
 export interface Params<R extends ResourceName, E = unknown, D = ResourcePayload<R>> {
@@ -44,7 +45,15 @@ export default function useApiQuery<R extends ResourceName, E = unknown, D = Res
       // all errors and error typing is handled by react-query
       // so error response will never go to the data
       // that's why we are safe here to do type conversion "as Promise<ResourcePayload<R>>"
-      return apiFetch(resource, { pathParams, queryParams, chain, logError, fetchParams: { ...fetchParams, signal } }) as Promise<ResourcePayload<R>>;
+      const response = await apiFetch(resource, {
+        pathParams, queryParams, chain, logError, fetchParams: { ...fetchParams, signal },
+      }) as Promise<ResourcePayload<R>>;
+
+      if (hasGolemBasePagination(response)) {
+        return convertGolemBasePagination(response);
+      }
+
+      return response;
     },
     ...queryOptions,
   });

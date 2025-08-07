@@ -11,7 +11,13 @@ import type { Route } from 'nextjs-routes';
 
 import multichainConfig from 'configs/multichain';
 import getResourceParams from 'lib/api/getResourceParams';
-import type { PaginatedResourceName, PaginationFilters, PaginationSorting, ResourceError, ResourcePayload } from 'lib/api/resources';
+import type {
+  PaginatedResourceName,
+  PaginationFilters,
+  PaginationSorting,
+  ResourceError,
+  ResourcePayload,
+} from 'lib/api/resources';
 import { SORTING_FIELDS } from 'lib/api/resources';
 import type { Params as UseApiQueryParams } from 'lib/api/useApiQuery';
 import useApiQuery from 'lib/api/useApiQuery';
