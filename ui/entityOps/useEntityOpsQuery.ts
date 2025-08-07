@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import React from 'react';
 
 import { OperationType } from '@golembase/l3-indexer-types';
 import type { GolemBaseIndexerOpsFilters } from 'types/api/golemBaseIndexer';
@@ -13,19 +12,21 @@ const getFilterValue = (getFilterValueFromQuery<OperationType>).bind(null, Objec
 
 const defaultType = OperationType.CREATE;
 
-interface Props extends Omit<GolemBaseIndexerOpsFilters, 'operation'> {
-  enabled: boolean;
+interface Props {
+  filters: Omit<GolemBaseIndexerOpsFilters, 'operation'>;
+  enabled?: boolean;
 }
 
-export default function useEntityOpsQuery({ enabled, ...filters }: Props) {
+export default function useEntityOpsQuery({ enabled, filters }: Props) {
   const router = useRouter();
+  const tab = Array.isArray(router.query.tab) ? router.query.tab[0] : router.query.tab;
+  const operationTypeRaw = tab?.replace('entity_ops_', '').toUpperCase();
 
-  const initialFilterValue = getFilterValue(router.query.filter) ?? defaultType;
-  const [ filterValue, setFilterValue ] = React.useState<OperationType>(initialFilterValue);
+  const operation = getFilterValue(operationTypeRaw) ?? defaultType;
 
-  const query = useQueryWithPages({
+  return useQueryWithPages({
     resourceName: 'golemBaseIndexer:operations',
-    filters: { operation: filterValue, page_size: '50', ...filters },
+    filters: { operation, page_size: '50', ...filters },
     options: {
       enabled: enabled,
       placeholderData: generateListStub<'golemBaseIndexer:operations'>(ENTITY_OPERATION, 50, { next_page_params: {
@@ -35,17 +36,4 @@ export default function useEntityOpsQuery({ enabled, ...filters }: Props) {
       ),
     },
   });
-
-  const onFilterChange = React.useCallback((val: string | Array<string>) => {
-    const newVal = getFilterValue(val) ?? defaultType;
-    setFilterValue(newVal);
-    query.onFilterChange({ operation: newVal });
-  }, [ query ]);
-
-  return React.useMemo(() => ({
-    query,
-    filterValue,
-    initialFilterValue,
-    onFilterChange,
-  }), [ query, filterValue, initialFilterValue, onFilterChange ]);
 }

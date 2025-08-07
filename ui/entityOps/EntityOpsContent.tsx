@@ -14,7 +14,6 @@ import EntityOpsTable from './EntityOpsTable';
 
 type Props = {
   pagination: PaginationParams;
-  filter?: React.ReactNode;
   top?: number;
   items?: Array<Operation>;
   isPlaceholderData: boolean;
@@ -23,7 +22,6 @@ type Props = {
 
 const EntityOpsContent = ({
   pagination,
-  filter,
   top,
   items,
   isPlaceholderData,
@@ -54,7 +52,6 @@ const EntityOpsContent = ({
       mt={ -6 }
       paginationProps={ pagination }
       showPagination={ pagination.isVisible }
-      filterComponent={ filter }
     />
   ) : null;
 

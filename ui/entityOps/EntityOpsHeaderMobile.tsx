@@ -9,17 +9,14 @@ import Pagination from 'ui/shared/pagination/Pagination';
 interface Props {
   paginationProps: PaginationParams;
   showPagination: boolean;
-  filterComponent?: React.ReactNode;
 }
 
 const EntityOpsHeaderMobile = ({
   paginationProps,
   showPagination,
-  filterComponent,
 }: Props) => {
   return (
     <ActionBar>
-      { filterComponent }
       { showPagination && (
         <Pagination { ...paginationProps }/>
       ) }

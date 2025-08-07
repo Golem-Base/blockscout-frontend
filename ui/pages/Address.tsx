@@ -51,6 +51,7 @@ import useAddressCountersQuery from 'ui/address/utils/useAddressCountersQuery';
 import useAddressQuery from 'ui/address/utils/useAddressQuery';
 import useCheckAddressFormat from 'ui/address/utils/useCheckAddressFormat';
 import useCheckDomainNameParam from 'ui/address/utils/useCheckDomainNameParam';
+import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import AccountActionsMenu from 'ui/shared/AccountActionsMenu/AccountActionsMenu';
 import TextAd from 'ui/shared/ad/TextAd';
 import AddressAddToWallet from 'ui/shared/address/AddressAddToWallet';
@@ -227,6 +228,7 @@ const AddressPageContent = () => {
         id: 'entity_ops',
         title: 'Entity operations',
         component: <AddressEntityOps shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
+        subTabs: ENTITY_OPS_TABS,
       },
       txInterpretation.isEnabled && txInterpretation.provider === 'noves' ?
         {
