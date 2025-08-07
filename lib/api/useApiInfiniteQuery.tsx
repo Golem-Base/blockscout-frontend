@@ -1,9 +1,9 @@
-import type { InfiniteData, QueryKey, UseInfiniteQueryResult, UseInfiniteQueryOptions } from '@tanstack/react-query';
+import type { InfiniteData, QueryKey, UseInfiniteQueryOptions, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import type { PaginatedResourceName, ResourceError, ResourcePayload } from './resources';
-import useApiFetch from './useApiFetch';
 import type { Params as ApiFetchParams } from './useApiFetch';
+import useApiFetch from './useApiFetch';
 import { getResourceKey } from './useApiQuery';
 
 type TQueryData<R extends PaginatedResourceName> = ResourcePayload<R>;
