@@ -19,10 +19,12 @@ const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
       <TableRoot minW="950px">
         <TableHeaderSticky top={ top }>
           <TableRow>
-            <TableColumnHeader w="100px">Type</TableColumnHeader>
-            <TableColumnHeader w="200px">Entity Key</TableColumnHeader>
-            <TableColumnHeader w="200px">Sender</TableColumnHeader>
-            <TableColumnHeader w="200px">Transaction</TableColumnHeader>
+            <TableColumnHeader w="60px">Type</TableColumnHeader>
+            <TableColumnHeader w="120px">Entity Key</TableColumnHeader>
+            <TableColumnHeader w="120px">Sender</TableColumnHeader>
+            <TableColumnHeader w="120px">Transaction</TableColumnHeader>
+            <TableColumnHeader w="100px">Operation Index</TableColumnHeader>
+            <TableColumnHeader w="100px">BTL</TableColumnHeader>
           </TableRow>
         </TableHeaderSticky>
         <TableBody>

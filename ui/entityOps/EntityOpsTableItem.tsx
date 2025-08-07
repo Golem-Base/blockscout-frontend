@@ -1,9 +1,12 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
 
+import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 
@@ -45,6 +48,18 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           truncation="constant"
           noIcon
         />
+      </TableCell>
+      <TableCell verticalAlign="middle">
+        <Skeleton loading={ isLoading }>
+          <Box fontWeight={ 600 }>
+            { item.index }
+          </Box>
+        </Skeleton>
+      </TableCell>
+      <TableCell verticalAlign="middle">
+        <Skeleton loading={ isLoading }>
+          { item.btl ? <BlockEntity number={ item.btl } isLoading={ isLoading }/> : <Box fontWeight={ 600 }>N/A</Box> }
+        </Skeleton>
       </TableCell>
     </TableRow>
   );

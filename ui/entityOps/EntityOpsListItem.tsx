@@ -5,6 +5,7 @@ import type { Operation } from '@golembase/l3-indexer-types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
@@ -51,6 +52,18 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
           truncation="constant"
           noIcon
         />
+      </Flex>
+      <Flex mt={ 2 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Operation Index </Skeleton>
+        <Skeleton loading={ isLoading } fontWeight="700">
+          { item.index }
+        </Skeleton>
+      </Flex>
+      <Flex mt={ 2 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
+        <Skeleton loading={ isLoading } fontWeight="700">
+          { item.btl ? <BlockEntity number={ item.btl } isLoading={ isLoading }/> : 'N/A' }
+        </Skeleton>
       </Flex>
     </ListItemMobile>
   );
