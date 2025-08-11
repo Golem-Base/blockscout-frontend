@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import useApiQuery from 'lib/api/useApiQuery';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import EntityOps from 'ui/entityOps/EntityOps';
+
+import useEntityOpsQuery from '../entityOps/useEntityOpsQuery';
 
 type Props = {
   shouldRender?: boolean;
@@ -12,6 +15,16 @@ type Props = {
 const AddressEntityOps = ({ shouldRender = true, isQueryEnabled = true }: Props) => {
   const router = useRouter();
   const currentAddress = getQueryParamString(router.query.hash);
+  const queryParams = { sender: currentAddress };
+
+  const opsCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
+    queryOptions: {
+      enabled: isQueryEnabled,
+    },
+    queryParams,
+  });
+
+  const opsQuery = useEntityOpsQuery({ filters: queryParams, enabled: isQueryEnabled });
 
   if (!shouldRender) {
     return null;
@@ -20,7 +33,8 @@ const AddressEntityOps = ({ shouldRender = true, isQueryEnabled = true }: Props)
   return (
     <EntityOps
       isQueryEnabled={ isQueryEnabled && Boolean(currentAddress) }
-      queryParams={{ sender: currentAddress }}
+      opsQuery={ opsQuery }
+      opsCountQuery={ opsCountQuery }
     />
   );
 };
