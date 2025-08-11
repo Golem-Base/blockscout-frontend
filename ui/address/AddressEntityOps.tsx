@@ -4,8 +4,7 @@ import React from 'react';
 import useApiQuery from 'lib/api/useApiQuery';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import EntityOps from 'ui/entityOps/EntityOps';
-
-import useEntityOpsQuery from '../entityOps/useEntityOpsQuery';
+import useEntityOpsQuery from 'ui/entityOps/useEntityOpsQuery';
 
 type Props = {
   shouldRender?: boolean;
@@ -32,7 +31,6 @@ const AddressEntityOps = ({ shouldRender = true, isQueryEnabled = true }: Props)
 
   return (
     <EntityOps
-      isQueryEnabled={ isQueryEnabled && Boolean(currentAddress) }
       opsQuery={ opsQuery }
       opsCountQuery={ opsCountQuery }
     />
