@@ -2,14 +2,32 @@ import type { ApiName, ApiResource } from './types';
 
 import type { AdminApiResourceName, AdminApiResourcePayload } from './services/admin';
 import { ADMIN_API_RESOURCES } from './services/admin';
+import type {
+  BensApiPaginationFilters,
+  BensApiPaginationSorting,
+  BensApiResourceName,
+  BensApiResourcePayload,
+} from './services/bens';
 import { BENS_API_RESOURCES } from './services/bens';
-import type { BensApiResourceName, BensApiResourcePayload, BensApiPaginationFilters, BensApiPaginationSorting } from './services/bens';
+import type {
+  ContractInfoApiPaginationFilters,
+  ContractInfoApiResourceName,
+  ContractInfoApiResourcePayload,
+} from './services/contractInfo';
 import { CONTRACT_INFO_API_RESOURCES } from './services/contractInfo';
-import type { ContractInfoApiPaginationFilters, ContractInfoApiResourceName, ContractInfoApiResourcePayload } from './services/contractInfo';
+import type {
+  GeneralApiPaginationFilters,
+  GeneralApiPaginationSorting,
+  GeneralApiResourceName,
+  GeneralApiResourcePayload,
+} from './services/general';
 import { GENERAL_API_RESOURCES } from './services/general';
-import type { GeneralApiResourceName, GeneralApiResourcePayload, GeneralApiPaginationFilters, GeneralApiPaginationSorting } from './services/general';
+import type {
+  GolemBaseIndexerApiPaginationFilters,
+  GolemBaseIndexerApiResourceName,
+  GolemBaseIndexerApiResourcePayload,
+} from './services/golem-base-indexer';
 import { GOLEM_BASE_INDEXER_API_RESOURCES } from './services/golem-base-indexer';
-import type { GolemBaseIndexerApiResourceName, GolemBaseIndexerApiResourcePayload } from './services/golem-base-indexer';
 import type { MetadataApiResourceName, MetadataApiResourcePayload } from './services/metadata';
 import { METADATA_API_RESOURCES } from './services/metadata';
 import type { MultichainApiResourceName, MultichainApiResourcePayload } from './services/multichain';
@@ -18,15 +36,15 @@ import type { RewardsApiResourceName, RewardsApiResourcePayload } from './servic
 import { REWARDS_API_RESOURCES } from './services/rewards';
 import type { StatsApiResourceName, StatsApiResourcePayload } from './services/stats';
 import { STATS_API_RESOURCES } from './services/stats';
-import { TAC_OPERATION_LIFECYCLE_API_RESOURCES } from './services/tac-operation-lifecycle';
 import type {
   TacOperationLifecycleApiPaginationFilters,
   TacOperationLifecycleApiResourceName,
   TacOperationLifecycleApiResourcePayload,
 } from './services/tac-operation-lifecycle';
+import { TAC_OPERATION_LIFECYCLE_API_RESOURCES } from './services/tac-operation-lifecycle';
 import type { IsPaginated } from './services/utils';
-import { VISUALIZE_API_RESOURCES } from './services/visualize';
 import type { VisualizeApiResourceName, VisualizeApiResourcePayload } from './services/visualize';
+import { VISUALIZE_API_RESOURCES } from './services/visualize';
 
 export const RESOURCES = {
   admin: ADMIN_API_RESOURCES,
@@ -94,6 +112,7 @@ R extends BensApiResourceName ? BensApiPaginationFilters<R> :
 R extends GeneralApiResourceName ? GeneralApiPaginationFilters<R> :
 R extends ContractInfoApiResourceName ? ContractInfoApiPaginationFilters<R> :
 R extends TacOperationLifecycleApiResourceName ? TacOperationLifecycleApiPaginationFilters<R> :
+R extends GolemBaseIndexerApiResourceName ? GolemBaseIndexerApiPaginationFilters<R> :
 never;
 /* eslint-enable @stylistic/indent */
 
