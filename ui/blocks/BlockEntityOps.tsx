@@ -2,16 +2,16 @@ import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import EntityOps from 'ui/entityOps/EntityOps';
-import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
+import useEntityOpsQuery from 'ui/entityOps/useEntityOpsQuery';
 
 type Props = {
-  opsQuery: QueryWithPagesResult<'golemBaseIndexer:operations'>;
   heightOrHash: string;
 };
 
-const BlockEntityOps = ({ opsQuery, heightOrHash }: Props) => {
+const BlockEntityOps = ({ heightOrHash }: Props) => {
   const queryParams = { block_number_or_hash: heightOrHash };
 
+  const opsQuery = useEntityOpsQuery({ filters: { block_number_or_hash: heightOrHash }, enabled: true });
   const opsCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
     queryOptions: {
       enabled: true,

@@ -27,7 +27,6 @@ import useBlockTxsQuery from 'ui/block/useBlockTxsQuery';
 import useBlockWithdrawalsQuery from 'ui/block/useBlockWithdrawalsQuery';
 import BlockEntityOps from 'ui/blocks/BlockEntityOps';
 import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
-import useEntityOpsQuery from 'ui/entityOps/useEntityOpsQuery';
 import TextAd from 'ui/shared/ad/TextAd';
 import ServiceDegradationWarning from 'ui/shared/alerts/ServiceDegradationWarning';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -57,7 +56,6 @@ const BlockPageContent = () => {
   const blockWithdrawalsQuery = useBlockWithdrawalsQuery({ heightOrHash, blockQuery, tab });
   const blockBlobTxsQuery = useBlockBlobTxsQuery({ heightOrHash, blockQuery, tab });
   const blockInternalTxsQuery = useBlockInternalTxsQuery({ heightOrHash, blockQuery, tab });
-  const blockEntityOpsQuery = useEntityOpsQuery({ filters: { block_number_or_hash: heightOrHash }, enabled: true });
 
   const hasPagination = !isMobile && (
     (tab === 'txs' && blockTxsQuery.pagination.isVisible) ||
@@ -90,7 +88,7 @@ const BlockPageContent = () => {
       id: 'entity_ops',
       title: 'Entity operations',
       component: (
-        <BlockEntityOps opsQuery={ blockEntityOpsQuery } heightOrHash={ heightOrHash }/>
+        <BlockEntityOps heightOrHash={ heightOrHash }/>
       ),
       subTabs: ENTITY_OPS_TABS,
     },
@@ -123,10 +121,7 @@ const BlockPageContent = () => {
           </>
         ),
       } : null,
-  ].filter(Boolean)), [
-    blockBlobTxsQuery, blockInternalTxsQuery, blockQuery, blockTxsQuery,
-    blockWithdrawalsQuery, hasPagination, blockEntityOpsQuery, heightOrHash,
-  ]);
+  ].filter(Boolean)), [ blockBlobTxsQuery, blockInternalTxsQuery, blockQuery, blockTxsQuery, blockWithdrawalsQuery, hasPagination, heightOrHash ]);
 
   let pagination;
   if (tab === 'txs') {

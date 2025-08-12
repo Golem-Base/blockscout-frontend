@@ -4,14 +4,9 @@ import React from 'react';
 import { baseEntityOperation } from 'mocks/operations/entityOps';
 import { expect, test } from 'playwright/lib';
 
-import BlocksEntityOpsForTest from './BlockEntityOps.story';
+import BlocksEntityOps from './BlockEntityOps';
 
 const BLOCK_HASH = '0x1234567890abcdef1234567890abcdef12345678';
-const hooksConfig = {
-  router: {
-    query: { heightOrHash: BLOCK_HASH },
-  },
-};
 
 const mockOperationsResponse = {
   items: [ baseEntityOperation ],
@@ -34,9 +29,8 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
 
   const component = await render(
     <Box pt={{ base: '134px', lg: 6 }}>
-      <BlocksEntityOpsForTest heightOrHash={ BLOCK_HASH }/>
+      <BlocksEntityOps heightOrHash={ BLOCK_HASH }/>
     </Box>,
-    { hooksConfig },
   );
 
   await expect(component).toHaveScreenshot();
