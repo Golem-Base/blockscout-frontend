@@ -1,18 +1,19 @@
+import type { UseQueryResult } from '@tanstack/react-query';
 import { map } from 'es-toolkit/compat';
 import React from 'react';
 
 import { OperationType } from '@golembase/l3-indexer-types';
-import type { FilterOperationType, GolemBaseIndexerOpsFilters } from 'types/api/golemBaseIndexer';
+import type { FilterOperationType } from 'types/api/golemBaseIndexer';
 
-import useApiQuery from 'lib/api/useApiQuery';
+import type { ResourceError, ResourcePayload } from 'lib/api/resources';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import useIsMounted from 'lib/hooks/useIsMounted';
 import type { TabItemRegular } from 'toolkit/components/AdaptiveTabs';
 import { RoutedTabs } from 'toolkit/components/RoutedTabs';
 import Pagination from 'ui/shared/pagination/Pagination';
+import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 
 import EntityOpsContent from './EntityOpsContent';
-import useEntityOpsQuery from './useEntityOpsQuery';
 
 const TAB_LIST_PROPS = {
   mt: 1,
@@ -39,21 +40,13 @@ export const ENTITY_OPS_TABS = Object.keys(LABELS).map(operationToTab);
 
 type Props = {
   isQueryEnabled?: boolean;
-  queryParams: Omit<GolemBaseIndexerOpsFilters, 'operation'>;
+  opsQuery: QueryWithPagesResult<'golemBaseIndexer:operations'>;
+  opsCountQuery: UseQueryResult<ResourcePayload<'golemBaseIndexer:operationsCount'>, ResourceError<unknown>>;
 };
 
-const EntityOps = ({ isQueryEnabled = true, queryParams }: Props) => {
+const EntityOps = ({ opsQuery, opsCountQuery }: Props) => {
   const isMounted = useIsMounted();
   const isMobile = useIsMobile();
-
-  const opsCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
-    queryOptions: {
-      enabled: isQueryEnabled,
-    },
-    queryParams,
-  });
-
-  const opsQuery = useEntityOpsQuery({ filters: queryParams, enabled: isQueryEnabled });
 
   const component = React.useMemo(() => (
     <EntityOpsContent
