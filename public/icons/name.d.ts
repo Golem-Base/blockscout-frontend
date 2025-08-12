@@ -116,6 +116,7 @@
 	| "MUD_menu"
 	| "MUD"
 	| "networks"
+	| "networks/golem-base-logo-black"
 	| "networks/icon-placeholder"
 	| "networks/logo-placeholder"
 	| "nft_shield"

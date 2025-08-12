@@ -29,10 +29,12 @@ export default function useEntityOpsQuery({ enabled, filters }: Props) {
     filters: { operation, page_size: '50', ...filters },
     options: {
       enabled: enabled,
-      placeholderData: generateListStub<'golemBaseIndexer:operations'>(ENTITY_OPERATION, 50, { next_page_params: {
-        page: 2,
-        page_size: 50,
-      } },
+      placeholderData: generateListStub<'golemBaseIndexer:operations'>(ENTITY_OPERATION, 50, {
+        next_page_params: {
+          page: 2,
+          page_size: 50,
+        },
+      },
       ),
     },
   });
