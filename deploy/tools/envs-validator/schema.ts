@@ -300,6 +300,7 @@ const golemSchema = yup
   .object()
   .shape({
     NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST: yup.string().test(urlTest),
+    NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_BASE_PATH: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_LIGHT_HEX: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DARK_HEX: yup.string(),
