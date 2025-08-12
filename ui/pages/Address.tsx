@@ -227,6 +227,7 @@ const AddressPageContent = () => {
       {
         id: 'entity_ops',
         title: 'Entity operations',
+        count: addressTabsCountersQuery.data?.golembase_operations_count,
         component: <AddressEntityOps shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
         subTabs: ENTITY_OPS_TABS,
       },
