@@ -55,6 +55,7 @@ export const ADDRESS_TABS_COUNTERS: AddressTabsCounters = {
   transactions_count: 10,
   validations_count: 10,
   withdrawals_count: 10,
+  golembase_operations_count: 10,
 };
 
 export const TOP_ADDRESS: AddressesItem = {
@@ -66,7 +67,7 @@ export const TOP_ADDRESS: AddressesItem = {
   is_verified: null,
   name: null,
   private_tags: [],
-  public_tags: [ ],
+  public_tags: [],
   watchlist_names: [],
   ens_domain_name: null,
 };
