@@ -13,6 +13,7 @@ import getQueryParamString from 'lib/router/getQueryParamString';
 import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import { publicClient } from 'lib/web3/client';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
+import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import TextAd from 'ui/shared/ad/TextAd';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import EntityTags from 'ui/shared/EntityTags/EntityTags';
@@ -23,6 +24,7 @@ import TxBlobs from 'ui/tx/TxBlobs';
 import TxDetails from 'ui/tx/TxDetails';
 import TxDetailsDegraded from 'ui/tx/TxDetailsDegraded';
 import TxDetailsWrapped from 'ui/tx/TxDetailsWrapped';
+import TxEntityOps from 'ui/tx/TxEntityOps';
 import TxInternals from 'ui/tx/TxInternals';
 import TxLogs from 'ui/tx/TxLogs';
 import TxRawTrace from 'ui/tx/TxRawTrace';
@@ -75,6 +77,14 @@ const TransactionPageContent = () => {
       config.features.suave.isEnabled && data?.wrapped ?
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
         undefined,
+      {
+        id: 'entity_ops',
+        title: 'Entity operations',
+        component: (
+          <TxEntityOps txQuery={ txQuery }/>
+        ),
+        subTabs: ENTITY_OPS_TABS,
+      },
       { id: 'token_transfers', title: 'Token transfers', component: <TxTokenTransfer txQuery={ txQuery }/> },
       config.features.userOps.isEnabled ?
         { id: 'user_ops', title: 'User operations', component: <TxUserOps txQuery={ txQuery }/> } :
