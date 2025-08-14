@@ -28,10 +28,10 @@ const EntityDetails = ({ entityQuery }: Props) => {
 
   let expirationLabel;
   switch (data.status) {
-    case 'Expired':
+    case 'EXPIRED':
       expirationLabel = 'Expired at';
       break;
-    case 'Deleted':
+    case 'DELETED':
       expirationLabel = 'Deleted at';
       break;
     default:

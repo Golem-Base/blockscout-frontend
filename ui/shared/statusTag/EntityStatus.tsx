@@ -1,4 +1,3 @@
-import { pascalCase } from 'es-toolkit';
 import React from 'react';
 
 import type { EntityStatus as EntityStatusEnum } from '@golembase/l3-indexer-types';
@@ -16,21 +15,19 @@ const EntityStatus = ({ status, isLoading }: Props) => {
     return null;
   }
 
-  const pascalCaseStatus = pascalCase(status); // @FIXME: update once returned type is fixed
-
   let text: string;
   let type: StatusTagType;
 
-  switch (pascalCaseStatus) {
-    case 'Active':
+  switch (status) {
+    case 'ACTIVE':
       text = 'Active';
       type = 'ok';
       break;
-    case 'Expired':
+    case 'EXPIRED':
       text = 'Expired';
       type = 'pending';
       break;
-    case 'Deleted':
+    case 'DELETED':
       text = 'Deleted';
       type = 'error';
       break;
