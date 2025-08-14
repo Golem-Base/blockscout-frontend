@@ -236,6 +236,25 @@ const AddressDetails = ({ addressQuery, countersQuery, isLoading }: Props) => {
           </>
         ) }
 
+        <DetailedInfo.ItemLabel
+          hint="Amount spent on transaction fees by this address"
+          isLoading={ isLoading || countersQuery.isPlaceholderData }
+        >
+          Total amount spent
+        </DetailedInfo.ItemLabel>
+        <DetailedInfo.ItemValue>
+          { addressQuery.data ? (
+            <AddressCounterItem
+              prop="amount_spent_count"
+              query={ countersQuery }
+              address={ data.hash }
+              isAddressQueryLoading={ addressQuery.isPlaceholderData }
+              isDegradedData={ addressQuery.isDegradedData }
+            />
+          ) :
+            0 }
+        </DetailedInfo.ItemValue>
+
         { countersQuery.data?.gas_usage_count && (
           <>
             <DetailedInfo.ItemLabel

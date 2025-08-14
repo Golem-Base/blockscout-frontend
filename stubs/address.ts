@@ -45,6 +45,7 @@ export const ADDRESS_COUNTERS: AddressCounters = {
   token_transfers_count: '420',
   transactions_count: '119020',
   validations_count: '0',
+  amount_spent_count: '243789234890',
 };
 
 export const ADDRESS_TABS_COUNTERS: AddressTabsCounters = {
