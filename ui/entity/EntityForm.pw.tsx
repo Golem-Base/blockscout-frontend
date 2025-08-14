@@ -1,16 +1,21 @@
 import React from 'react';
 
+import { enableGolemBaseConnection } from 'playwright/helpers/golemBaseConnection';
 import { expect, test } from 'playwright/lib';
 
 import EntityForm from './EntityForm';
 
-test('default view +@dark-mode +@mobile', async({ render }) => {
+test('default view +@dark-mode +@mobile', async({ render, page }) => {
+  await enableGolemBaseConnection(page);
+
   const component = await render(<EntityForm/>);
 
   await expect(component).toHaveScreenshot();
 });
 
 test('text input view with all fields filled', async({ render, page }) => {
+  await enableGolemBaseConnection(page);
+
   const initialValues = {
     dataText: 'This is comprehensive test entity data',
     btl: 50,
@@ -29,7 +34,9 @@ test('text input view with all fields filled', async({ render, page }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('file input view with all fields filled', async({ render }) => {
+test('file input view with all fields filled', async({ render, page }) => {
+  await enableGolemBaseConnection(page);
+
   const initialValues = {
     btl: 25,
     stringAnnotations: [
@@ -45,11 +52,7 @@ test('file input view with all fields filled', async({ render }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('not connected to Golem Base', async({ render, page }) => {
-  await page.evaluate(() => {
-    (globalThis as { __GOLEM_BASE_CONNECTED__?: boolean }).__GOLEM_BASE_CONNECTED__ = false;
-  });
-
+test('not connected to Golem Base', async({ render }) => {
   const component = await render(<EntityForm/>);
 
   await expect(component.getByText('Not connected to Golem Base')).toBeVisible();

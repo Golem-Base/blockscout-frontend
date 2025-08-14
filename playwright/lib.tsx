@@ -13,6 +13,7 @@ import * as mockRpcResponse from './fixtures/mockRpcResponse';
 import * as mockTextAd from './fixtures/mockTextAd';
 import * as render from './fixtures/render';
 import * as socketServer from './fixtures/socketServer';
+import { enableGolemBaseConnection } from './helpers/golemBaseConnection';
 
 export interface Fixtures {
   render: render.RenderFixture;
@@ -70,6 +71,9 @@ test.beforeEach(async({ page, mockTextAd }) => {
   // with few exceptions:
   //  1. mock text AD requests
   await mockTextAd();
+
+  // Reset Golem Base connection to disabled by default
+  await enableGolemBaseConnection(page, false);
 });
 
 export * from '@playwright/experimental-ct-react';

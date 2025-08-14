@@ -1,5 +1,5 @@
 import type { GolemBaseClient } from 'golem-base-sdk';
-import { createClient, Tagged } from 'golem-base-sdk';
+import { createClient as createGolemBaseClient, Tagged } from 'golem-base-sdk';
 import { useCallback } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 
@@ -15,7 +15,7 @@ export function useGolemBaseClient(): GolemBaseClientReturn {
   const { address } = useAccount();
   const { data: walletClient } = useWalletClient();
 
-  const createGolemClient = useCallback(async() => {
+  const createClient = useCallback(async() => {
     if (!address || !walletClient) {
       throw new Error('Wallet not connected');
     }
@@ -23,7 +23,7 @@ export function useGolemBaseClient(): GolemBaseClientReturn {
     const httpRpcUrl = config.chain.rpcUrls[0];
     const wsRpcUrl = httpToWs(httpRpcUrl);
 
-    return createClient(
+    return createGolemBaseClient(
       Number(config.chain.id),
       new Tagged('ethereumprovider', walletClient),
       httpRpcUrl,
@@ -33,6 +33,6 @@ export function useGolemBaseClient(): GolemBaseClientReturn {
 
   return {
     isConnected: Boolean(address && walletClient),
-    createClient: createGolemClient,
+    createClient,
   };
 }

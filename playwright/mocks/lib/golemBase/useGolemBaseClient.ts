@@ -11,6 +11,6 @@ declare global {
 }
 
 export const useGolemBaseClient = () => ({
-  isConnected: globalThis.__GOLEM_BASE_CONNECTED__ !== false, // Default to true unless explicitly set to false
+  isConnected: globalThis.__GOLEM_BASE_CONNECTED__,
   createClient: () => Promise.resolve(mockClient),
 });
