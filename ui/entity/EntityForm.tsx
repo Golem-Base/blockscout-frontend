@@ -49,18 +49,8 @@ const EntityForm = ({
     try {
       const mappedData = await mapEntityFormData(data);
       await onSubmit?.(mappedData);
-    } catch (error) {
-      let errorMessage = 'Failed to create entity';
-
-      if (error instanceof Error) {
-        if (error.message.includes('internal error') || error.message.includes('transaction')) {
-          errorMessage = 'File is too large for blockchain transaction. Please use a smaller file (under 100KB).';
-        } else {
-          errorMessage = error.message;
-        }
-      }
-
-      setError('root', { message: errorMessage });
+    } catch {
+      setError('root', { message: 'Failed to create entity' });
     }
   }, [ isConnected, setError, onSubmit ]);
 
