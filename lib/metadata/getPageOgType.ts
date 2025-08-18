@@ -60,6 +60,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/mud-worlds': 'Root page',
   '/entity/[key]': 'Regular page',
   '/entity/create': 'Regular page',
+  '/entity/[key]/update': 'Regular page',
   '/token-transfers': 'Root page',
   '/advanced-filter': 'Root page',
   '/pools': 'Root page',

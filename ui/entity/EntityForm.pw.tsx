@@ -47,7 +47,7 @@ test('file input view with all fields filled', async({ render, page }) => {
     ],
   };
 
-  const component = await render(<EntityForm initialValues={ initialValues } submitText="Create File Entity"/>);
+  const component = await render(<EntityForm initialValues={ initialValues } edit/>);
 
   await expect(component).toHaveScreenshot();
 });

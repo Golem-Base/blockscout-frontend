@@ -14,6 +14,8 @@ import EntitySubHeading from 'ui/entity/EntitySubHeading';
 import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
+import UpdateEntityButton from '../entity/UpdateEntityButton';
+
 const EntityPageContent = () => {
   const router = useRouter();
   const key = getQueryParamString(router.query.key);
@@ -48,6 +50,7 @@ const EntityPageContent = () => {
       <TextAd mb={ 6 }/>
       <PageTitle
         title="Entity Details"
+        afterTitle={ <UpdateEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/> }
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>
