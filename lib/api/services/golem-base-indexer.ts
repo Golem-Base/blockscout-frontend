@@ -6,7 +6,7 @@ import type { PaginatedResponse } from './paginationConverter';
 
 export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   entity: {
-    path: '/api/v1/entities/:key',
+    path: '/api/v1/entity/:key',
     pathParams: [ 'key' as const ],
   },
   entities: {
