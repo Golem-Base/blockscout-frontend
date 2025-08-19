@@ -154,4 +154,28 @@ test.describe('Entity page', () => {
     await expect(component.getByText('priority:', { exact: true })).toBeVisible();
     await expect(component.getByText('10', { exact: true })).toBeVisible();
   });
+
+  test('noData entity - details tab', async({ render, mockApiResponse }) => {
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.noData, {
+      pathParams: { key: entityKey },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig });
+    await expect(component).toHaveScreenshot();
+  });
+
+  test('noData entity - data tab', async({ render, mockApiResponse }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityKey, tab: 'data' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.noData, {
+      pathParams: { key: entityKey },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+    await expect(component).toHaveScreenshot();
+  });
 });
