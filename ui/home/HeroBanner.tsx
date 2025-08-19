@@ -4,6 +4,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 import config from 'configs/app';
+import CreateEntityLink from 'ui/entity/CreateEntityLink';
 import RewardsButton from 'ui/rewards/RewardsButton';
 import AdBanner from 'ui/shared/ad/AdBanner';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
@@ -75,8 +76,9 @@ const HeroBanner = () => {
             }
           </Heading>
           { config.UI.navigation.layout === 'vertical' && (
-            <Box display={{ base: 'none', lg: 'flex' }} gap={ 2 }>
+            <Box display={{ base: 'none', lg: 'flex' }} alignItems="center" gap={ 2 }>
               { config.features.rewards.isEnabled && <RewardsButton variant="hero"/> }
+              <CreateEntityLink/>
               {
                 (config.features.account.isEnabled && <UserProfileDesktop buttonVariant="hero"/>) ||
                 (config.features.blockchainInteraction.isEnabled && <UserWalletDesktop buttonVariant="hero"/>)

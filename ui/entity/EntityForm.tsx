@@ -1,0 +1,111 @@
+import { chakra, Grid, Text } from '@chakra-ui/react';
+import type { GolemBaseCreate } from 'golem-base-sdk';
+import React from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import type { EntityFormFields } from './types';
+
+import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
+import { Button } from 'toolkit/chakra/button';
+
+import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
+import EntityFieldBtl from './fields/EntityFieldBtl';
+import EntityFieldData from './fields/EntityFieldData';
+import { mapEntityFormData } from './utils';
+
+interface Props {
+  onSubmit?: (data: GolemBaseCreate) => Promise<void>;
+  initialValues?: Partial<EntityFormFields>;
+  submitText?: string;
+}
+
+const EntityForm = ({
+  onSubmit,
+  initialValues,
+  submitText = 'Create Entity',
+}: Props) => {
+  const formApi = useForm<EntityFormFields>({
+    mode: 'all',
+    defaultValues: {
+      dataText: '',
+      dataFile: [],
+      btl: 1,
+      stringAnnotations: [],
+      numericAnnotations: [],
+      ...initialValues,
+    },
+  });
+  const { handleSubmit, formState, setError } = formApi;
+
+  const { isConnected } = useGolemBaseClient();
+
+  const onFormSubmit: SubmitHandler<EntityFormFields> = React.useCallback(async(data) => {
+    if (!isConnected) {
+      setError('root', { message: 'Not connected to Golem Base' });
+      return;
+    }
+
+    try {
+      const mappedData = await mapEntityFormData(data);
+      await onSubmit?.(mappedData);
+    } catch {
+      setError('root', { message: 'Failed to create entity' });
+    }
+  }, [ isConnected, setError, onSubmit ]);
+
+  const handleFormChange = React.useCallback(() => {
+    setError('root', { message: undefined });
+  }, [ setError ]);
+
+  if (!isConnected) {
+    return (
+      <Text color="text.error" textAlign="center">
+        Not connected to Golem Base
+      </Text>
+    );
+  }
+
+  return (
+    <FormProvider { ...formApi }>
+      <chakra.form
+        noValidate
+        onSubmit={ handleSubmit(onFormSubmit) }
+        onChange={ handleFormChange }
+      >
+        <Grid
+          as="section"
+          columnGap="30px"
+          rowGap={{ base: 2, lg: 5 }}
+          templateColumns={{ base: '1fr', lg: 'minmax(auto, 680px) minmax(0, 340px)' }}
+        >
+          <EntityFieldData hint="Choose between uploading a file or entering text data for your entity"/>
+
+          <EntityFieldBtl hint="Block to Live - number of blocks until this entity expires"/>
+
+          <EntityFieldAnnotations variant="string" hint="Add string metadata as key-value pairs"/>
+
+          <EntityFieldAnnotations variant="numeric" hint="Add numeric metadata as key-value pairs"/>
+        </Grid>
+
+        { formState.errors.root?.message && (
+          <Text color="text.error" mt={ 4 } fontSize="sm" whiteSpace="pre-wrap">
+            { formState.errors.root.message }
+          </Text>
+        ) }
+
+        <Button
+          size="lg"
+          type="submit"
+          mt={ 12 }
+          loading={ formState.isSubmitting }
+          loadingText={ submitText }
+        >
+          { submitText }
+        </Button>
+      </chakra.form>
+    </FormProvider>
+  );
+};
+
+export default React.memo(EntityForm);

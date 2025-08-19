@@ -70,6 +70,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
 
   // Golem Base specific routes
   '/entity/[key]': 'Entity details',
+  '/entity/create': 'Create entity',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',
