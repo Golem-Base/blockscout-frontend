@@ -14,7 +14,7 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import EntityForm from '../entity/EntityForm';
 import { useCanEditEntity } from '../entity/useCanEditEntity';
-import { mapFullEntityData } from '../entity/utils';
+import { mapFullEntityToFormFields } from '../entity/utils';
 
 const EntityUpdate = () => {
   const router = useRouter();
@@ -57,7 +57,7 @@ const EntityUpdate = () => {
   const initialValues = useMemo(() => {
     if (!entityQuery.data) return null;
 
-    return mapFullEntityData(entityQuery.data);
+    return mapFullEntityToFormFields(entityQuery.data);
   }, [ entityQuery.data ]);
 
   const content = (() => {

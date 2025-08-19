@@ -13,7 +13,7 @@ import ContentLoader from 'ui/shared/ContentLoader';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
-import { mapEntityFormData } from './utils';
+import { mapEntityFormDataToGolemCreate } from './utils';
 
 interface Props {
   onSubmit?: (data: GolemBaseCreate) => Promise<void>;
@@ -49,7 +49,7 @@ const EntityForm = ({
     }
 
     try {
-      const mappedData = await mapEntityFormData(data);
+      const mappedData = await mapEntityFormDataToGolemCreate(data);
       await onSubmit?.(mappedData);
     } catch {
       setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });

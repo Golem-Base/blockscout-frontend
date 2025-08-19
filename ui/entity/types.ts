@@ -6,15 +6,16 @@ import type { ResourceError } from 'lib/api/resources';
 
 export type EntityQuery = UseQueryResult<FullEntity, ResourceError<unknown>>;
 
-export interface Annotation<T> {
+export interface Annotation {
+  id: string;
   key: string;
-  value: T;
+  value: string;
 }
 
 export interface EntityFormFields {
   dataText: string;
   dataFile: Array<File>;
   btl: number;
-  stringAnnotations: Array<Annotation<string>>;
-  numericAnnotations: Array<Annotation<number>>;
+  stringAnnotations: Array<Annotation>;
+  numericAnnotations: Array<Annotation>;
 }

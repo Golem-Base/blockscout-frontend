@@ -3,6 +3,7 @@ import React from 'react';
 import type { EntityFormFields } from '../types';
 
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
+import { integerValidator } from 'toolkit/components/forms/validators/integer';
 
 import EntityFormRow from '../EntityFormRow';
 
@@ -17,6 +18,9 @@ const EntityFieldBtl = ({ required = true, hint }: Props) => {
     min: {
       value: 1,
       message: 'BTL must be at least 1',
+    },
+    validate: {
+      integer: integerValidator,
     },
   }), [ required ]);
 
