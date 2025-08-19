@@ -26,17 +26,28 @@ const EntityData = ({ entityQuery }: Props) => {
     <Container data-testid="entity-data">
       <ItemLabel hint="Raw data content of this entity">Entity Data</ItemLabel>
       <ItemValue>
-        <RawInputData
-          hex={ data.data || '' }
-          isLoading={ isLoading }
-          defaultDataType="UTF-8"
-        />
+        {
+          data.data ? (
+            <RawInputData
+              hex={ data.data }
+              isLoading={ isLoading }
+              defaultDataType="UTF-8"
+            />
+          ) :
+            'No data'
+        }
       </ItemValue>
 
       <ItemLabel hint="Size of the stored data">Size</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatDataSize(data.data_size) }</Text>
+          <Text>
+            {
+              data.data_size ?
+                formatDataSize(data.data_size) :
+                '0 B'
+            }
+          </Text>
         </Skeleton>
       </ItemValue>
 
