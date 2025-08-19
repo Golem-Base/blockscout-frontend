@@ -117,3 +117,21 @@ export const withLargeData: golemBaseIndexer.FullEntity = {
   gas_used: '85000',
   fees_paid: '1700000000000000',
 };
+
+export const noData: golemBaseIndexer.FullEntity = {
+  key: 'z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4j3h2g1f0e9d8c7b6a5z4y3x2w1v0u9',
+  data: undefined,
+  data_size: undefined,
+  status: 'EXPIRED' as golemBaseIndexer.EntityStatus,
+  string_annotations: [],
+  numeric_annotations: [],
+  created_at_tx_hash: undefined,
+  created_at_operation_index: undefined,
+  created_at_block_number: undefined,
+  created_at_timestamp: undefined,
+  expires_at_block_number: '1500000',
+  expires_at_timestamp: '2024-01-31T12:00:00Z',
+  owner: undefined,
+  gas_used: '18500',
+  fees_paid: '370000000000000',
+};
