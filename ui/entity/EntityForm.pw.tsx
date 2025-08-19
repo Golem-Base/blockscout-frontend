@@ -20,10 +20,10 @@ test('text input view with all fields filled', async({ render, page }) => {
     dataText: 'This is comprehensive test entity data',
     btl: 50,
     stringAnnotations: [
-      { key: 'category', value: 'test' },
+      { id: '1', key: 'category', value: 'test' },
     ],
     numericAnnotations: [
-      { key: 'score', value: 100 },
+      { id: '2', key: 'score', value: '100' },
     ],
   };
 
@@ -40,10 +40,10 @@ test('file input view with all fields filled', async({ render, page }) => {
   const initialValues = {
     btl: 25,
     stringAnnotations: [
-      { key: 'type', value: 'document' },
+      { id: '1', key: 'type', value: 'document' },
     ],
     numericAnnotations: [
-      { key: 'size', value: 2048 },
+      { id: '2', key: 'size', value: '2048' },
     ],
   };
 
