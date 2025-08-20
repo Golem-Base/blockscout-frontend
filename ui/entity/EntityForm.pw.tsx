@@ -18,7 +18,7 @@ test('text input view with all fields filled', async({ render, page }) => {
 
   const initialValues = {
     dataText: 'This is comprehensive test entity data',
-    btl: 50,
+    btl: '50',
     stringAnnotations: [
       { id: '1', key: 'category', value: 'test' },
     ],
@@ -38,7 +38,7 @@ test('file input view with all fields filled', async({ render, page }) => {
   await enableGolemBaseConnection(page);
 
   const initialValues = {
-    btl: 25,
+    btl: '25',
     stringAnnotations: [
       { id: '1', key: 'type', value: 'document' },
     ],
