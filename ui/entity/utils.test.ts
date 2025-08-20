@@ -43,14 +43,14 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: '',
         dataFile: [ mockFile ],
-        btl: 123,
+        btl: '123',
         stringAnnotations: [
           { id: '1', key: 'stringKey1', value: 'stringValue1' },
           { id: '2', key: 'stringKey2', value: 'stringValue2' },
         ],
         numericAnnotations: [
           { id: '1', key: 'numKey1', value: '42' },
-          { id: '2', key: 'numKey2', value: '100' },
+          { id: '2', key: 'numKey2', value: '0' },
         ],
       };
 
@@ -63,22 +63,22 @@ describe('entity utils', () => {
         { key: 'stringKey2', value: 'stringValue2' },
       ]);
       expect(result.numericAnnotations).toEqual([
-        { key: 'numKey1', value: '42' },
-        { key: 'numKey2', value: '100' },
+        { key: 'numKey1', value: 42 },
+        { key: 'numKey2', value: '' },
       ]);
 
       expect(GolemAnnotation).toHaveBeenCalledTimes(4);
       expect(GolemAnnotation).toHaveBeenCalledWith('stringKey1', 'stringValue1');
       expect(GolemAnnotation).toHaveBeenCalledWith('stringKey2', 'stringValue2');
-      expect(GolemAnnotation).toHaveBeenCalledWith('numKey1', '42');
-      expect(GolemAnnotation).toHaveBeenCalledWith('numKey2', '100');
+      expect(GolemAnnotation).toHaveBeenCalledWith('numKey1', 42);
+      expect(GolemAnnotation).toHaveBeenCalledWith('numKey2', '');
     });
 
     it('should map form data with text data correctly', async() => {
       const formData: EntityFormFields = {
         dataText: 'Hello, World!',
         dataFile: [],
-        btl: 456,
+        btl: '456',
         stringAnnotations: [],
         numericAnnotations: [],
       };
@@ -98,7 +98,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'This should be ignored',
         dataFile: [ binaryFile ],
-        btl: 999,
+        btl: '999',
         stringAnnotations: [ { id: '1', key: 'test', value: 'value' } ],
         numericAnnotations: [ { id: '1', key: 'count', value: '5' } ],
       };
@@ -142,7 +142,7 @@ describe('entity utils', () => {
 
       expect(result.dataText).toBe('Hello');
       expect(result.dataFile).toEqual([]);
-      expect(result.btl).toBe(1);
+      expect(result.btl).toBe('');
       expect(result.stringAnnotations).toHaveLength(2);
       expect(result.numericAnnotations).toHaveLength(2);
     });

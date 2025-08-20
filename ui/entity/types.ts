@@ -15,7 +15,7 @@ export interface Annotation {
 export interface EntityFormFields {
   dataText: string;
   dataFile: Array<File>;
-  btl: number;
+  btl: string;
   stringAnnotations: Array<Annotation>;
   numericAnnotations: Array<Annotation>;
 }

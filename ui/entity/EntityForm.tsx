@@ -32,7 +32,7 @@ const EntityForm = ({
     defaultValues: {
       dataText: '',
       dataFile: [],
-      btl: 1,
+      btl: '',
       stringAnnotations: [],
       numericAnnotations: [],
       ...initialValues,

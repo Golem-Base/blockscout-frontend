@@ -37,6 +37,21 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
     setValue(fieldName, filteredAnnotations);
   }, [ getValues, setValue, fieldName ]);
 
+  const valueInputProps = React.useMemo(() => variant === 'numeric' ? {
+    inputProps: { type: 'number' },
+    rules: {
+      min: {
+        value: 0,
+        message: 'Must be at least 0',
+      },
+      max: {
+        value: Number.MAX_SAFE_INTEGER,
+        message: `Must be less than or equal to ${ Number.MAX_SAFE_INTEGER }`,
+      },
+      validate: { integer: integerValidator },
+    },
+  } : {}, [ variant ]);
+
   const renderControl = React.useCallback(({ field }: { field: ControllerRenderProps<EntityFormFields, typeof fieldName> }) => (
     <VStack gap={ 4 } alignItems="stretch" w="100%">
       <Flex justifyContent="space-between" alignItems="center">
@@ -77,11 +92,8 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
                 name={ `${ fieldName }.${ index }.value` }
                 placeholder={ `Annotation value (e.g., ${ variant === 'string' ? 'important' : '1' })` }
                 size="md"
-                { ...(variant === 'numeric' ? {
-                  inputProps: { type: 'number' },
-                  rules: { validate: { integer: integerValidator } },
-                } : {}) }
                 required
+                { ...valueInputProps }
               />
             </Box>
             <IconButton
@@ -117,7 +129,7 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
         </Box>
       ) }
     </VStack>
-  ), [ displayTitle, handleAddAnnotation, handleRemoveAnnotation, formState.isSubmitting, fieldName, variant ]);
+  ), [ displayTitle, handleAddAnnotation, handleRemoveAnnotation, formState.isSubmitting, fieldName, variant, valueInputProps ]);
 
   return (
     <EntityFormRow>

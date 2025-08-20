@@ -1,4 +1,4 @@
-import type { GolemBaseCreate, NumericAnnotation, StringAnnotation } from 'golem-base-sdk';
+import type { GolemBaseCreate } from 'golem-base-sdk';
 import { Annotation as GolemAnnotation } from 'golem-base-sdk';
 
 import type { Annotation, EntityFormFields } from './types';
@@ -13,10 +13,6 @@ export function generateAnnotationId(): string {
   return Math.random().toString(36);
 }
 
-function mapFormAnnotationToGolemAnnotation<T>(annotation: Annotation): GolemAnnotation<T> {
-  return new GolemAnnotation(annotation.key, annotation.value as T);
-}
-
 function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: string }): Annotation {
   return {
     id: generateAnnotationId(),
@@ -25,12 +21,16 @@ function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: s
   };
 }
 
+function formatGolemBaseNumber(value: string): number {
+  return value === '0' ? '' as unknown as number : Number(value);
+}
+
 export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields): Promise<GolemBaseCreate> {
   return {
     data: await convertFormDataToUint8Array(formData),
-    btl: formData.btl,
-    stringAnnotations: formData.stringAnnotations.map(mapFormAnnotationToGolemAnnotation) as Array<StringAnnotation>,
-    numericAnnotations: formData.numericAnnotations.map(mapFormAnnotationToGolemAnnotation) as Array<NumericAnnotation>,
+    btl: Number(formData.btl),
+    stringAnnotations: formData.stringAnnotations.map(annotation => new GolemAnnotation(annotation.key, annotation.value)),
+    numericAnnotations: formData.numericAnnotations.map(annotation => new GolemAnnotation(annotation.key, formatGolemBaseNumber(annotation.value))),
   };
 }
 
@@ -38,7 +38,7 @@ export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields 
   return {
     dataText: entity.data ? hexToUtf8(entity.data) : '',
     dataFile: [],
-    btl: 1,
+    btl: '',
     stringAnnotations: entity.string_annotations.map(mapApiAnnotationToFormAnnotation),
     numericAnnotations: entity.numeric_annotations.map(mapApiAnnotationToFormAnnotation),
   };

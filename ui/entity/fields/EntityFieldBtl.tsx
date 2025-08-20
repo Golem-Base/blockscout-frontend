@@ -14,15 +14,16 @@ interface Props {
 
 const EntityFieldBtl = ({ required = true, hint }: Props) => {
   const rules = React.useMemo(() => ({
-    required,
     min: {
       value: 1,
       message: 'BTL must be at least 1',
     },
-    validate: {
-      integer: integerValidator,
+    max: {
+      value: Number.MAX_SAFE_INTEGER,
+      message: `BTL must be less than or equal to ${ Number.MAX_SAFE_INTEGER }`,
     },
-  }), [ required ]);
+    validate: { integer: integerValidator },
+  }), [ ]);
 
   return (
     <EntityFormRow>
