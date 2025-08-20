@@ -78,7 +78,7 @@ const HeroBanner = () => {
           { config.UI.navigation.layout === 'vertical' && (
             <Box display={{ base: 'none', lg: 'flex' }} alignItems="center" gap={ 2 }>
               { config.features.rewards.isEnabled && <RewardsButton variant="hero"/> }
-              <CreateEntityLink/>
+              <CreateEntityLink label="Create New Entity" variant="hero"/>
               {
                 (config.features.account.isEnabled && <UserProfileDesktop buttonVariant="hero"/>) ||
                 (config.features.blockchainInteraction.isEnabled && <UserWalletDesktop buttonVariant="hero"/>)
