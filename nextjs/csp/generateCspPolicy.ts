@@ -21,6 +21,7 @@ function generateCspPolicy() {
     descriptors.usernameApi(),
     descriptors.walletConnect(),
     descriptors.ffMetamask(),
+    descriptors.umami(),
   );
 
   return makePolicyString(policyDescriptor);
