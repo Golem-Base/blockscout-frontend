@@ -1,7 +1,6 @@
 import { Annotation as GolemAnnotation } from 'golem-base-sdk';
 
 import type { EntityFormFields } from './types';
-import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
 
 import { generateAnnotationId, mapEntityFormDataToGolemCreate, mapFullEntityToFormFields } from './utils';
 
@@ -114,11 +113,11 @@ describe('entity utils', () => {
 
   describe('mapFullEntityToFormFields', () => {
     it('should map entity to form fields', () => {
-      const mockEntity: FullEntity = {
+      const mockEntity = {
         key: 'test-key-123',
         data: '0x48656c6c6f',
         data_size: '5',
-        status: 'ACTIVE' as EntityStatus,
+        status: 'ACTIVE',
         string_annotations: [
           { key: 'key1', value: 'value1' },
           { key: 'key2', value: 'value2' },
@@ -136,7 +135,7 @@ describe('entity utils', () => {
         owner: '0xabcdef1234567890',
         gas_used: '21000',
         fees_paid: '500000000000000',
-      };
+      } as Parameters<typeof mapFullEntityToFormFields>[0];
 
       const result = mapFullEntityToFormFields(mockEntity);
 
