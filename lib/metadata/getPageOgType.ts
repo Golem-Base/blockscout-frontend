@@ -8,6 +8,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/internal-txs': 'Root page',
   '/txs/kettle/[hash]': 'Regular page',
   '/tx/[hash]': 'Regular page',
+  '/tx/[hash]/operation/[idx]': 'Regular page',
   '/blocks': 'Root page',
   '/block/[height_or_hash]': 'Regular page',
   '/block/countdown': 'Regular page',
