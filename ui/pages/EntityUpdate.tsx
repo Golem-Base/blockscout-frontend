@@ -44,6 +44,7 @@ const EntityUpdate = () => {
   ) => {
     const client = await createClient();
     const updateData = { ...entityData, entityKey: key as Hex };
+    const updatedAfter = String(Date.now());
     await client.updateEntities([ updateData ]);
 
     toaster.success({
@@ -51,7 +52,7 @@ const EntityUpdate = () => {
       description: `Successfully updated entity ${ key }`,
     });
 
-    await router.push({ pathname: '/entity/[key]', query: { key } }, undefined, { shallow: true });
+    await router.push({ pathname: '/entity/[key]', query: { key, updated: updatedAfter } }, undefined, { shallow: true });
   }, [ createClient, router, key ]);
 
   const initialValues = useMemo(() => {

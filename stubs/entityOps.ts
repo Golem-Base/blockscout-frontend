@@ -10,4 +10,6 @@ export const ENTITY_OPERATION: Operation = {
   sender: ADDRESS_HASH,
   entity_key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a7c',
   index: '0',
+  gas_used: '10',
+  fees_paid: '100',
 };
