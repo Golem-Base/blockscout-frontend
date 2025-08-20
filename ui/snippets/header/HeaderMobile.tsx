@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 
 import config from 'configs/app';
 import { useScrollDirection } from 'lib/contexts/scrollDirection';
+import CreateEntityLink from 'ui/entity/CreateEntityLink';
 import RewardsButton from 'ui/rewards/RewardsButton';
 import NetworkLogo from 'ui/snippets/networkMenu/NetworkLogo';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
@@ -50,6 +51,7 @@ const HeaderMobile = ({ hideSearchBar, renderSearchBar }: Props) => {
         <NetworkLogo ml={ 2 } mr="auto"/>
         <Flex columnGap={ 2 }>
           { config.features.rewards.isEnabled && <RewardsButton/> }
+          <CreateEntityLink/>
           {
             (config.features.account.isEnabled && <UserProfileMobile/>) ||
             (config.features.blockchainInteraction.isEnabled && <UserWalletMobile/>) ||

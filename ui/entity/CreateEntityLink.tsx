@@ -5,7 +5,11 @@ import { Button, type ButtonProps } from 'toolkit/chakra/button';
 import { Link } from 'toolkit/chakra/link';
 import IconSvg from 'ui/shared/IconSvg';
 
-const CreateEntityLink = ({ className, ...props }: ButtonProps) => {
+interface Props extends ButtonProps {
+  label?: string;
+}
+
+const CreateEntityLink = ({ label, variant = 'header', className, ...props }: Props) => {
   const { isConnected } = useGolemBaseClient();
 
   if (!isConnected) {
@@ -18,9 +22,9 @@ const CreateEntityLink = ({ className, ...props }: ButtonProps) => {
       className={ className }
       asChild
     >
-      <Button { ...props }>
-        <IconSvg name="plus" boxSize={ 4 } mr={ 2 }/>
-        Create New Entity
+      <Button px={ 2.5 } gapX={ 2 } variant={ variant } { ...props }>
+        <IconSvg name="docs" boxSize={ 5 }/>
+        { label }
       </Button>
     </Link>
   );
