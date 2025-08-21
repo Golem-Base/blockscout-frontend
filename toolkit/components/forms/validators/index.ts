@@ -1,4 +1,5 @@
 export * from './address';
+export * from './annotationKey';
 export * from './color';
 export * from './email';
 export * from './integer';

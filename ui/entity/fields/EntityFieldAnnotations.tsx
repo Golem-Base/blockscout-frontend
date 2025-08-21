@@ -8,6 +8,7 @@ import type { EntityFormFields } from '../types';
 import { Button } from 'toolkit/chakra/button';
 import { IconButton } from 'toolkit/chakra/icon-button';
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
+import { annotationKeyValidator } from 'toolkit/components/forms/validators';
 import { integerValidator } from 'toolkit/components/forms/validators/integer';
 import IconSvg from 'ui/shared/IconSvg';
 
@@ -86,6 +87,7 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
                 placeholder={ `Annotation key (e.g., ${ variant === 'string' ? 'category' : 'priority' })` }
                 size="md"
                 mb={ 3 }
+                rules={{ validate: { annotationKey: annotationKeyValidator } }}
                 required
               />
               <FormFieldText<EntityFormFields>
