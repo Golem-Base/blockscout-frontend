@@ -520,6 +520,15 @@ This feature is **enabled by default** with the `coinzilla` ads provider. To swi
 
 &nbsp;
 
+### Umami analytics
+
+| Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
+| --- | --- | --- | --- | --- | --- | --- |
+| NEXT_PUBLIC_UMAMI_SCRIPT_SRC | `string` | Script src for [Umami](https://umami.is/) analytics service | true | - | `https://cloud.umami.is/script.js` | v1.1.0+ |
+| NEXT_PUBLIC_UMAMI_WEBSITE_ID | `string` | Website ID for [Umami](https://umami.is/) analytics service | true | - | `<your-secret>` | v1.1.0+ |
+
+&nbsp;
+
 ### GrowthBook feature flagging and A/B testing
 
 | Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |

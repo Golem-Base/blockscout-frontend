@@ -27,6 +27,7 @@ import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import AppErrorGlobalContainer from 'ui/shared/AppError/AppErrorGlobalContainer';
 import GoogleAnalytics from 'ui/shared/GoogleAnalytics';
 import Layout from 'ui/shared/layout/Layout';
+import Umami from 'ui/shared/Umami';
 import Web3ModalProvider from 'ui/shared/Web3ModalProvider';
 
 import 'lib/setLocale';
@@ -100,6 +101,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 </GrowthBookProvider>
                 <ReactQueryDevtools buttonPosition="bottom-left" position="left"/>
                 <GoogleAnalytics/>
+                <Umami/>
               </QueryClientProvider>
             </AppContextProvider>
           </Web3ModalProvider>
