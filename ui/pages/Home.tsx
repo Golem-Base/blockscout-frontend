@@ -10,6 +10,7 @@ import LatestBlocks from 'ui/home/LatestBlocks';
 import Stats from 'ui/home/Stats';
 import Transactions from 'ui/home/Transactions';
 import AdBanner from 'ui/shared/ad/AdBanner';
+import TopNotice from 'ui/shared/TopNotice';
 
 const rollupFeature = config.features.rollup;
 
@@ -31,6 +32,7 @@ const Home = () => {
   return (
     <Box as="main">
       <HeroBanner/>
+      <TopNotice/>
       <Flex flexDir={{ base: 'column', lg: 'row' }} columnGap={ 2 } rowGap={ 1 } mt={ 3 } _empty={{ mt: 0 }}>
         <Stats/>
         <ChainIndicators/>

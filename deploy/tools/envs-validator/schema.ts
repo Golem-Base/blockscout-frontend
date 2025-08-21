@@ -305,6 +305,7 @@ const golemSchema = yup
     NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DARK_HEX: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG: yup.string(),
+    NEXT_PUBLIC_TOP_NOTICE_HTML: yup.string(),
   });
 
 const parentChainCurrencySchema = yup
