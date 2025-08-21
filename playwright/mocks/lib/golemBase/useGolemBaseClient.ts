@@ -2,6 +2,7 @@ const MOCK_KEY = '0x0137cd898a9aaa92bbe94999d2a98241f5eabc829d9354160061789963f8
 
 const mockClient = {
   createEntities: () => Promise.resolve([ { key: MOCK_KEY } ]),
+  updateEntities: () => Promise.resolve([ { key: MOCK_KEY } ]),
 };
 
 // Allow controlling the connection state

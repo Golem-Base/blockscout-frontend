@@ -3,6 +3,7 @@ import React from 'react';
 import type { EntityFormFields } from '../types';
 
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
+import { integerValidator } from 'toolkit/components/forms/validators/integer';
 
 import EntityFormRow from '../EntityFormRow';
 
@@ -13,12 +14,16 @@ interface Props {
 
 const EntityFieldBtl = ({ required = true, hint }: Props) => {
   const rules = React.useMemo(() => ({
-    required,
     min: {
       value: 1,
       message: 'BTL must be at least 1',
     },
-  }), [ required ]);
+    max: {
+      value: Number.MAX_SAFE_INTEGER,
+      message: `BTL must be less than or equal to ${ Number.MAX_SAFE_INTEGER }`,
+    },
+    validate: { integer: integerValidator },
+  }), [ ]);
 
   return (
     <EntityFormRow>

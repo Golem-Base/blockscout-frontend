@@ -17,15 +17,24 @@ import EntitySubHeading from 'ui/entity/EntitySubHeading';
 import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
+import UpdateEntityButton from '../entity/UpdateEntityButton';
+
 const RETRY_DELAY = 3000;
 const RETRY_TIMES = 4;
 
 const EntityPageContent = () => {
   const router = useRouter();
   const key = getQueryParamString(router.query.key);
+  const updatedParam = getQueryParamString(router.query.updated);
 
   const appProps = useAppContext();
   const freshEntity = appProps.referrer && appProps.referrer.includes('/entity/create');
+
+  const targetTimestamp = React.useMemo(() => {
+    if (!updatedParam) return null;
+    const parsed = parseInt(updatedParam, 10);
+    return isNaN(parsed) ? null : parsed;
+  }, [ updatedParam ]);
 
   const entityQuery = useApiQuery('golemBaseIndexer:entity', {
     pathParams: { key },
@@ -39,6 +48,15 @@ const EntityPageContent = () => {
           return false;
         }
         return failureCount < RETRY_TIMES;
+      },
+      refetchInterval: (query) => {
+        const { data } = query.state;
+        if (!targetTimestamp || !data) {
+          return false;
+        }
+
+        const shouldRefetch = !data.updated_at_timestamp || (new Date(data.updated_at_timestamp).getTime() < targetTimestamp);
+        return shouldRefetch ? RETRY_DELAY : false;
       },
     },
   });
@@ -66,6 +84,7 @@ const EntityPageContent = () => {
       <TextAd mb={ 6 }/>
       <PageTitle
         title="Entity Details"
+        afterTitle={ <UpdateEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/> }
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>

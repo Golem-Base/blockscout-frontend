@@ -8,29 +8,31 @@ import type { EntityFormFields } from './types';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
+import ContentLoader from 'ui/shared/ContentLoader';
 
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
-import { mapEntityFormData } from './utils';
+import { mapEntityFormDataToGolemCreate } from './utils';
 
 interface Props {
   onSubmit?: (data: GolemBaseCreate) => Promise<void>;
-  initialValues?: Partial<EntityFormFields>;
+  initialValues?: Partial<EntityFormFields> | null;
   submitText?: string;
+  edit?: boolean;
 }
 
 const EntityForm = ({
   onSubmit,
   initialValues,
-  submitText = 'Create Entity',
+  edit = false,
 }: Props) => {
   const formApi = useForm<EntityFormFields>({
     mode: 'all',
     defaultValues: {
       dataText: '',
       dataFile: [],
-      btl: 1,
+      btl: '',
       stringAnnotations: [],
       numericAnnotations: [],
       ...initialValues,
@@ -38,7 +40,7 @@ const EntityForm = ({
   });
   const { handleSubmit, formState, setError } = formApi;
 
-  const { isConnected } = useGolemBaseClient();
+  const { isConnected, isLoading } = useGolemBaseClient();
 
   const onFormSubmit: SubmitHandler<EntityFormFields> = React.useCallback(async(data) => {
     if (!isConnected) {
@@ -47,16 +49,20 @@ const EntityForm = ({
     }
 
     try {
-      const mappedData = await mapEntityFormData(data);
+      const mappedData = await mapEntityFormDataToGolemCreate(data);
       await onSubmit?.(mappedData);
     } catch {
-      setError('root', { message: 'Failed to create entity' });
+      setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });
     }
-  }, [ isConnected, setError, onSubmit ]);
+  }, [ isConnected, setError, onSubmit, edit ]);
 
   const handleFormChange = React.useCallback(() => {
     setError('root', { message: undefined });
   }, [ setError ]);
+
+  if (isLoading) {
+    return <ContentLoader/>;
+  }
 
   if (!isConnected) {
     return (
@@ -65,6 +71,8 @@ const EntityForm = ({
       </Text>
     );
   }
+
+  const submitText = edit ? 'Update entity' : 'Create entity';
 
   return (
     <FormProvider { ...formApi }>

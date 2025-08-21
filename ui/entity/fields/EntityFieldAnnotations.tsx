@@ -1,5 +1,4 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
-import type { NumericAnnotation, StringAnnotation } from 'golem-base-sdk';
 import React from 'react';
 import type { ControllerRenderProps } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -9,9 +8,11 @@ import type { EntityFormFields } from '../types';
 import { Button } from 'toolkit/chakra/button';
 import { IconButton } from 'toolkit/chakra/icon-button';
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
+import { integerValidator } from 'toolkit/components/forms/validators/integer';
 import IconSvg from 'ui/shared/IconSvg';
 
 import EntityFormRow from '../EntityFormRow';
+import { generateAnnotationId } from '../utils';
 
 type AnnotationVariant = 'string' | 'numeric';
 
@@ -28,17 +29,28 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
 
   const handleAddAnnotation = React.useCallback(() => {
     const currentAnnotations = getValues(fieldName);
-    const newAnnotation = variant === 'string' ?
-      { key: '', value: '' } :
-      { key: '', value: 0 };
-    setValue(fieldName, [ ...currentAnnotations, newAnnotation ] as EntityFormFields[typeof fieldName]);
-  }, [ getValues, setValue, fieldName, variant ]);
+    setValue(fieldName, [ ...currentAnnotations, { id: generateAnnotationId(), key: '', value: '' } ]);
+  }, [ getValues, setValue, fieldName ]);
 
   const handleRemoveAnnotation = React.useCallback((index: number) => () => {
-    const currentAnnotations = getValues(fieldName) as Array<StringAnnotation | NumericAnnotation>;
-    const filteredAnnotations = currentAnnotations.filter((_, i) => i !== index);
-    setValue(fieldName, filteredAnnotations as EntityFormFields[typeof fieldName]);
+    const filteredAnnotations = getValues(fieldName).filter((_, i) => i !== index);
+    setValue(fieldName, filteredAnnotations);
   }, [ getValues, setValue, fieldName ]);
+
+  const valueInputProps = React.useMemo(() => variant === 'numeric' ? {
+    inputProps: { type: 'number' },
+    rules: {
+      min: {
+        value: 0,
+        message: 'Must be at least 0',
+      },
+      max: {
+        value: Number.MAX_SAFE_INTEGER,
+        message: `Must be less than or equal to ${ Number.MAX_SAFE_INTEGER }`,
+      },
+      validate: { integer: integerValidator },
+    },
+  } : {}, [ variant ]);
 
   const renderControl = React.useCallback(({ field }: { field: ControllerRenderProps<EntityFormFields, typeof fieldName> }) => (
     <VStack gap={ 4 } alignItems="stretch" w="100%">
@@ -53,7 +65,7 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
 
       { field.value.map((annotation, index) => (
         <Box
-          key={ `${ index }-${ annotation.key }-${ annotation.value }` }
+          key={ annotation.id }
           p={ 4 }
           borderWidth="1px"
           borderRadius="lg"
@@ -71,17 +83,17 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
             <Box flex={ 1 }>
               <FormFieldText<EntityFormFields>
                 name={ `${ fieldName }.${ index }.key` }
-                placeholder={ variant === 'string' ? 'Annotation key (e.g., category)' : 'Annotation key (e.g., priority)' }
+                placeholder={ `Annotation key (e.g., ${ variant === 'string' ? 'category' : 'priority' })` }
                 size="md"
                 mb={ 3 }
                 required
               />
               <FormFieldText<EntityFormFields>
                 name={ `${ fieldName }.${ index }.value` }
-                placeholder={ variant === 'string' ? 'Annotation value (e.g., important)' : 'Annotation value (e.g., 1)' }
+                placeholder={ `Annotation value (e.g., ${ variant === 'string' ? 'important' : '1' })` }
                 size="md"
-                inputProps={ variant === 'numeric' ? { type: 'number' } : undefined }
                 required
+                { ...valueInputProps }
               />
             </Box>
             <IconButton
@@ -117,7 +129,7 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
         </Box>
       ) }
     </VStack>
-  ), [ displayTitle, handleAddAnnotation, handleRemoveAnnotation, formState.isSubmitting, fieldName, variant ]);
+  ), [ displayTitle, handleAddAnnotation, handleRemoveAnnotation, formState.isSubmitting, fieldName, variant, valueInputProps ]);
 
   return (
     <EntityFormRow>
