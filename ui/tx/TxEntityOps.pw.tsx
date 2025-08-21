@@ -2,11 +2,11 @@ import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import { baseEntityOperation } from 'mocks/operations/entityOps';
+import * as txMock from 'mocks/txs/tx';
 import { expect, test } from 'playwright/lib';
 
-import BlocksEntityOps from './BlockEntityOps';
-
-const BLOCK_HASH = '0x1234567890abcdef1234567890abcdef12345678';
+import TxEntityOps from './TxEntityOps';
+import type { TxQuery } from './useTxQuery';
 
 const mockOperationsResponse = {
   items: [ baseEntityOperation ],
@@ -16,7 +16,7 @@ const mockOperationsResponse = {
 test('base view +@mobile', async({ render, mockApiResponse }) => {
 
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
-    queryParams: { operation: 'CREATE', page_size: '50', block_number_or_hash: BLOCK_HASH },
+    queryParams: { operation: 'CREATE', page_size: '50', transaction_hash: txMock.base.hash },
   });
   await mockApiResponse('golemBaseIndexer:operationsCount', {
     create_count: '1',
@@ -24,12 +24,17 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
     extend_count: '3',
     delete_count: '0',
   }, {
-    queryParams: { block_number_or_hash: BLOCK_HASH },
+    queryParams: { transaction_hash: txMock.base.hash },
   });
+  const txQuery = {
+    data: txMock.base,
+    isPlaceholderData: false,
+    isError: false,
+  } as TxQuery;
 
   const component = await render(
     <Box pt={{ base: '134px', lg: 6 }}>
-      <BlocksEntityOps heightOrHash={ BLOCK_HASH }/>
+      <TxEntityOps txQuery={ txQuery }/>
     </Box>,
   );
 

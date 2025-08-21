@@ -2,8 +2,11 @@ name: Docker
 
 on:
   push:
-    branches: [ main ]
-    tags: [ 'release-**' ]
+    branches:
+      - main
+      - develop
+    tags: 
+      - 'release-**'
 
 jobs:
   build_and_push:

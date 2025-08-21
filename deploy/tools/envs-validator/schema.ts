@@ -305,6 +305,7 @@ const golemSchema = yup
     NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DARK_HEX: yup.string(),
     NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG: yup.string(),
+    NEXT_PUBLIC_TOP_NOTICE_HTML: yup.string(),
   });
 
 const parentChainCurrencySchema = yup
@@ -1153,6 +1154,8 @@ const schema = yup
     NEXT_PUBLIC_RE_CAPTCHA_V3_APP_SITE_KEY: yup.string(), // DEPRECATED
     NEXT_PUBLIC_GOOGLE_ANALYTICS_PROPERTY_ID: yup.string(),
     NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN: yup.string(),
+    NEXT_PUBLIC_UMAMI_SCRIPT_SRC: yup.string(),
+    NEXT_PUBLIC_UMAMI_WEBSITE_ID: yup.string(),
     NEXT_PUBLIC_GROWTH_BOOK_CLIENT_KEY: yup.string(),
     NEXT_PUBLIC_ROLLBAR_CLIENT_TOKEN: yup.string(),
 

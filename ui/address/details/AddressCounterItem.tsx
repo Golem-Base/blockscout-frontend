@@ -6,10 +6,13 @@ import type { AddressCounters } from 'types/api/address';
 
 import { route } from 'nextjs/routes';
 
+import config from 'configs/app';
 import type { ResourceError } from 'lib/api/resources';
 import { useMultichainContext } from 'lib/contexts/multichain';
+import { currencyUnits } from 'lib/units';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import CurrencyValue from 'ui/shared/CurrencyValue';
 
 interface Props {
   prop: keyof AddressCounters;
@@ -66,6 +69,15 @@ const AddressCounterItem = ({ prop, query, address, isAddressQueryLoading, isDeg
         </Link>
       );
     }
+    case 'amount_spent_count':
+      return (
+        <CurrencyValue
+          value={ data }
+          decimals={ String(config.chain.currency.decimals) }
+          currency={ currencyUnits.ether }
+          flexWrap="wrap"
+        />
+      );
   }
 };
 

@@ -1,28 +1,16 @@
-<h1 align="center">Blockscout frontend</h1>
+# Blockscout frontend for Golem Base L3s
 
-<p align="center">
-    <span>Frontend application for </span>
-    <a href="https://github.com/blockscout/blockscout/blob/master/README.md">Blockscout</a>
-    <span> blockchain explorer</span>
-</p>
+Frontend application for [Golem Base L3 Blockscsout Explorer](https://github.com/Golem-Base/blockscout)
 
 ## Running and configuring the app
 
-App is distributed as a docker image. Here you can find information about the [package](https://github.com/blockscout/frontend/pkgs/container/frontend) and its recent [releases](https://github.com/blockscout/frontend/releases).
+See full list of ENVs and their description [here](./docs/ENVS.md).
 
-You can configure your app by passing necessary environment variables when starting the container. See full list of ENVs and their description [here](./docs/ENVS.md).
-
-```sh
-docker run -p 3000:3000 --env-file <path-to-your-env-file> ghcr.io/blockscout/frontend:latest
-```
+App is distributed as a [docker image](https://hub.docker.com/r/golemnetwork/blockscout-frontend).
 
 Alternatively, you can build your own docker image and run your app from that. Please follow this [guide](./docs/CUSTOM_BUILD.md).
 
-For more information on migrating from the previous frontend, please see the [frontend migration docs](https://docs.blockscout.com/for-developers/frontend-migration).
-
-## Contributing
-
-See our [Contribution guide](./docs/CONTRIBUTING.md) for pull request protocol. We expect contributors to follow our [code of conduct](./CODE_OF_CONDUCT.md) when submitting code or comments.
+See also [compose files](https://github.com/Golem-Base/blockscout-compose-files).
 
 ## Resources
 
@@ -30,8 +18,6 @@ See our [Contribution guide](./docs/CONTRIBUTING.md) for pull request protocol. 
 - [Contribution guide](./docs/CONTRIBUTING.md)
 - [Making a custom build](./docs/CUSTOM_BUILD.md)
 - [Golem Base L3 Development Guide](./docs/GOLEMBASE_L3_DEV.md) - Development guide for Golem Base L3 network
-- [Frontend migration guide](https://docs.blockscout.com/for-developers/frontend-migration)
-- [Manual deployment guide with backend and microservices](https://docs.blockscout.com/for-developers/deployment/manual-deployment-guide)
 
 ## License
 

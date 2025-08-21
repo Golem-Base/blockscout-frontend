@@ -45,6 +45,7 @@ export interface AddressCounters {
   token_transfers_count: string;
   gas_usage_count: string | null;
   validations_count: string | null;
+  amount_spent_count: string;
 }
 
 export interface AddressTokenBalance {
@@ -202,6 +203,7 @@ export type AddressTabsCounters = {
   validations_count: number | null;
   withdrawals_count: number | null;
   celo_election_rewards_count?: number | null;
+  golembase_operations_count: number | null;
 };
 
 // MUD framework

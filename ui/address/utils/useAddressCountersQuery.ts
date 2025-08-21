@@ -56,6 +56,7 @@ export default function useAddressCountersQuery({ hash, addressQuery }: Params):
         token_transfers_count: '0',
         gas_usage_count: null,
         validations_count: null,
+        amount_spent_count: '0',
       };
     },
     placeholderData: [ GET_TRANSACTIONS_COUNT ],

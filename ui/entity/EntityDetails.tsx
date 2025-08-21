@@ -28,10 +28,10 @@ const EntityDetails = ({ entityQuery }: Props) => {
 
   let expirationLabel;
   switch (data.status) {
-    case 'Expired':
+    case 'EXPIRED':
       expirationLabel = 'Expired at';
       break;
-    case 'Deleted':
+    case 'DELETED':
       expirationLabel = 'Deleted at';
       break;
     default:
@@ -55,15 +55,19 @@ const EntityDetails = ({ entityQuery }: Props) => {
         <EntityStatus status={ data.status } isLoading={ isLoading }/>
       </ItemValue>
 
-      <ItemLabel hint="Address that owns this entity">Owner</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <AddressEntity
-            address={{ hash: data.owner }}
-            truncation="constant"
-          />
-        </Skeleton>
-      </ItemValue>
+      { data.owner && (
+        <>
+          <ItemLabel hint="Address that owns this entity">Owner</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <AddressEntity
+                address={{ hash: data.owner }}
+                truncation="constant"
+              />
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
 
       <ItemLabel hint="Total gas consumed by this entity">Gas Used</ItemLabel>
       <ItemValue>
