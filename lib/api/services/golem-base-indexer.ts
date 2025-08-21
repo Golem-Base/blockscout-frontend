@@ -12,6 +12,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   entities: {
     path: '/api/v1/entities',
   },
+  operation: {
+    path: '/api/v1/operation/:tx_hash/:op_index',
+    pathParams: [ 'tx_hash' as const, 'op_index' as const ],
+  },
   operations: {
     path: '/api/v1/operations',
     filterFields: [ 'operation' as const, 'block_hash' as const, 'transaction_hash' as const, 'sender' as const, 'entity_key' as const ],
@@ -29,6 +33,7 @@ export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof 
 export type GolemBaseIndexerApiResourcePayload<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:entity' ? golemBaseIndexer.FullEntity :
 R extends 'golemBaseIndexer:entities' ? golemBaseIndexer.ListEntitiesResponse :
+R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 never;

@@ -4,13 +4,13 @@ import React from 'react';
 import type { Operation } from '@golembase/l3-indexer-types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
-import BlockEntity from 'ui/shared/entities/block/BlockEntity';
-import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
+import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
+import ExpandableButton from 'ui/shared/ExpandableButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 import EntityOpType from './EntityOpType';
+import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
   item: Operation;
@@ -18,6 +18,8 @@ type Props = {
 };
 
 const EntityOpsListItem = ({ item, isLoading }: Props) => {
+  const section = useDisclosure();
+
   return (
     <ListItemMobile display="block" width="100%">
       <Flex justifyContent="space-between" alignItems="flex-start" mt={ 4 }>
@@ -27,21 +29,10 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
             isLoading={ isLoading }
           />
         </HStack>
-      </Flex>
-      <Flex justifyContent="space-between" lineHeight="24px" mt={ 3 } alignItems="center">
-        <StorageEntity
-          entityKey={ item.entity_key }
+        <ExpandableButton
+          isOpen={ section.open }
+          onToggle={ section.onToggle }
           isLoading={ isLoading }
-          truncation="constant_long"
-          fontWeight="700"
-        />
-      </Flex>
-      <Flex mt={ 3 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Sender </Skeleton>
-        <AddressStringOrParam
-          address={ item.sender }
-          isLoading={ isLoading }
-          truncation="constant"
         />
       </Flex>
       <Flex mt={ 2 }>
@@ -60,11 +51,19 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         </Skeleton>
       </Flex>
       <Flex mt={ 2 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Gas Used </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          { item.btl ? <BlockEntity number={ item.btl } isLoading={ isLoading }/> : 'N/A' }
+          { item.gas_used }
         </Skeleton>
       </Flex>
+      { section.open && (
+        <Flex mt={ 4 }>
+          <OpExpandableDetails
+            txHash={ item.transaction_hash }
+            opIndex={ item.index }
+          />
+        </Flex>
+      ) }
     </ListItemMobile>
   );
 };
