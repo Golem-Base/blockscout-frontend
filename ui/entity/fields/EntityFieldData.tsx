@@ -14,15 +14,26 @@ interface Props {
 }
 
 const EntityFieldData = ({ hint }: Props) => {
-  const { resetField } = useFormContext<EntityFormFields>();
+  const [ tab, setTab ] = React.useState<'file' | 'text'>('file');
+
+  const { resetField, getValues } = useFormContext<EntityFormFields>();
 
   const handleTabChange = React.useCallback((details: { value: string }) => {
+    setTab(details.value as 'file' | 'text');
     resetField(details.value === 'file' ? 'dataText' : 'dataFile');
-  }, [ resetField ]);
+  }, [ resetField, setTab ]);
+
+  React.useEffect(() => {
+    const { dataText, dataFile } = getValues();
+
+    if (dataText && dataFile.length === 0) {
+      setTab('text');
+    }
+  }, [ getValues, setTab ]);
 
   return (
     <EntityFormRow>
-      <TabsRoot defaultValue="file" variant="segmented" size="sm" onValueChange={ handleTabChange }>
+      <TabsRoot value={ tab } onValueChange={ handleTabChange } variant="segmented" size="sm">
         <TabsList>
           <TabsTrigger value="file">File</TabsTrigger>
           <TabsTrigger value="text">Text</TabsTrigger>

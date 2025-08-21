@@ -520,6 +520,15 @@ This feature is **enabled by default** with the `coinzilla` ads provider. To swi
 
 &nbsp;
 
+### Umami analytics
+
+| Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
+| --- | --- | --- | --- | --- | --- | --- |
+| NEXT_PUBLIC_UMAMI_SCRIPT_SRC | `string` | Script src for [Umami](https://umami.is/) analytics service | true | - | `https://cloud.umami.is/script.js` | v1.1.0+ |
+| NEXT_PUBLIC_UMAMI_WEBSITE_ID | `string` | Website ID for [Umami](https://umami.is/) analytics service | true | - | `<your-secret>` | v1.1.0+ |
+
+&nbsp;
+
 ### GrowthBook feature flagging and A/B testing
 
 | Variable | Type| Description | Compulsoriness  | Default value | Example value | Version |
@@ -968,6 +977,7 @@ This feature allows to display widgets on the address page with data from 3rd pa
 | NEXT_PUBLIC_COLOR_THEME_LIGHT_SAMPLE_BG | `string` | CSS background value for light theme sample | - | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | `linear-gradient(154deg, #EFEFEF 50%, rgba(255, 255, 255, 0.00) 330.86%)` | v2.2.0+ |
 | NEXT_PUBLIC_COLOR_THEME_DARK_HEX | `string` | Hex color code for dark theme background | - | `#101112` | `#101112` | v2.2.0+ |
 | NEXT_PUBLIC_COLOR_THEME_DARK_SAMPLE_BG | `string` | CSS background value for dark theme sample | - | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | `linear-gradient(161deg, #000 9.37%, #383838 92.52%)` | v2.2.0+ |
+| NEXT_PUBLIC_TOP_NOTICE_HTML                  | `string` | HTML element that will be displayed at the top of landing page | -              | ``                                                                        | `Check out our faucet at <a href="faucet.example.org">faucet.example.org</a>` | v2.2.0+ |
 
 &nbsp;
 

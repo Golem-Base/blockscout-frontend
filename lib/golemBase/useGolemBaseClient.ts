@@ -8,12 +8,13 @@ import { httpToWs } from 'lib/httpToWs';
 
 export interface GolemBaseClientReturn {
   isConnected: boolean;
+  isLoading: boolean;
   createClient: () => Promise<GolemBaseClient>;
 }
 
 export function useGolemBaseClient(): GolemBaseClientReturn {
   const { address } = useAccount();
-  const { data: walletClient } = useWalletClient();
+  const { data: walletClient, isPending } = useWalletClient();
 
   const createClient = useCallback(async() => {
     if (!address || !walletClient) {
@@ -33,6 +34,7 @@ export function useGolemBaseClient(): GolemBaseClientReturn {
 
   return {
     isConnected: Boolean(address && walletClient),
+    isLoading: isPending,
     createClient,
   };
 }

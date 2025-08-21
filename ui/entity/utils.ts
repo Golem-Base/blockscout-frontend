@@ -2,21 +2,49 @@ import type { GolemBaseCreate } from 'golem-base-sdk';
 import { Annotation as GolemAnnotation } from 'golem-base-sdk';
 
 import type { Annotation, EntityFormFields } from './types';
+import type { FullEntity } from '@golembase/l3-indexer-types';
 
+import hexToUtf8 from 'lib/hexToUtf8';
 import { Kb } from 'toolkit/utils/consts';
 
 export const MAX_SIZE = 100 * Kb;
 
-export async function mapEntityFormData(formData: EntityFormFields): Promise<GolemBaseCreate> {
+export function generateAnnotationId(): string {
+  return Math.random().toString(36);
+}
+
+function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: string }): Annotation {
   return {
-    data: await getUint8Array(formData),
-    btl: formData.btl,
-    stringAnnotations: formData.stringAnnotations.map(mapAnnotation),
-    numericAnnotations: formData.numericAnnotations.map(mapAnnotation),
+    id: generateAnnotationId(),
+    key: apiAnnotation.key,
+    value: apiAnnotation.value,
   };
 }
 
-async function getUint8Array(formData: EntityFormFields): Promise<Uint8Array> {
+function formatGolemBaseNumber(value: string): number {
+  return value === '0' ? '' as unknown as number : Number(value);
+}
+
+export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields): Promise<GolemBaseCreate> {
+  return {
+    data: await convertFormDataToUint8Array(formData),
+    btl: Number(formData.btl),
+    stringAnnotations: formData.stringAnnotations.map(annotation => new GolemAnnotation(annotation.key, annotation.value)),
+    numericAnnotations: formData.numericAnnotations.map(annotation => new GolemAnnotation(annotation.key, formatGolemBaseNumber(annotation.value))),
+  };
+}
+
+export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields {
+  return {
+    dataText: entity.data ? hexToUtf8(entity.data) : '',
+    dataFile: [],
+    btl: '',
+    stringAnnotations: entity.string_annotations.map(mapApiAnnotationToFormAnnotation),
+    numericAnnotations: entity.numeric_annotations.map(mapApiAnnotationToFormAnnotation),
+  };
+}
+
+async function convertFormDataToUint8Array(formData: EntityFormFields): Promise<Uint8Array> {
   if (formData.dataFile.length > 0) {
     const arrayBuffer = await formData.dataFile[0].arrayBuffer();
     return new Uint8Array(arrayBuffer);
@@ -24,8 +52,4 @@ async function getUint8Array(formData: EntityFormFields): Promise<Uint8Array> {
 
   const encoder = new TextEncoder();
   return encoder.encode(formData.dataText);
-}
-
-function mapAnnotation<T>(annotation: Annotation<T>): GolemAnnotation<T> {
-  return new GolemAnnotation(annotation.key, annotation.value);
 }

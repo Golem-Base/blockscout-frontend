@@ -39,4 +39,8 @@ export const ENTITY_BASE: FullEntity = {
   owner: ADDRESS_HASH,
   gas_used: '21000',
   fees_paid: '500000000000000',
+  updated_at_tx_hash: TX_HASH,
+  updated_at_operation_index: '0',
+  updated_at_block_number: '1234567',
+  updated_at_timestamp: '2024-01-15T10:30:00',
 };
