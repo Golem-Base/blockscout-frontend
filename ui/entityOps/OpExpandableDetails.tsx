@@ -1,10 +1,11 @@
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Grid, HStack } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 
 interface Props {
   txHash: string;
@@ -40,15 +41,11 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
       >
         <Box>
           <Box fontWeight="600" mb={ 2 } color="text.secondary">
-            Block
+            Gas Used
           </Box>
-          <BlockEntity
-            number={ operation.block_number }
-            hash={ operation.block_hash }
-            truncation="constant"
-            isLoading={ isLoading }
-            noIcon
-          />
+          <Skeleton loading={ isLoading } fontWeight="500">
+            { formatBigNum(operation.gas_used) }
+          </Skeleton>
         </Box>
 
         <Box>
@@ -65,11 +62,14 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
 
         <Box>
           <Box fontWeight="600" mb={ 2 } color="text.secondary">
-            Gas Used
+            Timestamp
           </Box>
-          <Skeleton loading={ isLoading } fontWeight="500">
-            { operation?.gas_used }
-          </Skeleton>
+          <HStack minH="30px" gap={ 0 } color="text.secondary" fontWeight={ 400 }>
+            <DetailedInfoTimestamp
+              timestamp={ operation.block_timestamp }
+              isLoading={ isLoading }
+            />
+          </HStack>
         </Box>
       </Grid>
     </Box>

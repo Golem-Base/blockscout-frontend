@@ -2,14 +2,15 @@ import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
 
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
+import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandableButton from 'ui/shared/ExpandableButton';
 
-import BlockEntity from '../shared/entities/block/BlockEntity';
-import StorageEntity from '../shared/entities/entity/StorageEntity';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
@@ -69,7 +70,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <Skeleton loading={ isLoading } fontWeight="700">
-            { item.btl }
+            { formatBigNum(item.btl) }
           </Skeleton>
         </TableCell>
       </TableRow>

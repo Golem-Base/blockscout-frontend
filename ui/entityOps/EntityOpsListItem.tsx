@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
 
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
@@ -67,7 +68,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
       <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          { item.btl }
+          { formatBigNum(item.btl) }
         </Skeleton>
       </Flex>
       { section.open && (
