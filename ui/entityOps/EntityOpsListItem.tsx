@@ -5,11 +5,12 @@ import type { Operation } from '@golembase/l3-indexer-types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
+import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandableButton from 'ui/shared/ExpandableButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
-import EntityOpType from './EntityOpType';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
@@ -24,9 +25,13 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
     <ListItemMobile display="block" width="100%">
       <Flex justifyContent="space-between" alignItems="flex-start" mt={ 4 }>
         <HStack flexWrap="wrap">
-          <EntityOpType
-            operation={ item.operation }
+          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Block </Skeleton>
+          <BlockEntity
+            number={ 0 } /* @FIXME: update to value from API once implemented */
+            hash={ item.block_hash }
             isLoading={ isLoading }
+            truncation="constant"
+            noIcon
           />
         </HStack>
         <ExpandableButton
@@ -51,9 +56,18 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         </Skeleton>
       </Flex>
       <Flex mt={ 2 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Gas Used </Skeleton>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
+        <StorageEntity
+          entityKey={ item.entity_key }
+          isLoading={ isLoading }
+          truncation="constant"
+          noIcon
+        />
+      </Flex>
+      <Flex mt={ 2 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          { item.gas_used }
+          { item.btl }
         </Skeleton>
       </Flex>
       { section.open && (

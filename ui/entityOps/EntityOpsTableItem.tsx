@@ -8,7 +8,8 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandableButton from 'ui/shared/ExpandableButton';
 
-import EntityOpType from './EntityOpType';
+import BlockEntity from '../shared/entities/block/BlockEntity';
+import StorageEntity from '../shared/entities/entity/StorageEntity';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
@@ -35,6 +36,15 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <BlockEntity
+            number={ 0 } /* @FIXME: update to value from API once implemented */
+            hash={ item.block_hash }
+            isLoading={ isLoading }
+            truncation="constant"
+            noIcon
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <TxEntity
             hash={ item.transaction_hash }
             isLoading={ isLoading }
@@ -50,14 +60,16 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           </Skeleton>
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
-          <EntityOpType
-            operation={ item.operation }
+          <StorageEntity
+            entityKey={ item.entity_key }
             isLoading={ isLoading }
+            truncation="constant"
+            noIcon
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <Skeleton loading={ isLoading } fontWeight="700">
-            { item.gas_used }
+            { item.btl }
           </Skeleton>
         </TableCell>
       </TableRow>

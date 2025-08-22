@@ -20,10 +20,11 @@ const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
         <TableHeaderSticky top={ top }>
           <TableRow>
             <TableColumnHeader w="40px"/>
+            <TableColumnHeader w="120px">Block</TableColumnHeader>
             <TableColumnHeader w="120px">Transaction</TableColumnHeader>
             <TableColumnHeader w="120px">Operation Index</TableColumnHeader>
-            <TableColumnHeader w="60px">Type</TableColumnHeader>
-            <TableColumnHeader w="120px">Gas used</TableColumnHeader>
+            <TableColumnHeader w="120px">Entity</TableColumnHeader>
+            <TableColumnHeader w="120px">BTL</TableColumnHeader>
           </TableRow>
         </TableHeaderSticky>
         <TableBody>
