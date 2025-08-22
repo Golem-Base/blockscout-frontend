@@ -17,13 +17,15 @@ import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import IconSvg from 'ui/shared/IconSvg';
 import RawInputData from 'ui/shared/RawInputData';
 
+import EntityOpType from './EntityOpType';
+
 interface Props {
   txHash: string;
   opIndex: string;
 }
 
 const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
-  const operationQuery = useApiQuery('golemBaseIndexer:operation', {
+  const { data, isLoading } = useApiQuery('golemBaseIndexer:operation', {
     pathParams: { tx_hash: txHash, op_index: opIndex },
     queryOptions: {
       enabled: Boolean(txHash) && Boolean(opIndex),
@@ -31,9 +33,7 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
     },
   });
 
-  const { data: operation, isLoading } = operationQuery;
-
-  if (!operation) {
+  if (!data) {
     return null;
   }
 
@@ -47,9 +47,9 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
     );
   };
 
-  const renderData = (data?: string) => data ? (
+  const renderData = (hex?: string) => hex ? (
     <RawInputData
-      hex={ data }
+      hex={ hex }
       isLoading={ isLoading }
       defaultDataType="UTF-8"
     />
@@ -60,25 +60,25 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
   );
 
   const renderOperationSpecificFields = () => {
-    switch (operation.operation) {
+    switch (data.operation) {
       case OperationType.CREATE:
         return (
           <>
             <ItemLabel hint="Data associated with this entity">Data</ItemLabel>
             <ItemValue>
-              { renderData(operation.data) }
+              { renderData(data.data) }
             </ItemValue>
 
             <ItemLabel hint="Size of the data in bytes">Data Size</ItemLabel>
             <ItemValue>
               <Skeleton loading={ isLoading }>
-                <Text>{ formatDataSize(hexToSize(operation.data)) }</Text>
+                <Text>{ formatDataSize(hexToSize(data.data)) }</Text>
               </Skeleton>
             </ItemValue>
 
             <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
             <ItemValue>
-              <BlockEntity number={ operation.expires_at_block_number } isLoading={ isLoading }/>
+              <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
             </ItemValue>
           </>
         );
@@ -88,26 +88,19 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
           <>
             <ItemLabel hint="Data that was deleted">Before Data</ItemLabel>
             <ItemValue>
-              { renderData(operation.prev_data) }
+              { renderData(data.prev_data) }
             </ItemValue>
 
             <ItemLabel hint="Size of the deleted data in bytes">Before Data Size</ItemLabel>
             <ItemValue>
               <Skeleton loading={ isLoading }>
-                <Text>{ formatDataSize(hexToSize(operation.prev_data)) }</Text>
-              </Skeleton>
-            </ItemValue>
-
-            <ItemLabel hint="Current status of the entity">Status</ItemLabel>
-            <ItemValue>
-              <Skeleton loading={ isLoading }>
-                <Text color="red.500" fontWeight="500">Deleted</Text>
+                <Text>{ formatDataSize(hexToSize(data.prev_data)) }</Text>
               </Skeleton>
             </ItemValue>
 
             <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
             <ItemValue>
-              <BlockEntity number={ operation.expires_at_block_number } isLoading={ isLoading }/>
+              <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
             </ItemValue>
           </>
         );
@@ -124,27 +117,27 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
               >
                 <Box>
                   <Text fontWeight="500" mb={ 2 } color="text.secondary">Before</Text>
-                  { renderData(operation.prev_data) }
+                  { renderData(data.prev_data) }
                 </Box>
                 <Box>
                   <Text fontWeight="500" mb={ 2 } color="text.secondary">After</Text>
-                  { renderData(operation.data) }
+                  { renderData(data.data) }
                 </Box>
               </Grid>
             </ItemValue>
 
             <ItemLabel hint="Size comparison">Data Size</ItemLabel>
             <ItemValue>
-              { renderValueTransition(formatDataSize(hexToSize(operation.prev_data)), formatDataSize(hexToSize(operation.data))) }
+              { renderValueTransition(formatDataSize(hexToSize(data.prev_data)), formatDataSize(hexToSize(data.data))) }
             </ItemValue>
 
             <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
             <ItemValue>
               { renderValueTransition(
-                !isUndefined(operation.prev_expires_at_block_number) ?
-                  <BlockEntity number={ operation.prev_expires_at_block_number } isLoading={ isLoading }/> :
+                !isUndefined(data.prev_expires_at_block_number) ?
+                  <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/> :
                   '-',
-                <BlockEntity number={ operation.expires_at_block_number } isLoading={ isLoading }/>,
+                <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
               ) }
             </ItemValue>
           </>
@@ -157,10 +150,10 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
             <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
             <ItemValue>
               { renderValueTransition(
-                !isUndefined(operation.prev_expires_at_block_number) ?
-                  <BlockEntity number={ operation.prev_expires_at_block_number } isLoading={ isLoading }/> :
+                !isUndefined(data.prev_expires_at_block_number) ?
+                  <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/> :
                   '-',
-                <BlockEntity number={ operation.expires_at_block_number } isLoading={ isLoading }/>,
+                <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
               ) }
             </ItemValue>
           </>
@@ -174,17 +167,22 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
 
   return (
     <Container data-testid="operation-details">
+      <ItemLabel hint="Entity operation type">Type</ItemLabel>
+      <ItemValue>
+        <EntityOpType operation={ data.operation } isLoading={ isLoading }/>
+      </ItemValue>
+
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(operation.gas_used) }</Text>
+          <Text>{ formatBigNum(data.gas_used) }</Text>
         </Skeleton>
       </ItemValue>
 
       <ItemLabel hint="Address that performed this operation">Sender</ItemLabel>
       <ItemValue>
         <AddressEntity
-          address={{ hash: operation.sender }}
+          address={{ hash: data.sender }}
           truncation="constant"
           isLoading={ isLoading }
           noIcon
@@ -194,7 +192,7 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
       <ItemLabel hint="Timestamp when this operation occurred">Timestamp</ItemLabel>
       <ItemValue>
         <DetailedInfoTimestamp
-          timestamp={ operation.block_timestamp }
+          timestamp={ data.block_timestamp }
           isLoading={ isLoading }
         />
       </ItemValue>
