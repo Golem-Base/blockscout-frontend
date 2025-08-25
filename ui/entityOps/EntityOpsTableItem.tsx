@@ -42,7 +42,6 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             hash={ item.block_hash }
             isLoading={ isLoading }
             truncation="constant"
-            noIcon
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
@@ -50,7 +49,6 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             hash={ item.transaction_hash }
             isLoading={ isLoading }
             truncation="constant"
-            noIcon
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
@@ -65,11 +63,10 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             entityKey={ item.entity_key }
             isLoading={ isLoading }
             truncation="constant"
-            noIcon
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
-          <Skeleton loading={ isLoading } fontWeight="700">
+          <Skeleton loading={ isLoading } fontWeight="700" textAlign="right">
             { formatBigNum(item.btl) }
           </Skeleton>
         </TableCell>

@@ -172,29 +172,27 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
         <EntityOpType operation={ data.operation } isLoading={ isLoading }/>
       </ItemValue>
 
-      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.gas_used) }</Text>
-        </Skeleton>
-      </ItemValue>
-
-      <ItemLabel hint="Address that performed this operation">Sender</ItemLabel>
-      <ItemValue>
-        <AddressEntity
-          address={{ hash: data.sender }}
-          truncation="constant"
-          isLoading={ isLoading }
-          noIcon
-        />
-      </ItemValue>
-
       <ItemLabel hint="Timestamp when this operation occurred">Timestamp</ItemLabel>
       <ItemValue>
         <DetailedInfoTimestamp
           timestamp={ data.block_timestamp }
           isLoading={ isLoading }
         />
+      </ItemValue>
+
+      <ItemLabel hint="Address that performed this operation">Sender</ItemLabel>
+      <ItemValue>
+        <AddressEntity
+          address={{ hash: data.sender }}
+          isLoading={ isLoading }
+        />
+      </ItemValue>
+
+      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
+      <ItemValue>
+        <Skeleton loading={ isLoading }>
+          <Text>{ formatBigNum(data.gas_used) }</Text>
+        </Skeleton>
       </ItemValue>
 
       <ItemDivider/>
