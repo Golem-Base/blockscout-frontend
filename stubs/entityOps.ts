@@ -1,5 +1,5 @@
-import type { Operation, EntityHistoryEntry } from '@golembase/l3-indexer-types';
-import { OperationType } from '@golembase/l3-indexer-types';
+import type { EntityHistoryEntry, Operation } from '@golembase/l3-indexer-types';
+import { EntityStatus, OperationType } from '@golembase/l3-indexer-types';
 
 import { ADDRESS_HASH } from './addressParams';
 
@@ -27,7 +27,7 @@ export const ENTITY_HISTORY_ENTRY: EntityHistoryEntry = {
   btl: '1000',
   data: '0x48656c6c6f20576f726c64', // "Hello World" in hex
   prev_data: undefined,
-  status: 'active',
+  status: EntityStatus.ACTIVE,
   prev_status: undefined,
   expires_at_block_number: '12345690',
   prev_expires_at_block_number: undefined,

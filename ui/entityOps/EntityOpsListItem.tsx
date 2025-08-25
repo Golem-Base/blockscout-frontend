@@ -9,7 +9,7 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
-import ExpandableButton from 'ui/shared/ExpandableButton';
+import ExpandButton from 'ui/shared/ExpandButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 import OpExpandableDetails from './OpExpandableDetails';
@@ -35,7 +35,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
             noIcon
           />
         </HStack>
-        <ExpandableButton
+        <ExpandButton
           isOpen={ section.open }
           onToggle={ section.onToggle }
           isLoading={ isLoading }

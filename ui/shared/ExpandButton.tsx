@@ -11,7 +11,7 @@ interface Props {
   'aria-label'?: string;
 }
 
-const ExpandableButton = ({ isOpen, onToggle, isLoading, 'aria-label': ariaLabel }: Props) => {
+const ExpandButton = ({ isOpen, onToggle, isLoading, 'aria-label': ariaLabel }: Props) => {
   const defaultAriaLabel = isOpen ? 'Collapse section' : 'Expand section';
 
   return (
@@ -21,6 +21,7 @@ const ExpandableButton = ({ isOpen, onToggle, isLoading, 'aria-label': ariaLabel
         variant="link"
         size="2xs"
         onClick={ onToggle }
+        data-testid="expand-button"
       >
         <IconSvg
           name="arrows/east-mini"
@@ -33,4 +34,4 @@ const ExpandableButton = ({ isOpen, onToggle, isLoading, 'aria-label': ariaLabel
   );
 };
 
-export default ExpandableButton;
+export default ExpandButton;
