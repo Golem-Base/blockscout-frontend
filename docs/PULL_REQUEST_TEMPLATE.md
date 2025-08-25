@@ -1,15 +1,9 @@
 ## Description and Related Issue(s)
 
-*[Provide a brief description of the changes or enhancements introduced by this pull request and explain motivation behind them. Cite any related issue(s) or bug(s) that it addresses using the [format](https://blog.github.com/2013-05-14-closing-issues-via-pull-requests/) `Fixes #123` or `Resolves #456`.]*
+*[Provide a brief description of the changes or enhancements introduced by this pull request and explain motivation behind them. Cite any related issue(s) or bug(s) that it addresses using the [format](https://blog.github.com/2013-05-14-closing-issues-via-pull-requests/) `Fixes #123` or `Resolves #456`. Specify the changes or additions made in this pull request.]*
 
-### Proposed Changes
-*[Specify the changes or additions made in this pull request. Please mention if any changes were made to the ENV variables]*
-
-### Breaking or Incompatible Changes
+### Breaking or Incompatible Changes (if any, otherwise remove this section)
 *[Describe any breaking or incompatible changes introduced by this pull request. Specify how users might need to modify their code or configurations to accommodate these changes.]*
-
-### Additional Information
-*[Include any additional information, context, or screenshots that may be helpful for reviewers.]*
 
 ## Checklist for PR author
 - [ ] I have tested these changes locally.

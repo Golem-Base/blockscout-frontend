@@ -33,3 +33,79 @@ test('loading state +@dark-mode', async({ render }) => {
 
   await expect(component).toHaveScreenshot();
 });
+
+test('expanded CREATE operation details', async({ render, page, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.createEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: entityOpsMock.baseEntityOperation.transaction_hash,
+      op_index: entityOpsMock.baseEntityOperation.index,
+    },
+  });
+
+  const component = await render(
+    <EntityOpsTable
+      operations={ [ entityOpsMock.baseEntityOperation ] }
+    />,
+  );
+
+  await page.getByTestId('expand-button').click();
+  await expect(page.getByTestId('operation-details')).toBeVisible();
+  await expect(component).toHaveScreenshot();
+});
+
+test('expanded UPDATE operation details', async({ render, page, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.updateEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: entityOpsMock.updateEntityOperation.transaction_hash,
+      op_index: entityOpsMock.updateEntityOperation.index,
+    },
+  });
+
+  const component = await render(
+    <EntityOpsTable
+      operations={ [ entityOpsMock.updateEntityOperation ] }
+    />,
+  );
+
+  await page.getByTestId('expand-button').click();
+  await expect(page.getByTestId('operation-details')).toBeVisible();
+  await expect(component).toHaveScreenshot();
+});
+
+test('expanded EXTEND operation details', async({ render, page, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.extendEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: entityOpsMock.extendEntityOperation.transaction_hash,
+      op_index: entityOpsMock.extendEntityOperation.index,
+    },
+  });
+
+  const component = await render(
+    <EntityOpsTable
+      operations={ [ entityOpsMock.extendEntityOperation ] }
+    />,
+  );
+
+  await page.getByTestId('expand-button').click();
+  await expect(page.getByTestId('operation-details')).toBeVisible();
+  await expect(component).toHaveScreenshot();
+});
+
+test('expanded DELETE operation details', async({ render, page, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.deleteEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: entityOpsMock.deleteEntityOperation.transaction_hash,
+      op_index: entityOpsMock.deleteEntityOperation.index,
+    },
+  });
+
+  const component = await render(
+    <EntityOpsTable
+      operations={ [ entityOpsMock.deleteEntityOperation ] }
+    />,
+  );
+
+  await page.getByTestId('expand-button').click();
+  await expect(page.getByTestId('operation-details')).toBeVisible();
+  await expect(component).toHaveScreenshot();
+});
