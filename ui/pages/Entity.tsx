@@ -13,7 +13,9 @@ import { ENTITY_BASE } from 'stubs/entity';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
 import EntityData from 'ui/entity/EntityData';
 import EntityDetails from 'ui/entity/EntityDetails';
+import EntityEntityOps from 'ui/entity/EntityEntityOps';
 import EntitySubHeading from 'ui/entity/EntitySubHeading';
+import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
@@ -74,6 +76,12 @@ const EntityPageContent = () => {
       id: 'data',
       title: 'Data & Annotations',
       component: <EntityData entityQuery={ entityQuery }/>,
+    },
+    {
+      id: 'entity_ops',
+      title: 'Entity operations',
+      component: <EntityEntityOps/>,
+      subTabs: ENTITY_OPS_TABS,
     },
   ];
 
