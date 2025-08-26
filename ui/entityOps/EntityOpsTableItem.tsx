@@ -38,7 +38,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <BlockEntity
-            number={ 0 } /* @FIXME: update to value from API once implemented */
+            number={ item.block_number }
             hash={ item.block_hash }
             isLoading={ isLoading }
             truncation="constant"
