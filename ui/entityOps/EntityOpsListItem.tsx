@@ -28,7 +28,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         <HStack flexWrap="wrap">
           <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Block </Skeleton>
           <BlockEntity
-            number={ 0 } /* @FIXME: update to value from API once implemented */
+            number={ item.block_number }
             hash={ item.block_hash }
             isLoading={ isLoading }
             truncation="constant"
