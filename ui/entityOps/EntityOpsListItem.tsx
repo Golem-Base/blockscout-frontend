@@ -3,14 +3,16 @@ import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
 
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
+import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
+import ExpandButton from 'ui/shared/ExpandButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
-import EntityOpType from './EntityOpType';
+import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
   item: Operation;
@@ -18,30 +20,25 @@ type Props = {
 };
 
 const EntityOpsListItem = ({ item, isLoading }: Props) => {
+  const section = useDisclosure();
+
   return (
     <ListItemMobile display="block" width="100%">
       <Flex justifyContent="space-between" alignItems="flex-start" mt={ 4 }>
         <HStack flexWrap="wrap">
-          <EntityOpType
-            operation={ item.operation }
+          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Block </Skeleton>
+          <BlockEntity
+            number={ item.block_number }
+            hash={ item.block_hash }
             isLoading={ isLoading }
+            truncation="constant"
+            noIcon
           />
         </HStack>
-      </Flex>
-      <Flex justifyContent="space-between" lineHeight="24px" mt={ 3 } alignItems="center">
-        <StorageEntity
-          entityKey={ item.entity_key }
+        <ExpandButton
+          isOpen={ section.open }
+          onToggle={ section.onToggle }
           isLoading={ isLoading }
-          truncation="constant_long"
-          fontWeight="700"
-        />
-      </Flex>
-      <Flex mt={ 3 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Sender </Skeleton>
-        <AddressStringOrParam
-          address={ item.sender }
-          isLoading={ isLoading }
-          truncation="constant"
         />
       </Flex>
       <Flex mt={ 2 }>
@@ -60,11 +57,28 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         </Skeleton>
       </Flex>
       <Flex mt={ 2 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
+        <StorageEntity
+          entityKey={ item.entity_key }
+          isLoading={ isLoading }
+          truncation="constant"
+          noIcon
+        />
+      </Flex>
+      <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          { item.btl ? <BlockEntity number={ item.btl } isLoading={ isLoading }/> : 'N/A' }
+          { formatBigNum(item.btl) }
         </Skeleton>
       </Flex>
+      { section.open && (
+        <Flex mt={ 4 }>
+          <OpExpandableDetails
+            txHash={ item.transaction_hash }
+            opIndex={ item.index }
+          />
+        </Flex>
+      ) }
     </ListItemMobile>
   );
 };

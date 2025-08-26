@@ -1,11 +1,12 @@
-import type { Operation } from '@golembase/l3-indexer-types';
-import { OperationType } from '@golembase/l3-indexer-types';
+import type { Operation, EntityHistoryEntry } from '@golembase/l3-indexer-types';
+import { OperationType, EntityStatus } from '@golembase/l3-indexer-types';
 
 import { ADDRESS_HASH } from 'stubs/addressParams';
 
-export const baseEntityOperation: Operation = {
-  operation: OperationType.CREATE,
+export const createEntityOperation = (operationType: OperationType): Operation => ({
+  operation: operationType,
   block_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+  block_number: '12345678',
   transaction_hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
   sender: ADDRESS_HASH,
   entity_key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a7c',
@@ -13,39 +14,37 @@ export const baseEntityOperation: Operation = {
   btl: '1',
   gas_used: '10',
   fees_paid: '100',
-};
+});
 
-export const updateEntityOperation: Operation = {
-  operation: OperationType.UPDATE,
-  block_hash: '0x2345678901bcdef12345678901bcdef12345678901bcdef12345678901bcdef1',
-  transaction_hash: '0xbcdef12345678901bcdef12345678901bcdef12345678901bcdef12345678901',
-  sender: '0x8ba1f109551bD432803012645Hac136c1',
-  entity_key: 'a12b34c56d78e90f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e',
-  index: '1',
-  btl: '2',
-  gas_used: '10',
-  fees_paid: '100',
-};
+export const createEntityHistoryEntryMock = (operationType: OperationType): EntityHistoryEntry => ({
+  entity_key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a7c',
+  block_number: '12345678',
+  block_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+  transaction_hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+  tx_index: '0',
+  op_index: '0',
+  block_timestamp: '2024-01-01T00:00:00.000Z',
+  sender: ADDRESS_HASH,
+  operation: operationType,
+  btl: '1000',
+  data: '0x48656c6c6f20576f726c64',
+  prev_data: operationType === OperationType.CREATE ? undefined : '0x50726576696f757320576f726c64',
+  status: operationType === OperationType.DELETE ? EntityStatus.DELETED : EntityStatus.ACTIVE,
+  prev_status: operationType === OperationType.CREATE ? undefined : EntityStatus.ACTIVE,
+  expires_at_block_number: '12345690',
+  prev_expires_at_block_number: operationType === OperationType.CREATE ? undefined : '12345680',
+  gas_used: '100000',
+  fees_paid: '1000000',
+  expires_at_timestamp: '2024-12-31T23:59:59.000Z',
+  prev_expires_at_timestamp: operationType === OperationType.CREATE ? undefined : '2024-12-31T23:59:50.000Z',
+});
 
-export const extendEntityOperation: Operation = {
-  operation: OperationType.EXTEND,
-  block_hash: '0x3456789012cdef123456789012cdef123456789012cdef123456789012cdef12',
-  transaction_hash: '0xcdef123456789012cdef123456789012cdef123456789012cdef123456789012',
-  sender: '0x9ca2f210662cE543904123756Ibd247d2',
-  entity_key: '12a34b56c78d90e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e',
-  index: '2',
-  btl: '3',
-  gas_used: '10',
-  fees_paid: '100',
-};
+export const baseEntityOperation = createEntityOperation(OperationType.CREATE);
+export const updateEntityOperation = createEntityOperation(OperationType.UPDATE);
+export const extendEntityOperation = createEntityOperation(OperationType.EXTEND);
+export const deleteEntityOperation = createEntityOperation(OperationType.DELETE);
 
-export const deleteEntityOperation: Operation = {
-  operation: OperationType.DELETE,
-  block_hash: '0x456789013def1234567890123def1234567890123def1234567890123def123',
-  transaction_hash: '0xdef1234567890123def1234567890123def1234567890123def1234567890123',
-  sender: '0xacb3f321773dF654015234867Jce358e3',
-  entity_key: '23a45b67c89d01e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e',
-  index: '3',
-  gas_used: '10',
-  fees_paid: '100',
-};
+export const createEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.CREATE);
+export const updateEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.UPDATE);
+export const extendEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.EXTEND);
+export const deleteEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.DELETE);

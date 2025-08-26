@@ -1,16 +1,17 @@
-import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
 
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
-import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
+import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
+import ExpandButton from 'ui/shared/ExpandButton';
 
-import EntityOpType from './EntityOpType';
+import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
   item: Operation;
@@ -18,50 +19,70 @@ type Props = {
 };
 
 const EntityOpsTableItem = ({ item, isLoading }: Props) => {
+  const section = useDisclosure();
+
+  const mainRowBorderColor = section.open ? 'transparent' : 'border.divider';
+
   return (
-    <TableRow>
-      <TableCell verticalAlign="middle">
-        <EntityOpType
-          operation={ item.operation }
-          isLoading={ isLoading }
-        />
-      </TableCell>
-      <TableCell verticalAlign="middle">
-        <StorageEntity
-          entityKey={ item.entity_key }
-          isLoading={ isLoading }
-          truncation="constant"
-          fontWeight={ 600 }
-        />
-      </TableCell>
-      <TableCell verticalAlign="middle">
-        <AddressStringOrParam
-          address={ item.sender }
-          isLoading={ isLoading }
-          truncation="constant"
-        />
-      </TableCell>
-      <TableCell verticalAlign="middle">
-        <TxEntity
-          hash={ item.transaction_hash }
-          isLoading={ isLoading }
-          truncation="constant"
-          noIcon
-        />
-      </TableCell>
-      <TableCell verticalAlign="middle">
-        <Skeleton loading={ isLoading }>
-          <Box fontWeight={ 600 }>
-            { item.index }
-          </Box>
-        </Skeleton>
-      </TableCell>
-      <TableCell verticalAlign="middle">
-        <Skeleton loading={ isLoading }>
-          { item.btl ? <BlockEntity number={ item.btl } isLoading={ isLoading }/> : <Box fontWeight={ 600 }>N/A</Box> }
-        </Skeleton>
-      </TableCell>
-    </TableRow>
+    <>
+      <TableRow
+        onClick={ isLoading ? undefined : section.onToggle }
+        cursor={ isLoading ? undefined : 'pointer' }
+      >
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <ExpandButton
+            isOpen={ section.open }
+            onToggle={ section.onToggle }
+            isLoading={ isLoading }
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <BlockEntity
+            number={ item.block_number }
+            hash={ item.block_hash }
+            isLoading={ isLoading }
+            truncation="constant"
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <TxEntity
+            hash={ item.transaction_hash }
+            isLoading={ isLoading }
+            truncation="constant"
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <Skeleton loading={ isLoading }>
+            <Skeleton loading={ isLoading } fontWeight="700">
+              { item.index }
+            </Skeleton>
+          </Skeleton>
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <StorageEntity
+            entityKey={ item.entity_key }
+            isLoading={ isLoading }
+            truncation="constant"
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <Skeleton loading={ isLoading } fontWeight="700" textAlign="right">
+            { formatBigNum(item.btl) }
+          </Skeleton>
+        </TableCell>
+      </TableRow>
+      { section.open && (
+        <TableRow>
+          <TableCell/>
+          <TableCell colSpan={ 4 } pr={ 0 } pt={ 0 }>
+            <OpExpandableDetails
+              txHash={ item.transaction_hash }
+              opIndex={ item.index }
+            />
+          </TableCell>
+        </TableRow>
+      ) }
+    </>
   );
 };
 
