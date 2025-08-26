@@ -1,6 +1,6 @@
 import type { GolemBaseExtend, Hex } from 'golem-base-sdk';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
@@ -13,8 +13,7 @@ import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ExtendEntityForm from '../entity/ExtendEntityForm';
-import { useCanExtendEntity } from '../entity/useCanExtendEntity';
-import { mapFullEntityToExtendFormFields } from '../entity/utils';
+import { useCanEditEntity } from '../entity/useCanEditEntity';
 
 const EntityExtend = () => {
   const router = useRouter();
@@ -32,15 +31,15 @@ const EntityExtend = () => {
   throwOnAbsentParamError(key);
   throwOnResourceLoadError(entityQuery);
 
-  const canExtend = useCanExtendEntity(entityQuery.data);
+  const canEdit = useCanEditEntity(entityQuery.data);
 
   useEffect(() => {
-    if (!entityQuery.isLoading && !canExtend) {
+    if (!entityQuery.isLoading && !canEdit) {
       router.push({ pathname: '/entity/[key]', query: { key } }, undefined, { shallow: true });
     }
-  }, [ canExtend, entityQuery.isLoading, key, router ]);
+  }, [ canEdit, entityQuery.isLoading, key, router ]);
 
-  const handleSubmit = React.useCallback(async(entityData: GolemBaseExtend,
+  const handleSubmit = React.useCallback(async(entityData: Omit<GolemBaseExtend, 'entityKey'>,
   ) => {
     const client = await createClient();
     const extendData = { entityKey: key as Hex, numberOfBlocks: entityData.numberOfBlocks };
@@ -49,17 +48,11 @@ const EntityExtend = () => {
 
     toaster.success({
       title: 'Success',
-      description: `Successfully updated entity ${ key }`,
+      description: `Successfully extended entity ${ key }`,
     });
 
     await router.push({ pathname: '/entity/[key]', query: { key, updated: updatedAfter } }, undefined, { shallow: true });
   }, [ createClient, router, key ]);
-
-  const initialValues = useMemo(() => {
-    if (!entityQuery.data) return null;
-
-    return mapFullEntityToExtendFormFields(entityQuery.data);
-  }, [ entityQuery.data ]);
 
   const content = (() => {
     if (entityQuery.isError) {
@@ -73,8 +66,6 @@ const EntityExtend = () => {
     return (
       <ExtendEntityForm
         onSubmit={ handleSubmit }
-        initialValues={ initialValues }
-        edit
       />
     );
   })();

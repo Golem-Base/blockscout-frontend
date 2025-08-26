@@ -21,6 +21,5 @@ export interface EntityFormFields {
 }
 
 export interface ExtendEntityFormFields {
-  entityKey: string;
   numberOfBlocks: string;
 }

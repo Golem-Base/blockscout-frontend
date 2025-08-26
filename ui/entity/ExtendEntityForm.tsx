@@ -10,27 +10,20 @@ import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
 import ContentLoader from 'ui/shared/ContentLoader';
 
-import EntityFieldNob from './fields/EntityFieldNob';
+import EntityFieldBtl from './fields/EntityFieldBtl';
 import { mapExtendEntityFormDataToGolemExtend } from './utils';
 
 interface Props {
-  onSubmit?: (data: GolemBaseExtend) => Promise<void>;
-  initialValues?: Partial<ExtendEntityFormFields> | null;
-  submitText?: string;
-  edit?: boolean;
+  onSubmit?: (data: Omit<GolemBaseExtend, 'entityKey'>) => Promise<void>;
 }
 
 const submitText = 'Extend Entity';
 
 const ExtendEntityForm = ({
   onSubmit,
-  initialValues,
 }: Props) => {
   const formApi = useForm<ExtendEntityFormFields>({
     mode: 'all',
-    defaultValues: {
-      ...initialValues,
-    },
   });
   const { handleSubmit, formState, setError } = formApi;
 
@@ -79,7 +72,7 @@ const ExtendEntityForm = ({
           rowGap={{ base: 2, lg: 5 }}
           templateColumns={{ base: '1fr', lg: 'minmax(auto, 680px) minmax(0, 340px)' }}
         >
-          <EntityFieldNob hint="Number of Blocks to add to current expiration"/>
+          <EntityFieldBtl hint="Number of Blocks to add to current expiration"/>
         </Grid>
 
         { formState.errors.root?.message && (

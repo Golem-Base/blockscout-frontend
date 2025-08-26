@@ -34,9 +34,8 @@ export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields)
   };
 }
 
-export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<GolemBaseExtend> {
+export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<Omit<GolemBaseExtend, 'entityKey'>> {
   return {
-    entityKey: formData.entityKey as `0x${ string }`,
     numberOfBlocks: Number(formData.numberOfBlocks),
   };
 }
@@ -48,13 +47,6 @@ export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields 
     btl: '',
     stringAnnotations: entity.string_annotations.map(mapApiAnnotationToFormAnnotation),
     numericAnnotations: entity.numeric_annotations.map(mapApiAnnotationToFormAnnotation),
-  };
-}
-
-export function mapFullEntityToExtendFormFields(entity: FullEntity): ExtendEntityFormFields {
-  return {
-    entityKey: entity.key,
-    numberOfBlocks: '',
   };
 }
 

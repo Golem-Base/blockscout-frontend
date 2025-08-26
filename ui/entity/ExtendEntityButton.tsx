@@ -8,16 +8,16 @@ import { Button, type ButtonProps } from 'toolkit/chakra/button';
 import { Link } from 'toolkit/chakra/link';
 import IconSvg from 'ui/shared/IconSvg';
 
-import { useCanExtendEntity } from './useCanExtendEntity';
+import { useCanEditEntity } from './useCanEditEntity';
 
 interface Props extends ButtonProps {
   entity?: Pick<FullEntity, 'key' | 'owner' | 'status'>;
 }
 
 const ExtendEntityButton = ({ entity, className, ...props }: Props) => {
-  const canExtend = useCanExtendEntity(entity);
+  const canEdit = useCanEditEntity(entity);
 
-  if (!entity || !canExtend) {
+  if (!entity || !canEdit) {
     return null;
   }
 
