@@ -11,6 +11,7 @@ import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { ENTITY_BASE } from 'stubs/entity';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
+import EntityActionsList from 'ui/entity/EntityActionsList';
 import EntityData from 'ui/entity/EntityData';
 import EntityDetails from 'ui/entity/EntityDetails';
 import EntityEntityOps from 'ui/entity/EntityEntityOps';
@@ -19,9 +20,12 @@ import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
+<<<<<<< HEAD
 import ExtendEntityButton from '../entity/ExtendEntityButton';
 import UpdateEntityButton from '../entity/UpdateEntityButton';
 
+=======
+>>>>>>> 5fa184d50 (feature/GBBE-128 Add delete action on entity view)
 const RETRY_DELAY = 3000;
 const RETRY_TIMES = 4;
 
@@ -93,12 +97,7 @@ const EntityPageContent = () => {
       <TextAd mb={ 6 }/>
       <PageTitle
         title="Entity Details"
-        afterTitle={ (
-          <>
-            <UpdateEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/>
-            <ExtendEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/>
-          </>
-        ) }
+        contentAfter={ <EntityActionsList entityQuery={ entityQuery }/> } 
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>
