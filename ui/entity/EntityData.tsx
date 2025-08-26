@@ -32,6 +32,7 @@ const EntityData = ({ entityQuery }: Props) => {
               hex={ data.data }
               isLoading={ isLoading }
               defaultDataType="UTF-8"
+              highlight
             />
           ) :
             'No data'
