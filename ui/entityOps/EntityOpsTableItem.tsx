@@ -8,6 +8,7 @@ import { TableCell, TableRow } from 'toolkit/chakra/table';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
+import EntityOp from 'ui/shared/entities/entityOp/EntityOp';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
 
@@ -54,7 +55,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <Skeleton loading={ isLoading }>
             <Skeleton loading={ isLoading } fontWeight="700">
-              { item.index }
+              <EntityOp txHash={ item.transaction_hash } opIndex={ item.index } noTxHash noCopy/>
             </Skeleton>
           </Skeleton>
         </TableCell>

@@ -34,13 +34,14 @@ const Icon = (props: EntityBase.IconBaseProps) => {
   );
 };
 
-type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'txHash' | 'opIndex'>;
+type ContentProps = Omit<EntityBase.ContentBaseProps, 'text'> & Pick<EntityProps, 'txHash' | 'opIndex' | 'noTxHash'>;
 
 const Content = chakra((props: ContentProps) => {
+  const text = props.noTxHash ? props.opIndex : `${ props.txHash }-${ props.opIndex }`;
   return (
     <EntityBase.Content
       { ...props }
-      text={ `${ props.txHash }-${ props.opIndex }` }
+      text={ text }
       tailLength={ props.tailLength ?? 4 }
     />
   );
@@ -63,6 +64,7 @@ const Container = EntityBase.Container;
 export interface EntityProps extends EntityBase.EntityBaseProps {
   txHash: string;
   opIndex: string;
+  noTxHash?: boolean;
 }
 
 const EntityOp = (props: EntityProps) => {
