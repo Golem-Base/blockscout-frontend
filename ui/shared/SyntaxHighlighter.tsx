@@ -1,0 +1,41 @@
+import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tomorrow, tomorrowNight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+import { useColorMode } from 'toolkit/chakra/color-mode';
+
+interface Props {
+  data: string;
+  customStyle?: React.CSSProperties;
+}
+
+const SyntaxHighlightedContent = ({ data, customStyle }: Props) => {
+  const { colorMode } = useColorMode();
+  const style = colorMode === 'dark' ? tomorrowNight : tomorrow;
+
+  return (
+    <SyntaxHighlighter
+      style={ style }
+      customStyle={{
+        margin: 0,
+        padding: '16px',
+        fontSize: '14px',
+        lineHeight: '1.5',
+        borderRadius: '6px',
+        backgroundColor: 'transparent',
+        fontFamily: 'monospace',
+        ...customStyle,
+      }}
+      codeTagProps={{
+        style: {
+          fontSize: '14px',
+          fontFamily: 'monospace',
+        },
+      }}
+    >
+      { data }
+    </SyntaxHighlighter>
+  );
+};
+
+export default React.memo(SyntaxHighlightedContent);

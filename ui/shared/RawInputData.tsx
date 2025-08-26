@@ -5,6 +5,7 @@ import hexToUtf8 from 'lib/hexToUtf8';
 import type { SelectOption } from 'toolkit/chakra/select';
 import { Select } from 'toolkit/chakra/select';
 import RawDataSnippet from 'ui/shared/RawDataSnippet';
+import SyntaxHighlightedContent from 'ui/shared/SyntaxHighlighter';
 
 const OPTIONS = [
   { label: 'Hex', value: 'Hex' as const },
@@ -23,9 +24,17 @@ interface Props {
   defaultDataType?: DataType;
   isLoading?: boolean;
   minHeight?: string;
+  highlight?: boolean;
 }
 
-const RawInputData = ({ hex, rightSlot: rightSlotProp, defaultDataType = 'Hex', isLoading, minHeight }: Props) => {
+const RawInputData = ({
+  hex,
+  rightSlot: rightSlotProp,
+  defaultDataType = 'Hex',
+  isLoading,
+  minHeight,
+  highlight,
+}: Props) => {
   const [ selectedDataType, setSelectedDataType ] = React.useState<DataType>(defaultDataType);
 
   const handleValueChange = React.useCallback(({ value }: { value: Array<string> }) => {
@@ -47,9 +56,21 @@ const RawInputData = ({ hex, rightSlot: rightSlotProp, defaultDataType = 'Hex', 
     </>
   );
 
+  const data = React.useMemo(() => {
+    if (selectedDataType === 'Hex') {
+      return hex;
+    }
+
+    if (highlight) {
+      return <SyntaxHighlightedContent data={ hexToUtf8(hex) }/> ;
+    }
+
+    return hexToUtf8(hex);
+  }, [ highlight, hex, selectedDataType ]);
+
   return (
     <RawDataSnippet
-      data={ selectedDataType === 'Hex' ? hex : hexToUtf8(hex) }
+      data={ data }
       rightSlot={ rightSlot }
       isLoading={ isLoading }
       textareaMaxHeight="220px"
