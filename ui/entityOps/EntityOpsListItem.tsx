@@ -8,6 +8,7 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
+import EntityOp from 'ui/shared/entities/entityOp/EntityOp';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
@@ -53,7 +54,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
       <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Operation Index </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          { item.index }
+          <EntityOp txHash={ item.transaction_hash } opIndex={ item.index } noTxHash noCopy/>
         </Skeleton>
       </Flex>
       <Flex mt={ 2 }>
