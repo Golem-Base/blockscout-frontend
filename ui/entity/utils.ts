@@ -36,7 +36,7 @@ export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields)
 
 export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<Omit<GolemBaseExtend, 'entityKey'>> {
   return {
-    numberOfBlocks: Number(formData.numberOfBlocks),
+    numberOfBlocks: Number(formData.btl),
   };
 }
 

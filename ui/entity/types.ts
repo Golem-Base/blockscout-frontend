@@ -21,5 +21,5 @@ export interface EntityFormFields {
 }
 
 export interface ExtendEntityFormFields {
-  numberOfBlocks: string;
+  btl: string;
 }
