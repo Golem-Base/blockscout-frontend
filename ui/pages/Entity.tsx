@@ -19,6 +19,7 @@ import { ENTITY_OPS_TABS } from 'ui/entityOps/EntityOps';
 import TextAd from 'ui/shared/ad/TextAd';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
+import ExtendEntityButton from '../entity/ExtendEntityButton';
 import UpdateEntityButton from '../entity/UpdateEntityButton';
 
 const RETRY_DELAY = 3000;
@@ -92,7 +93,12 @@ const EntityPageContent = () => {
       <TextAd mb={ 6 }/>
       <PageTitle
         title="Entity Details"
-        afterTitle={ <UpdateEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/> }
+        afterTitle={ (
+          <>
+            <UpdateEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/>
+            <ExtendEntityButton size="sm" ml={ 3 } entity={ entityQuery.data } disabled={ entityQuery.isLoading }/>
+          </>
+        ) }
         secondRow={ titleSecondRow }
       />
       <RoutedTabs tabs={ tabs } isLoading={ entityQuery.isPlaceholderData }/>

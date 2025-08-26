@@ -19,3 +19,8 @@ export interface EntityFormFields {
   stringAnnotations: Array<Annotation>;
   numericAnnotations: Array<Annotation>;
 }
+
+export interface ExtendEntityFormFields {
+  entityKey: string;
+  numberOfBlocks: string;
+}

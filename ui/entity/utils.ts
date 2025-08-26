@@ -1,7 +1,7 @@
-import type { GolemBaseCreate } from 'golem-base-sdk';
+import type { GolemBaseCreate, GolemBaseExtend } from 'golem-base-sdk';
 import { Annotation as GolemAnnotation } from 'golem-base-sdk';
 
-import type { Annotation, EntityFormFields } from './types';
+import type { Annotation, EntityFormFields, ExtendEntityFormFields } from './types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
 import hexToUtf8 from 'lib/hexToUtf8';
@@ -34,6 +34,13 @@ export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields)
   };
 }
 
+export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<GolemBaseExtend> {
+  return {
+    entityKey: formData.entityKey as `0x${ string }`,
+    numberOfBlocks: Number(formData.numberOfBlocks),
+  };
+}
+
 export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields {
   return {
     dataText: entity.data ? hexToUtf8(entity.data) : '',
@@ -41,6 +48,13 @@ export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields 
     btl: '',
     stringAnnotations: entity.string_annotations.map(mapApiAnnotationToFormAnnotation),
     numericAnnotations: entity.numeric_annotations.map(mapApiAnnotationToFormAnnotation),
+  };
+}
+
+export function mapFullEntityToExtendFormFields(entity: FullEntity): ExtendEntityFormFields {
+  return {
+    entityKey: entity.key,
+    numberOfBlocks: '',
   };
 }
 
