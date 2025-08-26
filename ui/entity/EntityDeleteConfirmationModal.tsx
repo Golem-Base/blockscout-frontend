@@ -1,5 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { Hex } from 'golem-base-sdk';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 
 import type { FullEntity } from '@golembase/l3-indexer-types';
@@ -14,6 +15,7 @@ interface Props {
   open: boolean;
   onOpenChange: ({ open }: { open: boolean }) => void;
   handleClose: () => void;
+  handleClosePopover: () => void;
 }
 
 const EntityDeleteConfirmationModal = ({
@@ -21,9 +23,11 @@ const EntityDeleteConfirmationModal = ({
   open,
   onOpenChange,
   handleClose,
+  handleClosePopover,
 }: Props) => {
-  const key = entityQuery.data?.key;
+  const key = entityQuery.data!.key;
 
+  const router = useRouter();
   const { createClient } = useGolemBaseClient();
 
   const handleDelete = useCallback(async() => {
@@ -33,14 +37,16 @@ const EntityDeleteConfirmationModal = ({
 
   const onSuccess = useCallback(async() => {
     handleClose();
+    handleClosePopover();
 
-    await entityQuery.refetch();
+    const updatedAfter = String(Date.now());
+    await router.push({ pathname: '/entity/[key]', query: { key, updated: updatedAfter } }, undefined, { shallow: true });
 
     toaster.success({
       title: 'Success',
       description: `Successfully deleted entity ${ key }`,
     });
-  }, [ entityQuery, handleClose, key ]);
+  }, [ handleClose, handleClosePopover, key, router ]);
 
   const renderContent = useCallback(() => {
     return <>Are you sure you want to delete this entity?</>;

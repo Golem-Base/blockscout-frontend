@@ -12,33 +12,28 @@ import EntityDeleteConfirmationModal from './EntityDeleteConfirmationModal';
 
 interface Props extends ButtonProps {
   entityQuery: UseQueryResult<FullEntity, ResourceError<unknown>>;
+  handleClosePopover: () => void;
 }
 
-const EntityDeleteActionButton = ({ entityQuery, className, ...props }: Props) => {
+const EntityDeleteActionButton = ({
+  entityQuery,
+  handleClosePopover,
+  className,
+  ...props
+}: Props) => {
   const { open, onOpen, onOpenChange } = useDisclosure();
-
-  // open modal on click
-
-  // const handleSubmit = React.useCallback(async(entityData: GolemBaseCreate,
-  // ) => {
-  //
-  //   const updateData = { ...entityData, entityKey: key as Hex };
-  //   const updatedAfter = String(Date.now());
-  //   await client.updateEntities([ updateData ]);
-
-  //   toaster.success({
-  //     title: 'Success',
-  //     description: `Successfully updated entity ${ key }`,
-  //   });
-
-  //   await router.push({ pathname: '/entity/[key]', query: { key, updated: updatedAfter } }, undefined, { shallow: true });
-  // }, [ createClient, router, key ]);
 
   return (
     <>
-      <EntityDeleteConfirmationModal entityQuery={ entityQuery } open={ open } handleClose={ onOpen } onOpenChange={ onOpenChange }/>
+      <EntityDeleteConfirmationModal
+        entityQuery={ entityQuery }
+        open={ open }
+        handleClose={ onOpen }
+        handleClosePopover={ handleClosePopover }
+        onOpenChange={ onOpenChange }
+      />
 
-      <Button { ...props } className={ className } onClick={ onOpen } >
+      <Button { ...props } className={ className } onClick={ onOpen }>
         <IconSvg name="delete" boxSize={ 4 } mr={ 2 }/>
         Delete
       </Button>

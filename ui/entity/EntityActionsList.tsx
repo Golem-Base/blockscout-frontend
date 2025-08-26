@@ -28,7 +28,7 @@ interface Props {
 const EntityActionsList = ({ className, entityQuery }: Props) => {
   const entity = entityQuery.data;
 
-  const { open, onOpenChange } = useDisclosure();
+  const { open, onOpenChange, onClose: handleClosePopover } = useDisclosure();
   const canEdit = useCanEditEntity(entity);
 
   if (!entity || !canEdit) {
@@ -82,6 +82,7 @@ const EntityActionsList = ({ className, entityQuery }: Props) => {
               color="red"
               entityQuery={ entityQuery }
               disabled={ entityQuery.isLoading }
+              handleClosePopover={ handleClosePopover }
             />
           </Flex>
         </PopoverBody>
