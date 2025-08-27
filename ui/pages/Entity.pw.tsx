@@ -212,4 +212,34 @@ test.describe('Entity page', () => {
     const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
     await expect(component).toHaveScreenshot();
   });
+
+  test('entity with JSON data +@dark-mode', async({ render, mockApiResponse }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityMock.withJsonData.key, tab: 'data' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.withJsonData, {
+      pathParams: { key: entityMock.withJsonData.key },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+    await expect(component).toHaveScreenshot();
+  });
+
+  test('entity with YAML data +@dark-mode', async({ render, mockApiResponse }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityMock.withYamlData.key, tab: 'data' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.withYamlData, {
+      pathParams: { key: entityMock.withYamlData.key },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+    await expect(component).toHaveScreenshot();
+  });
 });
