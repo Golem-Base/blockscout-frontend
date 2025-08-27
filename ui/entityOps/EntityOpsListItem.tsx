@@ -54,7 +54,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
       <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Operation Index </Skeleton>
         <Skeleton loading={ isLoading } fontWeight="700">
-          <EntityOp txHash={ item.transaction_hash } opIndex={ item.index } noTxHash noCopy/>
+          <EntityOp txHash={ item.transaction_hash } opIndex={ item.index } noTxHash noCopy noIcon/>
         </Skeleton>
       </Flex>
       <Flex mt={ 2 }>
