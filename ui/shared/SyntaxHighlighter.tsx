@@ -1,6 +1,6 @@
 import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { tomorrow, tomorrowNight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter';
+import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { useColorMode } from 'toolkit/chakra/color-mode';
 
@@ -9,12 +9,12 @@ interface Props {
   customStyle?: React.CSSProperties;
 }
 
-const SyntaxHighlightedContent = ({ data, customStyle }: Props) => {
+const SyntaxHighlighter = ({ data, customStyle }: Props) => {
   const { colorMode } = useColorMode();
-  const style = colorMode === 'dark' ? tomorrowNight : tomorrow;
+  const style = colorMode === 'dark' ? a11yDark : a11yLight;
 
   return (
-    <SyntaxHighlighter
+    <ReactSyntaxHighlighter
       style={ style }
       customStyle={{
         margin: 0,
@@ -33,8 +33,8 @@ const SyntaxHighlightedContent = ({ data, customStyle }: Props) => {
       }}
     >
       { data }
-    </SyntaxHighlighter>
+    </ReactSyntaxHighlighter>
   );
 };
 
-export default React.memo(SyntaxHighlightedContent);
+export default React.memo(SyntaxHighlighter);
