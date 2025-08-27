@@ -213,7 +213,7 @@ test.describe('Entity page', () => {
     await expect(component).toHaveScreenshot();
   });
 
-  test('entity with JSON data +@dark-mode', async({ render, mockApiResponse }) => {
+  test('entity with JSON data +@dark-mode', async({ render, mockApiResponse, page }) => {
     const hooksConfigWithTab = {
       router: {
         query: { key: entityMock.withJsonData.key, tab: 'data' },
@@ -225,10 +225,14 @@ test.describe('Entity page', () => {
     });
 
     const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+
+    await component.getByRole('combobox').click();
+    await page.getByRole('option', { name: 'Rich' }).click();
+
     await expect(component).toHaveScreenshot();
   });
 
-  test('entity with YAML data +@dark-mode', async({ render, mockApiResponse }) => {
+  test('entity with YAML data +@dark-mode', async({ render, mockApiResponse, page }) => {
     const hooksConfigWithTab = {
       router: {
         query: { key: entityMock.withYamlData.key, tab: 'data' },
@@ -240,6 +244,10 @@ test.describe('Entity page', () => {
     });
 
     const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+
+    await component.getByRole('combobox').click();
+    await page.getByRole('option', { name: 'Rich' }).click();
+
     await expect(component).toHaveScreenshot();
   });
 });

@@ -52,7 +52,7 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
       hex={ hex }
       isLoading={ isLoading }
       defaultDataType="UTF-8"
-      highlight
+      rich
     />
   ) : (
     <Skeleton loading={ isLoading }>
