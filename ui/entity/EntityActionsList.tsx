@@ -16,8 +16,8 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import IconSvg from 'ui/shared/IconSvg';
 
 import EntityDeleteActionButton from './EntityDeleteActionButton';
+import ExtendEntityButton from './EntityExtendActionButton';
 import EntityUpdateActionButton from './EntityUpdateActionButton';
-import ExtendEntityButton from './ExtendEntityButton';
 import { useCanEditEntity } from './useCanEditEntity';
 
 interface Props {
