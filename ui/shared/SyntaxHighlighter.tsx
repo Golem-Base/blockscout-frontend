@@ -18,11 +18,10 @@ const SyntaxHighlightedContent = ({ data, customStyle }: Props) => {
       style={ style }
       customStyle={{
         margin: 0,
-        padding: '16px',
+        padding: 0,
         fontSize: '14px',
         lineHeight: '1.5',
-        borderRadius: '6px',
-        backgroundColor: 'transparent',
+        background: 'transparent',
         fontFamily: 'monospace',
         ...customStyle,
       }}
