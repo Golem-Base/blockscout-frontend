@@ -1,8 +1,6 @@
 import { Box } from '@chakra-ui/react';
-// import BigNumber from 'bignumber.js';
 import React from 'react';
 
-// import getItemIndex from 'lib/getItemIndex';
 import { TOP_SPENDER } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
 import BiggestSpendersListItem from 'ui/biggestSpenders/BiggestSpendersListItem';
@@ -61,7 +59,7 @@ const BiggestSpenders = ({ isQueryEnabled = true }: Props) => {
         }) }
       </Box>
     </>
-  ) : null ;
+  ) : null;
 
   return (
     <>
@@ -69,7 +67,7 @@ const BiggestSpenders = ({ isQueryEnabled = true }: Props) => {
       <DataListDisplay
         isError={ isError }
         itemsNum={ data?.items.length }
-        emptyText="There are no accounts."
+        emptyText="There are no accounts with transaction fees."
         actionBar={ actionBar }
       >
         { content }
