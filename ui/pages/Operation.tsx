@@ -5,7 +5,7 @@ import useApiQuery from 'lib/api/useApiQuery';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
-import { OPERATION_BASE } from 'stubs/operation';
+import { ENTITY_HISTORY_ENTRY } from 'stubs/entityOps';
 import EntityOpDetails from 'ui/entityOp/EntityOpDetails';
 import EntityOpSubHeading from 'ui/entityOp/EntityOpSubHeading';
 import TextAd from 'ui/shared/ad/TextAd';
@@ -20,7 +20,7 @@ const OperationPageContent = () => {
     pathParams: { tx_hash: txHash, op_index: opIndex },
     queryOptions: {
       enabled: Boolean(txHash) && Boolean(opIndex),
-      placeholderData: OPERATION_BASE,
+      placeholderData: ENTITY_HISTORY_ENTRY,
     },
   });
 

@@ -1,12 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
-import { isNil } from 'es-toolkit';
 import React from 'react';
 
 import type { EntityOpQuery } from './types';
 
 import config from 'configs/app';
 import { currencyUnits } from 'lib/units';
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import EntityOpType from 'ui/entityOps/EntityOpType';
 import CurrencyValue from 'ui/shared/CurrencyValue';
@@ -37,7 +36,6 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
           <StorageEntity
             entityKey={ data.entity_key }
             isLoading={ isLoading }
-            truncation="none"
             fontWeight={ 600 }
           />
         </Flex>
@@ -55,7 +53,6 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
         <Skeleton loading={ isLoading }>
           <AddressEntity
             address={{ hash: data.sender }}
-            truncation="none"
           />
         </Skeleton>
       </ItemValue>
@@ -82,7 +79,7 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
 
       <ItemLabel hint="Blocks to Live set by the operation">BTL</ItemLabel>
       <ItemValue>
-        <Text>{ !isNil(data.btl) ? BigNumber(data.btl).toFormat() : '-' }</Text>
+        <Text>{ formatBigNum(data.btl) }</Text>
       </ItemValue>
 
       <OperationSpecificData data={ data } isLoading={ isLoading } withTimestamps/>
@@ -90,7 +87,7 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ BigNumber(data.gas_used || '0').toFormat() }</Text>
+          <Text>{ formatBigNum(data.gas_used || '0') }</Text>
         </Skeleton>
       </ItemValue>
 
