@@ -72,6 +72,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/[key]': '%network_name% entity %key%',
   '/entity/create': '%network_name% create entity',
   '/entity/[key]/update': '%network_name% update entity %key%',
+  '/entity/[key]/extend': '%network_name% extend entity %key%',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',

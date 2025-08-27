@@ -72,6 +72,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/entity/[key]': 'Entity details',
   '/entity/create': 'Create entity',
   '/entity/[key]/update': 'Update entity',
+  '/entity/[key]/extend': 'Extend entity',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',

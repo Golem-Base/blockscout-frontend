@@ -1,7 +1,7 @@
-import type { GolemBaseCreate } from 'golem-base-sdk';
+import type { GolemBaseCreate, GolemBaseExtend } from 'golem-base-sdk';
 import { Annotation as GolemAnnotation } from 'golem-base-sdk';
 
-import type { Annotation, EntityFormFields } from './types';
+import type { Annotation, EntityFormFields, ExtendEntityFormFields } from './types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
 import hexToUtf8 from 'lib/hexToUtf8';
@@ -31,6 +31,12 @@ export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields)
     btl: Number(formData.btl),
     stringAnnotations: formData.stringAnnotations.map(annotation => new GolemAnnotation(annotation.key, annotation.value)),
     numericAnnotations: formData.numericAnnotations.map(annotation => new GolemAnnotation(annotation.key, formatGolemBaseNumber(annotation.value))),
+  };
+}
+
+export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<Omit<GolemBaseExtend, 'entityKey'>> {
+  return {
+    numberOfBlocks: Number(formData.btl),
   };
 }
 
