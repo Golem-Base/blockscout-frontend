@@ -156,7 +156,6 @@ export default function useNavItems(): ReturnType {
         ].filter(Boolean),
         [
           userOps,
-          topAccounts,
           mudWorlds,
           validators,
           verifiedContracts,
@@ -174,7 +173,6 @@ export default function useNavItems(): ReturnType {
         [
           blocks,
           userOps,
-          topAccounts,
           verifiedContracts,
           ensLookup,
         ].filter(Boolean),
@@ -189,7 +187,6 @@ export default function useNavItems(): ReturnType {
           rollupTxnBatches,
         ].filter(Boolean),
         [
-          topAccounts,
           validators,
           verifiedContracts,
           ensLookup,
@@ -203,7 +200,6 @@ export default function useNavItems(): ReturnType {
         userOps,
         blocks,
         epochs,
-        topAccounts,
         validators,
         verifiedContracts,
         ensLookup,
@@ -215,6 +211,16 @@ export default function useNavItems(): ReturnType {
         },
       ].filter(Boolean);
     }
+
+    const leaderboardsNavItems = [
+      ...[ topAccounts ].filter(Boolean),
+      {
+        text: 'Biggest Spenders',
+        nextRoute: { pathname: '/leaderboards/spenders' as const },
+        icon: 'flame',
+        isActive: pathname === '/leaderboards/spenders',
+      },
+    ];
 
     const tokensNavItems = [
       {
@@ -292,6 +298,12 @@ export default function useNavItems(): ReturnType {
         icon: 'globe-b',
         isActive: blockchainNavItems.flat().some(item => isInternalItem(item) && item.isActive),
         subItems: blockchainNavItems,
+      },
+      {
+        text: 'Leaderboards',
+        icon: 'trophy',
+        isActive: leaderboardsNavItems.flat().some(item => isInternalItem(item) && item.isActive),
+        subItems: leaderboardsNavItems,
       },
       {
         text: 'Tokens',
