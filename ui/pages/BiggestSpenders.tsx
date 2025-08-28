@@ -48,10 +48,10 @@ const BiggestSpenders = ({ isQueryEnabled = true }: Props) => {
         </BiggestSpendersTable>
       </Box>
       <Box hideFrom="lg">
-        { data.items.map((item) => {
+        { data.items.map((item, index) => {
           return (
             <BiggestSpendersListItem
-              key={ item.rank }
+              key={ item.rank + (isPlaceholderData ? index : '') }
               item={ item }
               isLoading={ isPlaceholderData }
             />

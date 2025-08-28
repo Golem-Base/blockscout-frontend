@@ -24,9 +24,9 @@ const BiggestSpendersTable = ({ items, top, isLoading }: Props) => {
         </TableRow>
       </TableHeaderSticky>
       <TableBody>
-        { items.map((item) => (
+        { items.map((item, index) => (
           <BiggestSpendersTableItem
-            key={ item.rank }
+            key={ item.rank + (isLoading ? index : '') }
             item={ item }
             isLoading={ isLoading }
           />
