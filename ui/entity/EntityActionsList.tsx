@@ -16,7 +16,7 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import IconSvg from 'ui/shared/IconSvg';
 
 import EntityDeleteActionButton from './EntityDeleteActionButton';
-import ExtendEntityButton from './EntityExtendActionButton';
+import EntityExtendActionButton from './EntityExtendActionButton';
 import EntityUpdateActionButton from './EntityUpdateActionButton';
 import { useCanEditEntity } from './useCanEditEntity';
 
@@ -66,7 +66,7 @@ const EntityActionsList = ({ className, entityQuery }: Props) => {
               entity={ entityQuery.data }
               disabled={ entityQuery.isLoading }
             />
-            <ExtendEntityButton
+            <EntityExtendActionButton
               size="sm"
               variant="ghost"
               w="100%"

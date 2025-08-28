@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { Hex } from 'golem-base-sdk';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
@@ -30,12 +30,13 @@ const EntityDeleteConfirmationModal = ({
   const router = useRouter();
   const { createClient } = useGolemBaseClient();
 
-  const handleDelete = useCallback(async() => {
+  const handleDelete = React.useCallback(async() => {
+    if (!key) return;
     const client = await createClient();
     await client.deleteEntities([ key as Hex ]);
   }, [ key, createClient ]);
 
-  const onSuccess = useCallback(async() => {
+  const onSuccess = React.useCallback(async() => {
     handleClose();
     handleClosePopover();
 
@@ -48,7 +49,7 @@ const EntityDeleteConfirmationModal = ({
     });
   }, [ handleClose, handleClosePopover, key, router ]);
 
-  const renderContent = useCallback(() => {
+  const renderContent = React.useCallback(() => {
     return <>Are you sure you want to delete this entity?</>;
   }, []);
 
