@@ -14,7 +14,7 @@ interface Props extends ButtonProps {
   entity?: Pick<FullEntity, 'key' | 'owner' | 'status'>;
 }
 
-const UpdateEntityButton = ({ entity, className, ...props }: Props) => {
+const EntityUpdateActionButton = ({ entity, className, ...props }: Props) => {
   const canEdit = useCanEditEntity(entity);
 
   if (!entity || !canEdit) {
@@ -35,4 +35,4 @@ const UpdateEntityButton = ({ entity, className, ...props }: Props) => {
   );
 };
 
-export default UpdateEntityButton;
+export default EntityUpdateActionButton;
