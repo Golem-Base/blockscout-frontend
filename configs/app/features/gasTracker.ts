@@ -11,8 +11,7 @@ const units = ((): Array<GasUnit> => {
   const envValue = getEnvValue('NEXT_PUBLIC_GAS_TRACKER_UNITS');
   if (!envValue) {
     if (chainConfig.isTestnet) {
-      return [ 'usd', 'wei' ];
-      // return [ 'wei' ];
+      return [ 'wei' ];
     }
     return [ 'usd', 'wei' ];
   }
