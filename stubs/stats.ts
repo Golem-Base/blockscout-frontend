@@ -12,6 +12,7 @@ export const HOMEPAGE_STATS: HomeStats = {
       time: 12283,
       base_fee: 2.22222,
       priority_fee: 12.424242,
+      wei: 204132800,
     },
     fast: {
       fiat_price: '1.26',
@@ -19,6 +20,7 @@ export const HOMEPAGE_STATS: HomeStats = {
       time: 9321,
       base_fee: 4.44444,
       priority_fee: 22.242424,
+      wei: 254732800,
     },
     slow: {
       fiat_price: '0.97',
@@ -26,6 +28,7 @@ export const HOMEPAGE_STATS: HomeStats = {
       time: 24543,
       base_fee: 1.11111,
       priority_fee: 7.8909,
+      wei: 195532800,
     },
   },
   gas_price_updated_at: '2022-11-11T11:09:49.051171Z',
