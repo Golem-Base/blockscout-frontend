@@ -25,7 +25,7 @@ const EntityDeleteConfirmationModal = ({
   handleClose,
   handleClosePopover,
 }: Props) => {
-  const key = entityQuery.data!.key;
+  const key = entityQuery.data?.key;
 
   const router = useRouter();
   const { createClient } = useGolemBaseClient();
@@ -37,6 +37,7 @@ const EntityDeleteConfirmationModal = ({
   }, [ key, createClient ]);
 
   const onSuccess = React.useCallback(async() => {
+    if (!key) return;
     handleClose();
     handleClosePopover();
 
