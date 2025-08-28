@@ -13,8 +13,8 @@ import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
 import EntityForm from '../entity/EntityForm';
-import { useCanEditEntity } from '../entity/useCanEditEntity';
-import { mapFullEntityToFormFields } from '../entity/utils';
+import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
+import { mapFullEntityToFormFields } from '../entity/utils/utils';
 
 const EntityUpdate = () => {
   const router = useRouter();

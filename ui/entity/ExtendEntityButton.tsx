@@ -8,7 +8,7 @@ import { Button, type ButtonProps } from 'toolkit/chakra/button';
 import { Link } from 'toolkit/chakra/link';
 import IconSvg from 'ui/shared/IconSvg';
 
-import { useCanEditEntity } from './useCanEditEntity';
+import { useCanEditEntity } from './utils/useCanEditEntity';
 
 interface Props extends ButtonProps {
   entity?: Pick<FullEntity, 'key' | 'owner' | 'status'>;

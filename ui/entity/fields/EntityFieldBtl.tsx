@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { EntityFormFields } from '../types';
+import type { EntityFormFields } from '../utils/types';
 
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
 import { integerValidator } from 'toolkit/components/forms/validators/integer';

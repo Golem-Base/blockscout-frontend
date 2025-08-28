@@ -4,7 +4,7 @@ import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import type { EntityFormFields } from './types';
+import type { EntityFormFields } from './utils/types';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
@@ -13,7 +13,7 @@ import ContentLoader from 'ui/shared/ContentLoader';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
-import { mapEntityFormDataToGolemCreate } from './utils';
+import { mapEntityFormDataToGolemCreate } from './utils/utils';
 
 interface Props {
   onSubmit?: (data: GolemBaseCreate) => Promise<void>;
