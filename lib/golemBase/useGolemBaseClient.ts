@@ -1,10 +1,18 @@
-import type { GolemBaseClient } from 'golem-base-sdk';
-import { createClient as createGolemBaseClient, Tagged } from 'golem-base-sdk';
+import type { GolemBaseClient, GolemBaseROClient } from 'golem-base-sdk';
+import { createClient as createSdkClient, createROClient, Tagged } from 'golem-base-sdk';
 import { useCallback } from 'react';
-import { useAccount, useWalletClient } from 'wagmi';
+import { useWalletClient } from 'wagmi';
 
 import config from 'configs/app';
 import { httpToWs } from 'lib/httpToWs';
+
+const chainId = Number(config.chain.id);
+const rpcUrl = config.chain.rpcUrls[0];
+const wsUrl = httpToWs(rpcUrl);
+
+export function createPublicClient(): GolemBaseROClient {
+  return createROClient(chainId, rpcUrl, wsUrl);
+}
 
 export interface GolemBaseClientReturn {
   isConnected: boolean;
@@ -13,27 +21,18 @@ export interface GolemBaseClientReturn {
 }
 
 export function useGolemBaseClient(): GolemBaseClientReturn {
-  const { address } = useAccount();
   const { data: walletClient, isPending } = useWalletClient();
 
   const createClient = useCallback(async() => {
-    if (!address || !walletClient) {
+    if (!walletClient) {
       throw new Error('Wallet not connected');
     }
 
-    const httpRpcUrl = config.chain.rpcUrls[0];
-    const wsRpcUrl = httpToWs(httpRpcUrl);
-
-    return createGolemBaseClient(
-      Number(config.chain.id),
-      new Tagged('ethereumprovider', walletClient),
-      httpRpcUrl,
-      wsRpcUrl,
-    );
-  }, [ address, walletClient ]);
+    return createSdkClient(chainId, new Tagged('ethereumprovider', walletClient), rpcUrl, wsUrl);
+  }, [ walletClient ]);
 
   return {
-    isConnected: Boolean(address && walletClient),
+    isConnected: Boolean(walletClient),
     isLoading: isPending,
     createClient,
   };
