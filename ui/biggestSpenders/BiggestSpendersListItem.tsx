@@ -12,6 +12,7 @@ import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 type Props = {
   item: BiggestSpender;
+  isLoading?: boolean;
 };
 
 const BiggestSpendersListItem = ({
