@@ -11,9 +11,10 @@ const units = ((): Array<GasUnit> => {
   const envValue = getEnvValue('NEXT_PUBLIC_GAS_TRACKER_UNITS');
   if (!envValue) {
     if (chainConfig.isTestnet) {
-      return [ 'gwei' ];
+      return [ 'usd', 'wei' ];
+      // return [ 'wei' ];
     }
-    return [ 'usd', 'gwei' ];
+    return [ 'usd', 'wei' ];
   }
 
   const units = parseEnvJson<Array<GasUnit>>(envValue)?.filter((type) => GAS_UNITS.includes(type)) || [];
