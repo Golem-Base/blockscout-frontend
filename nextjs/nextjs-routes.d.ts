@@ -47,8 +47,8 @@ declare module "nextjs-routes" {
     | StaticRoute<"/csv-export">
     | StaticRoute<"/deposits">
     | StaticRoute<"/dispute-games">
-    | DynamicRoute<"/entity/[key]/update", { "key": string }>
     | DynamicRoute<"/entity/[key]/extend", { "key": string }>
+    | DynamicRoute<"/entity/[key]/update", { "key": string }>
     | DynamicRoute<"/entity/[key]", { "key": string }>
     | StaticRoute<"/entity/create">
     | DynamicRoute<"/epochs/[number]", { "number": string }>
@@ -79,6 +79,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/token-transfers">
     | StaticRoute<"/tokens">
     | DynamicRoute<"/tx/[hash]", { "hash": string }>
+    | DynamicRoute<"/tx/[hash]/operation/[idx]", { "hash": string; "idx": string }>
     | StaticRoute<"/txn-withdrawals">
     | StaticRoute<"/txs">
     | DynamicRoute<"/txs/kettle/[hash]", { "hash": string }>

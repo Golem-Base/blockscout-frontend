@@ -155,3 +155,22 @@ export const noData: golemBaseIndexer.FullEntity = {
   updated_at_block_number: '1234567',
   updated_at_timestamp: '2024-01-15T10:30:00',
 };
+
+export const withJsonData: golemBaseIndexer.FullEntity = {
+  ...base,
+  key: 'json123456789abcdef123456789abcdef123456789abcdef123456789abcdef12',
+  // {"name": "Test JSON", "version": 1.0, "enabled": true, "data": {"id": 123, "type": "test"}}
+  data: '0x7b226e616d65223a202254657374204a534f4e222c202276657273696f6e223a20312e302c2022656e61626c6564223a20' +
+      '747275652c202264617461223a207b226964223a203132332c202274797065223a202274657374227d7d',
+  data_size: '89',
+};
+
+export const withYamlData: golemBaseIndexer.FullEntity = {
+  ...base,
+  key: 'yaml123456789abcdef123456789abcdef123456789abcdef123456789abcdef12',
+  // name: Test YAML\nversion: 1.0\nenabled: true\ndata:\n  id: 456\n  type: test\n  settings:\n    - key1: value1\n    - key2: value2
+  data: '0x6e616d653a20546573742059414d4c0a76657273696f6e3a20312e300a656e61626c65643a20747275650a646174613a0a' +
+      '202069643a203435360a2020747970653a20746573740a202073657474696e67733a0a2020202d206b6579313a2076616c75' +
+      '65310a2020202d206b6579323a2076616c756532',
+  data_size: '156',
+};
