@@ -36,9 +36,11 @@ const Stats = () => {
       refetchOnMount: false,
       placeholderData: HOMEPAGE_STATS,
     },
-  });
+  }); 
 
   const isPlaceholderData = statsQuery.isPlaceholderData || apiQuery.isPlaceholderData;
+
+  console.log(apiQuery.data)
 
   React.useEffect(() => {
     if (!isPlaceholderData && !apiQuery.data?.gas_prices?.average) {
