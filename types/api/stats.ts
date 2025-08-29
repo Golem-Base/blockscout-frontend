@@ -38,4 +38,5 @@ export interface GasPriceInfo {
   time: number | null;
   base_fee: number | null;
   priority_fee: number | null;
+  wei: number | null;
 }
