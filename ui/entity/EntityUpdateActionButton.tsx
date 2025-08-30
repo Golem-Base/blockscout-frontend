@@ -14,7 +14,7 @@ interface Props extends ButtonProps {
   entity?: Pick<FullEntity, 'key' | 'owner' | 'status'>;
 }
 
-const ExtendEntityButton = ({ entity, className, ...props }: Props) => {
+const EntityUpdateActionButton = ({ entity, className, ...props }: Props) => {
   const canEdit = useCanEditEntity(entity);
 
   if (!entity || !canEdit) {
@@ -23,16 +23,16 @@ const ExtendEntityButton = ({ entity, className, ...props }: Props) => {
 
   return (
     <Link
-      href={ route({ pathname: '/entity/[key]/extend', query: { key: entity.key } }) }
+      href={ route({ pathname: '/entity/[key]/update', query: { key: entity.key } }) }
       className={ className }
       asChild
     >
       <Button { ...props }>
-        <IconSvg name="clock" boxSize={ 4 } mr={ 2 }/>
-        Extend
+        <IconSvg name="edit" boxSize={ 4 } mr={ 2 }/>
+        Update
       </Button>
     </Link>
   );
 };
 
-export default ExtendEntityButton;
+export default EntityUpdateActionButton;
