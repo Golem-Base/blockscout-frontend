@@ -236,14 +236,13 @@ const SearchResultsPageContent = () => {
         searchTerm={ searchTerm }
         handleSubmit={ handleSubmit }
         handleSearchTermChange={ handleSearchTermChange }
-        placeholder="Query entities"
       />
     );
   }, [ handleSearchTermChange, handleSubmit, searchTerm ]);
 
   const pageContent = !showContent ? <ContentLoader/> : (
     <>
-      <PageTitle title="Entity search results"/>
+      <PageTitle title="Search results"/>
       { bar }
       { content }
     </>
