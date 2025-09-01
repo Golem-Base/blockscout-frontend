@@ -24,6 +24,15 @@ const OperationPageContent = () => {
     },
   });
 
+  const txOpCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
+    queryParams: {
+      transaction_hash: txHash,
+    },
+    queryOptions: {
+      enabled: Boolean(txHash),
+    },
+  });
+
   throwOnAbsentParamError(txHash);
   throwOnAbsentParamError(opIndex);
   throwOnResourceLoadError(operationQuery);
@@ -37,7 +46,7 @@ const OperationPageContent = () => {
         title="Operation Details"
         secondRow={ titleSecondRow }
       />
-      <EntityOpDetails entityOpQuery={ operationQuery }/>
+      <EntityOpDetails entityOpQuery={ operationQuery } txOpCountQuery={ txOpCountQuery }/>
     </>
   );
 };
