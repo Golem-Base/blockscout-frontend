@@ -21,12 +21,12 @@ const PARSER_CONFIGS: Array<Options> = [
     plugins: [ prettierPluginBabel, prettierPluginEstree ],
   },
   {
-    parser: 'yaml',
-    plugins: [ prettierPluginYaml ],
-  },
-  {
     parser: 'markdown',
     plugins: [ prettierPluginMarkdown ],
+  },
+  {
+    parser: 'yaml',
+    plugins: [ prettierPluginYaml ],
   },
 ];
 
