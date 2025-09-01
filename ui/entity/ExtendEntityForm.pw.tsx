@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { enableGolemBaseConnection } from 'playwright/helpers/golemBaseConnection';
 import { expect, test } from 'playwright/lib';
 
 import ExtendEntityForm from './ExtendEntityForm';
 
-test('default view +@dark-mode +@mobile', async({ render, page }) => {
-  await enableGolemBaseConnection(page);
+test('default view +@dark-mode +@mobile', async({ render, mockGolemBase }) => {
+  await mockGolemBase({ isConnected: true });
 
   const component = await render(<ExtendEntityForm/>);
 

@@ -7,7 +7,6 @@ import * as profileMock from 'mocks/user/profile';
 import { contextWithAuth } from 'playwright/fixtures/auth';
 import { ENVS_MAP } from 'playwright/fixtures/mockEnvs';
 import { contextWithRewards } from 'playwright/fixtures/rewards';
-import { enableGolemBaseConnection } from 'playwright/helpers/golemBaseConnection';
 import { expect, test } from 'playwright/lib';
 import * as pwConfig from 'playwright/utils/config';
 
@@ -19,8 +18,8 @@ const authTest = test.extend<{ context: BrowserContext }>({
   context: contextWithRewards,
 });
 
-authTest('customization +@dark-mode', async({ render, page, mockEnvs, mockApiResponse }) => {
-  await enableGolemBaseConnection(page);
+authTest('customization +@dark-mode', async({ render, page, mockEnvs, mockApiResponse, mockGolemBase }) => {
+  await mockGolemBase({ isConnected: true });
 
   const IMAGE_URL = 'https://localhost:3000/my-image.png';
 
