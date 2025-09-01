@@ -242,7 +242,7 @@ const SearchResultsPageContent = () => {
 
   const pageContent = !showContent ? <ContentLoader/> : (
     <>
-      <PageTitle title="Search results"/>
+      <PageTitle title="Entity search results"/>
       { bar }
       { content }
     </>

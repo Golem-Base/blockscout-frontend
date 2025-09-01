@@ -1,5 +1,4 @@
 import { Box, chakra } from '@chakra-ui/react';
-import { noop } from 'es-toolkit';
 import { useRouter } from 'next/router';
 import type { FormEvent } from 'react';
 import React from 'react';
@@ -12,6 +11,7 @@ import SearchResultsInput from 'ui/searchResults/SearchResultsInput';
 import SearchResultTableItem from 'ui/searchResults/SearchResultTableItem';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
+import EmptySearchResult from 'ui/shared/EmptySearchResult';
 import * as Layout from 'ui/shared/layout/components';
 import PageTitle from 'ui/shared/Page/PageTitle';
 import HeaderAlert from 'ui/snippets/header/HeaderAlert';
@@ -23,17 +23,19 @@ import useQueryEntities from '../entity/utils/useQueryEntities';
 const SearchResultsEntityPageContent = () => {
   const router = useRouter();
   const searchTerm = getQueryParamString(router.query.q)?.trim() || '';
+  const [ inputValue, setInputValue ] = React.useState(searchTerm);
 
-  const { data, isError, isLoading } = useQueryEntities(searchTerm, {
-    enabled: Boolean(searchTerm),
-  });
+  const enabled = Boolean(searchTerm);
+
+  const { data, isError, isLoading } = useQueryEntities(searchTerm, { enabled });
 
   const handleSubmit = React.useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (searchTerm) {
-      router.push({ pathname: '/entity/search-results', query: { q: searchTerm } }, undefined, { shallow: true });
+    const value = inputValue.trim();
+    if (value) {
+      router.push({ pathname: '/entity/search-results', query: { q: value } }, undefined, { shallow: true });
     }
-  }, [ searchTerm, router ]);
+  }, [ inputValue, router ]);
 
   const displayedItems = React.useMemo(() => {
     if (!data) return [];
@@ -49,8 +51,12 @@ const SearchResultsEntityPageContent = () => {
       return <DataFetchAlert/>;
     }
 
+    if (!enabled) {
+      return <EmptySearchResult text="Enter a search term to find entities"/>;
+    }
+
     if (!displayedItems.length) {
-      return null;
+      return <EmptySearchResult text="No entities found for your search"/>;
     }
 
     return (
@@ -92,7 +98,7 @@ const SearchResultsEntityPageContent = () => {
   })();
 
   const bar = (() => {
-    if (isError) {
+    if (isError || !enabled) {
       return null;
     }
 
@@ -104,8 +110,8 @@ const SearchResultsEntityPageContent = () => {
       <Box mb={ 6 } lineHeight="32px">
         <span>Found </span>
         <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span>
-        <span> matching entit{ resultsCount === 1 ? 'y' : 'ies' } for </span>"
-        <chakra.span fontWeight={ 700 }>{ searchTerm }</chakra.span>"
+        <span> matching entit{ resultsCount === 1 ? 'y' : 'ies' } for </span>
+        <chakra.span fontWeight={ 700 }>{ searchTerm }</chakra.span>
       </Box>
     );
   })();
@@ -113,12 +119,12 @@ const SearchResultsEntityPageContent = () => {
   const renderSearchBar = React.useCallback(() => {
     return (
       <SearchResultsInput
-        searchTerm={ searchTerm }
+        searchTerm={ inputValue }
         handleSubmit={ handleSubmit }
-        handleSearchTermChange={ noop }
+        handleSearchTermChange={ setInputValue }
       />
     );
-  }, [ handleSubmit, searchTerm ]);
+  }, [ handleSubmit, setInputValue, inputValue ]);
 
   const pageContent = (
     <>
