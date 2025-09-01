@@ -8,12 +8,12 @@ import PageNextJs from 'nextjs/PageNextJs';
 
 import LayoutSearchResults from 'ui/shared/layout/LayoutSearchResults';
 
-const SearchResults = dynamic(() => import('ui/pages/SearchResults'), { ssr: false });
+const EntitySearchResults = dynamic(() => import('ui/pages/SearchResultsEntity'), { ssr: false });
 
 const Page: NextPageWithLayout<Props> = (props: Props) => {
   return (
     <PageNextJs pathname="/entity/search-results" query={ props.query }>
-      <SearchResults/>
+      <EntitySearchResults/>
     </PageNextJs>
   );
 };
