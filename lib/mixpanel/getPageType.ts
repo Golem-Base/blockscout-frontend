@@ -27,7 +27,6 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/api-docs': 'REST API',
   '/graphiql': 'GraphQL',
   '/search-results': 'Search results',
-  '/entity/search-results': 'Entity search results',
   '/auth/profile': 'Profile',
   '/account/merits': 'Merits',
   '/account/watchlist': 'Watchlist',
@@ -75,6 +74,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/entity/create': 'Create entity',
   '/entity/[key]/update': 'Update entity',
   '/entity/[key]/extend': 'Extend entity',
+  '/entity/search': 'Entity search results',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',

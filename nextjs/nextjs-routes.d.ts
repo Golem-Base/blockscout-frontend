@@ -51,7 +51,7 @@ declare module "nextjs-routes" {
     | DynamicRoute<"/entity/[key]/update", { "key": string }>
     | DynamicRoute<"/entity/[key]", { "key": string }>
     | StaticRoute<"/entity/create">
-    | StaticRoute<"/entity/search-results">
+    | StaticRoute<"/entity/search">
     | DynamicRoute<"/epochs/[number]", { "number": string }>
     | StaticRoute<"/epochs">
     | StaticRoute<"/gas-tracker">
