@@ -236,6 +236,7 @@ const SearchResultsPageContent = () => {
         searchTerm={ searchTerm }
         handleSubmit={ handleSubmit }
         handleSearchTermChange={ handleSearchTermChange }
+        placeholder="Query entities"
       />
     );
   }, [ handleSearchTermChange, handleSubmit, searchTerm ]);

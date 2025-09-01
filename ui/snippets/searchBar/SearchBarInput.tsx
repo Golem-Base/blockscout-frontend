@@ -21,10 +21,11 @@ interface Props extends Omit<HTMLChakraProps<'form'>, 'onChange'> {
   isHomepage?: boolean;
   isSuggestOpen?: boolean;
   value: string;
+  placeholder?: string;
 }
 
 const SearchBarInput = (
-  { onChange, onSubmit, isHomepage, isSuggestOpen, onFocus, onBlur, onHide, onClear, value, ...rest }: Props,
+  { onChange, onSubmit, isHomepage, isSuggestOpen, onFocus, onBlur, onHide, onClear, value, placeholder, ...rest }: Props,
   ref: React.ForwardedRef<HTMLFormElement>,
 ) => {
   const innerRef = React.useRef<HTMLFormElement>(null);
@@ -157,7 +158,7 @@ const SearchBarInput = (
       >
         <Input
           size="md"
-          placeholder={ isMobile ? 'Search by address / ... ' : 'Search by address / entity key / txn hash / block / token... ' }
+          placeholder={ placeholder ?? (isMobile ? 'Search by address / ... ' : 'Search by address / entity key / txn hash / block / token... ') }
           value={ value }
           onChange={ handleChange }
           onFocus={ onFocus }
