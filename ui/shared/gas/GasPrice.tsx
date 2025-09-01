@@ -9,9 +9,10 @@ import { useMultichainContext } from 'lib/contexts/multichain';
 
 import formatGasValue from './formatGasValue';
 
-const UNITS_TO_API_FIELD_MAP: Record<GasUnit, 'price' | 'fiat_price'> = {
+const UNITS_TO_API_FIELD_MAP: Record<GasUnit, 'price' | 'fiat_price' | 'wei'> = {
   gwei: 'price',
   usd: 'fiat_price',
+  wei: 'wei',
 };
 
 interface Props {
