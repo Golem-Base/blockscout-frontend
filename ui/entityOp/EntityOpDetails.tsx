@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import type { EntityOpQuery } from './types';
+import type { EntityOpQuery, TxOpCountQuery } from './types';
 
 import config from 'configs/app';
 import { currencyUnits } from 'lib/units';
@@ -14,15 +14,19 @@ import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp'
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
+import TxEntity from 'ui/shared/entities/tx/TxEntity';
 
 import OperationSpecificData from './OperationSpecificData';
 
 interface Props {
   entityOpQuery: EntityOpQuery;
+  txOpCountQuery: TxOpCountQuery;
 }
 
-const EntityOpDetails = ({ entityOpQuery }: Props) => {
+const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityOpQuery;
+  const { data: counts, isPlaceholderData: isCountLoading } = txOpCountQuery;
+  const txOpCount = !isCountLoading && counts ? counts.create_count + counts.delete_count + counts.extend_count + counts.update_count : 0;
 
   if (!data) {
     return null;
@@ -57,6 +61,16 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
         </Skeleton>
       </ItemValue>
 
+      <ItemLabel hint="Transaction">Transaction</ItemLabel>
+      <ItemValue>
+        <Flex flexWrap="nowrap" alignItems="center" overflow="hidden">
+          <TxEntity
+            hash={ data.transaction_hash }
+            isLoading={ isLoading }
+          />
+        </Flex>
+      </ItemValue>
+
       <ItemLabel hint="Timestamp when this operation happened">Timestamp</ItemLabel>
       <ItemValue>
         <DetailedInfoTimestamp
@@ -67,8 +81,8 @@ const EntityOpDetails = ({ entityOpQuery }: Props) => {
 
       <ItemLabel hint="Operation index within the transaction">Operation Index</ItemLabel>
       <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <Text>{ data.op_index }</Text>
+        <Skeleton loading={ isLoading || isCountLoading }>
+          <Text>{ data.op_index } ({ txOpCount } operations in transaction) </Text>
         </Skeleton>
       </ItemValue>
 
