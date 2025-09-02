@@ -8,6 +8,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/internal-txs': 'Root page',
   '/txs/kettle/[hash]': 'Regular page',
   '/tx/[hash]': 'Regular page',
+  '/tx/[hash]/operation/[idx]': 'Regular page',
   '/blocks': 'Root page',
   '/block/[height_or_hash]': 'Regular page',
   '/block/countdown': 'Regular page',
@@ -61,6 +62,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/entity/[key]': 'Regular page',
   '/entity/create': 'Regular page',
   '/entity/[key]/update': 'Regular page',
+  '/entity/[key]/extend': 'Regular page',
   '/token-transfers': 'Root page',
   '/advanced-filter': 'Root page',
   '/pools': 'Root page',
@@ -72,6 +74,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/chain/[chain-slug]/tx/[hash]': 'Regular page',
   '/operations': 'Root page',
   '/operation/[id]': 'Regular page',
+  '/leaderboards/spenders': 'Regular page',
 
   // service routes, added only to make typescript happy
   '/login': 'Regular page',

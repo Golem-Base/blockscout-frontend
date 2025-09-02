@@ -20,6 +20,10 @@ export type HomeStats = {
   last_output_root_size?: string | null;
   secondary_coin_price?: string | null;
   secondary_coin_image?: string | null;
+  golembase_storage_limit: number | null;
+  golembase_used_slots: number | null;
+  golembase_active_entities_size: number | null;
+  golembase_active_entities_count: number | null;
   celo?: {
     epoch_number: number;
   };
@@ -38,4 +42,5 @@ export interface GasPriceInfo {
   time: number | null;
   base_fee: number | null;
   priority_fee: number | null;
+  wei: number | null;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as entityMock from 'mocks/entity';
+import { baseEntityOperation } from 'mocks/operations/entityOps';
 import { ENVS_MAP } from 'playwright/fixtures/mockEnvs';
 import { expect, test } from 'playwright/lib';
 
@@ -176,6 +177,77 @@ test.describe('Entity page', () => {
     });
 
     const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+    await expect(component).toHaveScreenshot();
+  });
+
+  test('active entity - entity operations tab', async({ render, mockApiResponse }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityKey, tab: 'entity_ops' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.base, {
+      pathParams: { key: entityKey },
+    });
+
+    const mockOperationsResponse = {
+      items: [ baseEntityOperation ],
+      next_page_params: null,
+    };
+
+    await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
+      queryParams: { operation: 'CREATE', page_size: '50', entity_key: entityKey },
+    });
+
+    await mockApiResponse('golemBaseIndexer:operationsCount', {
+      create_count: '1',
+      update_count: '2',
+      extend_count: '3',
+      delete_count: '0',
+    }, {
+      queryParams: { entity_key: entityKey },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+    await expect(component).toHaveScreenshot();
+  });
+
+  test('entity with JSON data +@dark-mode', async({ render, mockApiResponse, page }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityMock.withJsonData.key, tab: 'data' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.withJsonData, {
+      pathParams: { key: entityMock.withJsonData.key },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+
+    await component.getByRole('combobox').click();
+    await page.getByRole('option', { name: 'Rich' }).click();
+
+    await expect(component).toHaveScreenshot();
+  });
+
+  test('entity with YAML data +@dark-mode', async({ render, mockApiResponse, page }) => {
+    const hooksConfigWithTab = {
+      router: {
+        query: { key: entityMock.withYamlData.key, tab: 'data' },
+      },
+    };
+
+    await mockApiResponse('golemBaseIndexer:entity', entityMock.withYamlData, {
+      pathParams: { key: entityMock.withYamlData.key },
+    });
+
+    const component = await render(<Entity/>, { hooksConfig: hooksConfigWithTab });
+
+    await component.getByRole('combobox').click();
+    await page.getByRole('option', { name: 'Rich' }).click();
+
     await expect(component).toHaveScreenshot();
   });
 });

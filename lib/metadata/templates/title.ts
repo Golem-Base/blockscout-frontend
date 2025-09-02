@@ -8,6 +8,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/internal-txs': '%network_name% internal transactions - %network_name% explorer',
   '/txs/kettle/[hash]': '%network_name% kettle %hash% transactions',
   '/tx/[hash]': '%network_name% transaction %hash%',
+  '/tx/[hash]/operation/[idx]': '%network_name% operation %hash% - %idx',
   '/blocks': '%network_name% blocks',
   '/block/[height_or_hash]': '%network_name% block %height_or_hash%',
   '/block/countdown': '%network_name% block countdown index',
@@ -72,6 +73,8 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/[key]': '%network_name% entity %key%',
   '/entity/create': '%network_name% create entity',
   '/entity/[key]/update': '%network_name% update entity %key%',
+  '/entity/[key]/extend': '%network_name% extend entity %key%',
+  '/leaderboards/spenders': '%network_name% biggest spenders',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',

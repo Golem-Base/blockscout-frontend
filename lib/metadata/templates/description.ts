@@ -11,6 +11,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/internal-txs': DEFAULT_TEMPLATE,
   '/txs/kettle/[hash]': DEFAULT_TEMPLATE,
   '/tx/[hash]': 'View transaction %hash% on %network_title%',
+  '/tx/[hash]/operation/[idx]': 'View operation %hash% - %idx on %network_title%',
   '/blocks': DEFAULT_TEMPLATE,
   '/block/[height_or_hash]': 'View the transactions, token transfers, and uncles for block %height_or_hash%',
   '/block/countdown': DEFAULT_TEMPLATE,
@@ -75,6 +76,8 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/[key]': DEFAULT_TEMPLATE,
   '/entity/create': 'Create a new entity on %network_title% with file upload and annotations.',
   '/entity/[key]/update': DEFAULT_TEMPLATE,
+  '/entity/[key]/extend': DEFAULT_TEMPLATE,
+  '/leaderboards/spenders': DEFAULT_TEMPLATE,
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,

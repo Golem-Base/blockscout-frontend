@@ -6,6 +6,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/internal-txs': 'Internal transactions',
   '/txs/kettle/[hash]': 'Kettle transactions',
   '/tx/[hash]': 'Transaction details',
+  '/tx/[hash]/operation/[idx]': 'Operation details',
   '/blocks': 'Blocks',
   '/block/[height_or_hash]': 'Block details',
   '/block/countdown': 'Block countdown search',
@@ -72,6 +73,8 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/entity/[key]': 'Entity details',
   '/entity/create': 'Create entity',
   '/entity/[key]/update': 'Update entity',
+  '/entity/[key]/extend': 'Extend entity',
+  '/leaderboards/spenders': 'Biggest Spenders',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',

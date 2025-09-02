@@ -5,6 +5,7 @@ import React from 'react';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 
 import CopyToClipboard from './CopyToClipboard';
+import SyntaxHighlighter from './SyntaxHighlighter';
 
 interface Props {
   data: React.ReactNode;
@@ -17,6 +18,7 @@ interface Props {
   showCopy?: boolean;
   isLoading?: boolean;
   contentProps?: HTMLChakraProps<'div'>;
+  highlight?: boolean;
 }
 
 const RawDataSnippet = ({
@@ -30,6 +32,7 @@ const RawDataSnippet = ({
   showCopy = true,
   isLoading,
   contentProps,
+  highlight = false,
 }: Props) => {
   // https://bugs.chromium.org/p/chromium/issues/detail?id=1362573
   // there is a problem with scrollbar color in chromium
@@ -37,6 +40,8 @@ const RawDataSnippet = ({
   // and whiteAlpha.50 is replaced with #1a1b1b
   // const bgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
   const bgColor = { _light: '#f5f5f6', _dark: '#1a1b1b' };
+  const renderedData = (highlight && typeof data === 'string') ? <SyntaxHighlighter data={ data }/> : data;
+
   return (
     <Box className={ className } as="section" title={ title }>
       { (title || rightSlot || showCopy) && (
@@ -61,7 +66,7 @@ const RawDataSnippet = ({
         loading={ isLoading }
         { ...contentProps }
       >
-        { data }
+        { renderedData }
       </Skeleton>
     </Box>
   );

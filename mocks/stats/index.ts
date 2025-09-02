@@ -14,6 +14,7 @@ export const base: HomeStats = {
       time: 12030.25,
       base_fee: 2.22222,
       priority_fee: 12.424242,
+      wei: 237532800,
     },
     fast: {
       fiat_price: '1.74',
@@ -21,6 +22,7 @@ export const base: HomeStats = {
       time: 8763.25,
       base_fee: 4.44444,
       priority_fee: 22.242424,
+      wei: 297232800,
     },
     slow: {
       fiat_price: '1.35',
@@ -28,6 +30,7 @@ export const base: HomeStats = {
       time: 20100.25,
       base_fee: 1.11111,
       priority_fee: 7.8909,
+      wei: 230432800,
     },
   },
   gas_price_updated_at: '2022-11-11T11:09:49.051171Z',
@@ -42,6 +45,10 @@ export const base: HomeStats = {
   total_transactions: '82258122',
   transactions_today: '26815',
   tvl: '1767425.102766552',
+  golembase_storage_limit: 1099511627776,
+  golembase_used_slots: 1000,
+  golembase_active_entities_size: 10,
+  golembase_active_entities_count: 3,
 };
 
 export const withBtcLocked: HomeStats = {
