@@ -20,6 +20,8 @@ const EntityData = ({ entityQuery }: Props) => {
     return null;
   }
 
+  console.log({ data });
+
   const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
 
   return (
@@ -72,6 +74,18 @@ const EntityData = ({ entityQuery }: Props) => {
           </ItemValue>
         </>
       ) }
+
+      <>
+        <ItemDivider/>
+        <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
+        <ItemValue>
+          <Skeleton loading={ isLoading }>
+            <Flex flexWrap="wrap" gap={ 2 }>
+              <Text fontWeight="normal" fontSize="xs">5 other entities match these annotations</Text>
+            </Flex>
+          </Skeleton>
+        </ItemValue>
+      </>
     </Container>
   );
 };

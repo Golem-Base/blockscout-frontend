@@ -19,11 +19,11 @@ export function hasGolemBasePagination<T>(response: unknown): response is T & { 
  * @returns The same response but with pagination converted to next_page_params format
  */
 export function convertGolemBasePagination<T extends { pagination?: Pagination }>(response: T): PaginatedResponse<T> {
-  const { pagination, ...rest } = response;
+  const { pagination } = response;
 
   if (!pagination) {
     return {
-      ...rest,
+      ...response,
       next_page_params: null,
     };
   }
@@ -34,7 +34,7 @@ export function convertGolemBasePagination<T extends { pagination?: Pagination }
   if (currentPage < totalPages) {
     const nextPage = currentPage + 1;
     return {
-      ...rest,
+      ...response,
       next_page_params: {
         page: nextPage,
         page_size: Number(pagination.page_size),
@@ -43,7 +43,7 @@ export function convertGolemBasePagination<T extends { pagination?: Pagination }
   }
 
   return {
-    ...rest,
+    ...response,
     next_page_params: null,
   };
 }

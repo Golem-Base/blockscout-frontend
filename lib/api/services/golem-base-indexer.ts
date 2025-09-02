@@ -1,6 +1,6 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
-import type { GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters } from 'types/api/golemBaseIndexer';
+import type { GolemBaseIndexerEntitiesFilters, GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters } from 'types/api/golemBaseIndexer';
 
 import type { PaginatedResponse } from './paginationConverter';
 
@@ -11,6 +11,24 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   },
   entities: {
     path: '/api/v1/entities',
+    paginated: true,
+    pathParams: [
+      'status' as const,
+      'string_annotation_key' as const,
+      'string_annotation_value' as const,
+      'numeric_annotation_key' as const,
+      'numeric_annotation_value' as const,
+    ],
+  },
+  entitiesCount: {
+    path: '/api/v1/entities/count',
+    pathParams: [
+      'status' as const,
+      'string_annotation_key' as const,
+      'string_annotation_value' as const,
+      'numeric_annotation_key' as const,
+      'numeric_annotation_value' as const,
+    ],
   },
   operation: {
     path: '/api/v1/operation/:tx_hash/:op_index',
@@ -53,5 +71,6 @@ never;
 export type GolemBaseIndexerApiPaginationFilters<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
 R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
+R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 never;
 /* eslint-enable @stylistic/indent */
