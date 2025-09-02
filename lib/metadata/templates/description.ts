@@ -78,6 +78,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/search': 'Search for entities on %network_title% with advanced queries.',
   '/entity/[key]/update': DEFAULT_TEMPLATE,
   '/entity/[key]/extend': DEFAULT_TEMPLATE,
+  '/leaderboards/spenders': DEFAULT_TEMPLATE,
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,

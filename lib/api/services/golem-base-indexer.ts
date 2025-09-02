@@ -1,6 +1,6 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
-import type { GolemBaseIndexerOpsFilters } from 'types/api/golemBaseIndexer';
+import type { GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters } from 'types/api/golemBaseIndexer';
 
 import type { PaginatedResponse } from './paginationConverter';
 
@@ -25,6 +25,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/operations/count',
     filterFields: [ 'operation' as const, 'block_hash' as const, 'transaction_hash' as const, 'sender' as const, 'entity_key' as const ],
   },
+  biggestSpenders: {
+    path: '/api/v1/leaderboard/biggest-spenders',
+    paginated: true,
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -36,11 +40,13 @@ R extends 'golemBaseIndexer:entities' ? golemBaseIndexer.ListEntitiesResponse :
 R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
+R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
 never;
 /* eslint-enable @stylistic/indent */
 
 /* eslint-disable @stylistic/indent */
 export type GolemBaseIndexerApiPaginationFilters<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
+R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
 never;
 /* eslint-enable @stylistic/indent */
