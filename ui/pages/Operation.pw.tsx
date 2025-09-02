@@ -29,6 +29,11 @@ test.describe('Operation page', () => {
     await mockApiResponse('golemBaseIndexer:operation', entityMock.createEntityHistoryEntry, {
       pathParams,
     });
+    await mockApiResponse('golemBaseIndexer:operationsCount', entityMock.operationCounts, {
+      queryParams: {
+        transaction_hash: pathParams.tx_hash,
+      },
+    });
 
     const component = await render(<Operation/>, { hooksConfig });
     await expect(component).toHaveScreenshot();
@@ -36,6 +41,11 @@ test.describe('Operation page', () => {
   test('update operation', async({ render, mockApiResponse }) => {
     await mockApiResponse('golemBaseIndexer:operation', entityMock.updateEntityHistoryEntry, {
       pathParams,
+    });
+    await mockApiResponse('golemBaseIndexer:operationsCount', entityMock.operationCounts, {
+      queryParams: {
+        transaction_hash: pathParams.tx_hash,
+      },
     });
 
     const component = await render(<Operation/>, { hooksConfig });
@@ -45,6 +55,11 @@ test.describe('Operation page', () => {
     await mockApiResponse('golemBaseIndexer:operation', entityMock.extendEntityHistoryEntry, {
       pathParams,
     });
+    await mockApiResponse('golemBaseIndexer:operationsCount', entityMock.operationCounts, {
+      queryParams: {
+        transaction_hash: pathParams.tx_hash,
+      },
+    });
 
     const component = await render(<Operation/>, { hooksConfig });
     await expect(component).toHaveScreenshot();
@@ -52,6 +67,11 @@ test.describe('Operation page', () => {
   test('delete operation', async({ render, mockApiResponse }) => {
     await mockApiResponse('golemBaseIndexer:operation', entityMock.deleteEntityHistoryEntry, {
       pathParams,
+    });
+    await mockApiResponse('golemBaseIndexer:operationsCount', entityMock.operationCounts, {
+      queryParams: {
+        transaction_hash: pathParams.tx_hash,
+      },
     });
 
     const component = await render(<Operation/>, { hooksConfig });

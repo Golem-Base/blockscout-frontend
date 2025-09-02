@@ -1,4 +1,4 @@
-import type { Operation, EntityHistoryEntry } from '@golembase/l3-indexer-types';
+import type { Operation, EntityHistoryEntry, CountOperationsResponse } from '@golembase/l3-indexer-types';
 import { OperationType, EntityStatus } from '@golembase/l3-indexer-types';
 
 import { ADDRESS_HASH } from 'stubs/addressParams';
@@ -48,3 +48,9 @@ export const createEntityHistoryEntry = createEntityHistoryEntryMock(OperationTy
 export const updateEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.UPDATE);
 export const extendEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.EXTEND);
 export const deleteEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.DELETE);
+export const operationCounts: CountOperationsResponse = {
+  create_count: '1',
+  update_count: '2',
+  delete_count: '3',
+  extend_count: '4',
+};
