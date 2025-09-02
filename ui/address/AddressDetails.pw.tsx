@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as addressMock from 'mocks/address/address';
 import * as countersMock from 'mocks/address/counters';
+import * as statsMock from 'mocks/address/stats';
 import * as tokensMock from 'mocks/address/tokens';
 import * as widgetsMock from 'mocks/address/widgets';
 import type { TestFnArgs } from 'playwright/lib';
@@ -79,6 +80,7 @@ test.describe('mobile', () => {
 
   test('validator', async({ render, page, mockApiResponse }) => {
     await mockApiResponse('general:address', addressMock.validator, { pathParams: { hash: ADDRESS_HASH } });
+    await mockApiResponse('golemBaseIndexer:addressStats', statsMock.statsResponse, { pathParams: { address: ADDRESS_HASH } });
 
     const component = await render(
       <AddressDetails
@@ -155,6 +157,7 @@ test.fixme('token', async({ render, mockApiResponse, injectMetaMaskProvider, pag
 
 test('validator', async({ render, mockApiResponse, page }) => {
   await mockApiResponse('general:address', addressMock.validator, { pathParams: { hash: ADDRESS_HASH } });
+  await mockApiResponse('golemBaseIndexer:addressStats', statsMock.statsResponse, { pathParams: { address: ADDRESS_HASH } });
 
   const component = await render(
     <AddressDetails

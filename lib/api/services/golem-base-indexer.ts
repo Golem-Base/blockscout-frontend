@@ -29,6 +29,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/biggest-spenders',
     paginated: true,
   },
+  addressStats: {
+    path: '/api/v1/address/:address/stats',
+    pathParams: [ 'address' as const ],
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -41,6 +45,7 @@ R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
+R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
