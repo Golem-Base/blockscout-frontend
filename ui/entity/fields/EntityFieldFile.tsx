@@ -3,7 +3,7 @@ import React from 'react';
 import type { ControllerRenderProps, FieldPathValue, ValidateResult } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import type { EntityFormFields } from '../types';
+import type { EntityFormFields } from '../utils/types';
 
 import { Button } from 'toolkit/chakra/button';
 import { FormFieldError } from 'toolkit/components/forms/components/FormFieldError';
@@ -13,7 +13,7 @@ import { FileSnippet } from 'toolkit/components/forms/inputs/file/FileSnippet';
 import { Kb } from 'toolkit/utils/consts';
 
 import EntityFormRow from '../EntityFormRow';
-import { MAX_SIZE } from '../utils';
+import { MAX_SIZE } from '../utils/utils';
 
 interface Props {
   required?: boolean;

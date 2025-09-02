@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import type { EntityQuery } from './types';
+import type { EntityQuery } from './utils/types';
 
 import formatDataSize from 'lib/formatDataSize';
 import { Skeleton } from 'toolkit/chakra/skeleton';

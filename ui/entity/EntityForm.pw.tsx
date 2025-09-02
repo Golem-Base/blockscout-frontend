@@ -1,20 +1,19 @@
 import React from 'react';
 
-import { enableGolemBaseConnection } from 'playwright/helpers/golemBaseConnection';
 import { expect, test } from 'playwright/lib';
 
 import EntityForm from './EntityForm';
 
-test('default view +@dark-mode +@mobile', async({ render, page }) => {
-  await enableGolemBaseConnection(page);
+test('default view +@dark-mode +@mobile', async({ render, mockGolemBase }) => {
+  await mockGolemBase({ isConnected: true });
 
   const component = await render(<EntityForm/>);
 
   await expect(component).toHaveScreenshot();
 });
 
-test('text input view with all fields filled', async({ render, page }) => {
-  await enableGolemBaseConnection(page);
+test('text input view with all fields filled', async({ render, page, mockGolemBase }) => {
+  await mockGolemBase({ isConnected: true });
 
   const initialValues = {
     dataText: 'This is comprehensive test entity data',
@@ -34,8 +33,8 @@ test('text input view with all fields filled', async({ render, page }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('file input view with all fields filled', async({ render, page }) => {
-  await enableGolemBaseConnection(page);
+test('file input view with all fields filled', async({ render, mockGolemBase }) => {
+  await mockGolemBase({ isConnected: true });
 
   const initialValues = {
     btl: '25',

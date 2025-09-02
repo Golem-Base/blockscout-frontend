@@ -1,15 +1,11 @@
 import React from 'react';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
-import { Button, type ButtonProps } from 'toolkit/chakra/button';
-import { Link } from 'toolkit/chakra/link';
+import type { ButtonLinkProps } from 'ui/shared/ButtonLink';
+import ButtonLink from 'ui/shared/ButtonLink';
 import IconSvg from 'ui/shared/IconSvg';
 
-interface Props extends ButtonProps {
-  label?: string;
-}
-
-const CreateEntityLink = ({ label, variant = 'header', className, ...props }: Props) => {
+const CreateEntityLink = ({ children, ...props }: Omit<ButtonLinkProps, 'href'>) => {
   const { isConnected } = useGolemBaseClient();
 
   if (!isConnected) {
@@ -17,16 +13,10 @@ const CreateEntityLink = ({ label, variant = 'header', className, ...props }: Pr
   }
 
   return (
-    <Link
-      href="/entity/create"
-      className={ className }
-      asChild
-    >
-      <Button px={ 2.5 } gapX={ 2 } variant={ variant } { ...props }>
-        <IconSvg name="docs" boxSize={ 5 }/>
-        { label }
-      </Button>
-    </Link>
+    <ButtonLink href="/entity/create" { ...props } >
+      <IconSvg name="docs" boxSize={ 5 }/>
+      { children }
+    </ButtonLink>
   );
 };
 

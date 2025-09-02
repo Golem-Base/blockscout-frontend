@@ -63,6 +63,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/entity/create': 'Regular page',
   '/entity/[key]/update': 'Regular page',
   '/entity/[key]/extend': 'Regular page',
+  '/entity/search': 'Regular page',
   '/token-transfers': 'Root page',
   '/advanced-filter': 'Root page',
   '/pools': 'Root page',

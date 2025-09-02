@@ -13,7 +13,7 @@ import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ExtendEntityForm from '../entity/ExtendEntityForm';
-import { useCanEditEntity } from '../entity/useCanEditEntity';
+import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
 
 const EntityExtend = () => {
   const router = useRouter();

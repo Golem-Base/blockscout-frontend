@@ -4,14 +4,14 @@ import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import type { ExtendEntityFormFields } from './types';
+import type { ExtendEntityFormFields } from './utils/types';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
 import ContentLoader from 'ui/shared/ContentLoader';
 
 import EntityFieldBtl from './fields/EntityFieldBtl';
-import { mapExtendEntityFormDataToGolemExtend } from './utils';
+import { mapExtendEntityFormDataToGolemExtend } from './utils/utils';
 
 interface Props {
   onSubmit?: (data: Omit<GolemBaseExtend, 'entityKey'>) => Promise<void>;

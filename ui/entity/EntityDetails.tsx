@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { formatUnits } from 'viem';
 
-import type { EntityQuery } from './types';
+import type { EntityQuery } from './utils/types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';

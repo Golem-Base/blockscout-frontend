@@ -1,13 +1,13 @@
 import React from 'react';
 import type { ValidateResult } from 'react-hook-form';
 
-import type { EntityFormFields } from '../types';
+import type { EntityFormFields } from '../utils/types';
 
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
 import { Kb } from 'toolkit/utils/consts';
 
 import EntityFormRow from '../EntityFormRow';
-import { MAX_SIZE } from '../utils';
+import { MAX_SIZE } from '../utils/utils';
 
 interface Props {
   required?: boolean;

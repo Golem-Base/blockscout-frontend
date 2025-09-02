@@ -18,7 +18,7 @@ import IconSvg from 'ui/shared/IconSvg';
 import EntityDeleteActionButton from './EntityDeleteActionButton';
 import EntityExtendActionButton from './EntityExtendActionButton';
 import EntityUpdateActionButton from './EntityUpdateActionButton';
-import { useCanEditEntity } from './useCanEditEntity';
+import { useCanEditEntity } from './utils/useCanEditEntity';
 
 interface Props {
   className?: string;

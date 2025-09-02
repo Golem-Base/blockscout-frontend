@@ -14,9 +14,10 @@ type Props = {
   searchTerm: string;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleSearchTermChange: (value: string) => void;
+  placeholder?: string;
 };
 
-const SearchResultsInput = ({ searchTerm, handleSubmit, handleSearchTermChange }: Props) => {
+const SearchResultsInput = ({ searchTerm, handleSubmit, handleSearchTermChange, placeholder }: Props) => {
   const { open, onClose, onOpen } = useDisclosure();
   const inputRef = React.useRef<HTMLFormElement>(null);
   const menuRef = React.useRef<HTMLDivElement>(null);
@@ -95,6 +96,7 @@ const SearchResultsInput = ({ searchTerm, handleSubmit, handleSearchTermChange }
             onClear={ handleClear }
             value={ searchTerm }
             isSuggestOpen={ isSuggestOpen }
+            placeholder={ placeholder }
           />
         </PopoverTrigger>
         <PopoverContent w={ `${ menuWidth.current }px` } maxH={{ base: '300px', lg: '500px' }} overflowY="scroll" ref={ menuRef }>
