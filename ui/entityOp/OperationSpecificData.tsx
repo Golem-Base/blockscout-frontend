@@ -67,9 +67,9 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
 
           { withTimestamps && (
             <>
-              <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
+              <ItemLabel hint="Date when this entity expires">Expiration Timestamp</ItemLabel>
               <ItemValue>
-                <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
+                <DetailedInfoTimestamp timestamp={ data.expires_at_timestamp } isLoading={ isLoading }/>
               </ItemValue>
             </>
           ) }

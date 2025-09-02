@@ -56,6 +56,7 @@ test('with zero values', async({ render, page }) => {
     time: 0,
     base_fee: 0,
     priority_fee: 0,
+    wei: 0,
   };
 
   await render(
@@ -75,6 +76,7 @@ test('with small values', async({ render, page }) => {
     time: 0,
     base_fee: 0,
     priority_fee: 0,
+    wei: 0,
   };
 
   await render(

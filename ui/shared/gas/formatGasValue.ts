@@ -28,5 +28,13 @@ export default function formatGasValue(data: GasPriceInfo, unit: GasUnit) {
 
       return `$${ Number(data.fiat_price).toLocaleString(undefined, { maximumFractionDigits: 2 }) }`;
     }
+
+    case 'wei': {
+      if (!data.wei) {
+        return `N/A ${ currencyUnits.wei }`;
+      }
+    }
+
+      return `${ Number(data.wei).toLocaleString(undefined, { maximumFractionDigits: 2 }) } ${ currencyUnits.wei }`;
   }
 }
