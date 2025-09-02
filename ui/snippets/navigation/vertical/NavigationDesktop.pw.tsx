@@ -137,6 +137,33 @@ test.describe('with submenu', () => {
   });
 });
 
+test.describe('with leaderboards submenu', () => {
+  let component: Locator;
+
+  test.beforeEach(async({ render, page }) => {
+    component = await render(
+      <Flex w="100%" minH="100vh" alignItems="stretch">
+        <NavigationDesktop/>
+        <Box bgColor="lightpink" w="100%"/>
+      </Flex>,
+      { hooksConfig },
+    );
+    await page.locator('div[aria-label="Leaderboards link group"]').hover();
+  });
+
+  test('base view', async() => {
+    await expect(component).toHaveScreenshot();
+  });
+
+  test.describe('xl screen', () => {
+    test.use({ viewport: pwConfig.viewport.xl });
+
+    test('base view', async() => {
+      await expect(component).toHaveScreenshot();
+    });
+  });
+});
+
 const noSideBarCookieTest = test.extend<{ context: BrowserContext }>({
   context: ({ context }, use) => {
     context.addCookies([ { name: cookies.NAMES.NAV_BAR_COLLAPSED, value: 'false', domain: config.app.host, path: '/' } ]);
