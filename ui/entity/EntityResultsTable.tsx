@@ -1,6 +1,7 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 
+import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import {
   TableBody,
@@ -12,6 +13,7 @@ import {
 } from 'toolkit/chakra/table';
 import { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
+import IconSvg from 'ui/shared/IconSvg';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 import EntityStatus from 'ui/shared/statusTag/EntityStatus';
 
@@ -58,16 +60,25 @@ const EntityResultsTable = ({
             top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           >
             <TableRow>
-              <TableColumnHeader width="30%">Search result</TableColumnHeader>
-              <TableColumnHeader width="35%"/>
-              <TableColumnHeader width="35%" pr={ 10 }/>
-              <TableColumnHeader width="150px">Category</TableColumnHeader>
+              <TableColumnHeader>Search result</TableColumnHeader>
+              <TableColumnHeader width="150px">Status</TableColumnHeader>
             </TableRow>
           </TableHeaderSticky>
           <TableBody>
             { displayedItems.map((item, index) => (
               <TableRow key={ (isLoading ? 'placeholder_' : 'actual_') + index }>
-                { item.key }
+                <TableCell
+                  fontSize="sm"
+                  textTransform="capitalize"
+                  verticalAlign="middle"
+                >
+                  <Flex>
+                    <IconSvg name="docs" boxSize={ 5 } color="text.secondary" mr={ 2 }/>
+                    <Link href={ `/entity/${ item.key }` }>
+                      { item.key }
+                    </Link>
+                  </Flex>
+                </TableCell>
                 <TableCell
                   fontSize="sm"
                   textTransform="capitalize"
