@@ -184,6 +184,7 @@
 	| "top-accounts"
 	| "transactions_slim"
 	| "transactions"
+	| "trophy"
 	| "txn_batches_slim"
 	| "txn_batches"
 	| "uniswap"
