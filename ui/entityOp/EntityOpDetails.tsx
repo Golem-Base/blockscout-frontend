@@ -1,7 +1,9 @@
 import { Flex, Text } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { EntityOpQuery, TxOpCountQuery } from './types';
+import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
 
 import config from 'configs/app';
 import { currencyUnits } from 'lib/units';
@@ -26,7 +28,11 @@ interface Props {
 const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityOpQuery;
   const { data: counts, isPlaceholderData: isCountLoading } = txOpCountQuery;
-  const txOpCount = !isCountLoading && counts ? counts.create_count + counts.delete_count + counts.extend_count + counts.update_count : 0;
+
+  const sumCounts = (c: CountOperationsResponse) =>
+    BigNumber(c.create_count).plus(BigNumber(c.delete_count)).plus(BigNumber(c.extend_count)).plus(BigNumber(c.update_count));
+
+  const txOpCount = !isCountLoading && counts ? sumCounts(counts) : BigNumber(0);
 
   if (!data) {
     return null;
@@ -82,7 +88,7 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemLabel hint="Operation index within the transaction">Operation Index</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading || isCountLoading }>
-          <Text>{ data.op_index } ({ txOpCount } operations in transaction) </Text>
+          <Text>{ data.op_index } ({ txOpCount.toFormat() } operations in transaction) </Text>
         </Skeleton>
       </ItemValue>
 
