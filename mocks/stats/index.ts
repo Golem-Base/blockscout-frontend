@@ -45,6 +45,10 @@ export const base: HomeStats = {
   total_transactions: '82258122',
   transactions_today: '26815',
   tvl: '1767425.102766552',
+  golembase_storage_limit: 1099511627776,
+  golembase_used_slots: 1000,
+  golembase_active_entities_size: 10,
+  golembase_active_entities_count: 3,
 };
 
 export const withBtcLocked: HomeStats = {

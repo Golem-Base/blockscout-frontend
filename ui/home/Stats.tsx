@@ -6,6 +6,7 @@ import type { HomeStatsWidgetId } from 'types/homepage';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import formatDataSize from 'lib/formatDataSize';
 import { HOMEPAGE_STATS, HOMEPAGE_STATS_MICROSERVICE } from 'stubs/stats';
 import { WEI } from 'toolkit/utils/consts';
 import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
@@ -96,6 +97,8 @@ const Stats = () => {
 
   const apiData = apiQuery.data;
   const statsData = statsQuery.data;
+
+  const golemBaseSlotSizeInBytes = 32;
 
   const items: Array<Item> = (() => {
     if (!statsData && !apiData) {
@@ -218,6 +221,34 @@ const Stats = () => {
         icon: 'gas' as const,
         label: 'Total gas used',
         value: `${ BigNumber(apiData.total_gas_used).toFormat() } gas`,
+        isLoading,
+      },
+      apiData?.golembase_storage_limit && {
+        id: 'golembase_storage_limit' as const,
+        icon: 'database' as const,
+        label: 'Storage limit',
+        value: formatDataSize(apiData.golembase_storage_limit),
+        isLoading,
+      },
+      apiData?.golembase_used_slots && {
+        id: 'golembase_used_slots' as const,
+        icon: 'chart-pie' as const,
+        label: 'Used storage',
+        value: formatDataSize(apiData.golembase_used_slots * golemBaseSlotSizeInBytes),
+        isLoading,
+      },
+      apiData?.golembase_active_entities_size && {
+        id: 'golembase_active_entities_size' as const,
+        icon: 'layers' as const,
+        label: 'Active entities size',
+        value: formatDataSize(apiData.golembase_active_entities_size),
+        isLoading,
+      },
+      apiData?.golembase_active_entities_count && {
+        id: 'golembase_active_entities_count' as const,
+        icon: 'network' as const,
+        label: 'Active entities count',
+        value: `${ BigNumber(apiData.golembase_active_entities_count).toFormat() }`,
         isLoading,
       },
     ]

@@ -43,6 +43,10 @@ export const HOMEPAGE_STATS: HomeStats = {
   total_transactions: '193823272',
   transactions_today: '0',
   tvl: '1767425.102766552',
+  golembase_storage_limit: 1099511627776,
+  golembase_used_slots: 1000,
+  golembase_active_entities_size: 10,
+  golembase_active_entities_count: 3,
 };
 
 const STATS_CHART_INFO: stats.LineChartInfo = {

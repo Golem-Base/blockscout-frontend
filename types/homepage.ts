@@ -14,6 +14,10 @@ export const HOME_STATS_WIDGET_IDS = [
   'current_epoch',
   'chain_id',
   'total_gas_used',
+  'golembase_storage_limit',
+  'golembase_used_slots',
+  'golembase_active_entities_size',
+  'golembase_active_entities_count',
 ] as const;
 export type HomeStatsWidgetId = typeof HOME_STATS_WIDGET_IDS[number];
 
