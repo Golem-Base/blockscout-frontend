@@ -11,11 +11,13 @@ import { route, routeParams } from 'nextjs/routes';
 import config from 'configs/app';
 import getBlockReward from 'lib/block/getBlockReward';
 import { useMultichainContext } from 'lib/contexts/multichain';
+import formatDataSize from 'lib/formatDataSize';
 import getNetworkValidationActionText from 'lib/networks/getNetworkValidationActionText';
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 import * as arbitrum from 'lib/rollups/arbitrum';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { currencyUnits } from 'lib/units';
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { CollapsibleDetails } from 'toolkit/chakra/collapsible';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -26,6 +28,7 @@ import OptimisticL2TxnBatchDA from 'ui/shared/batch/OptimisticL2TxnBatchDA';
 import BlockGasUsed from 'ui/shared/block/BlockGasUsed';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
+import { ItemDivider } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
@@ -433,7 +436,7 @@ const BlockDetails = ({ query }: Props) => {
       </DetailedInfo.ItemLabel>
       <DetailedInfo.ItemValue>
         <Skeleton loading={ isPlaceholderData }>
-          { BigNumber(data.gas_used || 0).toFormat() }
+          { formatBigNum(data.gas_used) }
         </Skeleton>
         <BlockGasUsed
           gasUsed={ data.gas_used || undefined }
@@ -452,7 +455,7 @@ const BlockDetails = ({ query }: Props) => {
       </DetailedInfo.ItemLabel>
       <DetailedInfo.ItemValue>
         <Skeleton loading={ isPlaceholderData }>
-          { BigNumber(data.gas_limit).toFormat() }
+          { formatBigNum(data.gas_limit) }
         </Skeleton>
       </DetailedInfo.ItemValue>
 
@@ -539,6 +542,32 @@ const BlockDetails = ({ query }: Props) => {
           </DetailedInfo.ItemValue>
         </>
       ) }
+
+      <ItemDivider/>
+
+      <DetailedInfo.ItemLabel
+        hint="Total size of data stored in this block"
+        isLoading={ isPlaceholderData }
+      >
+        Data stored in block
+      </DetailedInfo.ItemLabel>
+      <DetailedInfo.ItemValue>
+        <Skeleton loading={ isPlaceholderData }>
+          { formatDataSize(data.data_size) }
+        </Skeleton>
+      </DetailedInfo.ItemValue>
+
+      <DetailedInfo.ItemLabel
+        hint="Total storage used on chain at this point in time (cumulative sum up to this block)"
+        isLoading={ isPlaceholderData }
+      >
+        Total storage used on chain
+      </DetailedInfo.ItemLabel>
+      <DetailedInfo.ItemValue>
+        <Skeleton loading={ isPlaceholderData }>
+          { data.cumulative_storage_size ? formatDataSize(data.cumulative_storage_size) : '0 bytes' }
+        </Skeleton>
+      </DetailedInfo.ItemValue>
 
       { /* ADDITIONAL INFO */ }
       <CollapsibleDetails loading={ isPlaceholderData } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }}>
