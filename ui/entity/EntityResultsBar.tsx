@@ -1,21 +1,29 @@
 import { Box, chakra } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import { Tag } from 'toolkit/chakra/tag';
 import ActionBar from 'ui/shared/ActionBar';
 import Pagination from 'ui/shared/pagination/Pagination';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 
-interface Props extends Pick<QueryWithPagesResult<'golemBaseIndexer:entities'>, 'isLoading' | 'isError' | 'pagination' | 'data'> {
-  searchTerm: string;
-}
+import { ENTITY_FILTER_KEYS } from './useEntityResultsQuery';
 
-const EntityResultsBar = ({ isLoading, isError, pagination, data, searchTerm }: Props) => {
+type Props = Pick<QueryWithPagesResult<'golemBaseIndexer:entities'>, 'isLoading' | 'isError' | 'pagination' | 'data'>;
+
+const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
+  const router = useRouter();
   const displayedItems = data?.items || [];
 
   if (isError) {
     return null;
   }
+
+  const searchTerm =
+    router.query &&
+    Object.entries(router.query)
+      .filter(([ key ]) => ENTITY_FILTER_KEYS.includes(key));
 
   const resultsCount = pagination.page === 1 ? displayedItems.length : '50+';
 
@@ -30,19 +38,34 @@ const EntityResultsBar = ({ isLoading, isError, pagination, data, searchTerm }: 
       />
     ) : (
       <Box mb={ pagination.isVisible ? 0 : 6 } lineHeight="32px">
-        <span>Found </span>
-        <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span>
-        <span>
-          { ' ' }
-          matching result
-          { (displayedItems.length || 0) > 1 || pagination.page > 1 ? 's' : '' }
+        <chakra.span display="inline-flex" alignItems="center" flexWrap="wrap" gap={ 1 }>
+          <span>
+            Found
+            { ' ' }
+            <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span>
+            { ' ' }
+            matching result
+            { (displayedItems.length || 0) > 1 || pagination.page > 1 ? 's' : '' }
+            { ' ' }
+          </span>
           { searchTerm && (
             <>
-              { ' ' }
-              for “<chakra.span fontWeight={ 700 }>{ searchTerm }</chakra.span>”
+              for { searchTerm.map(([ name, value ]) => (
+                <Tag
+                  key={ name }
+                  variant="filter"
+                  label={ name }
+                  display="inline-flex"
+                  alignItems="center"
+                  mx={ 1 }
+                  my={ 0.5 }
+                >
+                  { value }
+                </Tag>
+              )) }
             </>
           ) }
-        </span>
+        </chakra.span>
       </Box>
     );
 

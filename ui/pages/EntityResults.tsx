@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import { useAppContext } from 'lib/contexts/app';
 import EntityResultsBar from 'ui/entity/EntityResultsBar';
 import EntityResultsTable from 'ui/entity/EntityResultsTable';
-import useEntityResultsQuery, {
-  ENTITY_FILTER_KEYS,
-} from 'ui/entity/useEntityResultsQuery';
+import useEntityResultsQuery from 'ui/entity/useEntityResultsQuery';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import * as Layout from 'ui/shared/layout/components';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -16,7 +13,6 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 
 const EntityResults = () => {
   const { query } = useEntityResultsQuery();
-  const router = useRouter();
   const appProps = useAppContext();
 
   const backLink = React.useMemo(() => {
@@ -34,13 +30,6 @@ const EntityResults = () => {
     return null;
   }
 
-  const searchTerm =
-    router.query &&
-    Object.entries(router.query)
-      .filter(([ key ]) => ENTITY_FILTER_KEYS.includes(key))
-      .map(([ key, value ]) => `${ key }: ${ value }`)
-      .join(', ');
-
   return (
     <>
       <HeaderMobile hideSearchBar/>
@@ -57,7 +46,6 @@ const EntityResults = () => {
                 isLoading={ query.isPlaceholderData }
                 isError={ query.isError }
                 pagination={ query.pagination }
-                searchTerm={ searchTerm }
               />
 
               <EntityResultsTable
