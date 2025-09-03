@@ -41,7 +41,12 @@ export default function useEntityResultsQuery() {
       placeholderData: generateListStub<'golemBaseIndexer:entities'>(
         ENTITY_RESULT_ITEM,
         50,
-        { pagination: { page: '1', page_size: '50', total_pages: '1', total_items: '50' } },
+        {
+          next_page_params: {
+            page: 1,
+            page_size: 50,
+          },
+        },
       ),
     },
   });

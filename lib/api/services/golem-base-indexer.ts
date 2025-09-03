@@ -58,7 +58,7 @@ export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof 
 /* eslint-disable @stylistic/indent */
 export type GolemBaseIndexerApiResourcePayload<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:entity' ? golemBaseIndexer.FullEntity :
-R extends 'golemBaseIndexer:entities' ? golemBaseIndexer.ListEntitiesResponse :
+R extends 'golemBaseIndexer:entities' ? PaginatedResponse<golemBaseIndexer.ListEntitiesResponse> :
 R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
