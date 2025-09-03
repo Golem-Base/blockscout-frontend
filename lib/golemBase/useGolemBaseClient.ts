@@ -6,11 +6,13 @@ import { useWalletClient } from 'wagmi';
 import config from 'configs/app';
 import { httpToWs } from 'lib/httpToWs';
 
-const chainId = Number(config.chain.id);
-const rpcUrl = config.chain.rpcUrls[0];
-const wsUrl = httpToWs(rpcUrl);
+function getConfig() {
+  const [ rpcUrl ] = config.chain.rpcUrls;
+  return { chainId: Number(config.chain.id), rpcUrl, wsUrl: httpToWs(rpcUrl) };
+}
 
 export function createPublicClient(): GolemBaseROClient {
+  const { chainId, rpcUrl, wsUrl } = getConfig();
   return createROClient(chainId, rpcUrl, wsUrl);
 }
 
@@ -28,6 +30,7 @@ export function useGolemBaseClient(): GolemBaseClientReturn {
       throw new Error('Wallet not connected');
     }
 
+    const { chainId, rpcUrl, wsUrl } = getConfig();
     return createSdkClient(chainId, new Tagged('ethereumprovider', walletClient), rpcUrl, wsUrl);
   }, [ walletClient ]);
 
