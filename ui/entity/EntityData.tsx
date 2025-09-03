@@ -2,8 +2,10 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { EntityQuery } from './utils/types';
+import type { NumericAnnotation, StringAnnotation } from '@golembase/l3-indexer-types';
 
 import formatDataSize from 'lib/formatDataSize';
+import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tag } from 'toolkit/chakra/tag';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
@@ -23,6 +25,22 @@ const EntityData = ({ entityQuery }: Props) => {
   console.log({ data });
 
   const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
+
+  const getAnnotationQueryParams = (
+    annotation: StringAnnotation | NumericAnnotation,
+    annotationsType: 'string' | 'numeric',
+  ) => {
+    return Object.entries(annotation)
+      .map(([ key, value ]) => `${ encodeURIComponent(`${ annotationsType }_${ key }`) }=${ encodeURIComponent(String(value)) }`)
+      .join('&');
+  };
+
+  const stringAnnotationsQuery = data.string_annotations.map((annotation) => getAnnotationQueryParams(annotation, 'string'));
+  const numericAnnotationsQuery = data.numeric_annotations.map((annotation) => getAnnotationQueryParams(annotation, 'numeric'));
+
+  const annotationsQuery = [ ...stringAnnotationsQuery, ...numericAnnotationsQuery ]
+    .filter(Boolean)
+    .join('&');
 
   return (
     <Container data-testid="entity-data">
@@ -75,17 +93,19 @@ const EntityData = ({ entityQuery }: Props) => {
         </>
       ) }
 
-      <>
-        <ItemDivider/>
-        <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
-        <ItemValue>
-          <Skeleton loading={ isLoading }>
-            <Flex flexWrap="wrap" gap={ 2 }>
-              <Text fontWeight="normal" fontSize="xs">5 other entities match these annotations</Text>
-            </Flex>
-          </Skeleton>
-        </ItemValue>
-      </>
+      { annotationsQuery && (
+        <>
+          <ItemDivider/>
+          <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <Link href={ `/entity?=${ annotationsQuery }` }>
+                <Text fontWeight="normal" fontSize="xs">5 other entities match these annotations</Text>
+              </Link>
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
     </Container>
   );
 };
