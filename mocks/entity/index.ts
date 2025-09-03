@@ -9,20 +9,24 @@ export const base: golemBaseIndexer.FullEntity = {
     {
       key: 'name',
       value: 'Test Entity',
+      related_entities: '5',
     },
     {
       key: 'category',
       value: 'Sample',
+      related_entities: '10',
     },
   ],
   numeric_annotations: [
     {
       key: 'version',
       value: '1',
+      related_entities: '34',
     },
     {
       key: 'priority',
       value: '10',
+      related_entities: '344',
     },
   ],
   created_at_tx_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
@@ -71,12 +75,14 @@ export const expired: golemBaseIndexer.FullEntity = {
     {
       key: 'note',
       value: 'This entity has expired',
+      related_entities: '23',
     },
   ],
   numeric_annotations: [
     {
       key: 'age',
       value: '365',
+      related_entities: '43',
     },
   ],
   created_at_tx_hash: '0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
@@ -103,20 +109,24 @@ export const withLargeData: golemBaseIndexer.FullEntity = {
     {
       key: 'type',
       value: 'Large Data Entity',
+      related_entities: '12',
     },
     {
       key: 'description',
       value: 'This entity contains a lot of data for testing purposes',
+      related_entities: '43',
     },
   ],
   numeric_annotations: [
     {
       key: 'size_category',
       value: '5',
+      related_entities: '0',
     },
     {
       key: 'compression_ratio',
       value: '85',
+      related_entities: '123',
     },
   ],
   created_at_tx_hash: '0x5555666677778888999900001111222233334444555566667777888899990000',
