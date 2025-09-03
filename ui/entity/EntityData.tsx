@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { EntityQuery } from './utils/types';
-import type { NumericAnnotation, StringAnnotation } from '@golembase/l3-indexer-types';
+import { type NumericAnnotation, type StringAnnotation } from '@golembase/l3-indexer-types';
 
 import formatDataSize from 'lib/formatDataSize';
 import { Link } from 'toolkit/chakra/link';
@@ -11,28 +11,30 @@ import { Tag } from 'toolkit/chakra/tag';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import RawInputData from 'ui/shared/RawInputData';
 
+import useEntityRelatedCountQuery from './useEntityRelatedCountQuery';
+
 interface Props {
   entityQuery: EntityQuery;
 }
 
 const EntityData = ({ entityQuery }: Props) => {
-  const { data, isPlaceholderData: isLoading } = entityQuery;
+  const { data, isPlaceholderData: isLoading, isFetched } = entityQuery;
+
+  const { data: entitiesCountQuery, isPlaceholderData: isLoadingEntitiesCount } = useEntityRelatedCountQuery(isFetched, data);
 
   if (!data) {
     return null;
   }
 
-  console.log({ data });
-
   const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
 
-  const getAnnotationQueryParams = (
-    annotation: StringAnnotation | NumericAnnotation,
-    annotationsType: 'string' | 'numeric',
-  ) => {
-    return Object.entries(annotation)
-      .map(([ key, value ]) => `${ encodeURIComponent(`${ annotationsType }_${ key }`) }=${ encodeURIComponent(String(value)) }`)
-      .join('&');
+  const getAnnotationQueryParams = (annotation: StringAnnotation | NumericAnnotation, annotationsType: 'string' | 'numeric') => {
+    return Object.entries(annotation).map(([ key, value ]) => {
+      const paramName = encodeURIComponent(`${ annotationsType }_annotation_${ key }`);
+      const paramValue = encodeURIComponent(String(value));
+
+      return `${ paramName }=${ paramValue }`;
+    }).join('&');
   };
 
   const stringAnnotationsQuery = data.string_annotations.map((annotation) => getAnnotationQueryParams(annotation, 'string'));
@@ -98,9 +100,9 @@ const EntityData = ({ entityQuery }: Props) => {
           <ItemDivider/>
           <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
           <ItemValue>
-            <Skeleton loading={ isLoading }>
-              <Link href={ `/entity?=${ annotationsQuery }` }>
-                <Text fontWeight="normal" fontSize="xs">5 other entities match these annotations</Text>
+            <Skeleton loading={ isLoading || isLoadingEntitiesCount }>
+              <Link href={ `/entity?${ annotationsQuery }` }>
+                <Text fontWeight="normal" fontSize="xs">{ entitiesCountQuery?.count } other entities match these annotations</Text>
               </Link>
             </Skeleton>
           </ItemValue>

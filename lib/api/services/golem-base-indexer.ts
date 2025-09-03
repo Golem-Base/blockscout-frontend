@@ -64,6 +64,7 @@ R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.Lis
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
+R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
