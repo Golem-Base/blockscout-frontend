@@ -11,7 +11,6 @@ import {
   TableRow,
   TableCell,
 } from 'toolkit/chakra/table';
-import { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import IconSvg from 'ui/shared/IconSvg';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
@@ -19,13 +18,12 @@ import EntityStatus from 'ui/shared/statusTag/EntityStatus';
 
 type Props = Pick<
   QueryWithPagesResult<'golemBaseIndexer:entities'>,
-  'isLoading' | 'isError' | 'pagination' | 'data'
+  'isLoading' | 'isError' | 'data'
 >;
 
 const EntityResultsTable = ({
   isLoading,
   isError,
-  pagination,
   data,
 }: Props) => {
   const displayedItems = data?.items || [];
@@ -40,10 +38,8 @@ const EntityResultsTable = ({
 
   return (
     <Box overflowX="auto" width="100%">
-      <TableRoot fontWeight={ 500 } minWidth="700px">
-        <TableHeaderSticky
-          top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
-        >
+      <TableRoot fontWeight={ 500 } minWidth="800px">
+        <TableHeaderSticky>
           <TableRow>
             <TableColumnHeader width="80%">Search result</TableColumnHeader>
             <TableColumnHeader width="20%" minWidth="100px" maxWidth="120px" textAlign="center">Status</TableColumnHeader>

@@ -51,7 +51,6 @@ const EntityResults = () => {
               <EntityResultsTable
                 isLoading={ query.isPlaceholderData }
                 isError={ query.isError }
-                pagination={ query.pagination }
                 data={ query.data }
               />
             </Layout.Content>
