@@ -8,6 +8,7 @@ import getNetworkValidationActionText from 'lib/networks/getNetworkValidationAct
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import AddressCounterItem from 'ui/address/details/AddressCounterItem';
+import AddressStats from 'ui/address/details/AddressStats';
 import ServiceDegradationWarning from 'ui/shared/alerts/ServiceDegradationWarning';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
@@ -342,6 +343,8 @@ const AddressDetails = ({ addressQuery, countersQuery, isLoading }: Props) => {
             </DetailedInfo.ItemValue>
           </>
         ) }
+
+        <AddressStats addressHash={ addressHash } isLoading={ isLoading }/>
       </DetailedInfo.Container>
     </>
   );
