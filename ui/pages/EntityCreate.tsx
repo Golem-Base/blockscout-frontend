@@ -13,22 +13,16 @@ const EntityCreate = () => {
   const { createClient } = useGolemBaseClient();
 
   const handleSubmit = React.useCallback(async(entityData: GolemBaseCreate) => {
-    console.time('createClient');
-    const client = await createClient(); 
-    console.timeEnd('createClient');
-    console.time('createEntities');
+    const client = await createClient();
     const [ result ] = await client.createEntities([ entityData ]);
-    console.timeEnd('createEntities');
     const key = result.entityKey;
 
     toaster.success({
       title: 'Success',
       description: `Successfully created entity ${ key }`,
     });
-    console.time('router.push');
 
     await router.push({ pathname: '/entity/[key]', query: { key } }, undefined, { shallow: true });
-    console.timeEnd('router.push');
   }, [ createClient, router ]);
 
   return (
