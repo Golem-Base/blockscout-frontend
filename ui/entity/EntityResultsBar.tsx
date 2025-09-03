@@ -6,31 +6,18 @@ import ActionBar from 'ui/shared/ActionBar';
 import Pagination from 'ui/shared/pagination/Pagination';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 
-interface Props
-  extends Pick<
-    QueryWithPagesResult<'golemBaseIndexer:entities'>,
-    'isLoading' | 'isError' | 'pagination' | 'data'
-  > {
+interface Props extends Pick<QueryWithPagesResult<'golemBaseIndexer:entities'>, 'isLoading' | 'isError' | 'pagination' | 'data'> {
   searchTerm: string;
 }
 
-const EntityResultsBar = ({
-  isLoading,
-  isError,
-  pagination,
-  data,
-  searchTerm,
-}: Props) => {
+const EntityResultsBar = ({ isLoading, isError, pagination, data, searchTerm }: Props) => {
   const displayedItems = data?.items || [];
 
   if (isError) {
     return null;
   }
 
-  const resultsCount =
-    pagination.page === 1 ?
-      displayedItems.length :
-      '50+';
+  const resultsCount = pagination.page === 1 ? displayedItems.length : '50+';
 
   const text =
     isLoading && pagination.page === 1 ? (
