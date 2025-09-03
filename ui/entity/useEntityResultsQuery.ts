@@ -40,11 +40,11 @@ export default function useEntityResultsQuery() {
       enabled: Object.keys(filters).length > 0,
       placeholderData: generateListStub<'golemBaseIndexer:entities'>(
         ENTITY_RESULT_ITEM,
-        50,
+        5,
         {
           next_page_params: {
             page: 1,
-            page_size: 50,
+            page_size: 5,
           },
         },
       ),

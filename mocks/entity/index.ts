@@ -184,3 +184,23 @@ export const withYamlData: golemBaseIndexer.FullEntity = {
       '65310a2020202d206b6579323a2076616c756532',
   data_size: '156',
 };
+
+export const entityResult = {
+  items: [ {
+    key: base.key,
+    status: base.status,
+    last_updated_at_tx_hash: base.updated_at_tx_hash,
+    expires_at_block_number: base.expires_at_block_number,
+    created_at_tx_hash: base.created_at_tx_hash,
+    data: base.data,
+  },
+  {
+    key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a8a',
+    status: base.status,
+    last_updated_at_tx_hash: base.updated_at_tx_hash,
+    expires_at_block_number: base.expires_at_block_number,
+    created_at_tx_hash: base.created_at_tx_hash,
+    data: base.data,
+  } ],
+  next_page_params: null,
+};
