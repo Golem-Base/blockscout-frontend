@@ -11,16 +11,12 @@ import { Tag } from 'toolkit/chakra/tag';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import RawInputData from 'ui/shared/RawInputData';
 
-import useEntityRelatedCountQuery from './useEntityRelatedCountQuery';
-
 interface Props {
   entityQuery: EntityQuery;
 }
 
 const EntityData = ({ entityQuery }: Props) => {
-  const { data, isPlaceholderData: isLoading, isFetched } = entityQuery;
-
-  const { data: entitiesCountQuery, isPlaceholderData: isLoadingEntitiesCount } = useEntityRelatedCountQuery(isFetched, data);
+  const { data, isPlaceholderData: isLoading } = entityQuery;
 
   if (!data) {
     return null;
@@ -29,7 +25,7 @@ const EntityData = ({ entityQuery }: Props) => {
   const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
 
   const getAnnotationQueryParams = (annotation: StringAnnotation | NumericAnnotation, annotationsType: 'string' | 'numeric') => {
-    return Object.entries(annotation).map(([ key, value ]) => {
+    return Object.entries(annotation).filter(([ key ]) => key !== 'related_entities').map(([ key, value ]) => {
       const paramName = encodeURIComponent(`${ annotationsType }_annotation_${ key }`);
       const paramValue = encodeURIComponent(String(value));
 
@@ -43,6 +39,8 @@ const EntityData = ({ entityQuery }: Props) => {
   const annotationsQuery = [ ...stringAnnotationsQuery, ...numericAnnotationsQuery ]
     .filter(Boolean)
     .join('&');
+
+  const entitiesCount = annotations.reduce((acc, annotation) => acc + parseInt(annotation.related_entities), 0);
 
   return (
     <Container data-testid="entity-data">
@@ -95,19 +93,15 @@ const EntityData = ({ entityQuery }: Props) => {
         </>
       ) }
 
-      { annotationsQuery && (
-        <>
-          <ItemDivider/>
-          <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
-          <ItemValue>
-            <Skeleton loading={ isLoading || isLoadingEntitiesCount }>
-              <Link href={ `/entity?${ annotationsQuery }` }>
-                <Text fontWeight="normal" fontSize="xs">{ entitiesCountQuery?.count } other entities match these annotations</Text>
-              </Link>
-            </Skeleton>
-          </ItemValue>
-        </>
-      ) }
+      <ItemDivider/>
+      <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
+      <ItemValue>
+        <Skeleton loading={ isLoading }>
+          <Link href={ `/entity?${ annotationsQuery }` }>
+            <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other entities match these annotations</Text>
+          </Link>
+        </Skeleton>
+      </ItemValue>
     </Container>
   );
 };
