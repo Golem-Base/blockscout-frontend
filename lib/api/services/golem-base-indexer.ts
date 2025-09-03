@@ -33,6 +33,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/address/:address/stats',
     pathParams: [ 'address' as const ],
   },
+  blockStats: {
+    path: '/api/v1/block/:block/stats',
+    pathParams: [ 'block' as const ],
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -46,6 +50,7 @@ R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.Lis
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
+R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 never;
 /* eslint-enable @stylistic/indent */
 

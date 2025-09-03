@@ -16,20 +16,24 @@ export const ENTITY_BASE: FullEntity = {
     {
       key: 'name',
       value: 'Test Entity',
+      related_entities: '3',
     },
     {
       key: 'category',
       value: 'Sample',
+      related_entities: '2',
     },
   ],
   numeric_annotations: [
     {
       key: 'version',
       value: '1',
+      related_entities: '0',
     },
     {
       key: 'priority',
       value: '10',
+      related_entities: '12',
     },
   ],
   created_at_tx_hash: TX_HASH,

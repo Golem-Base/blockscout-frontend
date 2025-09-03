@@ -1,3 +1,4 @@
+import type { BlockStatsResponse } from '@golembase/l3-indexer-types';
 import type { Block } from 'types/api/block';
 
 import { ADDRESS_PARAMS } from './addressParams';
@@ -35,4 +36,18 @@ export const BLOCK: Block = {
   transaction_fees: '19241635547777613',
   type: 'block',
   uncles_hashes: [],
+};
+
+export const BLOCK_STATS: BlockStatsResponse = {
+  counts: {
+    create_count: '120',
+    update_count: '1',
+    expire_count: '102',
+    delete_count: '8',
+    extend_count: '51',
+  },
+  storage: {
+    block_bytes: '140000',
+    total_bytes: '120000000',
+  },
 };

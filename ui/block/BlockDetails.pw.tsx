@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as blockMock from 'mocks/blocks/block';
+import * as statsMock from 'mocks/blocks/stats';
 import { ENVS_MAP } from 'playwright/fixtures/mockEnvs';
 import { test, expect } from 'playwright/lib';
 
@@ -13,11 +14,12 @@ const hooksConfig = {
   },
 };
 
-test('regular block +@mobile +@dark-mode', async({ render, page }) => {
+test('regular block +@mobile +@dark-mode', async({ render, page, mockApiResponse }) => {
   const query = {
     data: blockMock.base,
     isPending: false,
   } as BlockQuery;
+  await mockApiResponse('golemBaseIndexer:blockStats', statsMock.statsResponse, { pathParams: { block: String(blockMock.base.height) } });
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 
@@ -26,11 +28,12 @@ test('regular block +@mobile +@dark-mode', async({ render, page }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('genesis block', async({ render, page }) => {
+test('genesis block', async({ render, page, mockApiResponse }) => {
   const query = {
     data: blockMock.genesis,
     isPending: false,
   } as BlockQuery;
+  await mockApiResponse('golemBaseIndexer:blockStats', statsMock.statsResponse, { pathParams: { block: String(blockMock.genesis.height) } });
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 
@@ -39,7 +42,7 @@ test('genesis block', async({ render, page }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('with blob txs', async({ render, page, mockEnvs }) => {
+test('with blob txs', async({ render, page, mockEnvs, mockApiResponse }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_DATA_AVAILABILITY_ENABLED', 'true' ],
   ]);
@@ -47,6 +50,7 @@ test('with blob txs', async({ render, page, mockEnvs }) => {
     data: blockMock.withBlobTxs,
     isPending: false,
   } as BlockQuery;
+  await mockApiResponse('golemBaseIndexer:blockStats', statsMock.statsResponse, { pathParams: { block: String(blockMock.withBlobTxs.height) } });
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 

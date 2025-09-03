@@ -31,7 +31,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
 
   const loading = isLoading || isPlaceholderData;
   const renderItem = (label: string, hint: string, value: string) => (
-    <React.Fragment key={ label }>
+    <>
       <DetailedInfo.ItemLabel
         hint={ hint }
         isLoading={ loading }
@@ -43,7 +43,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
           { value }
         </Skeleton>
       </DetailedInfo.ItemValue>
-    </React.Fragment>
+    </>
   );
 
   return (

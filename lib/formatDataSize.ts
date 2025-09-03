@@ -1,10 +1,12 @@
+import { isNil } from 'es-toolkit';
+
 /**
  * Formats data size in bytes to a human-readable string (bytes, KiB, MiB, GiB, etc.)
  * @param sizeInBytes - Size in bytes as string, number, bigint, or undefined
  * @returns Formatted string like "1.23 KiB" or "Unknown" if input is invalid
  */
-export default function formatDataSize(sizeInBytes?: string | number | bigint): string {
-  if (typeof sizeInBytes === 'undefined' || sizeInBytes === null) {
+export default function formatDataSize(sizeInBytes?: string | number | bigint | null): string {
+  if (isNil(sizeInBytes) || sizeInBytes === null) {
     return 'Unknown';
   }
 
