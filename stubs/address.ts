@@ -1,3 +1,4 @@
+import type { AddressStatsResponse } from '@golembase/l3-indexer-types';
 import type {
   Address,
   AddressCoinBalanceHistoryItem,
@@ -46,6 +47,20 @@ export const ADDRESS_COUNTERS: AddressCounters = {
   transactions_count: '119020',
   validations_count: '0',
   amount_spent_count: '243789234890',
+};
+
+export const ADDRESS_STATS: AddressStatsResponse = {
+  created_entities: '120',
+  active_entities: '50',
+  size_of_active_entities: '100234',
+  total_transactions: '156',
+  failed_transactions: '5',
+  operations_counts: {
+    create_count: '120',
+    update_count: '21',
+    delete_count: '9',
+    extend_count: '1',
+  },
 };
 
 export const ADDRESS_TABS_COUNTERS: AddressTabsCounters = {
