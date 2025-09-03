@@ -1,4 +1,4 @@
-import { chakra, Grid, Text } from '@chakra-ui/react';
+import { chakra, Grid, Text, Flex } from '@chakra-ui/react';
 import type { GolemBaseCreate } from 'golem-base-sdk';
 import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -13,6 +13,7 @@ import ContentLoader from 'ui/shared/ContentLoader';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
+import ReturnButton from './ReturnButton';
 import { mapEntityFormDataToGolemCreate } from './utils/utils';
 
 interface Props {
@@ -102,15 +103,20 @@ const EntityForm = ({
           </Text>
         ) }
 
-        <Button
-          size="lg"
-          type="submit"
-          mt={ 12 }
-          loading={ formState.isSubmitting }
-          loadingText={ submitText }
-        >
-          { submitText }
-        </Button>
+        <Flex gap={ 4 } mt={ 12 }>
+          <Button
+            size="lg"
+            type="submit"
+            loading={ formState.isSubmitting }
+            loadingText={ submitText }
+          >
+            { submitText }
+          </Button>
+          <ReturnButton
+            isEdit={ edit }
+            disabled={ formState.isSubmitting }
+          />
+        </Flex>
       </chakra.form>
     </FormProvider>
   );

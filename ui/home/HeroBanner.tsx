@@ -19,7 +19,7 @@ const TEXT_COLOR_DEFAULT = 'white';
 const BORDER_DEFAULT = 'none';
 
 const EntitySearchLink = () => (
-  <ButtonLink href="/entity/search" variant="subtle">
+  <ButtonLink href="/entity/search" variant="surface">
     <LuFileSearch/>
     <chakra.span hideBelow="md">Entity Search</chakra.span>
   </ButtonLink>
