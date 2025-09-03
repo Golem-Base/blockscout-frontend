@@ -43,7 +43,7 @@ import ZkSyncL2TxnBatchHashesInfo from 'ui/txnBatches/zkSyncL2/ZkSyncL2TxnBatchH
 
 import BlockDetailsBaseFeeCelo from './details/BlockDetailsBaseFeeCelo';
 import BlockDetailsBlobInfo from './details/BlockDetailsBlobInfo';
-import BlockDetailsMetrics from './details/BlockDetailsMetrics';
+import BlockDetailsStats from './details/BlockDetailsStats';
 import BlockDetailsZilliqaQuorumCertificate from './details/BlockDetailsZilliqaQuorumCertificate';
 import type { BlockQuery } from './useBlockQuery';
 
@@ -542,7 +542,7 @@ const BlockDetails = ({ query }: Props) => {
         </>
       ) }
 
-      <BlockDetailsMetrics blockHeight={ data.height }/>
+      <BlockDetailsStats blockHeight={ data.height }/>
 
       { /* ADDITIONAL INFO */ }
       <CollapsibleDetails loading={ isPlaceholderData } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }}>

@@ -11,7 +11,7 @@ interface Props {
   blockHeight: number;
 }
 
-const BlockDetailsMetrics = ({ blockHeight }: Props) => {
+const BlockDetailsStats = ({ blockHeight }: Props) => {
   const { data, isPlaceholderData } = useApiQuery<'golemBaseIndexer:blockStats', {
     status: number;
   }>('golemBaseIndexer:blockStats', {
@@ -58,4 +58,4 @@ const BlockDetailsMetrics = ({ blockHeight }: Props) => {
   );
 };
 
-export default BlockDetailsMetrics;
+export default BlockDetailsStats;

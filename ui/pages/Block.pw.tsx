@@ -3,6 +3,7 @@ import { numberToHex } from 'viem';
 
 import config from 'configs/app';
 import * as blockMock from 'mocks/blocks/block';
+import * as statsMock from 'mocks/blocks/stats';
 import { ENVS_MAP } from 'playwright/fixtures/mockEnvs';
 import { test, expect } from 'playwright/lib';
 
@@ -26,6 +27,7 @@ test('degradation view, details tab', async({ render, mockApiResponse, mockRpcRe
     Parameters: [ numberToHex(Number(height)), false ],
     ReturnType: blockMock.rpcBlockBase,
   });
+  await mockApiResponse('golemBaseIndexer:blockStats', statsMock.statsResponse, { pathParams: { block: String(blockMock.base.height) } });
 
   const component = await render(<Block/>, { hooksConfig });
   await page.waitForResponse(config.chain.rpcUrls[0]);
