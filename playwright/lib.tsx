@@ -9,11 +9,11 @@ import * as mockConfigResponse from './fixtures/mockConfigResponse';
 import * as mockContractReadResponse from './fixtures/mockContractReadResponse';
 import * as mockEnvs from './fixtures/mockEnvs';
 import * as mockFeatures from './fixtures/mockFeatures';
+import * as mockGolemBase from './fixtures/mockGolemBase';
 import * as mockRpcResponse from './fixtures/mockRpcResponse';
 import * as mockTextAd from './fixtures/mockTextAd';
 import * as render from './fixtures/render';
 import * as socketServer from './fixtures/socketServer';
-import { enableGolemBaseConnection } from './helpers/golemBaseConnection';
 
 export interface Fixtures {
   render: render.RenderFixture;
@@ -23,6 +23,7 @@ export interface Fixtures {
   mockContractReadResponse: mockContractReadResponse.MockContractReadResponseFixture;
   mockEnvs: mockEnvs.MockEnvsFixture;
   mockFeatures: mockFeatures.MockFeaturesFixture;
+  mockGolemBase: mockGolemBase.MockGolemBaseFixture;
   mockRpcResponse: mockRpcResponse.MockRpcResponseFixture;
   createSocket: socketServer.CreateSocketFixture;
   injectMetaMaskProvider: injectMetaMaskProvider.InjectMetaMaskProvider;
@@ -39,6 +40,7 @@ const test = base.extend<Fixtures>({
   mockContractReadResponse: mockContractReadResponse.default,
   mockEnvs: mockEnvs.default,
   mockFeatures: mockFeatures.default,
+  mockGolemBase: mockGolemBase.default,
   mockRpcResponse: mockRpcResponse.default,
   // FIXME: for some reason Playwright does not intercept requests to text ad provider when running multiple tests in parallel
   // even if we have a global request interceptor (maybe it is related to service worker issue, maybe not)
@@ -48,7 +50,7 @@ const test = base.extend<Fixtures>({
   injectMetaMaskProvider: injectMetaMaskProvider.default,
 });
 
-test.beforeEach(async({ page, mockTextAd }) => {
+test.beforeEach(async({ page, mockTextAd, mockGolemBase }) => {
   // debug
   const isDebug = process.env.PWDEBUG === '1';
 
@@ -72,8 +74,8 @@ test.beforeEach(async({ page, mockTextAd }) => {
   //  1. mock text AD requests
   await mockTextAd();
 
-  // Reset Golem Base connection to disabled by default
-  await enableGolemBaseConnection(page, false);
+  // Reset Golem Base to default state
+  await mockGolemBase();
 });
 
 export * from '@playwright/experimental-ct-react';

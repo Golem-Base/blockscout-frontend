@@ -1,3 +1,5 @@
+import type { Hex } from 'golem-base-sdk';
+
 import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
 
 import { ADDRESS_HASH } from './addressParams';
@@ -43,4 +45,9 @@ export const ENTITY_BASE: FullEntity = {
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
   updated_at_timestamp: '2024-01-15T10:30:00',
+};
+
+export const ENTITY_QUERY_ITEM: { entityKey: Hex; storageValue: Uint8Array } = {
+  entityKey: ENTITY_KEY as Hex,
+  storageValue: new Uint8Array([ 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100 ]),
 };

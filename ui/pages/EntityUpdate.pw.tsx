@@ -1,14 +1,13 @@
 import React from 'react';
 
 import * as entityMock from 'mocks/entity';
-import { enableGolemBaseConnection } from 'playwright/helpers/golemBaseConnection';
 import { expect, test } from 'playwright/lib';
 
 import EntityUpdate from './EntityUpdate';
 
 const entityKey = entityMock.base.key;
 
-test('base view with entity data', async({ page, render, mockApiResponse }) => {
+test('base view with entity data', async({ render, mockApiResponse, mockGolemBase }) => {
   const hooksConfig = {
     router: {
       query: { key: entityKey },
@@ -16,7 +15,7 @@ test('base view with entity data', async({ page, render, mockApiResponse }) => {
     },
   };
 
-  await enableGolemBaseConnection(page);
+  await mockGolemBase({ isConnected: true });
 
   await mockApiResponse('golemBaseIndexer:entity', entityMock.base, {
     pathParams: { key: entityKey },

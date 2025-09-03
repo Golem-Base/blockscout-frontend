@@ -50,7 +50,6 @@
 	| "copy_check"
 	| "copy"
 	| "cross"
-	| "database-zap"
 	| "database"
 	| "delete"
 	| "dex-tracker"

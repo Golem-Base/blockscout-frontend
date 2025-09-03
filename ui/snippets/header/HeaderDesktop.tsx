@@ -31,7 +31,7 @@ const HeaderDesktop = ({ renderSearchBar }: Props) => {
       { config.UI.navigation.layout === 'vertical' && (
         <Box display="flex" gap={ 2 } flexShrink={ 0 }>
           { config.features.rewards.isEnabled && <RewardsButton/> }
-          <CreateEntityLink label="Create Entity"/>
+          <CreateEntityLink>Create Entity</CreateEntityLink>
           {
             (config.features.account.isEnabled && <UserProfileDesktop/>) ||
             (config.features.blockchainInteraction.isEnabled && <UserWalletDesktop/>)

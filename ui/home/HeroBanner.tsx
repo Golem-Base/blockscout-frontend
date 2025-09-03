@@ -1,12 +1,14 @@
 // we use custom heading size for hero banner
 // eslint-disable-next-line no-restricted-imports
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, chakra } from '@chakra-ui/react';
 import React from 'react';
+import { LuFileSearch } from 'react-icons/lu';
 
 import config from 'configs/app';
 import CreateEntityLink from 'ui/entity/CreateEntityLink';
 import RewardsButton from 'ui/rewards/RewardsButton';
 import AdBanner from 'ui/shared/ad/AdBanner';
+import ButtonLink from 'ui/shared/ButtonLink';
 import SearchBar from 'ui/snippets/searchBar/SearchBar';
 import UserProfileDesktop from 'ui/snippets/user/profile/UserProfileDesktop';
 import UserWalletDesktop from 'ui/snippets/user/wallet/UserWalletDesktop';
@@ -15,6 +17,13 @@ export const BACKGROUND_DEFAULT =
   'radial-gradient(103.03% 103.03% at 0% 0%, rgba(183, 148, 244, 0.8) 0%, rgba(0, 163, 196, 0.8) 100%), var(--chakra-colors-blue-400)';
 const TEXT_COLOR_DEFAULT = 'white';
 const BORDER_DEFAULT = 'none';
+
+const EntitySearchLink = () => (
+  <ButtonLink href="/entity/search" variant="surface">
+    <LuFileSearch/>
+    <chakra.span hideBelow="md">Entity Search</chakra.span>
+  </ButtonLink>
+);
 
 const HeroBanner = () => {
   const background = {
@@ -78,7 +87,7 @@ const HeroBanner = () => {
           { config.UI.navigation.layout === 'vertical' && (
             <Box display={{ base: 'none', lg: 'flex' }} alignItems="center" gap={ 2 }>
               { config.features.rewards.isEnabled && <RewardsButton variant="hero"/> }
-              <CreateEntityLink label="Create New Entity" variant="hero"/>
+              <CreateEntityLink variant="hero">Create New Entity</CreateEntityLink>
               {
                 (config.features.account.isEnabled && <UserProfileDesktop buttonVariant="hero"/>) ||
                 (config.features.blockchainInteraction.isEnabled && <UserWalletDesktop buttonVariant="hero"/>)
@@ -86,7 +95,10 @@ const HeroBanner = () => {
             </Box>
           ) }
         </Flex>
-        <SearchBar isHomepage/>
+        <Flex gap={ 3 } alignItems="center">
+          <EntitySearchLink/>
+          <SearchBar isHomepage/>
+        </Flex>
       </Box>
       <AdBanner platform="mobile" w="fit-content" flexShrink={ 0 } borderRadius="md" overflow="hidden" display={{ base: 'none', lg: 'block ' }}/>
     </Flex>

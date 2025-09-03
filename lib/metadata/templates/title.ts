@@ -72,6 +72,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/operation/[id]': '%network_name% operation %id%',
   '/entity/[key]': '%network_name% entity %key%',
   '/entity/create': '%network_name% create entity',
+  '/entity/search': '%network_name% entity search results',
   '/entity/[key]/update': '%network_name% update entity %key%',
   '/entity/[key]/extend': '%network_name% extend entity %key%',
   '/leaderboards/spenders': '%network_name% biggest spenders',

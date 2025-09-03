@@ -3,7 +3,7 @@ import React from 'react';
 import type { ControllerRenderProps } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import type { EntityFormFields } from '../types';
+import type { EntityFormFields } from '../utils/types';
 
 import { Button } from 'toolkit/chakra/button';
 import { IconButton } from 'toolkit/chakra/icon-button';
@@ -13,7 +13,7 @@ import { integerValidator } from 'toolkit/components/forms/validators/integer';
 import IconSvg from 'ui/shared/IconSvg';
 
 import EntityFormRow from '../EntityFormRow';
-import { generateAnnotationId } from '../utils';
+import { generateAnnotationId } from '../utils/utils';
 
 type AnnotationVariant = 'string' | 'numeric';
 
