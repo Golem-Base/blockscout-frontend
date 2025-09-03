@@ -11,7 +11,6 @@ import { route, routeParams } from 'nextjs/routes';
 import config from 'configs/app';
 import getBlockReward from 'lib/block/getBlockReward';
 import { useMultichainContext } from 'lib/contexts/multichain';
-import formatDataSize from 'lib/formatDataSize';
 import getNetworkValidationActionText from 'lib/networks/getNetworkValidationActionText';
 import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 import * as arbitrum from 'lib/rollups/arbitrum';
@@ -28,7 +27,6 @@ import OptimisticL2TxnBatchDA from 'ui/shared/batch/OptimisticL2TxnBatchDA';
 import BlockGasUsed from 'ui/shared/block/BlockGasUsed';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
-import { ItemDivider } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import BatchEntityL2 from 'ui/shared/entities/block/BatchEntityL2';
@@ -45,6 +43,7 @@ import ZkSyncL2TxnBatchHashesInfo from 'ui/txnBatches/zkSyncL2/ZkSyncL2TxnBatchH
 
 import BlockDetailsBaseFeeCelo from './details/BlockDetailsBaseFeeCelo';
 import BlockDetailsBlobInfo from './details/BlockDetailsBlobInfo';
+import BlockDetailsMetrics from './details/BlockDetailsMetrics';
 import BlockDetailsZilliqaQuorumCertificate from './details/BlockDetailsZilliqaQuorumCertificate';
 import type { BlockQuery } from './useBlockQuery';
 
@@ -543,31 +542,7 @@ const BlockDetails = ({ query }: Props) => {
         </>
       ) }
 
-      <ItemDivider/>
-
-      <DetailedInfo.ItemLabel
-        hint="Total size of data stored in this block"
-        isLoading={ isPlaceholderData }
-      >
-        Data stored in block
-      </DetailedInfo.ItemLabel>
-      <DetailedInfo.ItemValue>
-        <Skeleton loading={ isPlaceholderData }>
-          { formatDataSize(data.data_size) }
-        </Skeleton>
-      </DetailedInfo.ItemValue>
-
-      <DetailedInfo.ItemLabel
-        hint="Total storage used on chain at this point in time (cumulative sum up to this block)"
-        isLoading={ isPlaceholderData }
-      >
-        Total storage used on chain
-      </DetailedInfo.ItemLabel>
-      <DetailedInfo.ItemValue>
-        <Skeleton loading={ isPlaceholderData }>
-          { data.cumulative_storage_size ? formatDataSize(data.cumulative_storage_size) : '0 bytes' }
-        </Skeleton>
-      </DetailedInfo.ItemValue>
+      <BlockDetailsMetrics blockHeight={ data.height }/>
 
       { /* ADDITIONAL INFO */ }
       <CollapsibleDetails loading={ isPlaceholderData } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }}>
