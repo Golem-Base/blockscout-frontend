@@ -17,6 +17,10 @@ const EntityResults = () => {
   const { query } = useEntityResultsQuery();
   const router = useRouter();
 
+  if (!query?.data) {
+    return null;
+  }
+
   const searchTerm =
     router.query &&
     Object.entries(router.query)
@@ -36,18 +40,18 @@ const EntityResults = () => {
             <Layout.Content flexGrow={ 0 }>
               <PageTitle title="Entity results"/>
               <EntityResultsBar
-                data={ query?.data }
-                isLoading={ query?.isLoading }
-                isError={ query?.isError }
-                pagination={ query?.pagination }
+                data={ query.data }
+                isLoading={ query.isPlaceholderData }
+                isError={ query.isError }
+                pagination={ query.pagination }
                 searchTerm={ searchTerm }
               />
 
               <EntityResultsTable
-                isLoading={ query?.isLoading }
-                isError={ query?.isError }
-                pagination={ query?.pagination }
-                data={ query?.data }
+                isLoading={ query.isPlaceholderData }
+                isError={ query.isError }
+                pagination={ query.pagination }
+                data={ query.data }
               />
             </Layout.Content>
           </AppErrorBoundary>

@@ -19,7 +19,7 @@ import EntityStatus from 'ui/shared/statusTag/EntityStatus';
 
 type Props = Pick<
   QueryWithPagesResult<'golemBaseIndexer:entities'>,
-    'isLoading' | 'isError' | 'pagination' | 'data'
+  'isLoading' | 'isError' | 'pagination' | 'data'
 >;
 
 const EntityResultsTable = ({
@@ -73,10 +73,22 @@ const EntityResultsTable = ({
                   verticalAlign="middle"
                 >
                   <Flex>
-                    <IconSvg name="docs" boxSize={ 5 } color="text.secondary" mr={ 2 }/>
-                    <Link href={ `/entity/${ item.key }` }>
-                      { item.key }
-                    </Link>
+                    <Skeleton
+                      loading={ isLoading }
+                      borderRadius="full"
+                      boxSize={ 5 }
+                      mr={ 2 }
+                      display="inline-flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      minW={ 5 }
+                      minH={ 5 }
+                    >
+                      <IconSvg name="docs" boxSize={ 5 } color="text.secondary"/>
+                    </Skeleton>
+                    <Skeleton loading={ isLoading } minW="120px">
+                      <Link href={ `/entity/${ item.key }` }>{ item.key }</Link>
+                    </Skeleton>
                   </Flex>
                 </TableCell>
                 <TableCell
