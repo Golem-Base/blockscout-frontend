@@ -8,9 +8,10 @@ import { route } from 'nextjs-routes';
 import formatDataSize from 'lib/formatDataSize';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { Tag } from 'toolkit/chakra/tag';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import RawInputData from 'ui/shared/RawInputData';
+
+import EntityAnnotation from './EntityAnnotation';
 
 interface Props {
   entityQuery: EntityQuery;
@@ -88,12 +89,7 @@ const EntityData = ({ entityQuery }: Props) => {
                       href={ route({ pathname: '/entity', query: { [keyQueryName]: annotation.key, [valueQueryName]: annotation.value } }) }
                     >
                       <Flex alignItems="center" gap={ 1 }>
-                        <Tag size="lg">
-                          <Flex alignItems="center" gap={ 1 }>
-                            <Text fontWeight="normal" fontSize="xs">{ annotation.key }:</Text>
-                            <Text fontWeight="bold" fontSize="xs">{ annotation.value }</Text>
-                          </Flex>
-                        </Tag>
+                        <EntityAnnotation key={ index } name={ annotation.key } value={ annotation.value }/>
 
                         { Boolean(relatedEntitiesNumber) && <Text fontWeight="normal" fontSize="xs">(related: { relatedEntitiesNumber })</Text> }
                       </Flex>

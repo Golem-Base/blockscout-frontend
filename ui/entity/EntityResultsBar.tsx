@@ -2,15 +2,19 @@ import { Box, chakra } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import getFilterValueFromQuery from 'lib/getFilterValueFromQuery';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { Tag } from 'toolkit/chakra/tag';
 import ActionBar from 'ui/shared/ActionBar';
 import Pagination from 'ui/shared/pagination/Pagination';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 
+import EntityAnnotation from './EntityAnnotation';
+import type { EntityFilterKey } from './useEntityResultsQuery';
 import { ENTITY_FILTER_KEYS } from './useEntityResultsQuery';
 
 type Props = Pick<QueryWithPagesResult<'golemBaseIndexer:entities'>, 'isLoading' | 'isError' | 'pagination' | 'data'>;
+
+const getFilterValue = (getFilterValueFromQuery<EntityFilterKey>).bind(null, ENTITY_FILTER_KEYS);
 
 const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
   const router = useRouter();
@@ -23,7 +27,7 @@ const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
   const searchTerm =
     router.query &&
     Object.entries(router.query)
-      .filter(([ key ]) => ENTITY_FILTER_KEYS.includes(key));
+      .filter(([ key ]) => getFilterValue(key));
 
   const resultsCount = pagination.page === 1 ? displayedItems.length : '50+';
 
@@ -51,17 +55,7 @@ const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
           { searchTerm && (
             <>
               for { searchTerm.map(([ name, value ]) => (
-                <Tag
-                  key={ name }
-                  variant="filter"
-                  label={ name }
-                  display="inline-flex"
-                  alignItems="center"
-                  mx={ 1 }
-                  my={ 0.5 }
-                >
-                  { value }
-                </Tag>
+                <EntityAnnotation key={ name } name={ name } value={ value }/>
               )) }
             </>
           ) }

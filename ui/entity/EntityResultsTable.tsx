@@ -1,6 +1,8 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 
+import { route } from 'nextjs-routes';
+
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import {
@@ -74,7 +76,7 @@ const EntityResultsTable = ({
                   </Skeleton>
                   <Skeleton loading={ isLoading } minW="120px">
                     <Link
-                      href={ `/entity/${ item.key }` }
+                      href={ route({ pathname: '/entity/[key]', query: { key: item.key } }) }
                       overflow="hidden"
                       whiteSpace="nowrap"
                       display="block"

@@ -13,7 +13,7 @@ import HeaderDesktop from 'ui/snippets/header/HeaderDesktop';
 import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 
 const EntityResults = () => {
-  const { query } = useEntityResultsQuery();
+  const { data, isPlaceholderData, isError, pagination } = useEntityResultsQuery();
   const router = useRouter();
   const appProps = useAppContext();
 
@@ -30,7 +30,7 @@ const EntityResults = () => {
     };
   }, [ appProps.referrer, router ]);
 
-  if (!query?.data) {
+  if (!data) {
     return null;
   }
 
@@ -46,16 +46,16 @@ const EntityResults = () => {
             <Layout.Content flexGrow={ 0 }>
               <PageTitle title="Entity results" backLink={ backLink }/>
               <EntityResultsBar
-                data={ query.data }
-                isLoading={ query.isPlaceholderData }
-                isError={ query.isError }
-                pagination={ query.pagination }
+                data={ data }
+                isLoading={ isPlaceholderData }
+                isError={ isError }
+                pagination={ pagination }
               />
 
               <EntityResultsTable
-                isLoading={ query.isPlaceholderData }
-                isError={ query.isError }
-                data={ query.data }
+                isLoading={ isPlaceholderData }
+                isError={ isError }
+                data={ data }
               />
             </Layout.Content>
           </AppErrorBoundary>

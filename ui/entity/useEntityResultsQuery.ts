@@ -1,6 +1,5 @@
 import { pick } from 'es-toolkit';
 import { useRouter } from 'next/router';
-import React from 'react';
 
 import type { Entity } from '@golembase/l3-indexer-types';
 import { EntityStatus } from '@golembase/l3-indexer-types';
@@ -23,14 +22,14 @@ export const ENTITY_FILTER_KEYS = [
   'string_annotation_value',
 ];
 
+export type EntityFilterKey = typeof ENTITY_FILTER_KEYS[number];
+
 export default function useEntityResultsQuery() {
   const router = useRouter();
 
-  const pathname = router.pathname;
-
   const filters = pick(router.query, ENTITY_FILTER_KEYS);
 
-  const query = useQueryWithPages({
+  return useQueryWithPages({
     resourceName: 'golemBaseIndexer:entities',
     filters: {
       ...filters,
@@ -50,9 +49,4 @@ export default function useEntityResultsQuery() {
       ),
     },
   });
-
-  return React.useMemo(
-    () => ({ query, pathname }),
-    [ pathname, query ],
-  );
 }
