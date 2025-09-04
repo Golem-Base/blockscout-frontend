@@ -18,14 +18,16 @@ const EntityResults = () => {
   const appProps = useAppContext();
 
   const backLink = React.useMemo(() => {
-    if (appProps?.referrer?.startsWith(window.location.origin)) {
-      return {
-        label: 'Back to Entity',
-        onClick: () => router.back(),
-      };
+    const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/entity');
+
+    if (!hasGoBackLink) {
+      return;
     }
 
-    return;
+    return {
+      label: 'Back to entity',
+      url: appProps.referrer,
+    };
   }, [ appProps.referrer, router ]);
 
   if (!query?.data) {
