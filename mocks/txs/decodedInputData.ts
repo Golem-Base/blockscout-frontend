@@ -47,3 +47,22 @@ export const withIndexedFields: DecodedInput = {
     },
   ],
 };
+
+export const withGolemBaseFields: DecodedInput = {
+  method_call: 'GolemBaseStorageEntityCreated(uint256 indexed entityKey, uint256 expirationBlock)',
+  method_id: 'ce4b4ad6',
+  parameters: [
+    {
+      indexed: true,
+      name: 'entityKey',
+      type: 'uint256',
+      value: '0xce4b4ad6891d716d0b1fba2b4aeb05ec20edadb01df512263d0dde423736bbb9',
+    },
+    {
+      indexed: false,
+      name: 'expirationBlock',
+      type: 'uint256',
+      value: '1476',
+    },
+  ],
+};
