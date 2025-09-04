@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import { useAppContext } from 'lib/contexts/app';
@@ -14,7 +13,6 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 
 const EntityResults = () => {
   const { data, isPlaceholderData, isError, pagination } = useEntityResultsQuery();
-  const router = useRouter();
   const appProps = useAppContext();
 
   const backLink = React.useMemo(() => {
@@ -28,7 +26,7 @@ const EntityResults = () => {
       label: 'Back to entity',
       url: appProps.referrer,
     };
-  }, [ appProps.referrer, router ]);
+  }, [ appProps.referrer ]);
 
   if (!data) {
     return null;
