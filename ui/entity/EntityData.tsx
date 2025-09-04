@@ -2,7 +2,8 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { EntityQuery } from './utils/types';
-import { type NumericAnnotation, type StringAnnotation } from '@golembase/l3-indexer-types';
+
+import { route } from 'nextjs-routes';
 
 import formatDataSize from 'lib/formatDataSize';
 import { Link } from 'toolkit/chakra/link';
@@ -15,6 +16,18 @@ interface Props {
   entityQuery: EntityQuery;
 }
 
+interface OptionalLinkProps {
+  clickable: boolean;
+  href: string;
+  children: React.ReactNode;
+}
+
+const OptionalLink = ({ clickable, href, children }: OptionalLinkProps) => {
+  if (!clickable) return children;
+
+  return <Link href={ href }>{ children }</Link>;
+};
+
 const EntityData = ({ entityQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityQuery;
 
@@ -22,25 +35,13 @@ const EntityData = ({ entityQuery }: Props) => {
     return null;
   }
 
-  const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
-
-  const getAnnotationQueryParams = (annotation: StringAnnotation | NumericAnnotation, annotationsType: 'string' | 'numeric') => {
-    return Object.entries(annotation).filter(([ key ]) => key !== 'related_entities').map(([ key, value ]) => {
-      const paramName = encodeURIComponent(`${ annotationsType }_annotation_${ key }`);
-      const paramValue = encodeURIComponent(String(value));
-
-      return `${ paramName }=${ paramValue }`;
-    }).join('&');
-  };
-
-  const stringAnnotationsQuery = data.string_annotations.map((annotation) => getAnnotationQueryParams(annotation, 'string'));
-  const numericAnnotationsQuery = data.numeric_annotations.map((annotation) => getAnnotationQueryParams(annotation, 'numeric'));
-
-  const annotationsQuery = [ ...stringAnnotationsQuery, ...numericAnnotationsQuery ]
-    .filter(Boolean)
-    .join('&');
+  const annotations = [
+    ...data.string_annotations.map((annotation) => ({ ...annotation, type: 'string' })),
+    ...data.numeric_annotations.map((annotation) => ({ ...annotation, type: 'numeric' })),
+  ];
 
   const entitiesCount = annotations.reduce((acc, annotation) => acc + parseInt(annotation.related_entities), 0);
+  const entityPluralSingularInflectionLabel = entitiesCount === 1 ? 'entity' : 'entities';
 
   return (
     <Container data-testid="entity-data">
@@ -63,11 +64,7 @@ const EntityData = ({ entityQuery }: Props) => {
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <Text>
-            {
-              data.data_size ?
-                formatDataSize(data.data_size) :
-                '0 B'
-            }
+            { data.data_size ? formatDataSize(data.data_size) : '0 B' }
           </Text>
         </Skeleton>
       </ItemValue>
@@ -79,14 +76,30 @@ const EntityData = ({ entityQuery }: Props) => {
           <ItemValue>
             <Skeleton loading={ isLoading }>
               <Flex flexWrap="wrap" gap={ 2 }>
-                { annotations.map((annotation, index) => (
-                  <Tag key={ index } size="lg">
-                    <Flex alignItems="center" gap={ 1 }>
-                      <Text fontWeight="normal" fontSize="xs">{ annotation.key }:</Text>
-                      <Text fontWeight="bold" fontSize="xs">{ annotation.value }</Text>
-                    </Flex>
-                  </Tag>
-                )) }
+                { annotations.map((annotation, index) => {
+                  const keyQueryName = `${ annotation.type }_annotation_key`;
+                  const valueQueryName = `${ annotation.type }_annotation_value`;
+                  const relatedEntitiesNumber = Number(annotation.related_entities);
+
+                  return (
+                    <OptionalLink
+                      key={ index }
+                      clickable={ relatedEntitiesNumber !== 0 }
+                      href={ route({ pathname: '/entity', query: { [keyQueryName]: annotation.key, [valueQueryName]: annotation.value } }) }
+                    >
+                      <Flex alignItems="center" gap={ 1 }>
+                        <Tag size="lg">
+                          <Flex alignItems="center" gap={ 1 }>
+                            <Text fontWeight="normal" fontSize="xs">{ annotation.key }:</Text>
+                            <Text fontWeight="bold" fontSize="xs">{ annotation.value }</Text>
+                          </Flex>
+                        </Tag>
+
+                        { Boolean(relatedEntitiesNumber) && <Text fontWeight="normal" fontSize="xs">(related: { relatedEntitiesNumber })</Text> }
+                      </Flex>
+                    </OptionalLink>
+                  );
+                }) }
               </Flex>
             </Skeleton>
           </ItemValue>
@@ -97,9 +110,7 @@ const EntityData = ({ entityQuery }: Props) => {
       <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Link href={ `/entity?${ annotationsQuery }` }>
-            <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other entities match these annotations</Text>
-          </Link>
+          <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other { entityPluralSingularInflectionLabel } match these annotations</Text>
         </Skeleton>
       </ItemValue>
     </Container>
