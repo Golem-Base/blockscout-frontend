@@ -59,3 +59,18 @@ test('with default data type', async({ render }) => {
   );
   await expect(component).toHaveScreenshot();
 });
+
+test('with decoded golem base input data +@mobile +@dark-mode', async({ render }) => {
+  const component = await render(
+    <LogItem
+      index={ 42 }
+      decoded={ inputDataMocks.withGolemBaseFields }
+      address={{ ...addressMocks.withoutName, is_verified: false }}
+      topics={ TOPICS }
+      data={ DATA }
+      type="transaction"
+      transaction_hash={ null }
+    />,
+  );
+  await expect(component).toHaveScreenshot();
+});

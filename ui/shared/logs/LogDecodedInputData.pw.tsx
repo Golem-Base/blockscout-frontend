@@ -14,3 +14,8 @@ test('without indexed fields +@mobile', async({ render }) => {
   const component = await render(<LogDecodedInputData data={ mocks.withoutIndexedFields }/>);
   await expect(component).toHaveScreenshot();
 });
+
+test('with golem base fields +@mobile +@dark-mode', async({ render }) => {
+  const component = await render(<LogDecodedInputData data={ mocks.withGolemBaseFields }/>);
+  await expect(component).toHaveScreenshot();
+});
