@@ -12,7 +12,7 @@ import { BackToButton } from 'toolkit/components/buttons/BackToButton';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import TextAd from 'ui/shared/ad/TextAd';
 
-type BackLinkProp = { label: string; url: string } | { label: string; onClick: () => void };
+export type BackLinkProp = { label: string; url: string } | { label: string; onClick: () => void };
 
 type Props = {
   title: string;

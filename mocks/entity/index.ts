@@ -9,20 +9,24 @@ export const base: golemBaseIndexer.FullEntity = {
     {
       key: 'name',
       value: 'Test Entity',
+      related_entities: '1',
     },
     {
       key: 'category',
       value: 'Sample',
+      related_entities: '1',
     },
   ],
   numeric_annotations: [
     {
       key: 'version',
       value: '1',
+      related_entities: '1',
     },
     {
       key: 'priority',
       value: '10',
+      related_entities: '0',
     },
   ],
   created_at_tx_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
@@ -71,12 +75,14 @@ export const expired: golemBaseIndexer.FullEntity = {
     {
       key: 'note',
       value: 'This entity has expired',
+      related_entities: '0',
     },
   ],
   numeric_annotations: [
     {
       key: 'age',
       value: '365',
+      related_entities: '1',
     },
   ],
   created_at_tx_hash: '0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
@@ -103,20 +109,24 @@ export const withLargeData: golemBaseIndexer.FullEntity = {
     {
       key: 'type',
       value: 'Large Data Entity',
+      related_entities: '1',
     },
     {
       key: 'description',
       value: 'This entity contains a lot of data for testing purposes',
+      related_entities: '0',
     },
   ],
   numeric_annotations: [
     {
       key: 'size_category',
       value: '5',
+      related_entities: '1',
     },
     {
       key: 'compression_ratio',
       value: '85',
+      related_entities: '0',
     },
   ],
   created_at_tx_hash: '0x5555666677778888999900001111222233334444555566667777888899990000',
@@ -173,4 +183,24 @@ export const withYamlData: golemBaseIndexer.FullEntity = {
       '202069643a203435360a2020747970653a20746573740a202073657474696e67733a0a2020202d206b6579313a2076616c75' +
       '65310a2020202d206b6579323a2076616c756532',
   data_size: '156',
+};
+
+export const entityResult = {
+  items: [ {
+    key: base.key,
+    status: base.status,
+    last_updated_at_tx_hash: base.updated_at_tx_hash,
+    expires_at_block_number: base.expires_at_block_number,
+    created_at_tx_hash: base.created_at_tx_hash,
+    data: base.data,
+  },
+  {
+    key: 'f68e9f2e8b5d6c4a2e5c8a9b1d3f7e8c2a5b8d1e4f7a9c2b5d8e1f4a8a',
+    status: base.status,
+    last_updated_at_tx_hash: base.updated_at_tx_hash,
+    expires_at_block_number: base.expires_at_block_number,
+    created_at_tx_hash: base.created_at_tx_hash,
+    data: base.data,
+  } ],
+  next_page_params: null,
 };

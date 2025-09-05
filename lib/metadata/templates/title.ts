@@ -70,6 +70,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/chain/[chain-slug]/tx/[hash]': '%network_name% transaction %hash% details',
   '/operations': '%network_name% operations',
   '/operation/[id]': '%network_name% operation %id%',
+  '/entity': '%network_name% related entities',
   '/entity/[key]': '%network_name% entity %key%',
   '/entity/create': '%network_name% create entity',
   '/entity/search': '%network_name% entity search results',
