@@ -542,7 +542,7 @@ const BlockDetails = ({ query }: Props) => {
         </>
       ) }
 
-      <BlockDetailsStats blockHeight={ data.height }/>
+      <BlockDetailsStats blockHeight={ data.height } isLoading={ isPlaceholderData }/>
 
       { /* ADDITIONAL INFO */ }
       <CollapsibleDetails loading={ isPlaceholderData } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }}>
