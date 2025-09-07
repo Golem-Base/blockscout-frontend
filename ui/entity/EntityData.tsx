@@ -3,15 +3,31 @@ import React from 'react';
 
 import type { EntityQuery } from './utils/types';
 
+import { route } from 'nextjs-routes';
+
 import formatDataSize from 'lib/formatDataSize';
+import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { Tag } from 'toolkit/chakra/tag';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import RawInputData from 'ui/shared/RawInputData';
+
+import EntityAnnotation from './EntityAnnotation';
 
 interface Props {
   entityQuery: EntityQuery;
 }
+
+interface OptionalLinkProps {
+  clickable: boolean;
+  href: string;
+  children: React.ReactNode;
+}
+
+const OptionalLink = ({ clickable, href, children }: OptionalLinkProps) => {
+  if (!clickable) return children;
+
+  return <Link href={ href }>{ children }</Link>;
+};
 
 const EntityData = ({ entityQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityQuery;
@@ -20,7 +36,13 @@ const EntityData = ({ entityQuery }: Props) => {
     return null;
   }
 
-  const annotations = [ ...data.string_annotations, ...data.numeric_annotations ];
+  const annotations = [
+    ...data.string_annotations.map((annotation) => ({ ...annotation, type: 'string' })),
+    ...data.numeric_annotations.map((annotation) => ({ ...annotation, type: 'numeric' })),
+  ];
+
+  const entitiesCount = annotations.reduce((acc, annotation) => acc + parseInt(annotation.related_entities), 0);
+  const entityPluralSingularInflectionLabel = entitiesCount === 1 ? 'entity' : 'entities';
 
   return (
     <Container data-testid="entity-data">
@@ -43,11 +65,7 @@ const EntityData = ({ entityQuery }: Props) => {
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <Text>
-            {
-              data.data_size ?
-                formatDataSize(data.data_size) :
-                '0 B'
-            }
+            { data.data_size ? formatDataSize(data.data_size) : '0 B' }
           </Text>
         </Skeleton>
       </ItemValue>
@@ -59,19 +77,38 @@ const EntityData = ({ entityQuery }: Props) => {
           <ItemValue>
             <Skeleton loading={ isLoading }>
               <Flex flexWrap="wrap" gap={ 2 }>
-                { annotations.map((annotation, index) => (
-                  <Tag key={ index } size="lg">
-                    <Flex alignItems="center" gap={ 1 }>
-                      <Text fontWeight="normal" fontSize="xs">{ annotation.key }:</Text>
-                      <Text fontWeight="bold" fontSize="xs">{ annotation.value }</Text>
-                    </Flex>
-                  </Tag>
-                )) }
+                { annotations.map((annotation, index) => {
+                  const keyQueryName = `${ annotation.type }_annotation_key`;
+                  const valueQueryName = `${ annotation.type }_annotation_value`;
+                  const relatedEntitiesNumber = Number(annotation.related_entities);
+
+                  return (
+                    <OptionalLink
+                      key={ index }
+                      clickable={ relatedEntitiesNumber !== 0 }
+                      href={ route({ pathname: '/entity', query: { [keyQueryName]: annotation.key, [valueQueryName]: annotation.value } }) }
+                    >
+                      <Flex alignItems="center" gap={ 1 }>
+                        <EntityAnnotation key={ index } name={ annotation.key } value={ annotation.value }/>
+
+                        { Boolean(relatedEntitiesNumber) && <Text fontWeight="normal" fontSize="xs">(related: { relatedEntitiesNumber })</Text> }
+                      </Flex>
+                    </OptionalLink>
+                  );
+                }) }
               </Flex>
             </Skeleton>
           </ItemValue>
         </>
       ) }
+
+      <ItemDivider/>
+      <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
+      <ItemValue>
+        <Skeleton loading={ isLoading }>
+          <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other { entityPluralSingularInflectionLabel } match these annotations</Text>
+        </Skeleton>
+      </ItemValue>
     </Container>
   );
 };

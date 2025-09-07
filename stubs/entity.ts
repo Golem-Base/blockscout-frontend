@@ -1,6 +1,7 @@
 import type { Hex } from 'golem-base-sdk';
 
-import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
+import type { Entity, FullEntity } from '@golembase/l3-indexer-types';
+import { EntityStatus } from '@golembase/l3-indexer-types';
 
 import { ADDRESS_HASH } from './addressParams';
 import { TX_HASH } from './tx';
@@ -16,24 +17,24 @@ export const ENTITY_BASE: FullEntity = {
     {
       key: 'name',
       value: 'Test Entity',
-      related_entities: '3',
+      related_entities: '1',
     },
     {
       key: 'category',
       value: 'Sample',
-      related_entities: '2',
+      related_entities: '1',
     },
   ],
   numeric_annotations: [
     {
       key: 'version',
       value: '1',
-      related_entities: '0',
+      related_entities: '1',
     },
     {
       key: 'priority',
       value: '10',
-      related_entities: '12',
+      related_entities: '0',
     },
   ],
   created_at_tx_hash: TX_HASH,
@@ -54,4 +55,13 @@ export const ENTITY_BASE: FullEntity = {
 export const ENTITY_QUERY_ITEM: { entityKey: Hex; storageValue: Uint8Array } = {
   entityKey: ENTITY_KEY as Hex,
   storageValue: new Uint8Array([ 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100 ]),
+};
+
+export const ENTITY: Entity = {
+  key: ENTITY_KEY,
+  status: EntityStatus.ACTIVE,
+  last_updated_at_tx_hash: TX_HASH,
+  expires_at_block_number: '2234567',
+  created_at_tx_hash: TX_HASH,
+  data: '0x48656c6c6f20576f726c64',
 };

@@ -121,11 +121,11 @@ describe('entity utils', () => {
         status: 'ACTIVE' as EntityStatus,
         string_annotations: [
           { key: 'key1', value: 'value1', related_entities: '1' },
-          { key: 'key2', value: 'value2', related_entities: '0' },
+          { key: 'key2', value: 'value2', related_entities: '1' },
         ],
         numeric_annotations: [
-          { key: 'num1', value: '42', related_entities: '9' },
-          { key: 'num2', value: '100', related_entities: '2' },
+          { key: 'num1', value: '42', related_entities: '1' },
+          { key: 'num2', value: '100', related_entities: '1' },
         ],
         created_at_tx_hash: '0x1234567890abcdef',
         created_at_operation_index: '0',

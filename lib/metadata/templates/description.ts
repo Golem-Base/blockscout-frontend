@@ -73,6 +73,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/chain/[chain-slug]/tx/[hash]': DEFAULT_TEMPLATE,
   '/operations': DEFAULT_TEMPLATE,
   '/operation/[id]': DEFAULT_TEMPLATE,
+  '/entity': DEFAULT_TEMPLATE,
   '/entity/[key]': DEFAULT_TEMPLATE,
   '/entity/create': 'Create a new entity on %network_title% with file upload and annotations.',
   '/entity/search': 'Search for entities on %network_title% with advanced queries.',
