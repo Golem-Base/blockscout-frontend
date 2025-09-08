@@ -10,16 +10,17 @@ interface Props {
   items: Array<Entity>;
   top: number;
   isLoading?: boolean;
+  pageStartIndex: number;
 }
 
-const LongestLivedEntitiesTable = ({ items, top, isLoading }: Props) => {
+const LongestLivedEntitiesTable = ({ items, top, isLoading, pageStartIndex }: Props) => {
   return (
     <TableRoot overflowX="auto" whiteSpace="nowrap">
       <TableHeaderSticky top={ top }>
         <TableRow>
+          <TableColumnHeader width="64px">Rank</TableColumnHeader>
           <TableColumnHeader width="60%">Key</TableColumnHeader>
-          <TableColumnHeader width="20%">Created at tx hash</TableColumnHeader>
-          <TableColumnHeader width="20%" textAlign="end">Expires at block number</TableColumnHeader>
+          <TableColumnHeader width="40%" isNumeric>Expiration date</TableColumnHeader>
         </TableRow>
       </TableHeaderSticky>
       <TableBody>
@@ -28,6 +29,7 @@ const LongestLivedEntitiesTable = ({ items, top, isLoading }: Props) => {
             key={ item.key + (isLoading ? index : '') }
             item={ item }
             isLoading={ isLoading }
+            rank={ pageStartIndex + index }
           />
         )) }
       </TableBody>

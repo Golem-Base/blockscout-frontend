@@ -3,39 +3,78 @@ import React from 'react';
 
 import type { Entity } from '@golembase/l3-indexer-types';
 
+import { route } from 'nextjs-routes';
+
+import dayjs from 'lib/date/dayjs';
+import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
-import CopyToClipboard from 'ui/shared/CopyToClipboard';
-import BlockEntity from 'ui/shared/entities/block/BlockEntity';
-import TxEntity from 'ui/shared/entities/tx/TxEntity';
-import HashStringShortenDynamic from 'ui/shared/HashStringShortenDynamic';
+import IconSvg from 'ui/shared/IconSvg';
+
+import DetailedInfoTimestamp from './LongestLivedEntitiesExpirationTime';
 
 type Props = {
   item: Entity;
   isLoading?: boolean;
+  rank: number;
 };
 
 const LongestLivedEntitiesTableItem = ({
   item,
   isLoading,
+  rank,
 }: Props) => {
 
   return (
     <TableRow>
-      <TableCell width="60%">
-        <Flex flexWrap="nowrap" alignItems="center" overflow="hidden">
-          <Skeleton loading={ isLoading } overflow="hidden">
-            <HashStringShortenDynamic hash={ item.key }/>
+      <TableCell>
+        <Skeleton loading={ isLoading } display="inline-block" minW={ 6 } lineHeight="24px">
+          { rank }
+        </Skeleton>
+      </TableCell>
+      <TableCell
+        fontSize="sm"
+        textTransform="capitalize"
+        verticalAlign="middle"
+        maxWidth="0"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        <Flex>
+          <Skeleton
+            loading={ isLoading }
+            borderRadius="full"
+            boxSize={ 5 }
+            mr={ 2 }
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            minW={ 5 }
+            minH={ 5 }
+          >
+            <IconSvg name="docs" boxSize={ 5 } color="text.secondary"/>
           </Skeleton>
-          <CopyToClipboard text={ item.key } isLoading={ isLoading }/>
+          <Skeleton loading={ isLoading } minW="120px">
+            <Link
+              href={ route({ pathname: '/entity/[key]', query: { key: item.key } }) }
+              overflow="hidden"
+              whiteSpace="nowrap"
+              display="block"
+            >
+              { item.key }
+            </Link>
+          </Skeleton>
         </Flex>
       </TableCell>
-      <TableCell width="20%">
-        <BlockEntity number={ item.expires_at_block_number }/>
-      </TableCell>
-      <TableCell width="20%" isNumeric>
+      <TableCell isNumeric>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-          { item?.created_at_tx_hash ? <TxEntity hash={ item.created_at_tx_hash } truncation="constant"/> : <span>N/A</span> }
+          <DetailedInfoTimestamp
+            iconDirection="left"
+            timestamp={
+              dayjs().add(Number(rank), 'hours').valueOf() }
+            isLoading={ isLoading }
+          />
         </Skeleton>
       </TableCell>
     </TableRow>

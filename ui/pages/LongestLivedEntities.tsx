@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
+import getItemIndex from 'lib/getItemIndex';
 import { LONGEST_LIVED_ENTITIES } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
 import LongestLivedEntitiesListItem from 'ui/longestLivedEntities/LongestLivedEntitiesListItem';
@@ -31,6 +32,8 @@ const LongestLivedEntities = ({ isQueryEnabled = true }: Props) => {
     },
   });
 
+  const pageStartIndex = getItemIndex(0, pagination.page);
+
   const actionBar = pagination.isVisible && (
     <ActionBar mt={ -6 }>
       <Pagination ml="auto" { ...pagination }/>
@@ -44,6 +47,7 @@ const LongestLivedEntities = ({ isQueryEnabled = true }: Props) => {
           top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           items={ data?.items }
           isLoading={ isPlaceholderData }
+          pageStartIndex={ pageStartIndex }
         >
         </LongestLivedEntitiesTable>
       </Box>
@@ -53,6 +57,7 @@ const LongestLivedEntities = ({ isQueryEnabled = true }: Props) => {
             <LongestLivedEntitiesListItem
               key={ item.key + (isPlaceholderData ? index : '') }
               item={ item }
+              rank={ pageStartIndex + index }
               isLoading={ isPlaceholderData }
             />
           );
