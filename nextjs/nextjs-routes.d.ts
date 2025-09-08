@@ -61,6 +61,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/internal-txs">
     | StaticRoute<"/interop-messages">
     | StaticRoute<"/leaderboards/effectively-largest-entities">
+    | StaticRoute<"/leaderboards/longest-lived-entities">
     | StaticRoute<"/leaderboards/owners">
     | StaticRoute<"/leaderboards/spenders">
     | StaticRoute<"/login">

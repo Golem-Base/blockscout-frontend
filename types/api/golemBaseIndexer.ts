@@ -5,7 +5,8 @@ import type {
   ListBiggestSpendersRequest,
   ListAddressByEntitiesOwnedRequest,
   ListLargestEntitiesRequest,
-} from '@golembase/l3-indexer-types';
+  ListEntitiesByBtlRequest,
+} from '@golembase/l3-indexer-types/dist/golem-base-indexer-proto/proto/v1/golem-base-indexer';
 
 export type GolemBaseIndexerOpsFilters = Omit<ListOperationsRequest, 'page'>;
 
@@ -18,3 +19,5 @@ export type GolemBaseIndexerEntitiesOwnersFilters = Omit<ListAddressByEntitiesOw
 export type GolemBaseIndexerEntitiesFilters = ListEntitiesRequest;
 
 export type GolemBaseIndexerEffectivelyLargestEntitiesFilters = Omit<ListLargestEntitiesRequest, 'page'>;
+
+export type GolemBaseIndexerLongestLivedEntitiesFilters = Omit<ListEntitiesByBtlRequest, 'page'>;

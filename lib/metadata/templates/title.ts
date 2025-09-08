@@ -78,6 +78,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/[key]/extend': '%network_name% extend entity %key%',
   '/leaderboards/spenders': '%network_name% biggest spenders',
   '/leaderboards/owners': '%network_name% top entity owners',
+  '/leaderboards/longest-lived-entities': '%network_name% longest lived entities',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',
