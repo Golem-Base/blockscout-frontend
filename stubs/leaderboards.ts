@@ -23,5 +23,5 @@ export const LONGEST_LIVED_ENTITIES: EntityWithExpTimestamp = {
   created_at_tx_hash: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   last_updated_at_tx_hash: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   expires_at_block_number: '12345678901234567890',
-  expires_at_timestamp: '2026-01-01T00:00:00.000Z',
+  expires_at_timestamp: '2025-09-01T19:01:00+00:00',
 };

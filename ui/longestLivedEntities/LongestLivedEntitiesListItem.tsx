@@ -1,11 +1,10 @@
 import { chakra, Flex } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Entity } from '@golembase/l3-indexer-types';
+import type { EntityWithExpTimestamp } from '@golembase/l3-indexer-types';
 
 import { route } from 'nextjs-routes';
 
-import dayjs from 'lib/date/dayjs';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TruncatedTextTooltip } from 'toolkit/components/truncation/TruncatedTextTooltip';
@@ -15,7 +14,7 @@ import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 import DetailedInfoTimestamp from './LongestLivedEntitiesExpirationTime';
 
 type Props = {
-  item: Entity;
+  item: EntityWithExpTimestamp;
   isLoading?: boolean;
   rank: number;
 };
@@ -75,8 +74,7 @@ const LongestLivedEntitiesListItem = ({
       <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
         <DetailedInfoTimestamp
           iconDirection="left"
-          timestamp={
-            dayjs().add(Number(rank), 'hours').valueOf() }
+          timestamp={ item.expires_at_timestamp }
           isLoading={ isLoading }
         />
       </Skeleton>
