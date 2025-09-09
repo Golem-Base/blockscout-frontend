@@ -53,7 +53,6 @@ const NetworkMenuLink = ({ title, icon, isActive: isActiveProp, isMobile, url, i
       <chakra.a
         display="flex"
         href={ staticNetworkPath }
-
         px={ 3 }
         py="9px"
         alignItems="center"
