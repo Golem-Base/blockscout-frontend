@@ -40,7 +40,7 @@ test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiRespon
 
 test('empty view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
-  await mockApiResponse('golemBaseIndexer:biggestSpenders', emptyResponse, {
+  await mockApiResponse('golemBaseIndexer:longestLivedEntities', emptyResponse, {
     queryParams: { page_size: '50' },
   });
   const component = await render(<LongestLivedEntities/>);
