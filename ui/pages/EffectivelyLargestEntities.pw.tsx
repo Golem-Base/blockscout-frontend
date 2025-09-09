@@ -7,7 +7,7 @@ import { test, expect } from 'playwright/lib';
 
 import EffectivelyLargestEntities from './EffectivelyLargestEntities';
 
-const longestLivedEntities: PaginatedResponse<ListLargestEntitiesResponse> = {
+const effectivelyLargestEntities: PaginatedResponse<ListLargestEntitiesResponse> = {
   items: Array(10).fill({
     entity_key: '0x1234567890123456789012345678901234567890',
     data_size: '151234567890',
@@ -25,7 +25,7 @@ const emptyResponse = {
 
 test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
-  await mockApiResponse('golemBaseIndexer:effectivelyLargestEntities', longestLivedEntities, {
+  await mockApiResponse('golemBaseIndexer:effectivelyLargestEntities', effectivelyLargestEntities, {
     queryParams: { page_size: '50' },
   });
   const component = await render(<EffectivelyLargestEntities/>);
