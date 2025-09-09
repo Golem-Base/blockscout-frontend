@@ -223,8 +223,14 @@ export default function useNavItems(): ReturnType {
       {
         text: 'Top Entity Owners',
         nextRoute: { pathname: '/leaderboards/owners' as const },
-        icon: 'collection',
+        icon: 'layers',
         isActive: pathname === '/leaderboards/owners',
+      },
+      {
+        text: 'Effectively largest entities',
+        nextRoute: { pathname: '/leaderboards/longest-lived-entities' as const },
+        icon: 'layers',
+        isActive: pathname === '/leaderboards/longest-lived-entities',
       },
     ].filter(Boolean);
 

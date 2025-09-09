@@ -60,8 +60,9 @@ declare module "nextjs-routes" {
     | StaticRoute<"/">
     | StaticRoute<"/internal-txs">
     | StaticRoute<"/interop-messages">
-    | StaticRoute<"/leaderboards/spenders">
+    | StaticRoute<"/leaderboards/longest-lived-entities">
     | StaticRoute<"/leaderboards/owners">
+    | StaticRoute<"/leaderboards/spenders">
     | StaticRoute<"/login">
     | StaticRoute<"/mud-worlds">
     | DynamicRoute<"/name-domains/[name]", { "name": string }>
