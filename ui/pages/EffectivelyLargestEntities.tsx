@@ -68,11 +68,11 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
 
   return (
     <>
-      <PageTitle title="Longest lived entities" withTextAd/>
+      <PageTitle title="Effectively largest entities" withTextAd/>
       <DataListDisplay
         isError={ isError }
         itemsNum={ data?.items.length }
-        emptyText="There are no entities with longest lived."
+        emptyText="There are no effectively largest entities to display."
         actionBar={ actionBar }
       >
         { content }
