@@ -9,11 +9,13 @@ import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 type Props = {
   item: AddressByEntitiesOwned;
+  index: number;
   isLoading?: boolean;
 };
 
 const TopEntityOwnersListItem = ({
   item,
+  index,
   isLoading,
 }: Props) => {
   const addressProp = { hash: item.address };
@@ -28,6 +30,9 @@ const TopEntityOwnersListItem = ({
           truncation="constant"
           mr={ 2 }
         />
+        <Skeleton loading={ isLoading } fontSize="sm" ml="auto" minW={ 6 } color="text.secondary">
+          <span>{ index }</span>
+        </Skeleton>
       </Flex>
       <HStack gap={ 3 } maxW="100%" alignItems="flex-start">
         <Skeleton loading={ isLoading } fontSize="sm" fontWeight={ 500 } flexShrink={ 0 }>Entities Owned</Skeleton>

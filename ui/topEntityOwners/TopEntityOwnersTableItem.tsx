@@ -9,11 +9,13 @@ import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 
 type Props = {
   item: AddressByEntitiesOwned;
+  index: number;
   isLoading?: boolean;
 };
 
 const TopEntityOwnersTableItem = ({
   item,
+  index,
   isLoading,
 }: Props) => {
 
@@ -21,6 +23,11 @@ const TopEntityOwnersTableItem = ({
 
   return (
     <TableRow>
+      <TableCell>
+        <Skeleton loading={ isLoading } display="inline-block" minW={ 6 } lineHeight="24px">
+          { index }
+        </Skeleton>
+      </TableCell>
       <TableCell>
         <Flex alignItems="center" columnGap={ 2 }>
           <AddressEntity

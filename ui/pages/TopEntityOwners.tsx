@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
+import getItemIndex from 'lib/getItemIndex';
 import { TOP_ENTITY_OWNER } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
 import ActionBar, { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
@@ -37,12 +38,15 @@ const TopEntityOwners = ({ isQueryEnabled = true }: Props) => {
     </ActionBar>
   );
 
+  const pageStartIndex = getItemIndex(0, pagination.page);
+
   const content = data?.items ? (
     <>
       <Box hideBelow="lg">
         <TopEntityOwnersTable
           top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           items={ data?.items }
+          pageStartIndex={ pageStartIndex }
           isLoading={ isPlaceholderData }
         >
         </TopEntityOwnersTable>
@@ -53,6 +57,7 @@ const TopEntityOwners = ({ isQueryEnabled = true }: Props) => {
             <TopEntityOwnersListItem
               key={ item.address + (isPlaceholderData ? index : '') }
               item={ item }
+              index={ pageStartIndex + index }
               isLoading={ isPlaceholderData }
             />
           );
