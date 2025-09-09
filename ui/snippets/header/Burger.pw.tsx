@@ -17,6 +17,7 @@ const hooksConfig = {
     route: '/blocks',
     query: { id: '0xd789a607CEac2f0E14867de4EB15b15C9FFB5859' },
     pathname: '/blocks',
+    asPath: '/blocks?id=0xd789a607CEac2f0E14867de4EB15b15C9FFB5859',
   },
 };
 
@@ -29,12 +30,12 @@ test.beforeEach(async({ mockEnvs, mockConfigResponse, mockAssetResponse }) => {
 });
 
 test('base view', async({ render, page }) => {
+
   const component = await render(<Burger/>, { hooksConfig });
   await expect(component).toBeVisible();
 
   await component.getByRole('button', { name: 'Menu button' }).click();
 
-  await page.getByRole('button', { name: 'Network menu' }).waitFor({ state: 'visible' });
   await expect(page).toHaveScreenshot();
 
   await page.getByRole('button', { name: 'Network menu' }).click();
@@ -50,7 +51,6 @@ test.describe('dark mode', () => {
 
     await component.getByRole('button', { name: 'Menu button' }).click();
 
-    await page.getByRole('button', { name: 'Network menu' }).waitFor({ state: 'visible' });
     await expect(page).toHaveScreenshot();
 
     await page.getByRole('button', { name: 'Network menu' }).click();
@@ -79,7 +79,6 @@ authTest.describe('auth', () => {
 
     await component.getByRole('button', { name: 'Menu button' }).click();
 
-    await page.getByRole('button', { name: 'Network menu' }).waitFor({ state: 'visible' });
     await expect(page).toHaveScreenshot();
   });
 });
