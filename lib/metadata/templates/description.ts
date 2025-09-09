@@ -82,6 +82,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/leaderboards/spenders': DEFAULT_TEMPLATE,
   '/leaderboards/owners': DEFAULT_TEMPLATE,
   '/leaderboards/effectively-largest-entities': DEFAULT_TEMPLATE,
+  '/leaderboards/longest-lived-entities': DEFAULT_TEMPLATE,
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,
