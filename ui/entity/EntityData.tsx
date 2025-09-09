@@ -2,6 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { EntityQuery } from './utils/types';
+import { EntityStatus } from '@golembase/l3-indexer-types';
 
 import { route } from 'nextjs-routes';
 
@@ -70,7 +71,7 @@ const EntityData = ({ entityQuery }: Props) => {
         </Skeleton>
       </ItemValue>
 
-      { annotations.length > 0 && (
+      { annotations.length > 0 && data.status === EntityStatus.ACTIVE && (
         <>
           <ItemDivider/>
           <ItemLabel hint="Key-Value annotations attached to this entity">Annotations</ItemLabel>
@@ -102,13 +103,18 @@ const EntityData = ({ entityQuery }: Props) => {
         </>
       ) }
 
-      <ItemDivider/>
-      <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other { entityPluralSingularInflectionLabel } match these annotations</Text>
-        </Skeleton>
-      </ItemValue>
+      { data.status === EntityStatus.ACTIVE && (
+        <>
+          <ItemDivider/>
+          <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other { entityPluralSingularInflectionLabel } match these annotations</Text>
+            </Skeleton>
+          </ItemValue>
+        </>
+      )
+      }
     </Container>
   );
 };
