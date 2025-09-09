@@ -213,14 +213,20 @@ export default function useNavItems(): ReturnType {
     }
 
     const leaderboardsNavItems = [
-      ...[ topAccounts ].filter(Boolean),
+      topAccounts,
       {
         text: 'Biggest Spenders',
         nextRoute: { pathname: '/leaderboards/spenders' as const },
         icon: 'flame',
         isActive: pathname === '/leaderboards/spenders',
       },
-    ];
+      {
+        text: 'Top Entity Owners',
+        nextRoute: { pathname: '/leaderboards/owners' as const },
+        icon: 'collection',
+        isActive: pathname === '/leaderboards/owners',
+      },
+    ].filter(Boolean);
 
     const tokensNavItems = [
       {

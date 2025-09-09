@@ -1,6 +1,9 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
-import type { GolemBaseIndexerEntitiesFilters, GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters } from 'types/api/golemBaseIndexer';
+import type {
+  GolemBaseIndexerEntitiesFilters,
+  GolemBaseIndexerEntitiesOwnersFilters, GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters,
+} from 'types/api/golemBaseIndexer';
 
 import type { PaginatedResponse } from './paginationConverter';
 
@@ -47,6 +50,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/biggest-spenders',
     paginated: true,
   },
+  entitiesOwned: {
+    path: '/api/v1/leaderboard/entities-owned',
+    paginated: true,
+  },
   addressStats: {
     path: '/api/v1/address/:address/stats',
     pathParams: [ 'address' as const ],
@@ -67,6 +74,7 @@ R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
+R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
@@ -77,6 +85,7 @@ never;
 export type GolemBaseIndexerApiPaginationFilters<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
 R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
+R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 never;
 /* eslint-enable @stylistic/indent */
