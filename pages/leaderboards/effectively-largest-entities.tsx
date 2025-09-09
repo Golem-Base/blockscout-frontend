@@ -4,12 +4,12 @@ import React from 'react';
 
 import PageNextJs from 'nextjs/PageNextJs';
 
-const LongestLivedEntities = dynamic(() => import('ui/pages/LongestLivedEntities'), { ssr: false });
+const EffectivelyLargestEntities = dynamic(() => import('ui/pages/EffectivelyLargestEntities'), { ssr: false });
 
 const Page: NextPage = () => {
   return (
-    <PageNextJs pathname="/leaderboards/owners">
-      <LongestLivedEntities/>
+    <PageNextJs pathname="/leaderboards/effectively-largest-entities">
+      <EffectivelyLargestEntities/>
     </PageNextJs>
   );
 };

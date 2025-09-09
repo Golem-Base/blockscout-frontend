@@ -1,6 +1,7 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
 import type {
+  GolemBaseIndexerEffectivelyLargestEntitiesFilters,
   GolemBaseIndexerEntitiesFilters,
   GolemBaseIndexerEntitiesOwnersFilters, GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters,
 } from 'types/api/golemBaseIndexer';
@@ -62,6 +63,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/block/:block/stats',
     pathParams: [ 'block' as const ],
   },
+  effectivelyLargestEntities: {
+    path: '/api/v1/leaderboard/largest-entities',
+    paginated: true,
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -78,6 +83,7 @@ R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
+R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
 never;
 /* eslint-enable @stylistic/indent */
 
@@ -87,5 +93,6 @@ R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
 R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
 R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
+R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerEffectivelyLargestEntitiesFilters :
 never;
 /* eslint-enable @stylistic/indent */

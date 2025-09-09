@@ -228,9 +228,9 @@ export default function useNavItems(): ReturnType {
       },
       {
         text: 'Effectively largest entities',
-        nextRoute: { pathname: '/leaderboards/longest-lived-entities' as const },
+        nextRoute: { pathname: '/leaderboards/effectively-largest-entities' as const },
         icon: 'layers',
-        isActive: pathname === '/leaderboards/longest-lived-entities',
+        isActive: pathname === '/leaderboards/effectively-largest-entities',
       },
     ].filter(Boolean);
 
