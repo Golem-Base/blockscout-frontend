@@ -6,6 +6,14 @@ import { test, expect } from 'playwright/lib';
 
 import TopBar from './TopBar';
 
+const hooksConfig = {
+  router: {
+    route: '/',
+    asPath: '/',
+    pathname: '/',
+  },
+};
+
 test.beforeEach(async({ mockEnvs }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_DEFI_DROPDOWN_ITEMS', '[{"text":"Swap","icon":"swap","dappId":"uniswap"}]' ],
@@ -42,7 +50,7 @@ test('with network menu +@dark-mode', async({ render, mockApiResponse, mockEnvs,
   await mockConfigResponse('NEXT_PUBLIC_FEATURED_NETWORKS', FEATURED_NETWORKS_URL, FEATURED_NETWORKS);
   await mockAssetResponse('https://localhost:3000/my-logo.png', './playwright/mocks/image_s.jpg');
 
-  const component = await render(<TopBar/>);
+  const component = await render(<TopBar/>, { hooksConfig });
   await component.getByLabel('Network menu').click();
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1500, height: 500 } });
 

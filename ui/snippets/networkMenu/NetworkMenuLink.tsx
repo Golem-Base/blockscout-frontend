@@ -1,4 +1,5 @@
 import { Box, Text, chakra } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { FeaturedNetwork } from 'types/networks';
@@ -7,12 +8,15 @@ import { useColorModeValue } from 'toolkit/chakra/color-mode';
 import { Image } from 'toolkit/chakra/image';
 import IconSvg from 'ui/shared/IconSvg';
 
+import { getStaticNetworkPath } from './utils';
+
 interface Props extends FeaturedNetwork {
   isActive?: boolean;
   isMobile?: boolean;
 }
 
 const NetworkMenuLink = ({ title, icon, isActive: isActiveProp, isMobile, url, invertIconInDarkMode }: Props) => {
+  const router = useRouter();
   const darkModeFilter = { filter: 'brightness(0) invert(1)' };
   const style = useColorModeValue({}, invertIconInDarkMode ? darkModeFilter : {});
 
@@ -41,11 +45,14 @@ const NetworkMenuLink = ({ title, icon, isActive: isActiveProp, isMobile, url, i
     }
   })();
 
+  const staticNetworkPath = getStaticNetworkPath({ url, router });
+
   return (
+
     <Box as="li" listStyleType="none">
       <chakra.a
         display="flex"
-        href={ url }
+        href={ staticNetworkPath }
         px={ 3 }
         py="9px"
         alignItems="center"
