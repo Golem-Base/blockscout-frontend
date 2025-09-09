@@ -16,6 +16,7 @@ const longestLivedEntities: PaginatedResponse<ListEntitiesByBtlResponse> = {
     created_at_tx_hash: '0x1234567890abcdef1234567890abcdef',
     status: EntityStatus.ACTIVE,
     expires_at_timestamp: '2025-09-01T19:01:00+00:00',
+    data: '0x1234567890abcdef1234567890abcdef',
   }),
   next_page_params: {
     page: 2,

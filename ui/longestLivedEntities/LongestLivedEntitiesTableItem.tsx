@@ -1,15 +1,11 @@
-import { Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import type { Entity } from '@golembase/l3-indexer-types';
 
-import { route } from 'nextjs-routes';
-
 import dayjs from 'lib/date/dayjs';
-import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
-import IconSvg from 'ui/shared/IconSvg';
+import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 
 import DetailedInfoTimestamp from './LongestLivedEntitiesExpirationTime';
 
@@ -41,31 +37,11 @@ const LongestLivedEntitiesTableItem = ({
         textOverflow="ellipsis"
         whiteSpace="nowrap"
       >
-        <Flex>
-          <Skeleton
-            loading={ isLoading }
-            borderRadius="full"
-            boxSize={ 5 }
-            mr={ 2 }
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="center"
-            minW={ 5 }
-            minH={ 5 }
-          >
-            <IconSvg name="docs" boxSize={ 5 } color="text.secondary"/>
-          </Skeleton>
-          <Skeleton loading={ isLoading } minW="120px">
-            <Link
-              href={ route({ pathname: '/entity/[key]', query: { key: item.key } }) }
-              overflow="hidden"
-              whiteSpace="nowrap"
-              display="block"
-            >
-              { item.key }
-            </Link>
-          </Skeleton>
-        </Flex>
+        <StorageEntity
+          entityKey={ item.key }
+          isLoading={ isLoading }
+          truncation="dynamic"
+        />
       </TableCell>
       <TableCell isNumeric>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">

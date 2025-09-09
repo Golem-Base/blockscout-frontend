@@ -6,7 +6,7 @@ import type {
   ListAddressByEntitiesOwnedRequest,
   ListLargestEntitiesRequest,
   ListEntitiesByBtlRequest,
-} from '@golembase/l3-indexer-types/dist/golem-base-indexer-proto/proto/v1/golem-base-indexer';
+} from '@golembase/l3-indexer-types';
 
 export type GolemBaseIndexerOpsFilters = Omit<ListOperationsRequest, 'page'>;
 
