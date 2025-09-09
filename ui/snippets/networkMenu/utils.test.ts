@@ -170,13 +170,13 @@ describe('function getStaticNetworkPath()', () => {
   });
 
   describe('page param', () => {
-    it('should remove page param from search params', () => {
+    it('should remove page param only from search params', () => {
       const url = 'https://example.com';
-      const router = mockRouter('/blocks', '/blocks?page=1');
+      const router = mockRouter('/blocks', '/blocks?page=1&param=1');
 
       const result = getStaticNetworkPath({ url, router });
 
-      expect(result).toBe('https://example.com/blocks');
+      expect(result).toBe('https://example.com/blocks?param=1');
     });
 
     it('should not remove page param from search params for dynamic route', () => {
