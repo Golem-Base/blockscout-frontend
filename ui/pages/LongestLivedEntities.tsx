@@ -72,7 +72,7 @@ const LongestLivedEntities = ({ isQueryEnabled = true }: Props) => {
       <DataListDisplay
         isError={ isError }
         itemsNum={ data?.items.length }
-        emptyText="There are no entities with longest lived."
+        emptyText="There are no longest lived entities."
         actionBar={ actionBar }
       >
         { content }
