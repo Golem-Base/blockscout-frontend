@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Kaolin (hosted by Golem)",
+    "url": "https://explorer.kaolin.holesky.golemdb.io/",
+    "group": "Testnets",
+    "icon": "https://raw.githubusercontent.com/Golem-Base/blockscout-frontend/develop/configs/network-icons/golem-logo-positive.svg",
+    "isActive": false
+  },
+  {
+    "title": "Kaolin (hosted by Neti)",
+    "url": "https://kaolin.golem.neti-soft.dev/",
+    "group": "Testnets",
+    "icon": "https://raw.githubusercontent.com/Golem-Base/blockscout-frontend/develop/configs/network-icons/golem-logo-positive.svg",
+    "isActive": true
+  }
+]
