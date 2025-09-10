@@ -21,7 +21,7 @@ const NetworkMenuLink = ({ title, icon, isActive: isActiveProp, isMobile, url, i
   const style = useColorModeValue({}, invertIconInDarkMode ? darkModeFilter : {});
 
   const iconEl = icon ? (
-    <Image w="30px" h="30px" src={ icon } alt={ `${ title } network icon` } style={ style }/>
+    <Image w="30px" h="30px" src={ icon } alt={ `${ title } network icon` } style={ style } objectFit="fill"/>
   ) : (
     <IconSvg
       name="networks/icon-placeholder"
