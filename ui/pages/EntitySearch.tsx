@@ -1,6 +1,5 @@
 import { Box, Text, chakra } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import type { FormEvent } from 'react';
 import React from 'react';
 
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -8,8 +7,8 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 import { validateEntityQuery } from 'ui/entity/utils/queryValidation';
 import useQueryEntities from 'ui/entity/utils/useQueryEntities';
+import QueryBuilderInput from 'ui/queryBuilder/QueryBuilderInput';
 import SearchResultListItem from 'ui/searchResults/SearchResultListItem';
-import SearchResultsInput from 'ui/searchResults/SearchResultsInput';
 import SearchResultTableItem from 'ui/searchResults/SearchResultTableItem';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
@@ -23,17 +22,14 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 const SearchEntityPageContent = () => {
   const router = useRouter();
   const searchTerm = getQueryParamString(router.query.q)?.trim() || '';
-  const [ inputValue, setInputValue ] = React.useState(searchTerm);
   const [ validationError, setValidationError ] = React.useState<string | null>(null);
 
   const enabled = Boolean(searchTerm);
 
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, { enabled });
 
-  const handleSubmit = React.useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const value = inputValue.trim();
-
+  const handleChange = React.useCallback((value: string) => {
+    setValidationError(null);
     const error = validateEntityQuery(value);
     if (error) {
       setValidationError(error);
@@ -45,14 +41,7 @@ const SearchEntityPageContent = () => {
     if (value) {
       router.push({ pathname: '/entity/search', query: { q: value } }, undefined, { shallow: true });
     }
-  }, [ inputValue, router ]);
-
-  const handleSearchTermChange = React.useCallback((value: string) => {
-    if (validationError) {
-      setValidationError(null);
-    }
-    setInputValue(value);
-  }, [ validationError ]);
+  }, [ router ]);
 
   const displayedItems = React.useMemo(() => {
     if (!data) return [];
@@ -136,11 +125,9 @@ const SearchEntityPageContent = () => {
   const renderSearchBar = React.useCallback(() => {
     return (
       <>
-        <SearchResultsInput
-          searchTerm={ inputValue }
-          handleSubmit={ handleSubmit }
-          handleSearchTermChange={ handleSearchTermChange }
-          placeholder="Query entities..."
+        <QueryBuilderInput
+          defaultValue={ searchTerm }
+          onSearch={ handleChange }
         />
         { validationError && (
           <Box mt={ 2 }>
@@ -151,7 +138,7 @@ const SearchEntityPageContent = () => {
         ) }
       </>
     );
-  }, [ handleSubmit, handleSearchTermChange, inputValue, validationError ]);
+  }, [ handleChange, searchTerm, validationError ]);
 
   const pageContent = (
     <>
