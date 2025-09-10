@@ -1,4 +1,4 @@
-import { VStack, Flex, Box } from '@chakra-ui/react';
+import { Flex, Box } from '@chakra-ui/react';
 import React from 'react';
 
 import type { FeaturedNetwork, NetworkGroup } from 'types/networks';
@@ -7,7 +7,7 @@ import { PopoverBody, PopoverContent } from 'toolkit/chakra/popover';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'toolkit/chakra/tabs';
 
-import NetworkMenuLink from './NetworkMenuLink';
+import NetworkMenuContentItem from './NetworkMenuContentItem';
 
 interface Props {
   tabs: Array<NetworkGroup>;
@@ -70,20 +70,12 @@ const NetworkMenuPopup = ({ items, tabs }: Props) => {
         </TabsList>
       ) }
       <Box>
-        { tabs.map((tab) => (
+        { tabs.length > 1 ? tabs.map((tab) => (
           <TabsContent key={ tab } value={ tab } p={ 0 }>
-            <VStack as="ul" gap={ 1 } alignItems="stretch" maxH="516px" overflowY="scroll">
-              { items
-                .filter((network) => network.group === tab)
-                .map((network) => (
-                  <NetworkMenuLink
-                    key={ network.title }
-                    { ...network }
-                  />
-                )) }
-            </VStack>
+            <NetworkMenuContentItem items={ items } tab={ tab }/>
           </TabsContent>
-        )) }
+        )) :
+          <NetworkMenuContentItem items={ items } tab={ tabs[0] }/> }
       </Box>
     </TabsRoot>
   );
