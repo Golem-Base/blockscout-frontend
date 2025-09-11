@@ -43,17 +43,25 @@ interface Props {
 }
 
 const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
-  const [ instance, setInstance ] = React.useState<Monaco | undefined>();
-  const [ value, setValue ] = React.useState(defaultValue);
+  const instanceRef = React.useRef<Monaco | null>(null);
+  const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+
   const [ borderRadius ] = useToken('radii', 'md');
   const { colorMode } = useColorMode();
 
   React.useEffect(() => {
-    instance?.editor.setTheme(colorMode === 'light' ? 'vs' : 'vs-dark');
-  }, [ colorMode, instance?.editor ]);
+    instanceRef.current?.editor.setTheme(colorMode === 'light' ? 'vs' : 'vs-dark');
+  }, [ colorMode ]);
+
+  const handleSearch = React.useCallback(() => {
+    if (editorRef.current) {
+      onSearch(editorRef.current.getValue());
+    }
+  }, [ onSearch ]);
 
   const handleEditorDidMount = React.useCallback((editor: monaco.editor.IStandaloneCodeEditor, monacoInstance: Monaco) => {
-    setInstance(monacoInstance);
+    instanceRef.current = monacoInstance;
+    editorRef.current = editor;
     monacoInstance.editor.setTheme(colorMode === 'light' ? 'vs' : 'vs-dark');
 
     editor.addAction({
@@ -62,21 +70,9 @@ const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
       keybindings: [
         monacoInstance.KeyCode.Enter,
       ],
-      run: function() {
-        onSearch(value);
-      },
+      run: handleSearch,
     });
-  }, [ colorMode, onSearch, value ]);
-
-  const handleEditorChange = React.useCallback((newValue: string | undefined) => {
-    if (newValue !== undefined) {
-      setValue(newValue);
-    }
-  }, []);
-
-  const handleSearch = React.useCallback(() => {
-    onSearch(value);
-  }, [ onSearch, value ]);
+  }, [ colorMode, handleSearch ]);
 
   const containerCss: SystemStyleObject = React.useMemo(() => ({
     '& .monaco-editor': {
@@ -108,10 +104,9 @@ const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
           <MonacoEditor
             height={ `${ EDITOR_HEIGHT }px` }
             language="golembase-query"
-            value={ value }
+            defaultValue={ defaultValue }
             options={ EDITOR_OPTIONS }
             onMount={ handleEditorDidMount }
-            onChange={ handleEditorChange }
           />
         </Box>
         <IconButton
