@@ -16,6 +16,7 @@ import getNetworkValidatorTitle from 'lib/networks/getNetworkValidatorTitle';
 import * as arbitrum from 'lib/rollups/arbitrum';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { currencyUnits } from 'lib/units';
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { CollapsibleDetails } from 'toolkit/chakra/collapsible';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -42,6 +43,7 @@ import ZkSyncL2TxnBatchHashesInfo from 'ui/txnBatches/zkSyncL2/ZkSyncL2TxnBatchH
 
 import BlockDetailsBaseFeeCelo from './details/BlockDetailsBaseFeeCelo';
 import BlockDetailsBlobInfo from './details/BlockDetailsBlobInfo';
+import BlockDetailsStats from './details/BlockDetailsStats';
 import BlockDetailsZilliqaQuorumCertificate from './details/BlockDetailsZilliqaQuorumCertificate';
 import type { BlockQuery } from './useBlockQuery';
 
@@ -433,7 +435,7 @@ const BlockDetails = ({ query }: Props) => {
       </DetailedInfo.ItemLabel>
       <DetailedInfo.ItemValue>
         <Skeleton loading={ isPlaceholderData }>
-          { BigNumber(data.gas_used || 0).toFormat() }
+          { formatBigNum(data.gas_used) }
         </Skeleton>
         <BlockGasUsed
           gasUsed={ data.gas_used || undefined }
@@ -452,7 +454,7 @@ const BlockDetails = ({ query }: Props) => {
       </DetailedInfo.ItemLabel>
       <DetailedInfo.ItemValue>
         <Skeleton loading={ isPlaceholderData }>
-          { BigNumber(data.gas_limit).toFormat() }
+          { formatBigNum(data.gas_limit) }
         </Skeleton>
       </DetailedInfo.ItemValue>
 
@@ -539,6 +541,8 @@ const BlockDetails = ({ query }: Props) => {
           </DetailedInfo.ItemValue>
         </>
       ) }
+
+      <BlockDetailsStats blockHeight={ data.height } isLoading={ isPlaceholderData }/>
 
       { /* ADDITIONAL INFO */ }
       <CollapsibleDetails loading={ isPlaceholderData } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }}>

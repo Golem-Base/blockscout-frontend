@@ -1,5 +1,6 @@
 import { Flex, Grid } from '@chakra-ui/react';
 import React from 'react';
+import { toHex } from 'viem';
 
 import type { DecodedInput } from 'types/api/decodedInput';
 import type { ArrayElement } from 'types/utils';
@@ -8,6 +9,8 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import TruncatedValue from 'ui/shared/TruncatedValue';
+
+import StorageEntity from '../entities/entity/StorageEntity';
 
 interface Props {
   data: DecodedInput['parameters'];
@@ -31,6 +34,22 @@ const HeaderItem = ({ children, isLoading }: { children: React.ReactNode; isLoad
 
 const Row = ({ name, type, indexed, value, isLoading }: ArrayElement<DecodedInput['parameters']> & { isLoading?: boolean }) => {
   const content = (() => {
+    if (name === 'entityKey' && type === 'uint256' && typeof value === 'string') {
+      const hexValue = toHex(BigInt(value), { size: 32 });
+
+      return (
+        <Flex alignItems="flex-start" justifyContent="space-between" whiteSpace="normal" wordBreak="break-all">
+          <StorageEntity
+            entityKey={ hexValue }
+            noIcon={ true }
+            noCopy={ true }
+            isLoading={ isLoading }
+          />
+          <CopyToClipboard text={ hexValue } isLoading={ isLoading }/>
+        </Flex>
+      );
+    }
+
     if (type === 'address' && typeof value === 'string') {
       return (
         <AddressEntity
@@ -98,7 +117,6 @@ const LogDecodedInputDataTable = ({ data, isLoading }: Props) => {
       { hasIndexed && <HeaderItem isLoading={ isLoading }>Inde<wbr/>xed?</HeaderItem> }
       <HeaderItem isLoading={ isLoading }>Data</HeaderItem>
       { data.map((item) => {
-
         return <Row key={ item.name } { ...item } isLoading={ isLoading }/>;
       }) }
     </Grid>

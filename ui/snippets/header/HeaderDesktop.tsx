@@ -10,9 +10,10 @@ import UserWalletDesktop from 'ui/snippets/user/wallet/UserWalletDesktop';
 
 type Props = {
   renderSearchBar?: () => React.ReactNode;
+  hideSearchBar?: boolean;
 };
 
-const HeaderDesktop = ({ renderSearchBar }: Props) => {
+const HeaderDesktop = ({ renderSearchBar, hideSearchBar }: Props) => {
 
   const searchBar = renderSearchBar ? renderSearchBar() : <SearchBar/>;
 
@@ -26,7 +27,7 @@ const HeaderDesktop = ({ renderSearchBar }: Props) => {
       gap={ 6 }
     >
       <Box width="100%">
-        { searchBar }
+        { !hideSearchBar && searchBar }
       </Box>
       { config.UI.navigation.layout === 'vertical' && (
         <Box display="flex" gap={ 2 } flexShrink={ 0 }>

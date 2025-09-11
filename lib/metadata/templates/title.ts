@@ -70,12 +70,15 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/chain/[chain-slug]/tx/[hash]': '%network_name% transaction %hash% details',
   '/operations': '%network_name% operations',
   '/operation/[id]': '%network_name% operation %id%',
+  '/entity': '%network_name% related entities',
   '/entity/[key]': '%network_name% entity %key%',
   '/entity/create': '%network_name% create entity',
   '/entity/search': '%network_name% entity search results',
   '/entity/[key]/update': '%network_name% update entity %key%',
   '/entity/[key]/extend': '%network_name% extend entity %key%',
   '/leaderboards/spenders': '%network_name% biggest spenders',
+  '/leaderboards/owners': '%network_name% top entity owners',
+  '/leaderboards/longest-lived-entities': '%network_name% longest lived entities',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',
@@ -89,6 +92,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/api/csrf': '%network_name% node API CSRF token',
   '/api/healthz': '%network_name% node API health check',
   '/api/config': '%network_name% node API app config',
+  '/leaderboards/effectively-largest-entities': '%network_name% effectively largest entities',
 };
 
 const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {

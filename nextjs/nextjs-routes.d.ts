@@ -51,6 +51,7 @@ declare module "nextjs-routes" {
     | DynamicRoute<"/entity/[key]/update", { "key": string }>
     | DynamicRoute<"/entity/[key]", { "key": string }>
     | StaticRoute<"/entity/create">
+    | StaticRoute<"/entity">
     | StaticRoute<"/entity/search">
     | DynamicRoute<"/epochs/[number]", { "number": string }>
     | StaticRoute<"/epochs">
@@ -59,6 +60,9 @@ declare module "nextjs-routes" {
     | StaticRoute<"/">
     | StaticRoute<"/internal-txs">
     | StaticRoute<"/interop-messages">
+    | StaticRoute<"/leaderboards/effectively-largest-entities">
+    | StaticRoute<"/leaderboards/longest-lived-entities">
+    | StaticRoute<"/leaderboards/owners">
     | StaticRoute<"/leaderboards/spenders">
     | StaticRoute<"/login">
     | StaticRoute<"/mud-worlds">

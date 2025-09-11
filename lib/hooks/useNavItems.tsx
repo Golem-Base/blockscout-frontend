@@ -213,14 +213,31 @@ export default function useNavItems(): ReturnType {
     }
 
     const leaderboardsNavItems = [
-      ...[ topAccounts ].filter(Boolean),
+      topAccounts,
       {
         text: 'Biggest Spenders',
         nextRoute: { pathname: '/leaderboards/spenders' as const },
         icon: 'flame',
         isActive: pathname === '/leaderboards/spenders',
       },
-    ];
+      {
+        text: 'Top Entity Owners',
+        nextRoute: { pathname: '/leaderboards/owners' as const },
+        icon: 'layers',
+        isActive: pathname === '/leaderboards/owners',
+      },
+      {
+        text: 'Effectively largest entities',
+        nextRoute: { pathname: '/leaderboards/effectively-largest-entities' as const },
+        icon: 'layers',
+        isActive: pathname === '/leaderboards/effectively-largest-entities',
+      },
+      { text: 'Longest lived entities',
+        nextRoute: { pathname: '/leaderboards/longest-lived-entities' as const },
+        icon: 'layers',
+        isActive: pathname === '/leaderboards/longest-lived-entities',
+      },
+    ].filter(Boolean);
 
     const tokensNavItems = [
       {

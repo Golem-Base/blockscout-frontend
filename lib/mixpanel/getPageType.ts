@@ -70,12 +70,16 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/operation/[id]': 'Operation details',
 
   // Golem Base specific routes
+  '/entity': 'Related entities list',
   '/entity/[key]': 'Entity details',
   '/entity/create': 'Create entity',
   '/entity/[key]/update': 'Update entity',
   '/entity/[key]/extend': 'Extend entity',
   '/entity/search': 'Entity search results',
   '/leaderboards/spenders': 'Biggest Spenders',
+  '/leaderboards/owners': 'Top Entity Owners',
+  '/leaderboards/effectively-largest-entities': 'Effectively Largest Entities',
+  '/leaderboards/longest-lived-entities': 'Longest Lived Entities',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',

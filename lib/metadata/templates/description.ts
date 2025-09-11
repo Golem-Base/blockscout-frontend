@@ -73,12 +73,16 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/chain/[chain-slug]/tx/[hash]': DEFAULT_TEMPLATE,
   '/operations': DEFAULT_TEMPLATE,
   '/operation/[id]': DEFAULT_TEMPLATE,
+  '/entity': DEFAULT_TEMPLATE,
   '/entity/[key]': DEFAULT_TEMPLATE,
   '/entity/create': 'Create a new entity on %network_title% with file upload and annotations.',
   '/entity/search': 'Search for entities on %network_title% with advanced queries.',
   '/entity/[key]/update': DEFAULT_TEMPLATE,
   '/entity/[key]/extend': DEFAULT_TEMPLATE,
   '/leaderboards/spenders': DEFAULT_TEMPLATE,
+  '/leaderboards/owners': DEFAULT_TEMPLATE,
+  '/leaderboards/effectively-largest-entities': DEFAULT_TEMPLATE,
+  '/leaderboards/longest-lived-entities': DEFAULT_TEMPLATE,
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,
