@@ -232,6 +232,11 @@ export default function useNavItems(): ReturnType {
         icon: 'layers',
         isActive: pathname === '/leaderboards/effectively-largest-entities',
       },
+      { text: 'Longest lived entities',
+        nextRoute: { pathname: '/leaderboards/longest-lived-entities' as const },
+        icon: 'layers',
+        isActive: pathname === '/leaderboards/longest-lived-entities',
+      },
     ].filter(Boolean);
 
     const tokensNavItems = [
