@@ -21,7 +21,7 @@ const BORDER_DEFAULT = 'none';
 const EntitySearchLink = () => (
   <ButtonLink href="/entity/search" variant="surface">
     <LuFileSearch/>
-    <chakra.span hideBelow="md">Entity Search</chakra.span>
+    <chakra.span hideBelow="md">Query Builder</chakra.span>
   </ButtonLink>
 );
 

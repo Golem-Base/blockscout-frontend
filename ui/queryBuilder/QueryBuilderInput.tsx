@@ -10,6 +10,8 @@ import { IconButton } from 'toolkit/chakra/icon-button';
 import ErrorBoundary from 'ui/shared/ErrorBoundary';
 import IconSvg from 'ui/shared/IconSvg';
 
+import { configRpcQuery, defRpcQuery } from './defRpcQuery';
+
 type Monaco = typeof monaco;
 
 const EDITOR_OPTIONS: EditorProps['options'] = {
@@ -33,6 +35,11 @@ const EDITOR_OPTIONS: EditorProps['options'] = {
   fontSize: 14,
   lineHeight: 20,
   padding: { top: 10, bottom: 10 },
+  contextmenu: false,
+  quickSuggestions: true,
+  suggestOnTriggerCharacters: true,
+  acceptSuggestionOnEnter: 'on',
+  tabCompletion: 'on',
 };
 
 const EDITOR_HEIGHT = 40;
@@ -63,6 +70,132 @@ const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
     instanceRef.current = monacoInstance;
     editorRef.current = editor;
     monacoInstance.editor.setTheme(colorMode === 'light' ? 'vs' : 'vs-dark');
+
+    monacoInstance.languages.register({ id: 'golembase-query' });
+    monacoInstance.languages.setMonarchTokensProvider('golembase-query', defRpcQuery);
+    monacoInstance.languages.setLanguageConfiguration('golembase-query', configRpcQuery);
+
+    monacoInstance.languages.registerCompletionItemProvider('golembase-query', {
+      provideCompletionItems: (model, position) => {
+        const word = model.getWordUntilPosition(position);
+        const range = {
+          startLineNumber: position.lineNumber,
+          endLineNumber: position.lineNumber,
+          startColumn: word.startColumn,
+          endColumn: word.endColumn,
+        };
+
+        const suggestions = [
+          {
+            label: '$owner',
+            kind: monacoInstance.languages.CompletionItemKind.Keyword,
+            insertText: '$owner',
+            documentation: 'Owner address filter',
+            detail: 'Meta-annotation',
+            range,
+          },
+          {
+            label: '=',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '=',
+            documentation: 'Equals operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '!=',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '!=',
+            documentation: 'Not equals operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '>',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '>',
+            documentation: 'Greater than operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '>=',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '>=',
+            documentation: 'Greater than or equal operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '<',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '<',
+            documentation: 'Less than operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '<=',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '<=',
+            documentation: 'Less than or equal operator',
+            detail: 'Comparison',
+            range,
+          },
+          {
+            label: '~',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '~',
+            documentation: 'Pattern match operator',
+            detail: 'Pattern',
+            range,
+          },
+          {
+            label: '!~',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '!~',
+            documentation: 'Pattern not match operator',
+            detail: 'Pattern',
+            range,
+          },
+          {
+            label: '&&',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '&&',
+            documentation: 'Logical AND operator',
+            detail: 'Logical',
+            range,
+          },
+          {
+            label: '||',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '||',
+            documentation: 'Logical OR operator',
+            detail: 'Logical',
+            range,
+          },
+          {
+            label: '!',
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: '!',
+            documentation: 'Logical NOT operator',
+            detail: 'Logical',
+            range,
+          },
+          {
+            label: '(',
+            kind: monacoInstance.languages.CompletionItemKind.Snippet,
+            insertText: '($1)',
+            insertTextRules: monacoInstance.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            documentation: 'Parentheses for grouping',
+            detail: 'Grouping',
+            range,
+          },
+        ];
+
+        return { suggestions };
+      },
+    });
 
     editor.addAction({
       id: 'search-on-enter',
