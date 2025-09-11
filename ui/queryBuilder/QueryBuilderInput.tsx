@@ -47,9 +47,10 @@ const EDITOR_HEIGHT = 40;
 interface Props {
   defaultValue: string;
   onSearch: (value: string) => void;
+  onValidationChange?: (hasErrors: boolean, errors: Array<monaco.editor.IMarker>) => void;
 }
 
-const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
+const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props) => {
   const instanceRef = React.useRef<Monaco | null>(null);
   const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -74,6 +75,27 @@ const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
     monacoInstance.languages.register({ id: 'golembase-query' });
     monacoInstance.languages.setMonarchTokensProvider('golembase-query', defRpcQuery);
     monacoInstance.languages.setLanguageConfiguration('golembase-query', configRpcQuery);
+
+    // Set up validation state monitoring
+    const checkValidationState = () => {
+      if (editor && onValidationChange) {
+        const model = editor.getModel();
+        if (model) {
+          const markers = monacoInstance.editor.getModelMarkers({ resource: model.uri });
+          const hasErrors = markers.some(marker => marker.severity === monacoInstance.MarkerSeverity.Error);
+          onValidationChange(hasErrors, markers);
+        }
+      }
+    };
+
+    // Monitor validation changes
+    editor.onDidChangeModelContent(() => {
+      // Use a small delay to let Monaco process the changes
+      setTimeout(checkValidationState, 100);
+    });
+
+    // Initial validation check
+    setTimeout(checkValidationState, 100);
 
     monacoInstance.languages.registerCompletionItemProvider('golembase-query', {
       provideCompletionItems: (model, position) => {
@@ -205,7 +227,7 @@ const QueryBuilderInput = ({ defaultValue, onSearch }: Props) => {
       ],
       run: handleSearch,
     });
-  }, [ colorMode, handleSearch ]);
+  }, [ colorMode, handleSearch, onValidationChange ]);
 
   const containerCss: SystemStyleObject = React.useMemo(() => ({
     '& .monaco-editor': {

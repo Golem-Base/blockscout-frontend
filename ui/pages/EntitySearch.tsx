@@ -1,11 +1,11 @@
 import { Box, Text, chakra } from '@chakra-ui/react';
+import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
-import { validateEntityQuery } from 'ui/entity/utils/queryValidation';
 import useQueryEntities from 'ui/entity/utils/useQueryEntities';
 import QueryBuilderInput from 'ui/queryBuilder/QueryBuilderInput';
 import SearchResultListItem from 'ui/searchResults/SearchResultListItem';
@@ -22,26 +22,23 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 const SearchEntityPageContent = () => {
   const router = useRouter();
   const searchTerm = getQueryParamString(router.query.q)?.trim() || '';
-  const [ validationError, setValidationError ] = React.useState<string | null>(null);
+  const [ validationErrors, setValidationErrors ] = React.useState<Array<monaco.editor.IMarker>>([]);
+  const [ hasValidationErrors, setHasValidationErrors ] = React.useState(false);
 
   const enabled = Boolean(searchTerm);
 
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, { enabled });
 
   const handleChange = React.useCallback((value: string) => {
-    setValidationError(null);
-    const error = validateEntityQuery(value);
-    if (error) {
-      setValidationError(error);
-      return;
-    }
-
-    setValidationError(null);
-
-    if (value) {
+    if (value && !hasValidationErrors) {
       router.push({ pathname: '/entity/search', query: { q: value } }, undefined, { shallow: true });
     }
-  }, [ router ]);
+  }, [ router, hasValidationErrors ]);
+
+  const handleValidationChange = React.useCallback((hasErrors: boolean, errors: Array<monaco.editor.IMarker>) => {
+    setHasValidationErrors(hasErrors);
+    setValidationErrors(errors);
+  }, []);
 
   const displayedItems = React.useMemo(() => {
     if (!data) return [];
@@ -128,17 +125,20 @@ const SearchEntityPageContent = () => {
         <QueryBuilderInput
           defaultValue={ searchTerm }
           onSearch={ handleChange }
+          onValidationChange={ handleValidationChange }
         />
-        { validationError && (
+        { hasValidationErrors && validationErrors.length > 0 && (
           <Box mt={ 2 }>
-            <Text color="text.error" textStyle="sm" fontSize="sm">
-              { validationError }
-            </Text>
+            { validationErrors.map((error, index) => (
+              <Text key={ index } color="text.error" textStyle="sm" fontSize="sm">
+                Line { error.startLineNumber }: { error.message }
+              </Text>
+            )) }
           </Box>
         ) }
       </>
     );
-  }, [ handleChange, searchTerm, validationError ]);
+  }, [ handleChange, searchTerm, handleValidationChange, hasValidationErrors, validationErrors ]);
 
   const pageContent = (
     <>
