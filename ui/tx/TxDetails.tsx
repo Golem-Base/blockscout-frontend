@@ -13,9 +13,10 @@ import type { TxQuery } from './useTxQuery';
 interface Props {
   txQuery: TxQuery;
   tacOperationQuery?: UseQueryResult<tac.OperationsFullResponse, ResourceError>;
+  isSingleOperation: boolean;
 }
 
-const TxDetails = ({ txQuery, tacOperationQuery }: Props) => {
+const TxDetails = ({ txQuery, tacOperationQuery, isSingleOperation }: Props) => {
   if (txQuery.isError) {
     return <DataFetchAlert/>;
   }
@@ -26,6 +27,7 @@ const TxDetails = ({ txQuery, tacOperationQuery }: Props) => {
       <TxInfo
         data={ txQuery.data }
         tacOperations={ tacOperationQuery?.data?.items }
+        isSingleOperation={ isSingleOperation }
         isLoading={ txQuery.isPlaceholderData || (tacOperationQuery?.isPlaceholderData ?? false) }
         socketStatus={ txQuery.socketStatus }
       />

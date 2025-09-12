@@ -30,6 +30,7 @@ import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import { WEI, WEI_IN_GWEI } from 'toolkit/utils/consts';
+import OpExpandableDetails from 'ui/entityOps/OpExpandableDetails';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import CurrencyValue from 'ui/shared/CurrencyValue';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
@@ -73,12 +74,13 @@ interface Props {
   tacOperations?: Array<tac.OperationDetails>;
   isLoading: boolean;
   socketStatus?: 'close' | 'error';
+  isSingleOperation: boolean;
 }
 
 const externalTxFeature = config.features.externalTxs;
 const rollupFeature = config.features.rollup;
 
-const TxInfo = ({ data, tacOperations, isLoading, socketStatus }: Props) => {
+const TxInfo = ({ data, tacOperations, isLoading, socketStatus, isSingleOperation }: Props) => {
   const [ isExpanded, setIsExpanded ] = React.useState(false);
 
   const isMobile = useIsMobile();
@@ -852,6 +854,22 @@ const TxInfo = ({ data, tacOperations, isLoading, socketStatus }: Props) => {
               </DetailedInfo.ItemLabel>
               <DetailedInfo.ItemValue>
                 <Text>{ data.l1_fee_scalar }</Text>
+              </DetailedInfo.ItemValue>
+            </>
+          ) }
+
+          { isSingleOperation && (
+            <>
+              <DetailedInfo.ItemDivider/>
+
+              <DetailedInfo.ItemLabel
+                hint="Since the transaction contains exactly one operation, we automatically show its full preview."
+                isLoading={ isLoading }
+              >
+                Entity operation
+              </DetailedInfo.ItemLabel>
+              <DetailedInfo.ItemValue>
+                <OpExpandableDetails txHash={ data.hash } opIndex="0"/>
               </DetailedInfo.ItemValue>
             </>
           ) }
