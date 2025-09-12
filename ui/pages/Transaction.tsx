@@ -1,3 +1,4 @@
+import { sum } from 'es-toolkit';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 
@@ -68,7 +69,9 @@ const TransactionPageContent = () => {
   const totalOperationsCount = useMemo(() => {
     if (!operationsCountQuery.data) return 0;
 
-    return Object.values(operationsCountQuery.data).reduce((sum, count) => sum + Number(count), 0);
+    const countsByStatuses = Object.values(operationsCountQuery.data);
+
+    return sum(countsByStatuses);
   }, [ operationsCountQuery.data ]);
 
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
