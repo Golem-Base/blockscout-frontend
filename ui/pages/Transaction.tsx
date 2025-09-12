@@ -66,12 +66,12 @@ const TransactionPageContent = () => {
     },
   });
 
-  const totalOperationsCount = useMemo(() => {
-    if (!operationsCountQuery.data) return 0;
+  const isSingleOperation = useMemo(() => {
+    if (!operationsCountQuery.data) return false;
 
     const countsByStatuses = Object.values(operationsCountQuery.data);
 
-    return sum(countsByStatuses);
+    return sum(countsByStatuses) === 1;
   }, [ operationsCountQuery.data ]);
 
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
@@ -84,7 +84,7 @@ const TransactionPageContent = () => {
         <TxDetails
           txQuery={ txQuery }
           tacOperationQuery={ tacFeature.isEnabled ? tacOperationQuery : undefined }
-          isSingleOperation={ totalOperationsCount === 1 }
+          isSingleOperation={ isSingleOperation }
         />
       );
 
