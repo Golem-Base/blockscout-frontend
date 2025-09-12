@@ -5637,6 +5637,11 @@
     prop-types "^15.7.2"
     tslib "^2.3.0"
 
+"@react-querybuilder/chakra@^8.8.4":
+  version "8.8.4"
+  resolved "https://registry.yarnpkg.com/@react-querybuilder/chakra/-/chakra-8.8.4.tgz#4dfc042aebc44ebbf47fb549a349fcc56d310421"
+  integrity sha512-2K9mHDv9/gARg3GIjXMehPVzItUCny+fmwvV06q2dJrnnlnBTAmY1bMSsMf5RvKC/IsnGIh8CodBUDbNxpEyGw==
+
 "@reduxjs/toolkit@^2.8.2":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-2.9.0.tgz#d4b12b90c27716a6a507193f8c3b2880729b97d5"
