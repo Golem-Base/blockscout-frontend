@@ -21,24 +21,22 @@ const QueryBuilder = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <Box>
-      <Flex justify="space-between" align="center" mb={ 4 }>
-        <TabsRoot defaultValue="input" variant="segmented" size="sm">
+      <TabsRoot defaultValue="input" variant="segmented" size="sm">
+        <Flex justify="space-between" align="center" mb={ 4 }>
           <TabsList>
             <TabsTrigger value="input">Text Input</TabsTrigger>
             <TabsTrigger value="visual">Query Builder</TabsTrigger>
           </TabsList>
-        </TabsRoot>
 
-        <Button
-          colorScheme="blue"
-          size="sm"
-          onClick={ handleSubmit }
-        >
-          Submit Query
-        </Button>
-      </Flex>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            onClick={ handleSubmit }
+          >
+            Submit Query
+          </Button>
+        </Flex>
 
-      <TabsRoot defaultValue="input">
         <TabsContent value="visual">
           <QueryBuilderVisual
             value={ queryValue }
