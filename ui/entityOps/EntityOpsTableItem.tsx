@@ -42,14 +42,14 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             number={ item.block_number }
             hash={ item.block_hash }
             isLoading={ isLoading }
-            truncation="constant"
+            truncation="dynamic"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <TxEntity
             hash={ item.transaction_hash }
             isLoading={ isLoading }
-            truncation="constant"
+            truncation="dynamic"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
@@ -63,7 +63,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           <StorageEntity
             entityKey={ item.entity_key }
             isLoading={ isLoading }
-            truncation="constant"
+            truncation="dynamic"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">

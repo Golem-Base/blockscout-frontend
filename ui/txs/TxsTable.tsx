@@ -70,10 +70,10 @@ const TxsTable = ({
                 Block
               </TableColumnHeaderSortable>
             ) }
-            <TableColumnHeader width="224px">From/To</TableColumnHeader>
+            <TableColumnHeader width="30%">From/To</TableColumnHeader>
             { !config.UI.views.tx.hiddenFields?.value && (
               <TableColumnHeaderSortable
-                width="20%"
+                width="10%"
                 isNumeric
                 sortField="value"
                 sortValue={ sort }
@@ -84,7 +84,7 @@ const TxsTable = ({
             ) }
             { !config.UI.views.tx.hiddenFields?.tx_fee && (
               <TableColumnHeaderSortable
-                width="20%"
+                width="10%"
                 isNumeric
                 pr={ 5 }
                 sortField="fee"

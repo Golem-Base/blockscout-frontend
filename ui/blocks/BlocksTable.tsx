@@ -23,6 +23,10 @@ interface Props {
   showSocketInfo?: boolean;
 }
 
+interface TableColumnHeaders extends React.ComponentProps<typeof TableColumnHeader> {
+  visible: boolean;
+}
+
 const VALIDATOR_COL_WEIGHT = 23;
 const GAS_COL_WEIGHT = 33;
 const REWARD_COL_WEIGHT = 22;
@@ -43,29 +47,66 @@ const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum
     (!isRollup && !config.UI.views.block.hiddenFields?.total_reward ? REWARD_COL_WEIGHT : 0) +
     (!isRollup && !config.UI.views.block.hiddenFields?.burnt_fees ? FEES_COL_WEIGHT : 0);
 
+  const tableColumnHeaders: Array<TableColumnHeaders> = [
+    {
+      width: '180px',
+      children: <>
+        Block
+        <TimeFormatToggle/>
+      </>,
+      visible: true,
+    },
+    {
+      width: '120px',
+      children: 'Size, bytes',
+      visible: true,
+    },
+    {
+      width: `${ VALIDATOR_COL_WEIGHT / widthBase * 100 }%`,
+      children: capitalize(getNetworkValidatorTitle()),
+      visible: !config.UI.views.block.hiddenFields?.miner,
+      minW: '160px',
+    },
+    {
+      width: '64px',
+      children: 'Txn',
+      visible: true,
+    },
+    {
+      width: `${ GAS_COL_WEIGHT / widthBase * 100 }%`,
+      children: 'Gas used',
+      visible: true,
+    },
+    {
+      width: `${ REWARD_COL_WEIGHT / widthBase * 100 }%`,
+      children: `Reward ${ currencyUnits.ether }`,
+      visible: !isRollup && !config.UI.views.block.hiddenFields?.total_reward,
+    },
+    {
+      width: `${ FEES_COL_WEIGHT / widthBase * 100 }%`,
+      children: `Burnt fees ${ currencyUnits.ether }`,
+      visible: !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees,
+    },
+    {
+      width: '150px',
+      children: 'Base fee',
+      visible: !isRollup && !config.UI.views.block.hiddenFields?.base_fee,
+    },
+  ].filter((header) => header.visible);
+
   return (
     <AddressHighlightProvider>
       <TableRoot minWidth="1070px" fontWeight={ 500 }>
         <TableHeaderSticky top={ top }>
           <TableRow>
-            <TableColumnHeader width="180px">
-              Block
-              <TimeFormatToggle/>
-            </TableColumnHeader>
-            <TableColumnHeader width="120px">Size, bytes</TableColumnHeader>
-            { !config.UI.views.block.hiddenFields?.miner && (
-              <TableColumnHeader width={ `${ VALIDATOR_COL_WEIGHT / widthBase * 100 }%` } minW="160px">
-                { capitalize(getNetworkValidatorTitle()) }
-              </TableColumnHeader>
-            ) }
-            <TableColumnHeader width="64px" isNumeric>Txn</TableColumnHeader>
-            <TableColumnHeader width={ `${ GAS_COL_WEIGHT / widthBase * 100 }%` }>Gas used</TableColumnHeader>
-            { !isRollup && !config.UI.views.block.hiddenFields?.total_reward &&
-              <TableColumnHeader width={ `${ REWARD_COL_WEIGHT / widthBase * 100 }%` }>Reward { currencyUnits.ether }</TableColumnHeader> }
-            { !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees &&
-              <TableColumnHeader width={ `${ FEES_COL_WEIGHT / widthBase * 100 }%` }>Burnt fees { currencyUnits.ether }</TableColumnHeader> }
-            { !isRollup && !config.UI.views.block.hiddenFields?.base_fee &&
-              <TableColumnHeader width="150px" isNumeric>Base fee</TableColumnHeader> }
+            { tableColumnHeaders
+              .map(({ visible, children, ...props }, index) => (
+                <TableColumnHeader { ...props } key={ index } isNumeric={ index === tableColumnHeaders.length - 1 }>
+                  { children }
+                </TableColumnHeader>
+              ),
+              )
+            }
           </TableRow>
         </TableHeaderSticky>
         <TableBody>
