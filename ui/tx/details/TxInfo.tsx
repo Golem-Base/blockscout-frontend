@@ -74,7 +74,7 @@ interface Props {
   tacOperations?: Array<tac.OperationDetails>;
   isLoading: boolean;
   socketStatus?: 'close' | 'error';
-  isSingleOperation: boolean;
+  isSingleOperation?: boolean;
 }
 
 const externalTxFeature = config.features.externalTxs;
