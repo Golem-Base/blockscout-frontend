@@ -56,7 +56,7 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
             noIcon={ noIcon }
             tokenHash={ tokenHash }
             tokenSymbol={ tokenSymbol }
-            truncation="constant"
+            truncation="dynamic"
             maxW="calc(100% - 28px)"
             w="min-content"
           />
@@ -70,7 +70,7 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
             noIcon={ noIcon }
             tokenHash={ tokenHash }
             tokenSymbol={ tokenSymbol }
-            truncation="constant"
+            truncation="dynamic"
             maxW="calc(100% - 28px)"
             w="min-content"
             ml="28px"
@@ -92,7 +92,7 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
         noIcon={ noIcon }
         tokenHash={ tokenHash }
         tokenSymbol={ tokenSymbol }
-        truncation="constant"
+        truncation="dynamic"
         mr={ isOutgoing ? 4 : 2 }
       />
       <AddressFromToIcon
@@ -108,7 +108,7 @@ const AddressFromTo = ({ from, to, current, mode: modeProp, className, isLoading
           noIcon={ noIcon }
           tokenHash={ tokenHash }
           tokenSymbol={ tokenSymbol }
-          truncation="constant"
+          truncation="dynamic"
           ml={ 3 }
         />
       ) }
