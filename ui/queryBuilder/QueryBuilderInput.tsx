@@ -10,6 +10,7 @@ import { IconButton } from 'toolkit/chakra/icon-button';
 import ErrorBoundary from 'ui/shared/ErrorBoundary';
 import IconSvg from 'ui/shared/IconSvg';
 
+import { KEYWORDS, MONACO_OPERATORS } from './constants';
 import { configRpcQuery, defRpcQuery } from './defRpcQuery';
 
 type Monaco = typeof monaco;
@@ -45,12 +46,11 @@ const EDITOR_OPTIONS: EditorProps['options'] = {
 const EDITOR_HEIGHT = 40;
 
 interface Props {
-  defaultValue: string;
-  onSearch: (value: string) => void;
-  onValidationChange?: (hasErrors: boolean, errors: Array<monaco.editor.IMarker>) => void;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props) => {
+const QueryBuilderInput = ({ value, onChange }: Props) => {
   const instanceRef = React.useRef<Monaco | null>(null);
   const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -61,11 +61,11 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
     instanceRef.current?.editor.setTheme(colorMode === 'light' ? 'vs' : 'vs-dark');
   }, [ colorMode ]);
 
-  const handleSearch = React.useCallback(() => {
+  const handleChange = React.useCallback(() => {
     if (editorRef.current) {
-      onSearch(editorRef.current.getValue());
+      onChange(editorRef.current.getValue());
     }
-  }, [ onSearch ]);
+  }, [ onChange ]);
 
   const handleEditorDidMount = React.useCallback((editor: monaco.editor.IStandaloneCodeEditor, monacoInstance: Monaco) => {
     instanceRef.current = monacoInstance;
@@ -76,26 +76,6 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
     monacoInstance.languages.setMonarchTokensProvider('golembase-query', defRpcQuery);
     monacoInstance.languages.setLanguageConfiguration('golembase-query', configRpcQuery);
 
-    // Set up validation state monitoring
-    const checkValidationState = () => {
-      if (editor && onValidationChange) {
-        const model = editor.getModel();
-        if (model) {
-          const markers = monacoInstance.editor.getModelMarkers({ resource: model.uri });
-          const hasErrors = markers.some(marker => marker.severity === monacoInstance.MarkerSeverity.Error);
-          onValidationChange(hasErrors, markers);
-        }
-      }
-    };
-
-    // Monitor validation changes
-    editor.onDidChangeModelContent(() => {
-      // Use a small delay to let Monaco process the changes
-      setTimeout(checkValidationState, 100);
-    });
-
-    // Initial validation check
-    setTimeout(checkValidationState, 100);
 
     monacoInstance.languages.registerCompletionItemProvider('golembase-query', {
       provideCompletionItems: (model, position) => {
@@ -107,103 +87,45 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
           endColumn: word.endColumn,
         };
 
+        const keywordSuggestions = KEYWORDS.map(keyword => ({
+          label: keyword,
+          kind: monacoInstance.languages.CompletionItemKind.Keyword,
+          insertText: keyword,
+          documentation: `${keyword} filter`,
+          detail: 'Meta-annotation',
+          range,
+        }));
+
+        const operatorSuggestions = MONACO_OPERATORS.map(operator => {
+          const operatorDescriptions: Record<string, { doc: string; detail: string }> = {
+            '=': { doc: 'Equals operator', detail: 'Comparison' },
+            '!=': { doc: 'Not equals operator', detail: 'Comparison' },
+            '>': { doc: 'Greater than operator', detail: 'Comparison' },
+            '>=': { doc: 'Greater than or equal operator', detail: 'Comparison' },
+            '<': { doc: 'Less than operator', detail: 'Comparison' },
+            '<=': { doc: 'Less than or equal operator', detail: 'Comparison' },
+            '~': { doc: 'Pattern match operator', detail: 'Pattern' },
+            '!~': { doc: 'Pattern not match operator', detail: 'Pattern' },
+            '&&': { doc: 'Logical AND operator', detail: 'Logical' },
+            '||': { doc: 'Logical OR operator', detail: 'Logical' },
+            '!': { doc: 'Logical NOT operator', detail: 'Logical' },
+          };
+
+          const desc = operatorDescriptions[operator] || { doc: `${operator} operator`, detail: 'Operator' };
+
+          return {
+            label: operator,
+            kind: monacoInstance.languages.CompletionItemKind.Operator,
+            insertText: operator,
+            documentation: desc.doc,
+            detail: desc.detail,
+            range,
+          };
+        });
+
         const suggestions = [
-          {
-            label: '$owner',
-            kind: monacoInstance.languages.CompletionItemKind.Keyword,
-            insertText: '$owner',
-            documentation: 'Owner address filter',
-            detail: 'Meta-annotation',
-            range,
-          },
-          {
-            label: '=',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '=',
-            documentation: 'Equals operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '!=',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '!=',
-            documentation: 'Not equals operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '>',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '>',
-            documentation: 'Greater than operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '>=',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '>=',
-            documentation: 'Greater than or equal operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '<',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '<',
-            documentation: 'Less than operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '<=',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '<=',
-            documentation: 'Less than or equal operator',
-            detail: 'Comparison',
-            range,
-          },
-          {
-            label: '~',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '~',
-            documentation: 'Pattern match operator',
-            detail: 'Pattern',
-            range,
-          },
-          {
-            label: '!~',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '!~',
-            documentation: 'Pattern not match operator',
-            detail: 'Pattern',
-            range,
-          },
-          {
-            label: '&&',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '&&',
-            documentation: 'Logical AND operator',
-            detail: 'Logical',
-            range,
-          },
-          {
-            label: '||',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '||',
-            documentation: 'Logical OR operator',
-            detail: 'Logical',
-            range,
-          },
-          {
-            label: '!',
-            kind: monacoInstance.languages.CompletionItemKind.Operator,
-            insertText: '!',
-            documentation: 'Logical NOT operator',
-            detail: 'Logical',
-            range,
-          },
+          ...keywordSuggestions,
+          ...operatorSuggestions,
           {
             label: '(',
             kind: monacoInstance.languages.CompletionItemKind.Snippet,
@@ -225,9 +147,9 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
       keybindings: [
         monacoInstance.KeyCode.Enter,
       ],
-      run: handleSearch,
+      run: handleChange,
     });
-  }, [ colorMode, handleSearch, onValidationChange ]);
+  }, [ colorMode, handleChange ]);
 
   const containerCss: SystemStyleObject = React.useMemo(() => ({
     '& .monaco-editor': {
@@ -259,9 +181,10 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
           <MonacoEditor
             height={ `${ EDITOR_HEIGHT }px` }
             language="golembase-query"
-            defaultValue={ defaultValue }
+            value={ value }
             options={ EDITOR_OPTIONS }
             onMount={ handleEditorDidMount }
+            onChange={ handleChange }
           />
         </Box>
         <IconButton
@@ -274,7 +197,7 @@ const QueryBuilderInput = ({ defaultValue, onSearch, onValidationChange }: Props
           borderBottomRightRadius={ borderRadius }
           height={ `${ EDITOR_HEIGHT }px` }
           width={ `${ EDITOR_HEIGHT }px` }
-          onClick={ handleSearch }
+          onClick={ handleChange }
         >
           <IconSvg name="search" boxSize={ 4 }/>
         </IconButton>

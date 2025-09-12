@@ -1,5 +1,7 @@
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
+import { KEYWORDS, MONACO_OPERATORS } from './constants';
+
 export const configRpcQuery: monaco.languages.LanguageConfiguration = {
   brackets: [ [ '(', ')' ] ],
   autoClosingPairs: [
@@ -16,23 +18,9 @@ export const configRpcQuery: monaco.languages.LanguageConfiguration = {
 export const defRpcQuery: monaco.languages.IMonarchLanguage = {
   defaultToken: 'invalid',
 
-  keywords: [
-    '$owner',
-  ],
+  keywords: KEYWORDS,
 
-  operators: [
-    '=',
-    '!=',
-    '>=',
-    '<=',
-    '>',
-    '<',
-    '~',
-    '!~',
-    '&&',
-    '||',
-    '!',
-  ],
+  operators: MONACO_OPERATORS,
 
   tokenizer: {
     root: [

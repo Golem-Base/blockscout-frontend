@@ -21,7 +21,10 @@ const QueryBuilder = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <Box>
-      <TabsRoot defaultValue="input" variant="segmented" size="sm">
+      <code>
+        { queryValue }
+      </code>
+      <TabsRoot defaultValue="visual" variant="segmented" size="sm">
         <Flex justify="space-between" align="center" mb={ 4 }>
           <TabsList>
             <TabsTrigger value="input">Text Input</TabsTrigger>
