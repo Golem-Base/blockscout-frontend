@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from 'toolkit/chakra/button';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'toolkit/chakra/tabs';
 
-import QueryBuilderInput from './QueryBuilderInput';
+// import QueryBuilderInput from './QueryBuilderInput';
 import QueryBuilderVisual from './QueryBuilderVisual';
 
 interface Props {
@@ -27,8 +27,8 @@ const QueryBuilder = ({ defaultValue, onSubmit }: Props) => {
       <TabsRoot defaultValue="visual" variant="segmented" size="sm">
         <Flex justify="space-between" align="center" mb={ 4 }>
           <TabsList>
-            <TabsTrigger value="input">Text Input</TabsTrigger>
             <TabsTrigger value="visual">Query Builder</TabsTrigger>
+            <TabsTrigger value="input">Text Input</TabsTrigger>
           </TabsList>
 
           <Button
@@ -47,10 +47,10 @@ const QueryBuilder = ({ defaultValue, onSubmit }: Props) => {
           />
         </TabsContent>
         <TabsContent value="input">
-          <QueryBuilderInput
+          { /* <QueryBuilderInput
             value={ queryValue }
             onChange={ setQueryValue }
-          />
+          /> */ }
         </TabsContent>
       </TabsRoot>
     </Box>
