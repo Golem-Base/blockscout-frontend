@@ -2,7 +2,7 @@ import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 import { KEYWORDS, MONACO_OPERATORS } from './constants';
 
-export const configRpcQuery: monaco.languages.LanguageConfiguration = {
+export const languageConfiguration: monaco.languages.LanguageConfiguration = {
   brackets: [ [ '(', ')' ] ],
   autoClosingPairs: [
     { open: '(', close: ')' },
@@ -12,14 +12,12 @@ export const configRpcQuery: monaco.languages.LanguageConfiguration = {
     { open: '(', close: ')' },
     { open: '"', close: '"' },
   ],
-  wordPattern: /[a-z_$][\w$]*/i,
+  wordPattern: /[\p{L}_$][\p{L}\p{N}_$]*/u,
 };
 
-export const defRpcQuery: monaco.languages.IMonarchLanguage = {
+export const monarchTokensProvider: monaco.languages.IMonarchLanguage = {
   defaultToken: 'invalid',
-
   keywords: KEYWORDS,
-
   operators: MONACO_OPERATORS,
 
   tokenizer: {
@@ -28,11 +26,7 @@ export const defRpcQuery: monaco.languages.IMonarchLanguage = {
 
       [ /&&/, 'operator' ],
       [ /\|\|/, 'operator' ],
-      [ /!=/, 'operator' ],
-      [ />=/, 'operator' ],
-      [ /<=/, 'operator' ],
-      [ /!~/, 'operator' ],
-      [ /[=><~!]/, 'operator' ],
+      [ /[=><]/, 'operator' ],
 
       [ /[()]/, 'delimiter.parenthesis' ],
 
@@ -43,7 +37,7 @@ export const defRpcQuery: monaco.languages.IMonarchLanguage = {
       [ /\d+/, 'number' ],
 
       [
-        /[a-z_$][\w$]*/i,
+        /[\p{L}_$][\p{L}\p{N}_$]*/u,
         {
           cases: {
             '@keywords': 'keyword',

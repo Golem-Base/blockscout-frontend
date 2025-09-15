@@ -3,7 +3,7 @@ import React from 'react';
 
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'toolkit/chakra/tabs';
 
-// import QueryBuilderInput from './QueryBuilderInput';
+import QueryBuilderInput from './input/QueryBuilderInput';
 import QueryBuilderVisual from './visual/QueryBuilderVisual';
 
 interface Props {
@@ -26,10 +26,7 @@ const QueryBuilder = (props: Props) => {
           />
         </TabsContent>
         <TabsContent value="input">
-          { /* <QueryBuilderInput
-            value={ queryValue }
-            onChange={ setQueryValue }
-          /> */ }
+          <QueryBuilderInput { ...props }/>
         </TabsContent>
       </TabsRoot>
     </Box>

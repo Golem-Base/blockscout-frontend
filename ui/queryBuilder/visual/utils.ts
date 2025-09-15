@@ -7,6 +7,8 @@ import {
   OWNER_KEY,
 } from 'toolkit/components/forms/validators';
 
+import { getOperatorsForField } from '../shared/operators';
+
 type FieldType = 'owner' | 'string' | 'numeric';
 
 export function parseField(value?: string): [FieldType, string] {
@@ -22,13 +24,9 @@ export function parseField(value?: string): [FieldType, string] {
 
 export function getOperators(field: string) {
   if (field.startsWith('numeric:')) {
-    return [
-      { name: '=', label: '=' },
-      { name: '<', label: '<' },
-      { name: '>', label: '>' },
-    ];
+    return getOperatorsForField('numeric');
   }
-  return [ { name: '=', label: '=' } ];
+  return getOperatorsForField('string');
 }
 
 export function validateQuery(query: RuleGroupTypeAny): ValidationMap {

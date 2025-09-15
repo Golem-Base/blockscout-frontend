@@ -1,0 +1,11 @@
+import { KEYWORDS, SUPPORTED_OPERATORS } from '../shared/constants';
+
+export { KEYWORDS };
+
+export const MONACO_OPERATORS = [
+  SUPPORTED_OPERATORS.EQUALITY,
+  SUPPORTED_OPERATORS.LESS_THAN,
+  SUPPORTED_OPERATORS.GREATER_THAN,
+  '&&',
+  '||',
+];
