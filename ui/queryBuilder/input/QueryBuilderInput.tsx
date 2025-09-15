@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Button } from 'toolkit/chakra/button';
 import { useColorMode } from 'toolkit/chakra/color-mode';
+import { Skeleton } from 'toolkit/chakra/skeleton';
 import type { Operator } from 'ui/queryBuilder/shared/constants';
 import ErrorBoundary from 'ui/shared/ErrorBoundary';
 
@@ -24,13 +25,15 @@ const EDITOR_OPTIONS: EditorProps['options'] = {
     alwaysConsumeMouseWheel: true,
     vertical: 'hidden',
     horizontal: 'hidden',
+    horizontalScrollbarSize: 0,
+    verticalScrollbarSize: 0,
   },
   dragAndDrop: false,
   wordWrap: 'on',
   lineNumbers: 'off',
   glyphMargin: false,
   folding: false,
-  lineDecorationsWidth: 0,
+  lineDecorationsWidth: 12,
   lineNumbersMinChars: 0,
   renderLineHighlight: 'none',
   hideCursorInOverviewRuler: true,
@@ -50,6 +53,10 @@ const EDITOR_OPTIONS: EditorProps['options'] = {
   cursorBlinking: 'solid',
   cursorStyle: 'line',
   cursorWidth: 2,
+  padding: {
+    top: 8,
+    bottom: 8,
+  },
 };
 
 const EDITOR_HEIGHT = 100;
@@ -173,6 +180,14 @@ const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
             options={ EDITOR_OPTIONS }
             onMount={ handleEditorDidMount }
             onChange={ handleChange }
+            loading={ (
+              <Skeleton
+                data-cy="monaco-editor-loading"
+                height={ `${ EDITOR_HEIGHT }px` }
+                borderRadius="4px"
+                loading
+              />
+            ) }
           />
         </ErrorBoundary>
       </Box>

@@ -58,6 +58,40 @@ describe('converter', () => {
       expect(result.combinator).toBe('and');
       expect(result.rules).toHaveLength(2);
     });
+
+    it('should handle complex query with parentheses and mixed operators', () => {
+      const queryString = 'name = "test entity" && (age > 18 || age < 65) && category = "inactive" && $owner = "0x1234567890123456789012345678901234567890"';
+      const result = stringToRuleGroup(queryString);
+
+      expect(result.combinator).toBe('and');
+      expect(result.rules).toHaveLength(4);
+
+      expect(result.rules[0]).toMatchObject({
+        field: 'string:name',
+        operator: '=',
+        value: 'test entity',
+      });
+
+      expect(result.rules[1]).toMatchObject({
+        combinator: 'or',
+        rules: [
+          { field: 'numeric:age', operator: '>', value: '18' },
+          { field: 'numeric:age', operator: '<', value: '65' },
+        ],
+      });
+
+      expect(result.rules[2]).toMatchObject({
+        field: 'string:category',
+        operator: '=',
+        value: 'inactive',
+      });
+
+      expect(result.rules[3]).toMatchObject({
+        field: OWNER_KEY,
+        operator: '=',
+        value: '0x1234567890123456789012345678901234567890',
+      });
+    });
   });
 
   describe('ruleGroupToString', () => {

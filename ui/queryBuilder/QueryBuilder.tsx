@@ -16,7 +16,7 @@ const QueryBuilder = (props: Props) => {
   return (
     <Box>
       <TabsRoot defaultValue="visual" variant="segmented" size="sm">
-        <TabsList mb={ 4 }>
+        <TabsList mb={ 1 }>
           <TabsTrigger value="visual">Query Builder</TabsTrigger>
           <TabsTrigger value="input">Text Input</TabsTrigger>
         </TabsList>

@@ -1,4 +1,5 @@
 import type { RuleGroupType, RuleType } from 'react-querybuilder';
+import { parseCEL } from 'react-querybuilder/parseCEL';
 
 import { OWNER_KEY } from 'toolkit/components/forms/validators';
 import { parseField } from 'ui/queryBuilder/visual/utils';
@@ -81,17 +82,56 @@ export function ruleGroupToString(ruleGroup: RuleGroupType): string {
   return parts.join(separator);
 }
 
+function preprocessQueryForCEL(queryString: string): string {
+  return queryString
+    .replace(/=/g, '==')
+    .replace(/\$owner/g, 'owner_address');
+}
+
+function postprocessParsedQuery(ruleGroup: RuleGroupType): RuleGroupType {
+  const processRule = (rule: RuleType | RuleGroupType): RuleType | RuleGroupType => {
+    if ('combinator' in rule) {
+      return {
+        ...rule,
+        rules: rule.rules.map(processRule),
+      };
+    }
+
+    if (rule.field === 'owner_address') {
+      return { ...rule, field: OWNER_KEY };
+    }
+
+    if (rule.field) {
+      const isNumeric = typeof rule.value === 'number' ||
+        (typeof rule.value === 'string' && /^\d+$/.test(rule.value));
+
+      return {
+        ...rule,
+        field: `${ isNumeric ? 'numeric' : 'string' }:${ rule.field }`,
+        value: isNumeric ? String(rule.value) : rule.value,
+      };
+    }
+
+    return rule;
+  };
+
+  return {
+    ...ruleGroup,
+    rules: ruleGroup.rules.map(processRule),
+  };
+}
+
 export function stringToRuleGroup(queryString: string): RuleGroupType {
   if (!queryString.trim()) {
     return { combinator: 'and', rules: [] };
   }
 
-  const parts = queryString
-    .split(/\s*&&\s*/)
-    .map(part => part.trim())
-    .filter(Boolean);
-
-  const rules = parts.map(parseRule);
-
-  return { combinator: 'and', rules };
+  try {
+    const celQuery = preprocessQueryForCEL(queryString);
+    const parsedQuery = parseCEL(celQuery);
+    return postprocessParsedQuery(parsedQuery);
+  } catch {
+    const parts = queryString.split(/\s*&&\s*/).map(part => part.trim()).filter(Boolean);
+    return { combinator: 'and', rules: parts.map(parseRule) };
+  }
 }

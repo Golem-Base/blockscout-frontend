@@ -108,19 +108,16 @@ const SearchEntityPageContent = () => {
     );
   })();
 
-  const renderSearchBar = React.useCallback(() => {
-    return (
-      <QueryBuilder
-        initialValue={ searchTerm }
-        onSubmit={ handleSubmit }
-        isLoading={ isLoading }
-      />
-    );
-  }, [ handleSubmit, isLoading, searchTerm ]);
-
   const pageContent = (
     <>
       <PageTitle title="Search results"/>
+      <Box mb={ 6 }>
+        <QueryBuilder
+          initialValue={ searchTerm }
+          onSubmit={ handleSubmit }
+          isLoading={ isLoading && enabled }
+        />
+      </Box>
       { bar }
       { content }
     </>
@@ -128,12 +125,12 @@ const SearchEntityPageContent = () => {
 
   return (
     <>
-      <HeaderMobile renderSearchBar={ renderSearchBar }/>
+      <HeaderMobile hideSearchBar/>
       <Layout.MainArea>
         <Layout.SideBar/>
-        <Layout.MainColumn>
+        <Layout.MainColumn paddingTop={{ base: 3, lg: 6 }}>
           <HeaderAlert/>
-          <HeaderDesktop renderSearchBar={ renderSearchBar }/>
+          <HeaderDesktop hideSearchBar/>
           <AppErrorBoundary>
             <Layout.Content flexGrow={ 0 }>
               { pageContent }
