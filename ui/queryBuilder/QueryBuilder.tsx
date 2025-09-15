@@ -1,49 +1,28 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { Button } from 'toolkit/chakra/button';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'toolkit/chakra/tabs';
 
 // import QueryBuilderInput from './QueryBuilderInput';
-import QueryBuilderVisual from './QueryBuilderVisual';
+import QueryBuilderVisual from './visual/QueryBuilderVisual';
 
 interface Props {
-  defaultValue: string;
+  initialValue: string;
   onSubmit: (value: string) => void;
+  isLoading?: boolean;
 }
 
-const QueryBuilder = ({ defaultValue, onSubmit }: Props) => {
-  const [ queryValue, setQueryValue ] = React.useState<string>(defaultValue);
-
-  const handleSubmit = React.useCallback(() => {
-    onSubmit(queryValue);
-  }, [ queryValue, onSubmit ]);
-
+const QueryBuilder = (props: Props) => {
   return (
     <Box>
-      <code>
-        { queryValue }
-      </code>
       <TabsRoot defaultValue="visual" variant="segmented" size="sm">
-        <Flex justify="space-between" align="center" mb={ 4 }>
-          <TabsList>
-            <TabsTrigger value="visual">Query Builder</TabsTrigger>
-            <TabsTrigger value="input">Text Input</TabsTrigger>
-          </TabsList>
-
-          <Button
-            colorScheme="blue"
-            size="sm"
-            onClick={ handleSubmit }
-          >
-            Submit Query
-          </Button>
-        </Flex>
+        <TabsList mb={ 4 }>
+          <TabsTrigger value="visual">Query Builder</TabsTrigger>
+          <TabsTrigger value="input">Text Input</TabsTrigger>
+        </TabsList>
 
         <TabsContent value="visual">
-          <QueryBuilderVisual
-            value={ queryValue }
-            onChange={ setQueryValue }
+          <QueryBuilderVisual { ...props }
           />
         </TabsContent>
         <TabsContent value="input">

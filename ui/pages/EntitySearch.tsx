@@ -111,11 +111,12 @@ const SearchEntityPageContent = () => {
   const renderSearchBar = React.useCallback(() => {
     return (
       <QueryBuilder
-        defaultValue={ searchTerm }
+        initialValue={ searchTerm }
         onSubmit={ handleSubmit }
+        isLoading={ isLoading }
       />
     );
-  }, [ handleSubmit, searchTerm ]);
+  }, [ handleSubmit, isLoading, searchTerm ]);
 
   const pageContent = (
     <>
