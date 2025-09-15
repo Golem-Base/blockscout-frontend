@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Box, Flex, Grid, chakra } from '@chakra-ui/react';
 import React from 'react';
 
 import type { Block } from 'types/api/block';
@@ -59,7 +59,7 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
         <Skeleton loading={ isLoading }>Txn</Skeleton>
         <Skeleton loading={ isLoading } color="text.secondary"><span>{ block.transactions_count }</span></Skeleton>
         <Tooltip content={ block.hash }>
-          <>
+          <chakra.div display="contents">
             <Skeleton loading={ isLoading }>Hash</Skeleton>
             <BlockEntity
               hash={ block.hash }
@@ -68,7 +68,7 @@ const LatestBlocksItem = ({ block, isLoading, animation }: Props) => {
               noIcon
               textStyle="sm"
             />
-          </>
+          </chakra.div>
         </Tooltip>
 
         { !config.features.rollup.isEnabled && !config.UI.views.block.hiddenFields?.total_reward && (

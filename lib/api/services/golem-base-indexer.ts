@@ -3,7 +3,10 @@ import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
 import type {
   GolemBaseIndexerEffectivelyLargestEntitiesFilters,
   GolemBaseIndexerEntitiesFilters,
-  GolemBaseIndexerEntitiesOwnersFilters, GolemBaseIndexerOpsFilters, GolemBaseIndexerSpendersFilters,
+  GolemBaseIndexerEntitiesOwnersFilters,
+  GolemBaseIndexerLongestLivedEntitiesFilters,
+  GolemBaseIndexerOpsFilters,
+  GolemBaseIndexerSpendersFilters,
 } from 'types/api/golemBaseIndexer';
 
 import type { PaginatedResponse } from './paginationConverter';
@@ -55,6 +58,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/entities-owned',
     paginated: true,
   },
+  longestLivedEntities: {
+    path: '/api/v1/leaderboard/entities-by-btl',
+    paginated: true,
+  },
   addressStats: {
     path: '/api/v1/address/:address/stats',
     pathParams: [ 'address' as const ],
@@ -80,6 +87,7 @@ R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.Lis
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
 R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
 R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesOwnedResponse> :
+R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.ListEntitiesByBtlResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
@@ -92,6 +100,7 @@ export type GolemBaseIndexerApiPaginationFilters<R extends GolemBaseIndexerApiRe
 R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
 R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
 R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilters :
+R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerLongestLivedEntitiesFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerEffectivelyLargestEntitiesFilters :
 never;
