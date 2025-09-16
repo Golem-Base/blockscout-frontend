@@ -1,5 +1,6 @@
+import { sum } from 'es-toolkit';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import type { TabItemRegular } from 'toolkit/components/AdaptiveTabs/types';
 import type { EntityTag as TEntityTag } from 'ui/shared/EntityTags/types';
@@ -56,14 +57,36 @@ const TransactionPageContent = () => {
     },
   });
 
+  const operationsCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
+    queryParams: {
+      transaction_hash: hash,
+    },
+    queryOptions: {
+      enabled: Boolean(hash),
+    },
+  });
+
+  const isSingleOperation = useMemo(() => {
+    if (!operationsCountQuery.data) return false;
+
+    const countsByStatuses = Object.values(operationsCountQuery.data);
+
+    return sum(countsByStatuses) === 1;
+  }, [ operationsCountQuery.data ]);
+
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;
 
   const showDegradedView = publicClient && ((isError && error.status !== 422) || isPlaceholderData) && errorUpdateCount > 0;
 
   const tabs: Array<TabItemRegular> = (() => {
     const detailsComponent = showDegradedView ?
-      <TxDetailsDegraded hash={ hash } txQuery={ txQuery }/> :
-      <TxDetails txQuery={ txQuery } tacOperationQuery={ tacFeature.isEnabled ? tacOperationQuery : undefined }/>;
+      <TxDetailsDegraded hash={ hash } txQuery={ txQuery }/> : (
+        <TxDetails
+          txQuery={ txQuery }
+          tacOperationQuery={ tacFeature.isEnabled ? tacOperationQuery : undefined }
+          isSingleOperation={ isSingleOperation }
+        />
+      );
 
     return [
       {
