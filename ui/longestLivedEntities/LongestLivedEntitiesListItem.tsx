@@ -30,11 +30,13 @@ const LongestLivedEntitiesListItem = ({
       </Flex>
 
       <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-        <DetailedInfoTimestamp
-          iconDirection="left"
-          timestamp={ item.expires_at_timestamp }
-          isLoading={ isLoading }
-        />
+        { item.expires_at_timestamp ? (
+          <DetailedInfoTimestamp
+            iconDirection="left"
+            timestamp={ item.expires_at_timestamp }
+            isLoading={ isLoading }
+          />
+        ) : '-' }
       </Skeleton>
     </ListItemMobile>
   );
