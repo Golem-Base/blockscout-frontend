@@ -85,7 +85,7 @@ const QueryBuilderVisual = ({ initialValue, onSubmit, isLoading }: Props) => {
         mt={ 4 }
         ml="auto"
       >
-        Submit Query
+        Run Query
       </Button>
     </Box>
   );
