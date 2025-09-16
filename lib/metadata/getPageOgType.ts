@@ -80,6 +80,7 @@ const OG_TYPE_DICT: Record<Route['pathname'], OGPageType> = {
   '/leaderboards/effectively-largest-entities': 'Regular page',
   '/entity': 'Regular page',
   '/leaderboards/longest-lived-entities': 'Regular page',
+  '/leaderboards/entity-creators': 'Regular page',
 
   // service routes, added only to make typescript happy
   '/login': 'Regular page',

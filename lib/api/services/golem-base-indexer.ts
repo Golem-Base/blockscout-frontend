@@ -4,6 +4,7 @@ import type {
   GolemBaseIndexerEffectivelyLargestEntitiesFilters,
   GolemBaseIndexerEntitiesFilters,
   GolemBaseIndexerEntitiesOwnersFilters,
+  GolemBaseIndexerEntitiesCreatedFilters,
   GolemBaseIndexerLongestLivedEntitiesFilters,
   GolemBaseIndexerOpsFilters,
   GolemBaseIndexerSpendersFilters,
@@ -74,6 +75,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/largest-entities',
     paginated: true,
   },
+  entitiesCreated: {
+    path: '/api/v1/leaderboard/entities-created',
+    paginated: true,
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -92,6 +97,7 @@ R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsRespons
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesCreatedResponse> :
 never;
 /* eslint-enable @stylistic/indent */
 
@@ -103,5 +109,6 @@ R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilte
 R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerLongestLivedEntitiesFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerEffectivelyLargestEntitiesFilters :
+R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerEntitiesCreatedFilters :
 never;
 /* eslint-enable @stylistic/indent */
