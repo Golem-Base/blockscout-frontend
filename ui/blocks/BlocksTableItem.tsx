@@ -37,101 +37,114 @@ const BlocksTableItem = ({ data, isLoading, enableTimeIncrement, animation }: Pr
   const txFees = BigNumber(data.transaction_fees || 0);
   const baseFeeValue = getBaseFeeValue(data.base_fee_per_gas);
 
+  const tableCells: Array<{ visible: boolean; element: React.ReactNode }> = [ {
+    visible: true,
+    element: <>
+      <Flex columnGap={ 2 } alignItems="center" mb={ 2 }>
+        { data.celo?.l1_era_finalized_epoch_number && (
+          <Tooltip content={ `Finalized epoch #${ data.celo.l1_era_finalized_epoch_number }` }>
+            <IconSvg name="checkered_flag" boxSize={ 5 } p="1px" isLoading={ isLoading } flexShrink={ 0 }/>
+          </Tooltip>
+        ) }
+        <Tooltip disabled={ data.type !== 'reorg' } content="Chain reorganizations">
+          <span>
+            <BlockEntity
+              isLoading={ isLoading }
+              number={ data.height }
+              hash={ data.type !== 'block' ? data.hash : undefined }
+              noIcon
+              fontWeight={ 600 }
+            />
+          </span>
+        </Tooltip>
+      </Flex>
+      <TimeWithTooltip
+        timestamp={ data.timestamp }
+        enableIncrement={ enableTimeIncrement }
+        isLoading={ isLoading }
+        color="text.secondary"
+        fontWeight={ 400 }
+        display="inline-block"
+      />
+    </>,
+  },
+  {
+    visible: true,
+    element: <Skeleton loading={ isLoading } display="inline-block">
+      { data.size.toLocaleString() }
+    </Skeleton>,
+  },
+  {
+    visible: !config.UI.views.block.hiddenFields?.miner,
+    element: <AddressEntity
+      address={ data.miner }
+      isLoading={ isLoading }
+      truncation="dynamic"
+      maxW="min-content"
+    />,
+  },
+  {
+    visible: true,
+    element:
+    data.transactions_count > 0 ? (
+      <Skeleton loading={ isLoading } display="inline-block">
+        <Link href={ route({
+          pathname: '/block/[height_or_hash]',
+          query: { height_or_hash: String(data.height), tab: 'txs' },
+        }) }>
+          { data.transactions_count }
+        </Link>
+      </Skeleton>
+    ) : data.transactions_count,
+  },
+  {
+    visible: true,
+    element: <>
+      <Skeleton loading={ isLoading } display="inline-block">{ BigNumber(data.gas_used || 0).toFormat() }</Skeleton>
+      <Flex mt={ 2 }>
+        <BlockGasUsed
+          gasUsed={ data.gas_used || undefined }
+          gasLimit={ data.gas_limit }
+          isLoading={ isLoading }
+          gasTarget={ data.gas_target_percentage || undefined }
+        />
+      </Flex>
+    </>,
+  },
+  {
+    visible: !isRollup && !config.UI.views.block.hiddenFields?.total_reward,
+    element: <Skeleton loading={ isLoading } display="inline-block">{ totalReward.toFixed(8) }</Skeleton>,
+  },
+  {
+    visible: !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees,
+    element: <>
+      <Flex alignItems="center" columnGap={ 2 }>
+        <IconSvg name="flame" boxSize={ 5 } color={{ _light: 'gray.500', _dark: 'inherit' }} isLoading={ isLoading }/>
+        <Skeleton loading={ isLoading } display="inline-block">
+          { burntFees.dividedBy(WEI).toFixed(8) }
+        </Skeleton>
+      </Flex><Tooltip content="Burnt fees / Txn fees * 100%" disabled={ isLoading }>
+        <Utilization mt={ 2 } w="min-content" value={ burntFees.div(txFees).toNumber() } isLoading={ isLoading }/>
+      </Tooltip>
+    </>,
+  },
+  {
+    visible: !isRollup && !config.UI.views.block.hiddenFields?.base_fee,
+    element: <Skeleton loading={ isLoading } display="inline-block">{ baseFeeValue }</Skeleton>,
+  },
+  ].filter(({ visible }) => visible);
+
   return (
     <TableRow animation={ animation }>
-      <TableCell >
-        <Flex columnGap={ 2 } alignItems="center" mb={ 2 }>
-          { data.celo?.l1_era_finalized_epoch_number && (
-            <Tooltip content={ `Finalized epoch #${ data.celo.l1_era_finalized_epoch_number }` }>
-              <IconSvg name="checkered_flag" boxSize={ 5 } p="1px" isLoading={ isLoading } flexShrink={ 0 }/>
-            </Tooltip>
-          ) }
-          <Tooltip disabled={ data.type !== 'reorg' } content="Chain reorganizations">
-            <span>
-              <BlockEntity
-                isLoading={ isLoading }
-                number={ data.height }
-                hash={ data.type !== 'block' ? data.hash : undefined }
-                noIcon
-                fontWeight={ 600 }
-              />
-            </span>
-          </Tooltip>
-        </Flex>
-        <TimeWithTooltip
-          timestamp={ data.timestamp }
-          enableIncrement={ enableTimeIncrement }
-          isLoading={ isLoading }
-          color="text.secondary"
-          fontWeight={ 400 }
-          display="inline-block"
-        />
-      </TableCell>
-      <TableCell >
-        <Skeleton loading={ isLoading } display="inline-block">
-          { data.size.toLocaleString() }
-        </Skeleton>
-      </TableCell>
-      { !config.UI.views.block.hiddenFields?.miner && (
-        <TableCell >
-          <AddressEntity
-            address={ data.miner }
-            isLoading={ isLoading }
-            truncation="constant"
-            maxW="min-content"
-          />
-        </TableCell>
-      ) }
-      <TableCell isNumeric >
-        { data.transactions_count > 0 ? (
-          <Skeleton loading={ isLoading } display="inline-block">
-            <Link href={ route({
-              pathname: '/block/[height_or_hash]',
-              query: { height_or_hash: String(data.height), tab: 'txs' },
-            }) }>
-              { data.transactions_count }
-            </Link>
-          </Skeleton>
-        ) : data.transactions_count }
-      </TableCell>
-      <TableCell >
-        <Skeleton loading={ isLoading } display="inline-block">{ BigNumber(data.gas_used || 0).toFormat() }</Skeleton>
-        <Flex mt={ 2 }>
-          <BlockGasUsed
-            gasUsed={ data.gas_used || undefined }
-            gasLimit={ data.gas_limit }
-            isLoading={ isLoading }
-            gasTarget={ data.gas_target_percentage || undefined }
-          />
-        </Flex>
-      </TableCell>
-      { !isRollup && !config.UI.views.block.hiddenFields?.total_reward && (
-        <TableCell >
-          <Skeleton loading={ isLoading } display="inline-block">
-            { totalReward.toFixed(8) }
-          </Skeleton>
-        </TableCell>
-      ) }
-      { !isRollup && !config.UI.views.block.hiddenFields?.burnt_fees && (
-        <TableCell >
-          <Flex alignItems="center" columnGap={ 2 }>
-            <IconSvg name="flame" boxSize={ 5 } color={{ _light: 'gray.500', _dark: 'inherit' }} isLoading={ isLoading }/>
-            <Skeleton loading={ isLoading } display="inline-block">
-              { burntFees.dividedBy(WEI).toFixed(8) }
-            </Skeleton>
-          </Flex>
-          <Tooltip content="Burnt fees / Txn fees * 100%" disabled={ isLoading }>
-            <Utilization mt={ 2 } w="min-content" value={ burntFees.div(txFees).toNumber() } isLoading={ isLoading }/>
-          </Tooltip>
-        </TableCell>
-      ) }
-      { !isRollup && !config.UI.views.block.hiddenFields?.base_fee && Boolean(baseFeeValue) && (
-        <TableCell isNumeric>
-          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre-wrap" wordBreak="break-word">
-            { baseFeeValue }
-          </Skeleton>
-        </TableCell>
-      ) }
+      { tableCells.map(({ element }, index) => {
+        const isLastRow = tableCells.length - 1 === index;
+
+        return (
+          <TableCell key={ index } isNumeric={ isLastRow } justifyItems={ isLastRow ? 'flex-end' : undefined }>
+            { element }
+          </TableCell>
+        );
+      }) }
     </TableRow>
   );
 };
