@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 import getItemIndex from 'lib/getItemIndex';
-import { EFFECTIVELY_LARGEST_ENTITIES } from 'stubs/leaderboards';
+import { LARGEST_ENTITIES } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
-import EffectivelyLargestEntitiesListItem from 'ui/effectivelyLargestEntitiesTable/EffectivelyLargestEntitiesListItem';
-import EffectivelyLargestEntitiesTable from 'ui/effectivelyLargestEntitiesTable/EffectivelyLargestEntitiesTable';
+import LargestEntitiesListItem from 'ui/largestEntitiesTable/LargestEntitiesListItem';
+import LargestEntitiesTable from 'ui/largestEntitiesTable/LargestEntitiesTable';
 import ActionBar, { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -16,13 +16,13 @@ interface Props {
   isQueryEnabled?: boolean;
 }
 
-const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
+const LargestEntities = ({ isQueryEnabled = true }: Props) => {
   const { isError, isPlaceholderData, data, pagination } = useQueryWithPages({
-    resourceName: 'golemBaseIndexer:effectivelyLargestEntities',
+    resourceName: 'golemBaseIndexer:largestEntities',
     filters: { page_size: '50' },
     options: {
       enabled: isQueryEnabled,
-      placeholderData: generateListStub<'golemBaseIndexer:effectivelyLargestEntities'>(EFFECTIVELY_LARGEST_ENTITIES, 50, {
+      placeholderData: generateListStub<'golemBaseIndexer:largestEntities'>(LARGEST_ENTITIES, 50, {
         next_page_params: {
           page: 2,
           page_size: 50,
@@ -43,18 +43,18 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
   const content = data?.items ? (
     <>
       <Box hideBelow="lg">
-        <EffectivelyLargestEntitiesTable
+        <LargestEntitiesTable
           top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           items={ data?.items }
           isLoading={ isPlaceholderData }
           pageStartIndex={ pageStartIndex }
         >
-        </EffectivelyLargestEntitiesTable>
+        </LargestEntitiesTable>
       </Box>
       <Box hideFrom="lg">
         { data.items.map((item, index) => {
           return (
-            <EffectivelyLargestEntitiesListItem
+            <LargestEntitiesListItem
               key={ item.entity_key + (isPlaceholderData ? index : '') }
               item={ item }
               rank={ pageStartIndex + index }
@@ -68,11 +68,11 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
 
   return (
     <>
-      <PageTitle title="Effectively largest entities" withTextAd/>
+      <PageTitle title="Largest entities" withTextAd/>
       <DataListDisplay
         isError={ isError }
         itemsNum={ data?.items.length }
-        emptyText="There are no effectively largest entities to display."
+        emptyText="There are no largest entities to display."
         actionBar={ actionBar }
       >
         { content }
@@ -81,4 +81,4 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
   );
 };
 
-export default EffectivelyLargestEntities;
+export default LargestEntities;
