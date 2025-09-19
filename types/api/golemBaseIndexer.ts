@@ -21,6 +21,6 @@ export type GolemBaseIndexerEntitiesCreatedFilters = Omit<ListAddressByEntitiesC
 
 export type GolemBaseIndexerEntitiesFilters = ListEntitiesRequest;
 
-export type GolemBaseIndexerEffectivelyLargestEntitiesFilters = Omit<ListLargestEntitiesRequest, 'page'>;
+export type GolemBaseIndexerLargestEntitiesFilters = Omit<ListLargestEntitiesRequest, 'page'>;
 
 export type GolemBaseIndexerLongestLivedEntitiesFilters = Omit<ListEntitiesByBtlRequest, 'page'>;

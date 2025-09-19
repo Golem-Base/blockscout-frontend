@@ -81,7 +81,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/entity/[key]/extend': DEFAULT_TEMPLATE,
   '/leaderboards/spenders': DEFAULT_TEMPLATE,
   '/leaderboards/owners': DEFAULT_TEMPLATE,
-  '/leaderboards/effectively-largest-entities': DEFAULT_TEMPLATE,
+  '/leaderboards/largest-entities': DEFAULT_TEMPLATE,
   '/leaderboards/entity-creators': 'Top addresses by entities created on %network_title%.',
   '/leaderboards/longest-lived-entities': DEFAULT_TEMPLATE,
 

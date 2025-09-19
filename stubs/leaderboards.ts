@@ -24,7 +24,7 @@ export const TOP_ENTITY_CREATOR: AddressByEntitiesCreated = {
   entities_created_count: '25',
 };
 
-export const EFFECTIVELY_LARGEST_ENTITIES: EntityDataSize = {
+export const LARGEST_ENTITIES: EntityDataSize = {
   entity_key: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   data_size: '12345678901234567890',
 };

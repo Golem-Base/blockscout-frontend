@@ -5,9 +5,9 @@ import type { ListLargestEntitiesResponse } from '@golembase/l3-indexer-types';
 import type { PaginatedResponse } from 'lib/api/services/paginationConverter';
 import { test, expect } from 'playwright/lib';
 
-import EffectivelyLargestEntities from './EffectivelyLargestEntities';
+import LargestEntities from './LargestEntities';
 
-const effectivelyLargestEntities: PaginatedResponse<ListLargestEntitiesResponse> = {
+const largestEntities: PaginatedResponse<ListLargestEntitiesResponse> = {
   items: Array(10).fill({
     entity_key: '0x1234567890123456789012345678901234567890',
     data_size: '151234567890',
@@ -25,18 +25,18 @@ const emptyResponse = {
 
 test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
-  await mockApiResponse('golemBaseIndexer:effectivelyLargestEntities', effectivelyLargestEntities, {
+  await mockApiResponse('golemBaseIndexer:largestEntities', largestEntities, {
     queryParams: { page_size: '50' },
   });
-  const component = await render(<EffectivelyLargestEntities/>);
+  const component = await render(<LargestEntities/>);
   await expect(component).toHaveScreenshot({ timeout: 15000 });
 });
 
 test('empty view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
-  await mockApiResponse('golemBaseIndexer:effectivelyLargestEntities', emptyResponse, {
+  await mockApiResponse('golemBaseIndexer:largestEntities', emptyResponse, {
     queryParams: { page_size: '50' },
   });
-  const component = await render(<EffectivelyLargestEntities/>);
+  const component = await render(<LargestEntities/>);
   await expect(component).toHaveScreenshot({ timeout: 15000 });
 });

@@ -1,7 +1,7 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
 import type {
-  GolemBaseIndexerEffectivelyLargestEntitiesFilters,
+  GolemBaseIndexerLargestEntitiesFilters,
   GolemBaseIndexerEntitiesFilters,
   GolemBaseIndexerEntitiesOwnersFilters,
   GolemBaseIndexerEntitiesCreatedFilters,
@@ -71,7 +71,7 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/block/:block/stats',
     pathParams: [ 'block' as const ],
   },
-  effectivelyLargestEntities: {
+  largestEntities: {
     path: '/api/v1/leaderboard/largest-entities',
     paginated: true,
   },
@@ -96,7 +96,7 @@ R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseI
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
-R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesCreatedResponse> :
 never;
 /* eslint-enable @stylistic/indent */
@@ -108,7 +108,7 @@ R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
 R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilters :
 R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerLongestLivedEntitiesFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
-R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerEffectivelyLargestEntitiesFilters :
+R extends 'golemBaseIndexer:largestEntities' ? GolemBaseIndexerLargestEntitiesFilters :
 R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerEntitiesCreatedFilters :
 never;
 /* eslint-enable @stylistic/indent */
