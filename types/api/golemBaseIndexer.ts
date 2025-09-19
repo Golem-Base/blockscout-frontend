@@ -4,6 +4,7 @@ import type {
   OperationType,
   ListBiggestSpendersRequest,
   ListAddressByEntitiesOwnedRequest,
+  ListAddressByEntitiesCreatedRequest,
   ListLargestEntitiesRequest,
   ListEntitiesByBtlRequest,
 } from '@golembase/l3-indexer-types';
@@ -15,6 +16,8 @@ export type FilterOperationType = Exclude<OperationType, 'UNRECOGNIZED'>;
 export type GolemBaseIndexerSpendersFilters = Omit<ListBiggestSpendersRequest, 'page'>;
 
 export type GolemBaseIndexerEntitiesOwnersFilters = Omit<ListAddressByEntitiesOwnedRequest, 'page'>;
+
+export type GolemBaseIndexerEntitiesCreatedFilters = Omit<ListAddressByEntitiesCreatedRequest, 'page'>;
 
 export type GolemBaseIndexerEntitiesFilters = ListEntitiesRequest;
 

@@ -1,4 +1,11 @@
-import { EntityStatus, type AddressByEntitiesOwned, type BiggestSpender, type EntityDataSize, type EntityWithExpTimestamp } from '@golembase/l3-indexer-types';
+import {
+  EntityStatus,
+  type AddressByEntitiesOwned,
+  type AddressByEntitiesCreated,
+  type BiggestSpender,
+  type EntityDataSize,
+  type EntityWithExpTimestamp,
+} from '@golembase/l3-indexer-types';
 
 export const TOP_SPENDER: BiggestSpender = {
   rank: '1',
@@ -9,6 +16,12 @@ export const TOP_SPENDER: BiggestSpender = {
 export const TOP_ENTITY_OWNER: AddressByEntitiesOwned = {
   address: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   entities_count: '42',
+};
+
+export const TOP_ENTITY_CREATOR: AddressByEntitiesCreated = {
+  rank: '1',
+  address: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
+  entities_created_count: '25',
 };
 
 export const LARGEST_ENTITIES: EntityDataSize = {
