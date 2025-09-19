@@ -14,7 +14,7 @@ type Props = {
   rank: number;
 };
 
-const EffectivelyLargestEntitiesListItem = ({
+const LargestEntitiesListItem = ({
   item,
   isLoading,
   rank,
@@ -35,4 +35,4 @@ const EffectivelyLargestEntitiesListItem = ({
   );
 };
 
-export default React.memo(EffectivelyLargestEntitiesListItem);
+export default React.memo(LargestEntitiesListItem);

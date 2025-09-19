@@ -18,7 +18,7 @@ interface Props {
 }
 
 const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
-  const { data, isLoading } = useApiQuery('golemBaseIndexer:operation', {
+  const { data, isPlaceholderData: isLoading } = useApiQuery('golemBaseIndexer:operation', {
     pathParams: { tx_hash: txHash, op_index: opIndex },
     queryOptions: {
       enabled: Boolean(txHash) && Boolean(opIndex),

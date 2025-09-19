@@ -1,0 +1,45 @@
+import { Flex, HStack } from '@chakra-ui/react';
+import React from 'react';
+
+import type { AddressByEntitiesCreated } from '@golembase/l3-indexer-types';
+
+import { Skeleton } from 'toolkit/chakra/skeleton';
+import AddressEntity from 'ui/shared/entities/address/AddressEntity';
+import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
+
+type Props = {
+  item: AddressByEntitiesCreated;
+  isLoading?: boolean;
+};
+
+const TopEntityCreatorsListItem = ({
+  item,
+  isLoading,
+}: Props) => {
+  const addressProp = { hash: item.address };
+
+  return (
+    <ListItemMobile>
+      <Flex alignItems="center" justifyContent="space-between" w="100%">
+        <AddressEntity
+          address={ addressProp }
+          isLoading={ isLoading }
+          fontWeight={ 700 }
+          truncation="constant"
+          mr={ 2 }
+        />
+        <Skeleton loading={ isLoading } fontSize="sm" ml="auto" minW={ 6 } color="text.secondary">
+          <span>{ item.rank }</span>
+        </Skeleton>
+      </Flex>
+      <HStack gap={ 3 } maxW="100%" alignItems="flex-start">
+        <Skeleton loading={ isLoading } fontSize="sm" fontWeight={ 500 } flexShrink={ 0 }>Entities Created</Skeleton>
+        <Skeleton loading={ isLoading } fontSize="sm" color="text.secondary" minW="0" whiteSpace="pre-wrap">
+          <span>{ item.entities_created_count }</span>
+        </Skeleton>
+      </HStack>
+    </ListItemMobile>
+  );
+};
+
+export default React.memo(TopEntityCreatorsListItem);

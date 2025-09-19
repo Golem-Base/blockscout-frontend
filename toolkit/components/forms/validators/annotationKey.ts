@@ -1,4 +1,5 @@
 export const ANNOTATION_KEY_REGEXP = /^[\p{L}_][\p{L}\p{N}_]*$/u;
+export const OWNER_KEY = '$owner';
 
 export function annotationKeyValidator(value: unknown) {
   if (typeof value !== 'string' || value === '') {

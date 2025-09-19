@@ -13,7 +13,7 @@ type Props = {
   rank: number;
 };
 
-const EffectivelyLargestEntitiesTableItem = ({
+const LargestEntitiesTableItem = ({
   item,
   isLoading,
   rank,
@@ -50,4 +50,4 @@ const EffectivelyLargestEntitiesTableItem = ({
   );
 };
 
-export default React.memo(EffectivelyLargestEntitiesTableItem);
+export default React.memo(LargestEntitiesTableItem);

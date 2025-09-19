@@ -69,9 +69,8 @@ const TransactionPageContent = () => {
   const isSingleOperation = useMemo(() => {
     if (!operationsCountQuery.data) return false;
 
-    const countsByStatuses = Object.values(operationsCountQuery.data);
-
-    return sum(countsByStatuses) === 1;
+    const counts = Object.values(operationsCountQuery.data).map(Number);
+    return sum(counts) === 1;
   }, [ operationsCountQuery.data ]);
 
   const { data, isPlaceholderData, isError, error, errorUpdateCount } = txQuery;

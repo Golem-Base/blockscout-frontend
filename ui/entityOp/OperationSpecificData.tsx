@@ -21,12 +21,12 @@ interface Props {
 }
 
 const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
-  const renderValueTransition = (beforeValue: React.ReactNode, afterValue: React.ReactNode) => {
+  const renderValueTransition = (beforeValue?: React.ReactNode, afterValue?: React.ReactNode) => {
     return (
       <Skeleton loading={ isLoading } display="flex" alignItems="center" gap={ 2 }>
-        { beforeValue }
+        { beforeValue ?? '-' }
         <IconSvg name="arrows/east" boxSize={ 4 } color="text.secondary"/>
-        { afterValue }
+        { afterValue ?? '-' }
       </Skeleton>
     );
   };
@@ -65,7 +65,7 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
             <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
           </ItemValue>
 
-          { withTimestamps && (
+          { withTimestamps && data.expires_at_timestamp && (
             <>
               <ItemLabel hint="Date when this entity expires">Expiration Timestamp</ItemLabel>
               <ItemValue>
@@ -96,7 +96,7 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
             <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
           </ItemValue>
 
-          { withTimestamps && (
+          { withTimestamps && data.expires_at_timestamp && (
             <>
               <ItemLabel hint="Date when this entity expires">Expiration Timestamp</ItemLabel>
               <ItemValue>
@@ -136,9 +136,7 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
           <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
           <ItemValue>
             { renderValueTransition(
-              !isUndefined(data.prev_expires_at_block_number) ?
-                <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/> :
-                '-',
+              data.prev_expires_at_block_number && <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/>,
               <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
             ) }
           </ItemValue>
@@ -148,11 +146,8 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
               <ItemLabel hint="Expiration timestamp comparison">Expiration Timestamp</ItemLabel>
               <ItemValue>
                 { renderValueTransition(
-                  !isUndefined(data.prev_expires_at_timestamp) ?
-                    <DetailedInfoTimestamp timestamp={ data.prev_expires_at_timestamp } isLoading={ isLoading }/> :
-                    '-',
-                  <DetailedInfoTimestamp timestamp={ data.expires_at_timestamp } isLoading={ isLoading }/>
-                  ,
+                  data.prev_expires_at_timestamp && <DetailedInfoTimestamp timestamp={ data.prev_expires_at_timestamp } isLoading={ isLoading }/>,
+                  data.expires_at_timestamp && <DetailedInfoTimestamp timestamp={ data.expires_at_timestamp } isLoading={ isLoading }/>,
                 ) }
               </ItemValue>
             </>
@@ -179,11 +174,8 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
               <ItemLabel hint="Expiration timestamp comparison">Expiration Timestamp</ItemLabel>
               <ItemValue>
                 { renderValueTransition(
-                  !isUndefined(data.prev_expires_at_timestamp) ?
-                    <DetailedInfoTimestamp timestamp={ data.prev_expires_at_timestamp } isLoading={ isLoading }/> :
-                    '-',
-                  <DetailedInfoTimestamp timestamp={ data.expires_at_timestamp } isLoading={ isLoading }/>
-                  ,
+                  data.prev_expires_at_timestamp && <DetailedInfoTimestamp timestamp={ data.prev_expires_at_timestamp } isLoading={ isLoading }/>,
+                  data.expires_at_timestamp && <DetailedInfoTimestamp timestamp={ data.expires_at_timestamp } isLoading={ isLoading }/>,
                 ) }
               </ItemValue>
             </>

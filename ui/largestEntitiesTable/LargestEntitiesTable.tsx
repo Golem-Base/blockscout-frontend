@@ -4,7 +4,7 @@ import type { EntityDataSize } from '@golembase/l3-indexer-types';
 
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 
-import EffectivelyLargestEntitiesTableItem from './EffectivelyLargestEntitiesTableItem';
+import LargestEntitiesTableItem from './LargestEntitiesTableItem';
 
 interface Props {
   items: Array<EntityDataSize>;
@@ -13,7 +13,7 @@ interface Props {
   pageStartIndex: number;
 }
 
-const EffectivelyLargestEntitiesTable = ({ items, top, isLoading, pageStartIndex }: Props) => {
+const LargestEntitiesTable = ({ items, top, isLoading, pageStartIndex }: Props) => {
   return (
     <TableRoot overflowX="auto" whiteSpace="nowrap">
       <TableHeaderSticky top={ top }>
@@ -25,7 +25,7 @@ const EffectivelyLargestEntitiesTable = ({ items, top, isLoading, pageStartIndex
       </TableHeaderSticky>
       <TableBody>
         { items.map((item, index) => (
-          <EffectivelyLargestEntitiesTableItem
+          <LargestEntitiesTableItem
             key={ item.entity_key + (isLoading ? index : '') }
             item={ item }
             isLoading={ isLoading }
@@ -37,4 +37,4 @@ const EffectivelyLargestEntitiesTable = ({ items, top, isLoading, pageStartIndex
   );
 };
 
-export default EffectivelyLargestEntitiesTable;
+export default LargestEntitiesTable;
