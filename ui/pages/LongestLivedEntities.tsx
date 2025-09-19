@@ -48,8 +48,7 @@ const LongestLivedEntities = ({ isQueryEnabled = true }: Props) => {
           items={ data?.items }
           isLoading={ isPlaceholderData }
           pageStartIndex={ pageStartIndex }
-        >
-        </LongestLivedEntitiesTable>
+        />
       </Box>
       <Box hideFrom="lg">
         { data.items.map((item, index) => {
