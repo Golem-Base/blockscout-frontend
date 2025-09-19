@@ -17,8 +17,8 @@ const LongestLivedEntitiesExpirationTime = ({ timestamp, isLoading }: Props) => 
     <Skeleton loading={ isLoading } cursor="pointer">
       <Tooltip content={ dayjs(timestamp).format('llll') }>
         <Flex alignItems="center" gap={ 2 }>
-          { isNil(timestamp) ? 'Far in the future' : dayjs(timestamp).fromNow() }
           <IconSvg name="clock" boxSize={ 4 } color="gray.500" isLoading={ isLoading }/>
+          { isNil(timestamp) ? 'Far in the future' : dayjs(timestamp).fromNow() }
         </Flex>
       </Tooltip>
     </Skeleton>
