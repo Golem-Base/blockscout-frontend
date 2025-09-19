@@ -2276,10 +2276,10 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.9.tgz#50dea3616bc8191fb8e112283b49eaff03e78429"
   integrity sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==
 
-"@golembase/l3-indexer-types@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@golembase/l3-indexer-types/-/l3-indexer-types-0.0.17.tgz#30979d1052e714d9767c9a4d35f50d5237cd4396"
-  integrity sha512-SQEy1R11tqpGVxpYBz36IuPUUMgIr+stvj0C5JSQMyWUl0Ca7lebWU1ldFjYD1O4CJKEjpk7155TBFD+84b9jw==
+"@golembase/l3-indexer-types@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@golembase/l3-indexer-types/-/l3-indexer-types-0.0.19.tgz#3bd93e57bb027c4aa0eb210efa77c98497f6beb0"
+  integrity sha512-wsjVBtoOSVkb/80ImJU0JkQURQK0gOUJo2sn30ER0+3fcAzkvzzePr6vGGJ4KIIr2TcK1jyHGzGz+upWi+lQmQ==
 
 "@graphiql/react@^0.15.0":
   version "0.15.0"

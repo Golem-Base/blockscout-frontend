@@ -31,7 +31,6 @@ const LongestLivedEntitiesListItem = ({
 
       <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
         <DetailedInfoTimestamp
-          iconDirection="left"
           timestamp={ item.expires_at_timestamp }
           isLoading={ isLoading }
         />

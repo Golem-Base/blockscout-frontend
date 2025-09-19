@@ -1,4 +1,5 @@
-import { chakra, defineRecipe, useRecipe } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { isNil } from 'es-toolkit';
 import React from 'react';
 
 import dayjs from 'lib/date/dayjs';
@@ -7,39 +8,21 @@ import { Tooltip } from 'toolkit/chakra/tooltip';
 import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
-  timestamp: string | number;
+  timestamp?: string | number | null;
   isLoading?: boolean;
-  iconDirection: 'right' | 'left';
 };
 
-const iconWrapperRecipe = defineRecipe({
-  base: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '2',
-  },
-  variants: {
-    iconDirection: {
-      right: { flexDirection: 'row' },
-      left: { flexDirection: 'row-reverse' },
-    },
-  },
-});
-
-const DetailedInfoTimestamp = ({ timestamp, isLoading, iconDirection }: Props) => {
-  const recipe = useRecipe({ recipe: iconWrapperRecipe });
-  const styles = recipe({ iconDirection });
-
+const LongestLivedEntitiesExpirationTime = ({ timestamp, isLoading }: Props) => {
   return (
     <Skeleton loading={ isLoading } cursor="pointer">
       <Tooltip content={ dayjs(timestamp).format('llll') }>
-        <chakra.span css={ styles }>
-          { dayjs(timestamp).fromNow() }
+        <Flex alignItems="center" gap={ 2 }>
+          { isNil(timestamp) ? 'Far in the future' : dayjs(timestamp).fromNow() }
           <IconSvg name="clock" boxSize={ 4 } color="gray.500" isLoading={ isLoading }/>
-        </chakra.span>
+        </Flex>
       </Tooltip>
     </Skeleton>
   );
 };
 
-export default DetailedInfoTimestamp;
+export default LongestLivedEntitiesExpirationTime;
