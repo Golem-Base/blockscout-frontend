@@ -1,16 +1,15 @@
 import React from 'react';
 
-import type { Entity } from '@golembase/l3-indexer-types';
+import type { EntityWithExpTimestamp } from '@golembase/l3-indexer-types';
 
-import dayjs from 'lib/date/dayjs';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 
-import DetailedInfoTimestamp from './LongestLivedEntitiesExpirationTime';
+import LongestLivedEntitiesExpirationTime from './LongestLivedEntitiesExpirationTime';
 
 type Props = {
-  item: Entity;
+  item: EntityWithExpTimestamp;
   isLoading?: boolean;
   rank: number;
 };
@@ -45,10 +44,8 @@ const LongestLivedEntitiesTableItem = ({
       </TableCell>
       <TableCell isNumeric>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-          <DetailedInfoTimestamp
-            iconDirection="left"
-            timestamp={
-              dayjs().add(Number(rank), 'hours').valueOf() }
+          <LongestLivedEntitiesExpirationTime
+            timestamp={ item.expires_at_timestamp }
             isLoading={ isLoading }
           />
         </Skeleton>

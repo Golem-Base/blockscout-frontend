@@ -1,15 +1,13 @@
-import { Box, Text, chakra } from '@chakra-ui/react';
+import { Box, chakra } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import type { FormEvent } from 'react';
 import React from 'react';
 
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
-import { validateEntityQuery } from 'ui/entity/utils/queryValidation';
 import useQueryEntities from 'ui/entity/utils/useQueryEntities';
+import QueryBuilder from 'ui/queryBuilder/QueryBuilder';
 import SearchResultListItem from 'ui/searchResults/SearchResultListItem';
-import SearchResultsInput from 'ui/searchResults/SearchResultsInput';
 import SearchResultTableItem from 'ui/searchResults/SearchResultTableItem';
 import AppErrorBoundary from 'ui/shared/AppError/AppErrorBoundary';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
@@ -23,36 +21,16 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 const SearchEntityPageContent = () => {
   const router = useRouter();
   const searchTerm = getQueryParamString(router.query.q)?.trim() || '';
-  const [ inputValue, setInputValue ] = React.useState(searchTerm);
-  const [ validationError, setValidationError ] = React.useState<string | null>(null);
 
   const enabled = Boolean(searchTerm);
 
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, { enabled });
 
-  const handleSubmit = React.useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const value = inputValue.trim();
-
-    const error = validateEntityQuery(value);
-    if (error) {
-      setValidationError(error);
-      return;
-    }
-
-    setValidationError(null);
-
+  const handleSubmit = React.useCallback((value: string) => {
     if (value) {
       router.push({ pathname: '/entity/search', query: { q: value } }, undefined, { shallow: true });
     }
-  }, [ inputValue, router ]);
-
-  const handleSearchTermChange = React.useCallback((value: string) => {
-    if (validationError) {
-      setValidationError(null);
-    }
-    setInputValue(value);
-  }, [ validationError ]);
+  }, [ router ]);
 
   const displayedItems = React.useMemo(() => {
     if (!data) return [];
@@ -125,37 +103,21 @@ const SearchEntityPageContent = () => {
       <Skeleton loading h={ 6 } w="280px" borderRadius="full" mb={ 6 }/>
     ) : (
       <Box mb={ 6 } lineHeight="32px">
-        <span>Found </span>
-        <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span>
-        <span> matching entit{ resultsCount === 1 ? 'y' : 'ies' } for </span>
-        <chakra.span fontWeight={ 700 }>{ searchTerm }</chakra.span>
+        <span>Found <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span> matching entit{ resultsCount === 1 ? 'y' : 'ies' }</span>
       </Box>
     );
   })();
 
-  const renderSearchBar = React.useCallback(() => {
-    return (
-      <>
-        <SearchResultsInput
-          searchTerm={ inputValue }
-          handleSubmit={ handleSubmit }
-          handleSearchTermChange={ handleSearchTermChange }
-          placeholder="Query entities..."
-        />
-        { validationError && (
-          <Box mt={ 2 }>
-            <Text color="text.error" textStyle="sm" fontSize="sm">
-              { validationError }
-            </Text>
-          </Box>
-        ) }
-      </>
-    );
-  }, [ handleSubmit, handleSearchTermChange, inputValue, validationError ]);
-
   const pageContent = (
     <>
       <PageTitle title="Search results"/>
+      <Box mb={ 6 }>
+        <QueryBuilder
+          initialValue={ searchTerm }
+          onSubmit={ handleSubmit }
+          isLoading={ isLoading && enabled }
+        />
+      </Box>
       { bar }
       { content }
     </>
@@ -163,12 +125,12 @@ const SearchEntityPageContent = () => {
 
   return (
     <>
-      <HeaderMobile renderSearchBar={ renderSearchBar }/>
+      <HeaderMobile hideSearchBar/>
       <Layout.MainArea>
         <Layout.SideBar/>
-        <Layout.MainColumn>
+        <Layout.MainColumn paddingTop={{ base: 3, lg: 6 }}>
           <HeaderAlert/>
-          <HeaderDesktop renderSearchBar={ renderSearchBar }/>
+          <HeaderDesktop hideSearchBar/>
           <AppErrorBoundary>
             <Layout.Content flexGrow={ 0 }>
               { pageContent }
