@@ -25,16 +25,23 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
 
   return (
     <ListItemMobile display="block" width="100%">
-      <Flex mt={ 4 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
-        <StorageEntity
-          entityKey={ item.entity_key }
+      <Flex justifyContent="space-between" alignItems="center" mt={ 4 } gap={ 6 } width="100%">
+        <Flex alignItems="flex-start">
+          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
+          <StorageEntity
+            entityKey={ item.entity_key }
+            isLoading={ isLoading }
+            truncation="constant"
+            noIcon
+          />
+        </Flex>
+        <ExpandButton
+          isOpen={ section.open }
+          onToggle={ section.onToggle }
           isLoading={ isLoading }
-          truncation="dynamic"
-          noIcon
         />
       </Flex>
-      <Flex justifyContent="space-between" alignItems="flex-start" mt={ 2 }>
+      <Flex mt={ 2 }>
         <HStack flexWrap="wrap">
           <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Block </Skeleton>
           <BlockEntity
@@ -45,11 +52,6 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
             noIcon
           />
         </HStack>
-        <ExpandButton
-          isOpen={ section.open }
-          onToggle={ section.onToggle }
-          isLoading={ isLoading }
-        />
       </Flex>
       <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Transaction </Skeleton>

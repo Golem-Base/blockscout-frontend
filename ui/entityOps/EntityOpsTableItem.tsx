@@ -31,17 +31,17 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
         cursor={ isLoading ? undefined : 'pointer' }
       >
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
-          <StorageEntity
-            entityKey={ item.entity_key }
-            isLoading={ isLoading }
-            truncation="dynamic"
-          />
-        </TableCell>
-        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
           <ExpandButton
             isOpen={ section.open }
             onToggle={ section.onToggle }
             isLoading={ isLoading }
+          />
+        </TableCell>
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
+          <StorageEntity
+            entityKey={ item.entity_key }
+            isLoading={ isLoading }
+            truncation="dynamic"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
