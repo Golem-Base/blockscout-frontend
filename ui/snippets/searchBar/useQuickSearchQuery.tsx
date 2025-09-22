@@ -3,6 +3,7 @@ import React from 'react';
 import { isBech32Address, fromBech32Address } from 'lib/address/bech32';
 import useApiQuery from 'lib/api/useApiQuery';
 import useDebounce from 'lib/hooks/useDebounce';
+import useQueryEntities from 'ui/entity/utils/useQueryEntities';
 
 export default function useQuickSearchQuery() {
   const [ searchTerm, setSearchTerm ] = React.useState('');
@@ -21,11 +22,17 @@ export default function useQuickSearchQuery() {
     queryOptions: { enabled: Boolean(debouncedSearchTerm) },
   });
 
+  const entitiesQuery = useQueryEntities(debouncedSearchTerm, {
+    enabled: Boolean(debouncedSearchTerm),
+    retry: false,
+  });
+
   return React.useMemo(() => ({
     searchTerm,
     debouncedSearchTerm,
     handleSearchTermChange: setSearchTerm,
     query,
     redirectCheckQuery,
-  }), [ debouncedSearchTerm, query, redirectCheckQuery, searchTerm ]);
+    entitiesQuery,
+  }), [ debouncedSearchTerm, query, redirectCheckQuery, searchTerm, entitiesQuery ]);
 }
