@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -7,6 +8,7 @@ import { ADDRESS_STATS } from 'stubs/address';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
 import { ItemDivider } from 'ui/shared/DetailedInfo/DetailedInfo';
+import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 
 interface Props {
   addressHash: string;
@@ -30,7 +32,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
   }
 
   const loading = isLoading || isPlaceholderData;
-  const renderItem = (label: string, hint: string, value: string) => (
+  const renderItem = (label: string, hint: string, value: React.ReactNode) => (
     <>
       <DetailedInfo.ItemLabel
         hint={ hint }
@@ -108,6 +110,24 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
             formatBigNum(data.operations_counts.delete_count),
           ) }
         </>
+      ) }
+
+      <ItemDivider/>
+
+      { renderItem(
+        'First seen',
+        'Date of first seen address on the network',
+        <Flex alignItems="center">
+          <DetailedInfoTimestamp timestamp={ data.first_seen } isLoading={ isPlaceholderData }/>
+        </Flex>,
+      ) }
+
+      { renderItem(
+        'Last seen',
+        'Date of last seen address on the network',
+        <Flex alignItems="center">
+          <DetailedInfoTimestamp timestamp={ data.last_seen } isLoading={ isPlaceholderData }/>
+        </Flex>,
       ) }
     </>
   );
