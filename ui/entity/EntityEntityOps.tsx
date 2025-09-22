@@ -19,12 +19,6 @@ const EntityEntityOps = ({ shouldRender = true, isQueryEnabled = true }: Props) 
   const opsCountQuery = useApiQuery('golemBaseIndexer:operationsCount', {
     queryOptions: {
       enabled: isQueryEnabled,
-      placeholderData: {
-        create_count: '0',
-        update_count: '0',
-        extend_count: '0',
-        delete_count: '0',
-      },
     },
     queryParams,
   });
