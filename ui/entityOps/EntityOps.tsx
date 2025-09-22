@@ -58,8 +58,8 @@ const EntityOps = ({ opsQuery, opsCountQuery }: Props) => {
   ), [ opsQuery.pagination, opsQuery.data?.items, opsQuery.isPlaceholderData, opsQuery.isError ]);
 
   const tabs = React.useMemo(() => map(LABELS, (title, operation): TabItemRegular => {
-    const count = opsCountQuery.data ?
-      Number(opsCountQuery.data[`${ operation.toLowerCase() as Lowercase<FilterOperationType> }_count`]) :
+    const count = opsCountQuery?.data ?
+      Number(opsCountQuery?.data[`${ operation.toLowerCase() as Lowercase<FilterOperationType> }_count`]) :
       null;
     return {
       id: operationToTab(operation),
@@ -67,7 +67,7 @@ const EntityOps = ({ opsQuery, opsCountQuery }: Props) => {
       count,
       component,
     };
-  }), [ opsCountQuery.data, component ]);
+  }), [ opsCountQuery?.data, component ]);
 
   if (!isMounted) {
     return null;
