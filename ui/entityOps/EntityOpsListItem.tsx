@@ -25,7 +25,16 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
 
   return (
     <ListItemMobile display="block" width="100%">
-      <Flex justifyContent="space-between" alignItems="flex-start" mt={ 4 }>
+      <Flex mt={ 4 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
+        <StorageEntity
+          entityKey={ item.entity_key }
+          isLoading={ isLoading }
+          truncation="dynamic"
+          noIcon
+        />
+      </Flex>
+      <Flex justifyContent="space-between" alignItems="flex-start" mt={ 2 }>
         <HStack flexWrap="wrap">
           <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Block </Skeleton>
           <BlockEntity
@@ -47,7 +56,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         <TxEntity
           hash={ item.transaction_hash }
           isLoading={ isLoading }
-          truncation="constant"
+          truncation="dynamic"
           noIcon
         />
       </Flex>
@@ -56,15 +65,6 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         <Skeleton loading={ isLoading } fontWeight="700">
           <EntityOp txHash={ item.transaction_hash } opIndex={ item.index } noTxHash noCopy noIcon/>
         </Skeleton>
-      </Flex>
-      <Flex mt={ 2 }>
-        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
-        <StorageEntity
-          entityKey={ item.entity_key }
-          isLoading={ isLoading }
-          truncation="constant"
-          noIcon
-        />
       </Flex>
       <Flex mt={ 2 }>
         <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">BTL </Skeleton>
