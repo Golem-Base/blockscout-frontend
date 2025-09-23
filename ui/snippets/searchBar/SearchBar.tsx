@@ -38,12 +38,24 @@ const SearchBar = ({ isHomepage }: Props) => {
 
   const recentSearchKeywords = getRecentSearchKeywords();
 
-  const { searchTerm, debouncedSearchTerm, handleSearchTermChange, query } = useQuickSearchQuery();
+  const { searchTerm, debouncedSearchTerm, handleSearchTermChange, query, entitiesQuery } = useQuickSearchQuery();
 
   const handleSubmit = React.useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchTerm) {
-      const resultRoute: Route = { pathname: '/search-results', query: { q: searchTerm, redirect: 'true' } };
+      const resultRoute: Route = (() => {
+        if (entitiesQuery.data?.length === 1) {
+          const entityKey = entitiesQuery.data[0].entityKey;
+          return { pathname: '/entity/[key]', query: { key: entityKey } };
+        }
+
+        if (entitiesQuery.data && entitiesQuery.data.length > 1) {
+          return { pathname: '/entity/search', query: { q: searchTerm } };
+        }
+
+        return { pathname: '/search-results', query: { q: searchTerm, redirect: 'true' } };
+      })();
+
       const url = route(resultRoute);
       mixpanel.logEvent(mixpanel.EventTypes.SEARCH_QUERY, {
         'Search query': searchTerm,
@@ -53,7 +65,7 @@ const SearchBar = ({ isHomepage }: Props) => {
       saveToRecentKeywords(searchTerm);
       router.push(resultRoute, undefined, { shallow: true });
     }
-  }, [ searchTerm, router ]);
+  }, [ searchTerm, router, entitiesQuery.data ]);
 
   const handleFocus = React.useCallback(() => {
     onOpen();
@@ -179,6 +191,7 @@ const SearchBar = ({ isHomepage }: Props) => {
               { searchTerm.trim().length > 0 && (
                 <SearchBarSuggest
                   query={ query }
+                  entitiesQuery={ entitiesQuery }
                   searchTerm={ debouncedSearchTerm }
                   onItemClick={ handleItemClick }
                   containerId={ SCROLL_CONTAINER_ID }

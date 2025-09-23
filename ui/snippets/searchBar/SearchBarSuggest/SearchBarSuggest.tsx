@@ -23,12 +23,13 @@ import SearchBarSuggestItem from './SearchBarSuggestItem';
 
 interface Props {
   query: UseQueryResult<Array<SearchResultItem>, ResourceError<unknown>>;
+  entitiesQuery: UseQueryResult<Array<{ entityKey: string; storageValue: Uint8Array }>, Error>;
   searchTerm: string;
   onItemClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   containerId: string;
 }
 
-const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props) => {
+const SearchBarSuggest = ({ query, entitiesQuery, searchTerm, onItemClick, containerId }: Props) => {
   const isMobile = useIsMobile();
 
   const marketplaceApps = useMarketplaceApps(searchTerm);
@@ -79,7 +80,7 @@ const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props
   }, [ containerId, handleScroll ]);
 
   const itemsGroups = React.useMemo(() => {
-    if (!query.data && !marketplaceApps.displayedApps) {
+    if (!query.data && !marketplaceApps.displayedApps && !entitiesQuery.data) {
       return {};
     }
 
@@ -96,6 +97,19 @@ const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props
       }
     });
 
+    if (entitiesQuery.data && entitiesQuery.data.length > 0) {
+      const entityItems = entitiesQuery.data.map(item => ({
+        type: 'golembase_entity' as const,
+        golembase_entity: item.entityKey,
+      }));
+
+      if (map.golembase_entity) {
+        map.golembase_entity.push(...entityItems);
+      } else {
+        map.golembase_entity = entityItems;
+      }
+    }
+
     if (marketplaceApps.displayedApps.length) {
       map.app = marketplaceApps.displayedApps;
     }
@@ -111,7 +125,7 @@ const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props
     }
 
     return map;
-  }, [ query.data, marketplaceApps.displayedApps, searchTerm ]);
+  }, [ query.data, marketplaceApps.displayedApps, searchTerm, entitiesQuery.data ]);
 
   React.useEffect(() => {
     categoriesRefs.current = Array(Object.keys(itemsGroups).length).fill('').map((_, i) => categoriesRefs.current[i] || React.createRef());
@@ -130,7 +144,7 @@ const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props
   }, [ containerId ]);
 
   const content = (() => {
-    if (query.isPending || marketplaceApps.isPlaceholderData) {
+    if (query.isPending || marketplaceApps.isPlaceholderData || entitiesQuery.isPending) {
       return <ContentLoader text="We are searching, please wait... " fontSize="sm"/>;
     }
 
