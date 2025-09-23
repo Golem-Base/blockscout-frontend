@@ -115,7 +115,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
 
       <ItemDivider/>
 
-      { renderItem(
+      { data.first_seen_timestamp && renderItem(
         'First seen date',
         'Date of first seen address on the network',
         <Flex alignItems="center">
@@ -123,7 +123,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         </Flex>,
       ) }
 
-      { renderItem(
+      { data.first_seen_block && renderItem(
         'First seen block',
         'Block number of first seen address on the network',
         <BlockEntity
@@ -134,7 +134,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
 
       <ItemDivider/>
 
-      { renderItem(
+      { data.last_seen_timestamp && renderItem(
         'Last seen date',
         'Date of last seen address on the network',
         <Flex alignItems="center">
@@ -142,7 +142,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         </Flex>,
       ) }
 
-      { renderItem(
+      { data.last_seen_block && renderItem(
         'Last seen block',
         'Block number of first seen address on the network',
         <BlockEntity
