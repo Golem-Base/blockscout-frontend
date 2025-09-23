@@ -9,6 +9,7 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
 import { ItemDivider } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 
 interface Props {
   addressHash: string;
@@ -115,19 +116,39 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
       <ItemDivider/>
 
       { renderItem(
-        'First seen',
+        'First seen date',
         'Date of first seen address on the network',
         <Flex alignItems="center">
-          <DetailedInfoTimestamp timestamp={ data.first_seen } isLoading={ isPlaceholderData }/>
+          <DetailedInfoTimestamp timestamp={ data.first_seen_timestamp } isLoading={ isPlaceholderData }/>
         </Flex>,
       ) }
 
       { renderItem(
-        'Last seen',
+        'First seen block',
+        'Block number of first seen address on the network',
+        <BlockEntity
+          number={ data.first_seen_block }
+          isLoading={ isLoading }
+        />,
+      ) }
+
+      <ItemDivider/>
+
+      { renderItem(
+        'Last seen date',
         'Date of last seen address on the network',
         <Flex alignItems="center">
-          <DetailedInfoTimestamp timestamp={ data.last_seen } isLoading={ isPlaceholderData }/>
+          <DetailedInfoTimestamp timestamp={ data.last_seen_timestamp } isLoading={ isPlaceholderData }/>
         </Flex>,
+      ) }
+
+      { renderItem(
+        'Last seen block',
+        'Block number of first seen address on the network',
+        <BlockEntity
+          number={ data.last_seen_block }
+          isLoading={ isLoading }
+        />,
       ) }
     </>
   );
