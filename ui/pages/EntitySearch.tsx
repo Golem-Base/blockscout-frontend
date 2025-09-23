@@ -110,7 +110,7 @@ const SearchEntityPageContent = () => {
 
   const pageContent = (
     <>
-      <PageTitle title="Search results"/>
+      <PageTitle title="Entities search"/>
       <Box mb={ 6 }>
         <QueryBuilder
           initialValue={ searchTerm }

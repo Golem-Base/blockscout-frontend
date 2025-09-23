@@ -158,7 +158,7 @@ const SearchBarInput = (
       >
         <Input
           size="md"
-          placeholder={ placeholder ?? (isMobile ? 'Search by address / ... ' : 'Search by address / entity key / txn hash / block / token... ') }
+          placeholder={ placeholder ?? (isMobile ? 'Search by query / ... ' : 'Search by query / address / entity key / txn hash / block... ') }
           value={ value }
           onChange={ handleChange }
           onFocus={ onFocus }
