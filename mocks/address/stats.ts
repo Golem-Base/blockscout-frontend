@@ -12,4 +12,8 @@ export const statsResponse: AddressStatsResponse = {
     delete_count: '9',
     extend_count: '1',
   },
+  first_seen_block: '12',
+  first_seen_timestamp: '2024-01-11T10:30:00Z',
+  last_seen_block: '32',
+  last_seen_timestamp: '2024-01-14T10:30:00Z',
 };
