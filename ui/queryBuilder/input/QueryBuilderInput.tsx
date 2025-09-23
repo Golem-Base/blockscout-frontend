@@ -159,9 +159,10 @@ const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
 
   const containerCss: SystemStyleObject = {
     '& .monaco-editor': {
-      border: 'none',
       borderRadius: '4px',
       overflow: 'hidden',
+      border: '1px solid var(--rqb-border-color)',
+      outline: 'none',
     },
   };
 
