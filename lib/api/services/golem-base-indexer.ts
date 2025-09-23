@@ -79,6 +79,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/entities-created',
     paginated: true,
   },
+  customContractTransactions: {
+    path: '/api/v1/transactions/custom-contract',
+    paginated: true,
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -98,6 +102,7 @@ R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesRespo
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesCreatedResponse> :
+R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 never;
 /* eslint-enable @stylistic/indent */
 
