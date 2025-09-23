@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -7,6 +8,8 @@ import { ADDRESS_STATS } from 'stubs/address';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import * as DetailedInfo from 'ui/shared/DetailedInfo/DetailedInfo';
 import { ItemDivider } from 'ui/shared/DetailedInfo/DetailedInfo';
+import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
+import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 
 interface Props {
   addressHash: string;
@@ -30,7 +33,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
   }
 
   const loading = isLoading || isPlaceholderData;
-  const renderItem = (label: string, hint: string, value: string) => (
+  const renderItem = (label: string, hint: string, value: React.ReactNode) => (
     <>
       <DetailedInfo.ItemLabel
         hint={ hint }
@@ -108,6 +111,44 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
             formatBigNum(data.operations_counts.delete_count),
           ) }
         </>
+      ) }
+
+      <ItemDivider/>
+
+      { data.first_seen_timestamp && renderItem(
+        'First seen date',
+        'Date of first seen address on the network',
+        <Flex alignItems="center">
+          <DetailedInfoTimestamp timestamp={ data.first_seen_timestamp } isLoading={ isPlaceholderData }/>
+        </Flex>,
+      ) }
+
+      { data.first_seen_block && renderItem(
+        'First seen block',
+        'Block number of first seen address on the network',
+        <BlockEntity
+          number={ data.first_seen_block }
+          isLoading={ isLoading }
+        />,
+      ) }
+
+      <ItemDivider/>
+
+      { data.last_seen_timestamp && renderItem(
+        'Last seen date',
+        'Date of last seen address on the network',
+        <Flex alignItems="center">
+          <DetailedInfoTimestamp timestamp={ data.last_seen_timestamp } isLoading={ isPlaceholderData }/>
+        </Flex>,
+      ) }
+
+      { data.last_seen_block && renderItem(
+        'Last seen block',
+        'Block number of first seen address on the network',
+        <BlockEntity
+          number={ data.last_seen_block }
+          isLoading={ isLoading }
+        />,
       ) }
     </>
   );
