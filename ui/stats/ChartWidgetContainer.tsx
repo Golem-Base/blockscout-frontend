@@ -33,6 +33,8 @@ const ChartWidgetContainer = ({
   className,
   href,
 }: Props) => {
+  // console.log(Resolution.DAY, interval);
+  // const { items, lineQuery } = useChartQuery(id, Resolution.DAY, interval, !isPlaceholderData);
   const { items, lineQuery } = useChartQuery(id, Resolution.DAY, interval, !isPlaceholderData);
 
   useEffect(() => {

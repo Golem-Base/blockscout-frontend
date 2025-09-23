@@ -17,6 +17,7 @@ interface Props {
 const CHART_MARGIN = { bottom: 5, left: 10, right: 10, top: 5 };
 
 const ChainIndicatorChartContent = ({ data }: Props) => {
+  console.log(data); // data is like {"items":[{"date":"2025-08-23T00:00:00.000Z","value":0}],"name":"Tx/day"}
   const overlayRef = React.useRef<SVGRectElement>(null);
   const lineColor = useToken('colors', 'blue.500');
 
@@ -29,7 +30,7 @@ const ChainIndicatorChartContent = ({ data }: Props) => {
 
   const { rect, ref, axes, innerWidth, innerHeight, chartMargin } = useTimeChartController({
     data,
-    margin: CHART_MARGIN,
+    margin: CHART_MARGIN, 
     axesConfig,
   });
 

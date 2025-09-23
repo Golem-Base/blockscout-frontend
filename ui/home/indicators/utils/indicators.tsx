@@ -10,6 +10,31 @@ const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
 const isArbitrumRollup = rollupFeature.isEnabled && rollupFeature.type === 'arbitrum';
 
+// const dataStatisticsOverTime = {
+//   chart: [
+//     {
+//       date: '2025-09-12',
+//       date_to: '2025-09-13',
+//       value: '9817',
+//     },
+//     {
+//       date: '2025-09-13',
+//       date_to: '2025-09-14',
+//       value: '27620',
+//     },
+//     {
+//       date: '2025-09-14',
+//       date_to: '2025-09-15',
+//       value: '98374',
+//     },
+//   ],
+//   info: {
+//     id: 'golemBaseDataUsage',
+//     title: 'Data over time',
+//     description: 'Data storage over time',
+//   },
+// };
+
 const INDICATORS: Array<TChainIndicator> = [
   {
     id: 'daily_txs',
