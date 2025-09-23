@@ -25,21 +25,34 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
 
   return (
     <ListItemMobile display="block" width="100%">
-      <Flex justifyContent="space-between" alignItems="center" mt={ 4 } gap={ 6 } width="100%">
-        <Flex alignItems="flex-start">
-          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Entity </Skeleton>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        mt={ 4 }
+        gap={ 6 }
+        width="100%"
+        maxWidth="100%"
+        flexWrap="nowrap"
+        overflow="hidden"
+      >
+        <Flex alignItems="flex-start" minWidth={ 0 } maxWidth="100%" flex="1 1 0" overflow="hidden">
+          <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">
+            Entity{ ' ' }
+          </Skeleton>
           <StorageEntity
             entityKey={ item.entity_key }
             isLoading={ isLoading }
-            truncation="constant"
+            truncation="dynamic"
             noIcon
           />
         </Flex>
-        <ExpandButton
-          isOpen={ section.open }
-          onToggle={ section.onToggle }
-          isLoading={ isLoading }
-        />
+        <Flex flexShrink={ 0 }>
+          <ExpandButton
+            isOpen={ section.open }
+            onToggle={ section.onToggle }
+            isLoading={ isLoading }
+          />
+        </Flex>
       </Flex>
       <Flex mt={ 2 }>
         <HStack flexWrap="wrap">
@@ -48,7 +61,7 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
             number={ item.block_number }
             hash={ item.block_hash }
             isLoading={ isLoading }
-            truncation="constant"
+            truncation="dynamic"
             noIcon
           />
         </HStack>

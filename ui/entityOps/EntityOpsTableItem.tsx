@@ -42,6 +42,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             entityKey={ item.entity_key }
             isLoading={ isLoading }
             truncation="dynamic"
+            maxWidth="calc(100% - 1.8rem)"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
@@ -57,6 +58,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             hash={ item.transaction_hash }
             isLoading={ isLoading }
             truncation="dynamic"
+            maxWidth="calc(100% - 1.8rem)"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
