@@ -22,7 +22,7 @@ export const STATS_RESOLUTIONS: Array<{ id: Resolution; title: string }> = [
   },
 ];
 
-export const STATS_INTERVALS: { [key in StatsIntervalIds]: { title: string; shortTitle: string; start?: Date } } = {
+export const STATS_INTERVALS: Record<StatsIntervalIds, { title: string; shortTitle: string; start?: Date }> = {
   all: {
     title: 'All time',
     shortTitle: 'All time',
