@@ -2,6 +2,7 @@ import { chakra, Flex } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 
 import type { TimeChartItem } from './types';
+import type { Resolution } from '@blockscout/stats-types';
 
 import { route, type Route } from 'nextjs-routes';
 
@@ -27,6 +28,7 @@ export type Props = {
   emptyText?: string;
   noAnimation?: boolean;
   href?: Route;
+  resolution?: Resolution;
 };
 
 const ChartWidget = ({
@@ -40,11 +42,14 @@ const ChartWidget = ({
   emptyText,
   noAnimation,
   href,
+  resolution,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
 
   const hasItems = items && items.length > 2;
+
+  if(title === 'Data overtime') console.log('ChartWidget', resolution)
 
   const content = (
     <ChartWidgetContent
@@ -57,6 +62,7 @@ const ChartWidget = ({
       handleZoom={ handleZoom }
       zoomRange={ zoomRange }
       noAnimation={ noAnimation }
+      resolution={ resolution }
     />
   );
 
@@ -141,4 +147,4 @@ const ChartWidget = ({
   );
 };
 
-export default React.memo(chakra(ChartWidget));
+export default chakra(ChartWidget);

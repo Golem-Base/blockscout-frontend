@@ -85,6 +85,12 @@ const ChartWidgetGraph = ({
     axesConfig,
   });
 
+  const hourTickFormatter = React.useCallback(() => {
+    return (domainValue: d3.AxisDomain) => d3.timeFormat('%H:%M')(domainValue as Date);
+  }, []);
+
+  if(resolution) console.log('ChartWidgetGraph', resolution)
+
   return (
     <svg width="100%" height="100%" ref={ ref } cursor="pointer" id={ chartId } opacity={ rect ? 1 : 0 }>
 
@@ -129,7 +135,8 @@ const ChartWidgetGraph = ({
           transform={ `translate(0, ${ innerHeight })` }
           ticks={ axesConfig.x.ticks }
           anchorEl={ overlayRef.current }
-          tickFormatGenerator={ axes.x.tickFormatter }
+          tickFormatGenerator={ resolution === Resolution.HOUR ? hourTickFormatter : axes.x.tickFormatter }
+          // tickFormatGenerator={ axes.x.tickFormatter }
           noAnimation
         />
 
@@ -163,6 +170,9 @@ export default React.memo(ChartWidgetGraph);
 
 function getDateLabel(date: Date, dateTo?: Date, resolution?: Resolution): string {
   switch (resolution) {
+    case Resolution.HOUR:
+    case Resolution.DAY:
+      return d3.timeFormat('%e %b %Y')(date) + (dateTo ? ` – ${ d3.timeFormat('%e %b %Y')(dateTo) }` : '');
     case Resolution.WEEK:
       return d3.timeFormat('%e %b %Y')(date) + (dateTo ? ` – ${ d3.timeFormat('%e %b %Y')(dateTo) }` : '');
     case Resolution.MONTH:
