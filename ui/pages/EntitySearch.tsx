@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import getQueryParamString from 'lib/router/getQueryParamString';
+import { ENTITY_QUERY_ITEM } from 'stubs/entity';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 import useQueryEntities from 'ui/entity/utils/useQueryEntities';
@@ -24,7 +25,10 @@ const SearchEntityPageContent = () => {
 
   const enabled = Boolean(searchTerm);
 
-  const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, { enabled });
+  const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, {
+    placeholderData: Array(5).fill(ENTITY_QUERY_ITEM),
+    enabled,
+  });
 
   const handleSubmit = React.useCallback((value: string) => {
     if (value) {

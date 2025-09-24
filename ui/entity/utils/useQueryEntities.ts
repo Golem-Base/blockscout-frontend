@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import type { Hex } from 'golem-base-sdk';
 
 import { createPublicClient } from 'lib/golemBase/useGolemBaseClient';
-import { ENTITY_QUERY_ITEM } from 'stubs/entity';
 
 type QueryEntitiesItem = { entityKey: Hex; storageValue: Uint8Array };
 
@@ -21,7 +20,6 @@ export default function useQueryEntities(
       return client.queryEntities(searchTerm);
     },
     enabled: options?.enabled !== false && Boolean(searchTerm?.trim()),
-    placeholderData: Array(5).fill(ENTITY_QUERY_ITEM),
     ...options,
   });
 }
