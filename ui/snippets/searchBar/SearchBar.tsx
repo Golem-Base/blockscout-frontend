@@ -42,7 +42,7 @@ const SearchBar = ({ isHomepage }: Props) => {
 
   const handleSubmit = React.useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (searchTerm && entitiesQuery.isFetched) {
+    if (searchTerm && searchTerm === debouncedSearchTerm && entitiesQuery.isFetched) {
       const resultRoute: Route = (() => {
         if (entitiesQuery.data?.length === 1) {
           const entityKey = entitiesQuery.data[0].entityKey;
@@ -65,7 +65,7 @@ const SearchBar = ({ isHomepage }: Props) => {
       saveToRecentKeywords(searchTerm);
       router.push(resultRoute, undefined, { shallow: true });
     }
-  }, [ searchTerm, router, entitiesQuery ]);
+  }, [ searchTerm, debouncedSearchTerm, router, entitiesQuery ]);
 
   const handleFocus = React.useCallback(() => {
     onOpen();
