@@ -2,6 +2,7 @@ import { Box, Grid } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 
 import type * as stats from '@blockscout/stats-types';
+import { Resolution } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -14,6 +15,7 @@ import IconSvg from 'ui/shared/IconSvg';
 
 import ChartsLoadingErrorAlert from './ChartsLoadingErrorAlert';
 import ChartWidgetContainer from './ChartWidgetContainer';
+import GolemChartWidgetContainer from './GolemChartWidgetContainer';
 
 type Props = {
   filterQuery: string;
@@ -56,6 +58,8 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
     return <EmptySearchResult text={ `Couldn${ apos }t find a chart that matches your filter query.` }/>;
   }
 
+  console.log('ChartsWidgetsList', interval)
+
   return (
     <Box>
       { isSomeChartLoadingError && (
@@ -87,19 +91,37 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
                 templateColumns={{ lg: 'repeat(2, minmax(0, 1fr))' }}
                 gap={{ base: 3, lg: 4 }}
               >
-                { section.charts.map((chart) => (
-                  <ChartWidgetContainer
-                    key={ chart.id }
-                    id={ chart.id }
-                    title={ chart.title }
-                    description={ chart.description }
-                    interval={ interval }
-                    units={ chart.units || undefined }
-                    isPlaceholderData={ isPlaceholderData }
-                    onLoadingError={ handleChartLoadingError }
-                    href={{ pathname: '/stats/[id]', query: { id: chart.id } }}
-                  />
-                )) }
+                { section.charts.map((chart) => {
+                  if (chart.id === 'data-overtime') {
+                    return (
+                      <GolemChartWidgetContainer
+                        key={ chart.id }
+                        id={ chart.id }
+                        title={ chart.title }
+                        description={ chart.description }
+                        interval={ interval }
+                        units={ chart.units || undefined }
+                        isPlaceholderData={ isPlaceholderData }
+                        onLoadingError={ handleChartLoadingError }
+                        href={{ pathname: '/stats/[id]', query: { id: chart.id } }}
+                      />
+                    );
+                  }
+
+                  return (
+                    <ChartWidgetContainer
+                      key={ chart.id }
+                      id={ chart.id }
+                      title={ chart.title }
+                      description={ chart.description }
+                      interval={ interval }
+                      units={ chart.units || undefined }
+                      isPlaceholderData={ isPlaceholderData }
+                      onLoadingError={ handleChartLoadingError }
+                      href={{ pathname: '/stats/[id]', query: { id: chart.id } }}
+                    />
+                  );
+                }) }
               </Grid>
             </Box>
           ))

@@ -28,7 +28,7 @@ import useZoom from 'ui/shared/chart/useZoom';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import IconSvg from 'ui/shared/IconSvg';
 import PageTitle from 'ui/shared/Page/PageTitle';
-import { STATS_RESOLUTIONS } from 'ui/stats/constants';
+import { STATS_INTERVALS, STATS_RESOLUTIONS } from 'ui/stats/constants';
 
 const DEFAULT_RESOLUTION = Resolution.DAY;
 
@@ -177,6 +177,8 @@ const Chart = () => {
     return createListCollection<SelectOption>({ items });
   }, [ lineQuery.data?.info?.resolutions ]);
 
+  console.log('Chart', resolution)
+
   return (
     <>
       <PageTitle
@@ -191,7 +193,11 @@ const Chart = () => {
         <Flex alignItems="center" gap={{ base: 3, lg: 6 }} maxW="100%">
           <Flex alignItems="center" gap={ 3 }>
             { !isMobile && <Text>Period</Text> }
-            <ChartIntervalSelect interval={ interval } onIntervalChange={ onIntervalChange }/>
+            <ChartIntervalSelect
+              interval={ interval }
+              onIntervalChange={ onIntervalChange }
+              options={ Object.keys(STATS_INTERVALS) as Array<StatsIntervalIds> }
+            />
           </Flex>
           { (
             (info?.resolutions && info?.resolutions.length > 1) ||
