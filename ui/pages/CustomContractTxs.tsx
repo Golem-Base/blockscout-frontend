@@ -3,6 +3,7 @@ import React from 'react';
 
 import { CUSTOM_CONTRACT_TX } from 'stubs/customContractTx';
 import { generateListStub } from 'stubs/utils';
+import { Skeleton } from 'toolkit/chakra/skeleton';
 import { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -20,6 +21,9 @@ const CustomContractTxs = () => {
         CUSTOM_CONTRACT_TX,
         50,
         {
+          pagination: {
+            total_items: '100',
+          },
           next_page_params: {
             page: 2,
             page_size: 50,
@@ -46,7 +50,20 @@ const CustomContractTxs = () => {
     </>
   ) : null;
 
-  const actionBar = <StickyPaginationWithText text={ null } pagination={ pagination }/>;
+  const text = (() => {
+    if (isError) {
+      return null;
+    }
+
+    const totalItems = Number(data?.pagination?.total_items ?? '0');
+    return (
+      <Skeleton loading={ isPlaceholderData } display="inline-block">
+        A total of { totalItems.toLocaleString() } contract transactions found
+      </Skeleton>
+    );
+  })();
+
+  const actionBar = <StickyPaginationWithText text={ text } pagination={ pagination }/>;
 
   return (
     <>
