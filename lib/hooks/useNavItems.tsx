@@ -85,7 +85,7 @@ export default function useNavItems(): ReturnType {
     const customContractTxs = {
       text: 'Custom Contract Transactions',
       nextRoute: { pathname: '/custom-contract-txs' as const },
-      icon: 'transactions',
+      icon: 'txn_batches',
       isActive: pathname === '/custom-contract-txs',
     };
     const rollupDeposits = {

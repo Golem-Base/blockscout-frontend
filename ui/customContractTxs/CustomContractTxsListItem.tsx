@@ -19,11 +19,12 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
   return (
     <ListItemMobileGrid.Container>
 
-      <ListItemMobileGrid.Label isLoading={ isLoading }>Block No</ListItemMobileGrid.Label>
+      <ListItemMobileGrid.Label isLoading={ isLoading }>Block</ListItemMobileGrid.Label>
       <ListItemMobileGrid.Value>
         { item.block_number && (
           <BlockEntity
             number={ parseInt(item.block_number) }
+            hash={ item.block_hash }
             isLoading={ isLoading }
             fontWeight={ 600 }
             noIcon
@@ -31,7 +32,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
         ) }
       </ListItemMobileGrid.Value>
 
-      <ListItemMobileGrid.Label isLoading={ isLoading }>Txn Hash</ListItemMobileGrid.Label>
+      <ListItemMobileGrid.Label isLoading={ isLoading }>Transaction</ListItemMobileGrid.Label>
       <ListItemMobileGrid.Value>
         <TxEntity
           hash={ item.hash }
@@ -41,7 +42,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
         />
       </ListItemMobileGrid.Value>
 
-      <ListItemMobileGrid.Label isLoading={ isLoading }>Age</ListItemMobileGrid.Label>
+      <ListItemMobileGrid.Label isLoading={ isLoading }>Timestamp</ListItemMobileGrid.Label>
       <ListItemMobileGrid.Value>
         <TimeWithTooltip
           timestamp={ item.block_timestamp }
@@ -50,7 +51,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
         />
       </ListItemMobileGrid.Value>
 
-      <ListItemMobileGrid.Label isLoading={ isLoading }>From Address</ListItemMobileGrid.Label>
+      <ListItemMobileGrid.Label isLoading={ isLoading }>From</ListItemMobileGrid.Label>
       <ListItemMobileGrid.Value>
         <AddressEntity
           address={{ hash: item.from_address_hash }}
@@ -62,7 +63,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
 
       { item.to_address_hash && (
         <>
-          <ListItemMobileGrid.Label isLoading={ isLoading }>To Address</ListItemMobileGrid.Label>
+          <ListItemMobileGrid.Label isLoading={ isLoading }>To</ListItemMobileGrid.Label>
           <ListItemMobileGrid.Value>
             <AddressEntity
               address={{ hash: item.to_address_hash }}

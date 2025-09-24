@@ -22,6 +22,7 @@ const CustomContractTxsTableItem = ({ tx, isLoading }: Props) => {
         { tx.block_number && (
           <BlockEntity
             number={ parseInt(tx.block_number) }
+            hash={ tx.block_hash }
             isLoading={ isLoading }
             fontWeight={ 600 }
             noIcon

@@ -18,14 +18,16 @@ const CustomContractTxsTable = ({ items, top, isLoading }: Props) => {
     <TableRoot tableLayout="auto" minW="950px">
       <TableHeaderSticky top={ top }>
         <TableRow>
-          <TableColumnHeader>Block No</TableColumnHeader>
+          <TableColumnHeader>Block</TableColumnHeader>
           <TableColumnHeader>
-            Txn Hash
+            Transaction
+          </TableColumnHeader>
+          <TableColumnHeader>
+            Timestamp
             <TimeFormatToggle/>
           </TableColumnHeader>
-          <TableColumnHeader>Timestamp</TableColumnHeader>
-          <TableColumnHeader>From Address</TableColumnHeader>
-          <TableColumnHeader>To Address</TableColumnHeader>
+          <TableColumnHeader>From</TableColumnHeader>
+          <TableColumnHeader>To</TableColumnHeader>
           <TableColumnHeader isNumeric>Gas Used</TableColumnHeader>
         </TableRow>
       </TableHeaderSticky>
