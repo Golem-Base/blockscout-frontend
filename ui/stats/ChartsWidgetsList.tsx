@@ -2,7 +2,6 @@ import { Box, Grid } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 
 import type * as stats from '@blockscout/stats-types';
-import { Resolution } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -58,8 +57,6 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
     return <EmptySearchResult text={ `Couldn${ apos }t find a chart that matches your filter query.` }/>;
   }
 
-  console.log('ChartsWidgetsList', interval)
-
   return (
     <Box>
       { isSomeChartLoadingError && (
@@ -92,7 +89,7 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
                 gap={{ base: 3, lg: 4 }}
               >
                 { section.charts.map((chart) => {
-                  if (chart.id === 'data-overtime') {
+                  if (chart.id === 'data-usage') {
                     return (
                       <GolemChartWidgetContainer
                         key={ chart.id }

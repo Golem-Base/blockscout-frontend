@@ -1,25 +1,27 @@
 import React from 'react';
 
-import type { LineChart, Resolution } from '@blockscout/stats-types';
+import type { ChartDataUsageResponse } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import { useAppContext } from 'lib/contexts/app';
+import dayjs from 'lib/date/dayjs';
 import { STATS_INTERVALS } from 'ui/stats/constants';
 
-import formatDate from './utils/formatIntervalDate';
+export type GolemChartId = 'data-usage';
 
-export default function useGolemChartQuery(id: string, resolution: Resolution, interval: StatsIntervalIds, enabled = true) {
+export default function useGolemChartQuery(id: GolemChartId, resolution: 'HOUR' | 'DAY', interval: StatsIntervalIds, enabled = true) {
   const { apiData } = useAppContext<'/stats/[id]'>();
 
   const selectedInterval = STATS_INTERVALS[interval];
 
-  const endDate = selectedInterval.start ? formatDate(new Date()) : undefined;
-  const startDate = selectedInterval.start ? formatDate(selectedInterval.start) : undefined;
+  const dateFormatByResolution = resolution === 'HOUR' ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD';
+  const endDate = selectedInterval.start ? dayjs().format(dateFormatByResolution) : undefined;
+  const startDate = selectedInterval.start ? dayjs(selectedInterval.start).format(dateFormatByResolution) : undefined;
 
-  const [ info, setInfo ] = React.useState<LineChart['info']>(apiData || undefined);
+  const [ info, setInfo ] = React.useState<ChartDataUsageResponse['info']>(apiData || undefined);
 
-  const lineQuery = useApiQuery('stats:line', {
+  const lineQuery = useApiQuery('golemBaseIndexer:chart', {
     pathParams: { id },
     queryParams: {
       from: startDate,
@@ -31,11 +33,9 @@ export default function useGolemChartQuery(id: string, resolution: Resolution, i
       refetchOnMount: false,
       placeholderData: {
         info: {
+          id: 'placeholder',
           title: 'Chart title placeholder',
           description: 'Chart placeholder description chart placeholder description',
-          resolutions: [ 'DAY', 'WEEK', 'MONTH', 'YEAR' ],
-          id: 'placeholder',
-          units: undefined,
         },
         chart: [],
       },
@@ -50,7 +50,7 @@ export default function useGolemChartQuery(id: string, resolution: Resolution, i
   }, [ info, lineQuery.data?.info, lineQuery.isPlaceholderData ]);
 
   const items = React.useMemo(() => lineQuery.data?.chart?.map((item) => {
-    return { date: new Date(item.date), date_to: new Date(item.date_to), value: Number(item.value), isApproximate: item.is_approximate };
+    return { date: new Date(item.date), date_to: new Date(item.date_to), value: Number(item.value) };
   }), [ lineQuery ]);
 
   return {

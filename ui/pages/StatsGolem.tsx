@@ -27,20 +27,17 @@ export const StatsGolem = () => {
 
   const charts: Array<LineChartSection> = [
     {
-      id: 'data-overtime',
-      title: 'Data overtime',
+      id: 'data-usage',
+      title: 'Network statistics',
       charts: [
         {
-          id: 'data-overtime',
-          title: 'Data overtime',
-          description: 'Data overtime',
-          units: undefined,
-          resolutions: [ 'HOUR', 'DAY', 'MONTH' ],
+          id: 'data-usage',
+          title: 'Data usage',
+          description: 'Data added to the L3 storage',
+          resolutions: [ 'HOUR', 'DAY' ],
         },
       ],
     } ];
-
-    console.log('StatsGolem', interval)
 
   return (
     <Box>
@@ -61,10 +58,8 @@ export const StatsGolem = () => {
       <ChartsWidgetsList
         filterQuery={ filterQuery }
         initialFilterQuery={ initialFilterQuery }
-        // isError={ isError }
-        isError={ false }
-        // isPlaceholderData={ isPlaceholderData }
-        isPlaceholderData={ false }
+        isError={ isError }
+        isPlaceholderData={ isPlaceholderData }
         charts={ charts }
         interval={ interval }
       />
