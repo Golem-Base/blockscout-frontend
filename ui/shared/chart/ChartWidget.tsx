@@ -49,8 +49,6 @@ const ChartWidget = ({
 
   const hasItems = items && items.length > 2;
 
-  if(title === 'Data overtime') console.log('ChartWidget', resolution)
-
   const content = (
     <ChartWidgetContent
       items={ items }

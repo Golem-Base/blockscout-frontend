@@ -89,8 +89,6 @@ const ChartWidgetGraph = ({
     return (domainValue: d3.AxisDomain) => d3.timeFormat('%H:%M')(domainValue as Date);
   }, []);
 
-  if(resolution) console.log('ChartWidgetGraph', resolution)
-
   return (
     <svg width="100%" height="100%" ref={ ref } cursor="pointer" id={ chartId } opacity={ rect ? 1 : 0 }>
 

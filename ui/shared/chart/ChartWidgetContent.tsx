@@ -38,8 +38,6 @@ const ChartWidgetContent = ({
   noAnimation,
   resolution,
 }: Props) => {
-
-  console.log('ChartWidgetContent', resolution)
   const hasItems = items && items.length > 2;
 
   if (isError) {

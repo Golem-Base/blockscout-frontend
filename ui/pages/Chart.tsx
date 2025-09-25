@@ -177,8 +177,6 @@ const Chart = () => {
     return createListCollection<SelectOption>({ items });
   }, [ lineQuery.data?.info?.resolutions ]);
 
-  console.log('Chart', resolution)
-
   return (
     <>
       <PageTitle
