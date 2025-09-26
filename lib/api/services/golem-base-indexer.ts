@@ -79,6 +79,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/entities-created',
     paginated: true,
   },
+  customContractTransactions: {
+    path: '/api/v1/transactions/custom-contract',
+    paginated: true,
+  },
   addressLeaderboardRanks: {
     path: '/api/v1/address/:address/leaderboard-ranks',
     pathParams: [ 'address' as const ],
@@ -101,6 +105,7 @@ R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsRespons
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
 never;
 /* eslint-enable @stylistic/indent */
