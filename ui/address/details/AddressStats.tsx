@@ -49,6 +49,8 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
   }
 
   const loading = isLoading || isPlaceholderData || isLoadingRanks;
+  const hasRanksData = Object.values(ranksData ?? {}).some(rank => rank && rank !== '0');
+
   const renderItem = (label: string, hint: string, value: React.ReactNode) => (
     <>
       <DetailedInfo.ItemLabel
@@ -71,7 +73,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
       return null;
     }
 
-    const pageNum = rankInt / PAGE_SIZE;
+    const pageNum = Math.ceil(rankInt / PAGE_SIZE);
 
     return renderItem(
       label,
@@ -146,43 +148,50 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         </>
       ) }
 
-      { (data.first_seen_timestamp || data.first_seen_block || data.last_seen_timestamp || data.last_seen_block) && <ItemDivider/> }
+      { (data.first_seen_timestamp ||
+        data.first_seen_block ||
+        data.last_seen_timestamp ||
+        data.last_seen_block) && <ItemDivider/> }
 
-      { data.first_seen_timestamp && renderItem(
-        'First seen date',
-        'Date of first seen address on the network',
-        <Flex alignItems="center">
-          <DetailedInfoTimestamp timestamp={ data.first_seen_timestamp } isLoading={ isPlaceholderData }/>
-        </Flex>,
-      ) }
+      { data.first_seen_timestamp &&
+        renderItem(
+          'First seen date',
+          'Date of first seen address on the network',
+          <Flex alignItems="center">
+            <DetailedInfoTimestamp
+              timestamp={ data.first_seen_timestamp }
+              isLoading={ isPlaceholderData }
+            />
+          </Flex>,
+        ) }
 
-      { data.first_seen_block && renderItem(
-        'First seen block',
-        'Block number of first seen address on the network',
-        <BlockEntity
-          number={ data.first_seen_block }
-          isLoading={ isLoading }
-        />,
-      ) }
+      { data.first_seen_block &&
+        renderItem(
+          'First seen block',
+          'Block number of first seen address on the network',
+          <BlockEntity number={ data.first_seen_block } isLoading={ isLoading }/>,
+        ) }
 
-      { data.last_seen_timestamp && renderItem(
-        'Last seen date',
-        'Date of last seen address on the network',
-        <Flex alignItems="center">
-          <DetailedInfoTimestamp timestamp={ data.last_seen_timestamp } isLoading={ isPlaceholderData }/>
-        </Flex>,
-      ) }
+      { data.last_seen_timestamp &&
+        renderItem(
+          'Last seen date',
+          'Date of last seen address on the network',
+          <Flex alignItems="center">
+            <DetailedInfoTimestamp
+              timestamp={ data.last_seen_timestamp }
+              isLoading={ isPlaceholderData }
+            />
+          </Flex>,
+        ) }
 
-      { data.last_seen_block && renderItem(
-        'Last seen block',
-        'Block number of first seen address on the network',
-        <BlockEntity
-          number={ data.last_seen_block }
-          isLoading={ isLoading }
-        />,
-      ) }
+      { data.last_seen_block &&
+        renderItem(
+          'Last seen block',
+          'Block number of first seen address on the network',
+          <BlockEntity number={ data.last_seen_block } isLoading={ isLoading }/>,
+        ) }
 
-      <ItemDivider/>
+      { hasRanksData && <ItemDivider/> }
 
       { renderRankItem(
         'Biggest Spenders Rank',
@@ -201,7 +210,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
       { renderRankItem(
         'Entities Owned Rank',
         'Rank in the top entity owners leaderboard based on number of entities currently owned',
-        '200',
+        ranksData?.entities_owned,
         '/leaderboards/owners',
       ) }
 
@@ -209,6 +218,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         'Data Owned Rank',
         'Rank in the largest entities leaderboard based on total data size owned',
         ranksData?.data_owned,
+        // @TODO: fix link once GBBE-150 is done
         '/leaderboards/largest-entities',
       ) }
     </>
