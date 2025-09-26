@@ -82,6 +82,12 @@ export default function useNavItems(): ReturnType {
       icon: 'validator',
       isActive: pathname === '/validators' || pathname === '/validators/[id]',
     } : null;
+    const customContractTxs = {
+      text: 'Custom Contract Transactions',
+      nextRoute: { pathname: '/custom-contract-txs' as const },
+      icon: 'txn_batches',
+      isActive: pathname === '/custom-contract-txs',
+    };
     const rollupDeposits = {
       text: `Deposits (L2${ rightLineArrow }L3)`,
       nextRoute: { pathname: '/deposits' as const },
@@ -143,6 +149,7 @@ export default function useNavItems(): ReturnType {
       blockchainNavItems = [
         [
           txs,
+          customContractTxs,
           internalTxs,
           rollupDeposits,
           rollupWithdrawals,
@@ -166,6 +173,7 @@ export default function useNavItems(): ReturnType {
       blockchainNavItems = [
         [
           txs,
+          customContractTxs,
           internalTxs,
           rollupDeposits,
           rollupWithdrawals,
@@ -181,6 +189,7 @@ export default function useNavItems(): ReturnType {
       blockchainNavItems = [
         [
           txs,
+          customContractTxs,
           internalTxs,
           userOps,
           blocks,
@@ -195,6 +204,7 @@ export default function useNavItems(): ReturnType {
     } else {
       blockchainNavItems = [
         txs,
+        customContractTxs,
         operations,
         internalTxs,
         userOps,

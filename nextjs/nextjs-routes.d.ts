@@ -45,6 +45,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/chakra">
     | StaticRoute<"/contract-verification">
     | StaticRoute<"/csv-export">
+    | StaticRoute<"/custom-contract-txs">
     | StaticRoute<"/deposits">
     | StaticRoute<"/dispute-games">
     | DynamicRoute<"/entity/[key]/extend", { "key": string }>
