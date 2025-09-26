@@ -33,7 +33,7 @@ const CustomContractTxsTableItem = ({ tx, isLoading }: Props) => {
         <TxEntity
           hash={ tx.hash }
           isLoading={ isLoading }
-          truncation="constant_long"
+          truncation="dynamic"
           noIcon
         />
       </TableCell>
@@ -49,7 +49,7 @@ const CustomContractTxsTableItem = ({ tx, isLoading }: Props) => {
         <AddressEntity
           address={{ hash: tx.from_address_hash }}
           isLoading={ isLoading }
-          truncation="constant_long"
+          truncation="dynamic"
           noIcon
         />
       </TableCell>
@@ -58,7 +58,7 @@ const CustomContractTxsTableItem = ({ tx, isLoading }: Props) => {
           <AddressEntity
             address={{ hash: tx.to_address_hash }}
             isLoading={ isLoading }
-            truncation="constant_long"
+            truncation="dynamic"
             noIcon
           />
         ) }

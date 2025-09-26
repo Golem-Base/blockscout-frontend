@@ -37,7 +37,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
         <TxEntity
           hash={ item.hash }
           isLoading={ isLoading }
-          truncation="constant_long"
+          truncation="dynamic"
           noIcon
         />
       </ListItemMobileGrid.Value>
@@ -56,7 +56,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
         <AddressEntity
           address={{ hash: item.from_address_hash }}
           isLoading={ isLoading }
-          truncation="constant_long"
+          truncation="dynamic"
           noIcon
         />
       </ListItemMobileGrid.Value>
@@ -68,7 +68,7 @@ const CustomContractTxsListItem = ({ item, isLoading }: Props) => {
             <AddressEntity
               address={{ hash: item.to_address_hash }}
               isLoading={ isLoading }
-              truncation="constant_long"
+              truncation="dynamic"
               noIcon
             />
           </ListItemMobileGrid.Value>
