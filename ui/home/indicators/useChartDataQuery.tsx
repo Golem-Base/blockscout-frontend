@@ -3,6 +3,7 @@ import type { TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shar
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import dayjs from 'lib/date/dayjs';
 
 import prepareChartItems from './utils/prepareChartItems';
 
@@ -34,6 +35,11 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
   tvl: {
     name: 'TVL',
     valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+  },
+  data_usage: {
+    name: 'Data usage',
+    // valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    valueFormatter: (x: number) => 'a',
   },
 };
 
@@ -135,6 +141,28 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
+  const dateFormat = 'YYYY-MM-DD HH:mm';
+
+  const dataUsageQuery = useApiQuery('golemBaseIndexer:chart', {
+    pathParams: { id: 'data-usage' },
+    queryParams: {
+      from: dayjs().subtract(1, 'day').startOf('day').format(dateFormat),
+      to: dayjs().format(dateFormat),
+      resolution: 'HOUR',
+    },
+    queryOptions: {
+      refetchOnMount: false,
+      enabled: indicatorId === 'data_usage',
+      select: (data) => data.chart.map((item) => ({ date: new Date(item.date), value: Number(item.value) })) || [],
+    },
+  });
+
+  console.log('isStatsFeatureEnabled', isStatsFeatureEnabled);
+  console.log('indicatorId ', indicatorId);
+  const query = isStatsFeatureEnabled ? statsDailyTxsQuery : apiDailyTxsQuery;
+  console.log('daily_tsx', getChartData(indicatorId, query.data || []), typeof query.data);
+  console.log('data_usage', getChartData(indicatorId, dataUsageQuery?.data?.chart || []), typeof dataUsageQuery.data);
+
   switch (indicatorId) {
     case 'daily_txs': {
       const query = isStatsFeatureEnabled ? statsDailyTxsQuery : apiDailyTxsQuery;
@@ -177,6 +205,13 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
         data: getChartData(indicatorId, tvlQuery.data || []),
         isError: tvlQuery.isError,
         isPending: tvlQuery.isPending,
+      };
+    }
+    case 'data_usage': {
+      return {
+        data: getChartData(indicatorId, dataUsageQuery.data || []),
+        isError: dataUsageQuery.isError,
+        isPending: dataUsageQuery.isPending,
       };
     }
   }

@@ -135,7 +135,7 @@ const ChainIndicators = () => {
           { valueDiff }
         </Flex>
         <Flex h={{ base: '80px', lg: '110px' }} alignItems="flex-start" flexGrow={ 1 }>
-          <ChainIndicatorChartContainer { ...queryResult }/>
+          <ChainIndicatorChartContainer { ...queryResult }/>  
         </Flex>
       </Flex>
       { indicators.length > 1 && (
@@ -146,7 +146,7 @@ const ChainIndicators = () => {
           borderRadius="lg"
           rowGap="6px"
           m={{ base: 'auto 0', lg: 0 }}
-        > 
+        >
           { indicators.map((indicator) => (
             <ChainIndicatorItem
               key={ indicator.id }

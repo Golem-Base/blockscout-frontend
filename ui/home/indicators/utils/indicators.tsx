@@ -117,6 +117,17 @@ const INDICATORS: Array<TChainIndicator> = [
     icon: <IconSvg name="lock" boxSize={ 6 } bgColor="#517FDB" borderRadius="base" color="white"/>,
     hint: 'Total value of digital assets locked or staked in a chain',
   },
+  {
+    id: 'data_usage',
+    title: 'Data usage',
+    value: (stats) => {
+      // stats.golembase_data_usage === null ?
+      return '$N/A';
+      // : '$' + Number(stats.golembase_data_usage).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    },
+    icon: <IconSvg name="database" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
+    hint: 'Data usage over time',
+  },
 ];
 
 export default INDICATORS;
