@@ -1,4 +1,7 @@
-import type { AddressStatsResponse } from '@golembase/l3-indexer-types';
+import type {
+  AddressLeaderboardRanksResponse,
+  AddressStatsResponse,
+} from '@golembase/l3-indexer-types';
 import type {
   Address,
   AddressCoinBalanceHistoryItem,
@@ -143,4 +146,11 @@ export const EPOCH_REWARD_ITEM: AddressEpochRewardsItem = {
   account: ADDRESS_PARAMS,
   epoch_number: 1234,
   associated_account: ADDRESS_PARAMS,
+};
+
+export const ADDRESS_RANKS: AddressLeaderboardRanksResponse = {
+  biggest_spenders: '200',
+  entities_created: '1',
+  entities_owned: '1000',
+  data_owned: '20000',
 };
