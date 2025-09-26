@@ -2,7 +2,7 @@ import { Text, Flex } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
-import type { BiggestSpender } from '@golembase/l3-indexer-types';
+import type { LeaderboardBiggestSpendersItem } from '@golembase/l3-indexer-types';
 
 import config from 'configs/app';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -10,7 +10,7 @@ import { TableCell, TableRow } from 'toolkit/chakra/table';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 
 type Props = {
-  item: BiggestSpender;
+  item: LeaderboardBiggestSpendersItem;
   isLoading?: boolean;
 };
 

@@ -1,17 +1,19 @@
+import { times } from 'es-toolkit/compat';
 import React from 'react';
 
-import type { ListLargestEntitiesResponse } from '@golembase/l3-indexer-types';
+import type { LeaderboardLargestEntitiesResponse } from '@golembase/l3-indexer-types';
 
 import type { PaginatedResponse } from 'lib/api/services/paginationConverter';
 import { test, expect } from 'playwright/lib';
 
 import LargestEntities from './LargestEntities';
 
-const largestEntities: PaginatedResponse<ListLargestEntitiesResponse> = {
-  items: Array(10).fill({
+const largestEntities: PaginatedResponse<LeaderboardLargestEntitiesResponse> = {
+  items: times(10, n => ({
+    rank: String(n + 1),
     entity_key: '0x1234567890123456789012345678901234567890',
     data_size: '151234567890',
-  }),
+  })),
   next_page_params: {
     page: 2,
     page_size: 5,

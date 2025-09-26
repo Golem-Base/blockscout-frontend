@@ -2,7 +2,7 @@ import { Flex, HStack } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
-import type { BiggestSpender } from '@golembase/l3-indexer-types';
+import type { LeaderboardBiggestSpendersItem } from '@golembase/l3-indexer-types';
 
 import config from 'configs/app';
 import { currencyUnits } from 'lib/units';
@@ -11,7 +11,7 @@ import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 type Props = {
-  item: BiggestSpender;
+  item: LeaderboardBiggestSpendersItem;
   isLoading?: boolean;
 };
 

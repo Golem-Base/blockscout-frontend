@@ -1,19 +1,18 @@
 import React from 'react';
 
-import type { AddressByEntitiesOwned } from '@golembase/l3-indexer-types';
+import type { LeaderboardEntitiesOwnedItem } from '@golembase/l3-indexer-types';
 
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 
 import TopEntityOwnersTableItem from './TopEntityOwnersTableItem';
 
 interface Props {
-  items: Array<AddressByEntitiesOwned>;
-  pageStartIndex: number;
+  items: Array<LeaderboardEntitiesOwnedItem>;
   top: number;
   isLoading?: boolean;
 }
 
-const TopEntityOwnersTable = ({ items, pageStartIndex, top, isLoading }: Props) => {
+const TopEntityOwnersTable = ({ items, top, isLoading }: Props) => {
   return (
     <TableRoot>
       <TableHeaderSticky top={ top }>
@@ -26,9 +25,8 @@ const TopEntityOwnersTable = ({ items, pageStartIndex, top, isLoading }: Props) 
       <TableBody>
         { items.map((item, index) => (
           <TopEntityOwnersTableItem
-            key={ item.address + (isLoading ? index : '') }
+            key={ item.rank + (isLoading ? index : '') }
             item={ item }
-            index={ pageStartIndex + index }
             isLoading={ isLoading }
           />
         )) }

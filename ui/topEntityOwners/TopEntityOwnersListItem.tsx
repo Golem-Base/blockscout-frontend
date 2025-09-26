@@ -1,21 +1,19 @@
 import { Flex, HStack } from '@chakra-ui/react';
 import React from 'react';
 
-import type { AddressByEntitiesOwned } from '@golembase/l3-indexer-types';
+import type { LeaderboardEntitiesOwnedItem } from '@golembase/l3-indexer-types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 type Props = {
-  item: AddressByEntitiesOwned;
-  index: number;
+  item: LeaderboardEntitiesOwnedItem;
   isLoading?: boolean;
 };
 
 const TopEntityOwnersListItem = ({
   item,
-  index,
   isLoading,
 }: Props) => {
   const addressProp = { hash: item.address };
@@ -31,7 +29,7 @@ const TopEntityOwnersListItem = ({
           mr={ 2 }
         />
         <Skeleton loading={ isLoading } fontSize="sm" ml="auto" minW={ 6 } color="text.secondary">
-          <span>{ index }</span>
+          <span>{ item.rank }</span>
         </Skeleton>
       </Flex>
       <HStack gap={ 3 } maxW="100%" alignItems="flex-start">

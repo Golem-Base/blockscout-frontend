@@ -1,5 +1,4 @@
 import { Text, Box, Grid } from '@chakra-ui/react';
-import { isUndefined } from 'es-toolkit';
 import React from 'react';
 
 import type { EntityHistoryEntry } from '@golembase/l3-indexer-types';
@@ -60,10 +59,14 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
             </Skeleton>
           </ItemValue>
 
-          <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
-          <ItemValue>
-            <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
-          </ItemValue>
+          { data.expires_at_block_number && (
+            <>
+              <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
+              <ItemValue>
+                <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
+              </ItemValue>
+            </>
+          ) }
 
           { withTimestamps && data.expires_at_timestamp && (
             <>
@@ -91,10 +94,14 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
             </Skeleton>
           </ItemValue>
 
-          <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
-          <ItemValue>
-            <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
-          </ItemValue>
+          { data.expires_at_block_number && (
+            <>
+              <ItemLabel hint="Block number when this entity expires">Expiration Block</ItemLabel>
+              <ItemValue>
+                <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>
+              </ItemValue>
+            </>
+          ) }
 
           { withTimestamps && data.expires_at_timestamp && (
             <>
@@ -133,13 +140,17 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
             { renderValueTransition(formatDataSize(hexToSize(data.prev_data)), formatDataSize(hexToSize(data.data))) }
           </ItemValue>
 
-          <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
-          <ItemValue>
-            { renderValueTransition(
-              data.prev_expires_at_block_number && <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/>,
-              <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
-            ) }
-          </ItemValue>
+          { (data.prev_expires_at_block_number || data.expires_at_block_number) && (
+            <>
+              <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
+              <ItemValue>
+                { renderValueTransition(
+                  data.prev_expires_at_block_number && <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/>,
+                  data.expires_at_block_number && <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
+                ) }
+              </ItemValue>
+            </>
+          ) }
 
           { withTimestamps && (
             <>
@@ -159,15 +170,18 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
     case OperationType.EXTEND: {
       return (
         <>
-          <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
-          <ItemValue>
-            { renderValueTransition(
-              !isUndefined(data.prev_expires_at_block_number) ?
-                <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/> :
-                '-',
-              <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
-            ) }
-          </ItemValue>
+          { (data.prev_expires_at_block_number || data.expires_at_block_number) && (
+            <>
+              <ItemLabel hint="Expiration block comparison">Expiration Block</ItemLabel>
+              <ItemValue>
+                { renderValueTransition(
+                  data.prev_expires_at_block_number &&
+                    <BlockEntity number={ data.prev_expires_at_block_number } isLoading={ isLoading }/>,
+                  data.expires_at_block_number && <BlockEntity number={ data.expires_at_block_number } isLoading={ isLoading }/>,
+                ) }
+              </ItemValue>
+            </>
+          ) }
 
           { withTimestamps && (
             <>

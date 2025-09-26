@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { EntityDataSize } from '@golembase/l3-indexer-types';
+import type { LeaderboardLargestEntitiesItem } from '@golembase/l3-indexer-types';
 
 import formatDataSize from 'lib/formatDataSize';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -8,22 +8,20 @@ import { TableCell, TableRow } from 'toolkit/chakra/table';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 
 type Props = {
-  item: EntityDataSize;
+  item: LeaderboardLargestEntitiesItem;
   isLoading?: boolean;
-  rank: number;
 };
 
 const LargestEntitiesTableItem = ({
   item,
   isLoading,
-  rank,
 }: Props) => {
 
   return (
     <TableRow>
       <TableCell>
         <Skeleton loading={ isLoading } display="inline-block" minW={ 6 } lineHeight="24px">
-          { rank }
+          { item.rank }
         </Skeleton>
       </TableCell>
       <TableCell
