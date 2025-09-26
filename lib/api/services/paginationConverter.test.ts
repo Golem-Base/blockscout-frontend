@@ -49,7 +49,7 @@ describe('paginationConverter', () => {
       const result = convertGolemBasePagination(mockResponse);
 
       expect(result).toEqual({
-        items: [ { id: 1 }, { id: 2 } ],
+        ...mockResponse,
         next_page_params: {
           page: 2,
           page_size: 10,
@@ -71,7 +71,7 @@ describe('paginationConverter', () => {
       const result = convertGolemBasePagination(mockResponse);
 
       expect(result).toEqual({
-        items: [ { id: 1 }, { id: 2 } ],
+        ...mockResponse,
         next_page_params: null,
       });
     });

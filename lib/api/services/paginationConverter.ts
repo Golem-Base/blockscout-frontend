@@ -7,7 +7,10 @@ interface NextPageParams {
   page_size: number;
 }
 
-export type PaginatedResponse<T extends { pagination?: Pagination }> = Omit<T, 'pagination'> & { next_page_params: NextPageParams | null };
+export type PaginatedResponse<T extends { pagination?: Pagination }> = Omit<T, 'pagination'> & {
+  next_page_params: NextPageParams | null;
+  pagination?: Partial<Pagination>;
+};
 
 export function hasGolemBasePagination<T>(response: unknown): response is T & { pagination?: Pagination } {
   return isObject(response) && !('next_page_params' in response) && 'pagination' in response;
@@ -16,14 +19,14 @@ export function hasGolemBasePagination<T>(response: unknown): response is T & { 
 /**
  * Converts a ListOperationsResponse from @golembase/l3-indexer-types to blockscout pagination format
  * @param response - The response from golembase API with pagination
- * @returns The same response but with pagination converted to next_page_params format
+ * @returns The same response but with next_page_params object
  */
 export function convertGolemBasePagination<T extends { pagination?: Pagination }>(response: T): PaginatedResponse<T> {
-  const { pagination, ...rest } = response;
+  const { pagination } = response;
 
   if (!pagination) {
     return {
-      ...rest,
+      ...response,
       next_page_params: null,
     };
   }
@@ -34,7 +37,7 @@ export function convertGolemBasePagination<T extends { pagination?: Pagination }
   if (currentPage < totalPages) {
     const nextPage = currentPage + 1;
     return {
-      ...rest,
+      ...response,
       next_page_params: {
         page: nextPage,
         page_size: Number(pagination.page_size),
@@ -43,7 +46,7 @@ export function convertGolemBasePagination<T extends { pagination?: Pagination }
   }
 
   return {
-    ...rest,
+    ...response,
     next_page_params: null,
   };
 }
