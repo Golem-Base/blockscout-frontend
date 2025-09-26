@@ -79,6 +79,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/entities-created',
     paginated: true,
   },
+  addressLeaderboardRanks: {
+    path: '/api/v1/address/:address/leaderboard-ranks',
+    pathParams: [ 'address' as const ],
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -90,14 +94,14 @@ R extends 'golemBaseIndexer:entities' ? PaginatedResponse<golemBaseIndexer.ListE
 R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
-R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
-R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesOwnedResponse> :
-R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.ListEntitiesByBtlResponse> :
+R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.LeaderboardBiggestSpendersResponse> :
+R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
+R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesByBtlResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
-R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
-R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesCreatedResponse> :
+R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
 never;
 /* eslint-enable @stylistic/indent */
 

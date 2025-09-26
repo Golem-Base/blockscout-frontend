@@ -28,6 +28,15 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
     },
   });
 
+  const ranksQuery = useApiQuery('golemBaseIndexer:addressLeaderboardRanks', {
+    pathParams: { address: addressHash },
+    queryOptions: {
+      enabled: Boolean(addressHash),
+      refetchOnMount: false,
+      // placeholderData: ADDRESS_STATS,
+    },
+  });
+
   if (!data) {
     return null;
   }
@@ -113,7 +122,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         </>
       ) }
 
-      <ItemDivider/>
+      { (data.first_seen_timestamp || data.first_seen_block || data.last_seen_timestamp || data.last_seen_block) && <ItemDivider/> }
 
       { data.first_seen_timestamp && renderItem(
         'First seen date',
@@ -131,8 +140,6 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
           isLoading={ isLoading }
         />,
       ) }
-
-      <ItemDivider/>
 
       { data.last_seen_timestamp && renderItem(
         'Last seen date',
