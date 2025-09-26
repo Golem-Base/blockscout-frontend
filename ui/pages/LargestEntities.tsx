@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import getItemIndex from 'lib/getItemIndex';
 import { LARGEST_ENTITIES } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
 import LargestEntitiesListItem from 'ui/largestEntitiesTable/LargestEntitiesListItem';
@@ -32,8 +31,6 @@ const LargestEntities = ({ isQueryEnabled = true }: Props) => {
     },
   });
 
-  const pageStartIndex = getItemIndex(0, pagination.page);
-
   const actionBar = pagination.isVisible && (
     <ActionBar mt={ -6 }>
       <Pagination ml="auto" { ...pagination }/>
@@ -47,7 +44,6 @@ const LargestEntities = ({ isQueryEnabled = true }: Props) => {
           top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           items={ data?.items }
           isLoading={ isPlaceholderData }
-          pageStartIndex={ pageStartIndex }
         >
         </LargestEntitiesTable>
       </Box>
@@ -55,9 +51,8 @@ const LargestEntities = ({ isQueryEnabled = true }: Props) => {
         { data.items.map((item, index) => {
           return (
             <LargestEntitiesListItem
-              key={ item.entity_key + (isPlaceholderData ? index : '') }
+              key={ item.rank + (isPlaceholderData ? index : '') }
               item={ item }
-              rank={ pageStartIndex + index }
               isLoading={ isPlaceholderData }
             />
           );

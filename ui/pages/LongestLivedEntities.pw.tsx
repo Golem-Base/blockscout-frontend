@@ -1,7 +1,7 @@
 import { times } from 'es-toolkit/compat';
 import React from 'react';
 
-import type { ListEntitiesByBtlResponse } from '@golembase/l3-indexer-types';
+import type { LeaderboardEntitiesByBtlResponse } from '@golembase/l3-indexer-types';
 import { EntityStatus } from '@golembase/l3-indexer-types';
 
 import type { PaginatedResponse } from 'lib/api/services/paginationConverter';
@@ -9,7 +9,7 @@ import { test, expect } from 'playwright/lib';
 
 import LongestLivedEntities from './LongestLivedEntities';
 
-const longestLivedEntities: PaginatedResponse<ListEntitiesByBtlResponse> = {
+const longestLivedEntities: PaginatedResponse<LeaderboardEntitiesByBtlResponse> = {
   items: times(10, (n) => ({
     expires_at_block_number: '1000000000000000000',
     last_updated_at_tx_hash: '0x1234567890abcdef1234567890abcdef',
