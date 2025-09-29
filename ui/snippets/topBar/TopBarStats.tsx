@@ -37,7 +37,7 @@ const TopBarStats = () => {
     }
 
     const timeoutId = window.setTimeout(() => {
-      // refetch(); // TODO: uncomment this!!!
+      refetch();
     }, timeout);
 
     return () => {
