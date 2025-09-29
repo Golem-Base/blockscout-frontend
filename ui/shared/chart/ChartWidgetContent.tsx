@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { TimeChartItem } from './types';
 import type { Resolution } from '@blockscout/stats-types';
+import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -22,7 +23,8 @@ export type Props = {
   handleZoom: (range: [ Date, Date ]) => void;
   isEnlarged?: boolean;
   noAnimation?: boolean;
-  resolution?: Resolution;
+  resolution?: ChartResolution | Resolution;
+  valueFormatter?: (value: number | string) => string;
 };
 
 const ChartWidgetContent = ({
@@ -37,6 +39,7 @@ const ChartWidgetContent = ({
   isEnlarged,
   noAnimation,
   resolution,
+  valueFormatter,
 }: Props) => {
   const hasItems = items && items.length > 2;
 
@@ -83,6 +86,7 @@ const ChartWidgetContent = ({
         isEnlarged={ isEnlarged }
         noAnimation={ noAnimation }
         resolution={ resolution }
+        valueFormatter={ valueFormatter }
       />
       <ChartWatermarkIcon w="162px" h="15%"/>
     </Box>

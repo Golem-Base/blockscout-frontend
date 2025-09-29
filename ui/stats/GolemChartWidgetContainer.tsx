@@ -1,11 +1,12 @@
 import { chakra } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
-import { Resolution } from '@blockscout/stats-types';
+import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import type { Route } from 'nextjs-routes';
 
+import formatDataSize from 'lib/formatDataSize';
 import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
 import useGolemChartQuery from 'ui/shared/chart/useGolemChartQuery';
 
@@ -34,8 +35,7 @@ const GolemChartWidgetContainer = ({
   className,
   href,
 }: Props) => {
-  const resolution = interval === 'oneDay' ? 'HOUR' : 'DAY';
-  console.log({resolution})
+  const resolution: ChartResolution = interval === 'oneDay' ? ChartResolution.HOUR : ChartResolution.DAY;
 
   const { items, lineQuery } = useGolemChartQuery(id, resolution, interval, !isPlaceholderData);
 
@@ -44,6 +44,8 @@ const GolemChartWidgetContainer = ({
       onLoadingError();
     }
   }, [ lineQuery.isError, onLoadingError ]);
+
+  const valueFormatter = useCallback((value: string | number) => formatDataSize(value), []);
 
   return (
     <ChartWidget
@@ -57,6 +59,7 @@ const GolemChartWidgetContainer = ({
       className={ className }
       href={ href }
       resolution={ resolution }
+      valueFormatter={ valueFormatter }
     />
   );
 };

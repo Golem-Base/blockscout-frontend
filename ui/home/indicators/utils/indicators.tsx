@@ -3,37 +3,13 @@ import React from 'react';
 import type { TChainIndicator } from '../types';
 
 import config from 'configs/app';
+import formatDataSize from 'lib/formatDataSize';
 import IconSvg from 'ui/shared/IconSvg';
 import NativeTokenIcon from 'ui/shared/NativeTokenIcon';
 
 const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
 const isArbitrumRollup = rollupFeature.isEnabled && rollupFeature.type === 'arbitrum';
-
-// const dataStatisticsOverTime = {
-//   chart: [
-//     {
-//       date: '2025-09-12',
-//       date_to: '2025-09-13',
-//       value: '9817',
-//     },
-//     {
-//       date: '2025-09-13',
-//       date_to: '2025-09-14',
-//       value: '27620',
-//     },
-//     {
-//       date: '2025-09-14',
-//       date_to: '2025-09-15',
-//       value: '98374',
-//     },
-//   ],
-//   info: {
-//     id: 'golemBaseDataUsage',
-//     title: 'Data over time',
-//     description: 'Data storage over time',
-//   },
-// };
 
 const INDICATORS: Array<TChainIndicator> = [
   {
@@ -119,12 +95,8 @@ const INDICATORS: Array<TChainIndicator> = [
   },
   {
     id: 'data_usage',
-    title: 'Data usage',
-    value: (stats) => {
-      // stats.golembase_data_usage === null ?
-      return '$N/A';
-      // : '$' + Number(stats.golembase_data_usage).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-    },
+    title: 'Daily data usage',
+    value: (stats) => stats.data_usage_today === null ? '' : formatDataSize(stats.data_usage_today),
     icon: <IconSvg name="database" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
     hint: 'Data usage over time',
   },

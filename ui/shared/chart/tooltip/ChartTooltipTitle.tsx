@@ -3,12 +3,13 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import { Resolution } from '@blockscout/stats-types';
+import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import { STATS_RESOLUTIONS } from 'ui/stats/constants';
 
 import ChartTooltipRow from './ChartTooltipRow';
 
-const ChartTooltipTitle = ({ resolution = Resolution.DAY }: { resolution?: Resolution }) => {
+const ChartTooltipTitle = ({ resolution = Resolution.DAY }: { resolution?: Resolution | ChartResolution }) => {
   const titleColor = useToken('colors', 'yellow.300');
   const resolutionTitle = STATS_RESOLUTIONS.find(r => r.id === resolution)?.title || 'day';
 

@@ -1,51 +1,32 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import type { LineChartSection } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import { STATS_INTERVALS } from 'ui/stats/constants';
+import useGolemStats from 'ui/stats/useGolemStats';
 
 import ChartsWidgetsList from '../stats/ChartsWidgetsList';
 import StatsFilters from '../stats/StatsFilters';
-import useStats from '../stats/useStats';
 
 export const StatsGolem = () => {
   const {
-    isPlaceholderData,
-    isError,
-    sections,
+    charts,
     currentSection,
     handleSectionChange,
     interval,
     handleIntervalChange,
     handleFilterChange,
-    displayedCharts,
     filterQuery,
-    initialFilterQuery,
-  } = useStats();
-
-  const charts: Array<LineChartSection> = [
-    {
-      id: 'data-usage',
-      title: 'Network statistics',
-      charts: [
-        {
-          id: 'data-usage',
-          title: 'Data usage',
-          description: 'Data added to the L3 storage',
-          resolutions: [ 'HOUR', 'DAY' ],
-        },
-      ],
-    } ];
+  } = useGolemStats();
 
   return (
     <Box>
       <Box mb={{ base: 6, sm: 8 }}>
         <StatsFilters
-          isLoading={ isPlaceholderData }
-          initialFilterValue={ initialFilterQuery }
-          sections={ sections }
+          isLoading={ false }
+          initialFilterValue=""
+          sections={ charts }
           currentSection={ currentSection }
           onSectionChange={ handleSectionChange }
           interval={ interval }
@@ -57,9 +38,9 @@ export const StatsGolem = () => {
 
       <ChartsWidgetsList
         filterQuery={ filterQuery }
-        initialFilterQuery={ initialFilterQuery }
-        isError={ isError }
-        isPlaceholderData={ isPlaceholderData }
+        initialFilterQuery=""
+        isError={ false }
+        isPlaceholderData={ false }
         charts={ charts }
         interval={ interval }
       />
