@@ -1,13 +1,9 @@
 import type { ApiResource } from '../types';
 import type * as golemBaseIndexer from '@golembase/l3-indexer-types';
 import type {
-  GolemBaseIndexerLargestEntitiesFilters,
   GolemBaseIndexerEntitiesFilters,
-  GolemBaseIndexerEntitiesOwnersFilters,
-  GolemBaseIndexerEntitiesCreatedFilters,
-  GolemBaseIndexerLongestLivedEntitiesFilters,
   GolemBaseIndexerOpsFilters,
-  GolemBaseIndexerSpendersFilters,
+  GolemBaseIndexerPaginationFilters,
 } from 'types/api/golemBaseIndexer';
 
 import type { PaginatedResponse } from './paginationConverter';
@@ -83,6 +79,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/transactions/custom-contract',
     paginated: true,
   },
+  addressLeaderboardRanks: {
+    path: '/api/v1/address/:address/leaderboard-ranks',
+    pathParams: [ 'address' as const ],
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -94,26 +94,27 @@ R extends 'golemBaseIndexer:entities' ? PaginatedResponse<golemBaseIndexer.ListE
 R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
-R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.ListBiggestSpendersResponse> :
-R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesOwnedResponse> :
-R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.ListEntitiesByBtlResponse> :
+R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesByBtlResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
-R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.ListLargestEntitiesResponse> :
-R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.ListAddressByEntitiesCreatedResponse> :
+R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
+R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.LeaderboardBiggestSpendersResponse> :
+R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
+R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
 /* eslint-disable @stylistic/indent */
 export type GolemBaseIndexerApiPaginationFilters<R extends GolemBaseIndexerApiResourceName> =
 R extends 'golemBaseIndexer:operations' ? GolemBaseIndexerOpsFilters :
-R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerSpendersFilters :
-R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerEntitiesOwnersFilters :
-R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerLongestLivedEntitiesFilters :
+R extends 'golemBaseIndexer:biggestSpenders' ? GolemBaseIndexerPaginationFilters :
+R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerPaginationFilters :
+R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
-R extends 'golemBaseIndexer:largestEntities' ? GolemBaseIndexerLargestEntitiesFilters :
-R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerEntitiesCreatedFilters :
+R extends 'golemBaseIndexer:largestEntities' ? GolemBaseIndexerPaginationFilters :
+R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerPaginationFilters :
 never;
 /* eslint-enable @stylistic/indent */

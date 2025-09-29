@@ -1,13 +1,13 @@
 import React from 'react';
 
-import type { AddressByEntitiesCreated } from '@golembase/l3-indexer-types';
+import type { LeaderboardEntitiesCreatedItem } from '@golembase/l3-indexer-types';
 
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
 
 import TopEntityCreatorsTableItem from './TopEntityCreatorsTableItem';
 
 interface Props {
-  items: Array<AddressByEntitiesCreated>;
+  items: Array<LeaderboardEntitiesCreatedItem>;
   top: number;
   isLoading?: boolean;
 }

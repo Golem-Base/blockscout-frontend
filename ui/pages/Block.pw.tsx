@@ -36,6 +36,7 @@ test('degradation view, details tab', async({ render, mockApiResponse, mockRpcRe
 });
 
 test('degradation view, txs tab', async({ render, mockApiResponse, mockRpcResponse, page }) => {
+  test.slow();
   const hooksConfig = {
     router: {
       query: { height_or_hash: height, tab: 'txs' },

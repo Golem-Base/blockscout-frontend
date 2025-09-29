@@ -1,14 +1,14 @@
 import { Flex, HStack } from '@chakra-ui/react';
 import React from 'react';
 
-import type { AddressByEntitiesCreated } from '@golembase/l3-indexer-types';
+import type { LeaderboardEntitiesCreatedItem } from '@golembase/l3-indexer-types';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
 type Props = {
-  item: AddressByEntitiesCreated;
+  item: LeaderboardEntitiesCreatedItem;
   isLoading?: boolean;
 };
 
