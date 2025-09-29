@@ -49,6 +49,7 @@ export const base: HomeStats = {
   golembase_used_slots: 1000,
   golembase_active_entities_size: 10,
   golembase_active_entities_count: 3,
+  data_usage_today: 1230,
 };
 
 export const withBtcLocked: HomeStats = {

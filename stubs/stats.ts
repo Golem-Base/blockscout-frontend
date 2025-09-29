@@ -47,6 +47,7 @@ export const HOMEPAGE_STATS: HomeStats = {
   golembase_used_slots: 1000,
   golembase_active_entities_size: 10,
   golembase_active_entities_count: 3,
+  data_usage_today: 1230,
 };
 
 const STATS_CHART_INFO: stats.LineChartInfo = {

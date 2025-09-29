@@ -16,7 +16,7 @@ export default function getIndicatorValues(
   const dataUsageItems = dataUsageData?.[0].items;
 
   const extendedStatsData = {
-    data_usage_today: dataUsageItems && sumBy(dataUsageItems, ({ value }) => Number(value)),
+    data_usage_today: dataUsageItems ? sumBy(dataUsageItems, ({ value }) => Number(value)) : null,
   };
 
   const value = (() => {
