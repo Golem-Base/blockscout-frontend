@@ -82,6 +82,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/leaderboards/spenders': DEFAULT_TEMPLATE,
   '/leaderboards/owners': DEFAULT_TEMPLATE,
   '/leaderboards/largest-entities': DEFAULT_TEMPLATE,
+  '/leaderboards/effectively-largest-entities': DEFAULT_TEMPLATE,
   '/leaderboards/entity-creators': 'Top addresses by entities created on %network_title%.',
   '/leaderboards/longest-lived-entities': DEFAULT_TEMPLATE,
   '/custom-contract-txs': 'View custom contract transactions on %network_title%.',

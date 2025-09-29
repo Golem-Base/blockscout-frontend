@@ -79,6 +79,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/leaderboards/spenders': 'Biggest Spenders',
   '/leaderboards/owners': 'Top Entity Owners',
   '/leaderboards/largest-entities': 'Largest Entities',
+  '/leaderboards/effectively-largest-entities': 'Effectively Largest Entities',
   '/leaderboards/longest-lived-entities': 'Longest Lived Entities',
   '/leaderboards/entity-creators': 'Top Entity Creators',
   '/custom-contract-txs': 'Custom Contract Transactions',

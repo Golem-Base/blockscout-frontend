@@ -94,6 +94,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/api/healthz': '%network_name% node API health check',
   '/api/config': '%network_name% node API app config',
   '/leaderboards/largest-entities': '%network_name% largest entities',
+  '/leaderboards/effectively-largest-entities': '%network_name% effectively largest entities',
   '/custom-contract-txs': '%network_name% custom contract transactions',
 };
 
