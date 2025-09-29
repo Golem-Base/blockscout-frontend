@@ -24,6 +24,7 @@ export type HomeStats = {
   golembase_used_slots: number | null;
   golembase_active_entities_size: number | null;
   golembase_active_entities_count: number | null;
+  data_usage_today: number | null;
   celo?: {
     epoch_number: number;
   };

@@ -8,7 +8,7 @@ export interface TimeChartItem {
   date: Date;
   date_to?: Date;
   dateLabel?: string;
-  value: number;
+  value: number | string;
   isApproximate?: boolean;
 }
 

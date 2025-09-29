@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import { Resolution } from '@blockscout/stats-types';
+import type { ChartResolution } from '@golembase/l3-indexer-types';
 import type { TimeChartData } from 'ui/shared/chart/types';
 
 import ChartTooltipBackdrop, { useRenderBackdrop } from './tooltip/ChartTooltipBackdrop';
@@ -22,7 +23,7 @@ interface Props {
   yScale: d3.ScaleLinear<number, number>;
   anchorEl: SVGRectElement | null;
   noAnimation?: boolean;
-  resolution?: Resolution;
+  resolution?: ChartResolution | Resolution;
 }
 
 const ChartTooltip = ({
@@ -175,7 +176,7 @@ const ChartTooltip = ({
 
 export default React.memo(ChartTooltip);
 
-function getDateLabel(resolution?: Resolution): string {
+function getDateLabel(resolution?: ChartResolution | Resolution): string {
   switch (resolution) {
     case Resolution.WEEK:
       return 'Dates';
