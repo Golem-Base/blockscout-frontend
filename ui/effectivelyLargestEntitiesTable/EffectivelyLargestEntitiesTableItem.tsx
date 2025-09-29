@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { LeaderboardLargestEntitiesItem } from '@golembase/l3-indexer-types';
+import type { LeaderboardEffectivelyLargestEntitiesItem } from '@golembase/l3-indexer-types';
 
 import formatDataSize from 'lib/formatDataSize';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -8,14 +8,15 @@ import { TableCell, TableRow } from 'toolkit/chakra/table';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 
 type Props = {
-  item: LeaderboardLargestEntitiesItem;
+  item: LeaderboardEffectivelyLargestEntitiesItem;
   isLoading?: boolean;
 };
 
-const LargestEntitiesTableItem = ({
+const EffectivelyLargestEntitiesTableItem = ({
   item,
   isLoading,
 }: Props) => {
+
   return (
     <TableRow>
       <TableCell>
@@ -38,13 +39,18 @@ const LargestEntitiesTableItem = ({
           truncation="dynamic"
         />
       </TableCell>
-      <TableCell isNumeric>
+      <TableCell>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
           { formatDataSize(item.data_size) }
+        </Skeleton>
+      </TableCell>
+      <TableCell isNumeric>
+        <Skeleton loading={ isLoading } display="inline-block" maxW="100%" fontWeight="700">
+          { item.lifespan }
         </Skeleton>
       </TableCell>
     </TableRow>
   );
 };
 
-export default React.memo(LargestEntitiesTableItem);
+export default React.memo(EffectivelyLargestEntitiesTableItem);

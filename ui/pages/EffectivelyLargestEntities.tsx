@@ -3,8 +3,8 @@ import React from 'react';
 
 import { EFFECTIVELY_LARGEST_ENTITIES } from 'stubs/leaderboards';
 import { generateListStub } from 'stubs/utils';
-import LargestEntitiesListItem from 'ui/largestEntitiesTable/LargestEntitiesListItem';
-import LargestEntitiesTable from 'ui/largestEntitiesTable/LargestEntitiesTable';
+import EffectivelyLargestEntitiesListItem from 'ui/effectivelyLargestEntitiesTable/EffectivelyLargestEntitiesListItem';
+import EffectivelyLargestEntitiesTable from 'ui/effectivelyLargestEntitiesTable/EffectivelyLargestEntitiesTable';
 import ActionBar, { ACTION_BAR_HEIGHT_DESKTOP } from 'ui/shared/ActionBar';
 import DataListDisplay from 'ui/shared/DataListDisplay';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -40,17 +40,17 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
   const content = data?.items ? (
     <>
       <Box hideBelow="lg">
-        <LargestEntitiesTable
+        <EffectivelyLargestEntitiesTable
           top={ pagination.isVisible ? ACTION_BAR_HEIGHT_DESKTOP : 0 }
           items={ data?.items }
           isLoading={ isPlaceholderData }
         >
-        </LargestEntitiesTable>
+        </EffectivelyLargestEntitiesTable>
       </Box>
       <Box hideFrom="lg">
         { data.items.map((item, index) => {
           return (
-            <LargestEntitiesListItem
+            <EffectivelyLargestEntitiesListItem
               key={ item.rank + (isPlaceholderData ? index : '') }
               item={ item }
               isLoading={ isPlaceholderData }
