@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { BiggestSpender } from '@golembase/l3-indexer-types';
+import type { LeaderboardBiggestSpendersItem } from '@golembase/l3-indexer-types';
 
 import { currencyUnits } from 'lib/units';
 import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } from 'toolkit/chakra/table';
@@ -8,7 +8,7 @@ import { TableBody, TableColumnHeader, TableHeaderSticky, TableRoot, TableRow } 
 import BiggestSpendersTableItem from './BiggestSpendersTableItem';
 
 interface Props {
-  items: Array<BiggestSpender>;
+  items: Array<LeaderboardBiggestSpendersItem>;
   top: number;
   isLoading?: boolean;
 }

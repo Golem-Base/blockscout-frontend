@@ -1,30 +1,32 @@
 import {
   EntityStatus,
-  type AddressByEntitiesOwned,
-  type AddressByEntitiesCreated,
-  type BiggestSpender,
-  type EntityDataSize,
+  type LeaderboardEntitiesOwnedItem,
+  type LeaderboardEntitiesCreatedItem,
+  type LeaderboardBiggestSpendersItem,
+  type LeaderboardLargestEntitiesItem,
   type EntityWithExpTimestamp,
 } from '@golembase/l3-indexer-types';
 
-export const TOP_SPENDER: BiggestSpender = {
+export const TOP_SPENDER: LeaderboardBiggestSpendersItem = {
   rank: '1',
   address: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   total_fees: '12345678901234567890',
 };
 
-export const TOP_ENTITY_OWNER: AddressByEntitiesOwned = {
+export const TOP_ENTITY_OWNER: LeaderboardEntitiesOwnedItem = {
   address: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   entities_count: '42',
+  rank: '1',
 };
 
-export const TOP_ENTITY_CREATOR: AddressByEntitiesCreated = {
+export const TOP_ENTITY_CREATOR: LeaderboardEntitiesCreatedItem = {
   rank: '1',
   address: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   entities_created_count: '25',
 };
 
-export const LARGEST_ENTITIES: EntityDataSize = {
+export const LARGEST_ENTITIES: LeaderboardLargestEntitiesItem = {
+  rank: '1',
   entity_key: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   data_size: '12345678901234567890',
 };

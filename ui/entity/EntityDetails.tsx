@@ -123,22 +123,28 @@ const EntityDetails = ({ entityQuery }: Props) => {
 
       <ItemDivider/>
 
-      <ItemLabel hint="Block number when this entity expires">{ expirationLabel } Block</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <BlockEntity number={ data.expires_at_block_number }/>
-        </Skeleton>
-      </ItemValue>
+      { data.expires_at_block_number && (
+        <>
+          <ItemLabel hint="Block number when this entity expires">{ expirationLabel } Block</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <BlockEntity number={ data.expires_at_block_number }/>
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
 
-      <ItemLabel hint="Timestamp when this entity expires">{ expirationLabel }</ItemLabel>
-      <ItemValue>
-        { data.expires_at_timestamp && (
-          <DetailedInfoTimestamp
-            timestamp={ data.expires_at_timestamp }
-            isLoading={ isLoading }
-          />
-        ) }
-      </ItemValue>
+      { data.expires_at_timestamp && (
+        <>
+          <ItemLabel hint="Timestamp when this entity expires">{ expirationLabel }</ItemLabel>
+          <ItemValue>
+            <DetailedInfoTimestamp
+              timestamp={ data.expires_at_timestamp }
+              isLoading={ isLoading }
+            />
+          </ItemValue>
+        </>
+      ) }
     </Container>
   );
 };
