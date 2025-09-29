@@ -98,7 +98,7 @@ const INDICATORS: Array<TChainIndicator> = [
     title: 'Daily data usage',
     value: (stats) => stats.data_usage_today === null ? '' : formatDataSize(stats.data_usage_today),
     icon: <IconSvg name="database" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
-    hint: 'Data usage over time',
+    hint: 'Total amount of data added to the chain today',
   },
 ];
 

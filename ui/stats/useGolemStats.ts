@@ -13,7 +13,7 @@ export default function useGolemStats() {
           {
             id: 'data-usage',
             title: 'Data usage',
-            description: 'Data added to the L3 storage',
+            description: 'Data usage over time',
             resolutions: [ 'HOUR', 'DAY' ],
           },
         ],
