@@ -80,6 +80,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/leaderboards/owners': '%network_name% top entity owners',
   '/leaderboards/longest-lived-entities': '%network_name% longest lived entities',
   '/leaderboards/entity-creators': '%network_name% top entity creators',
+  '/leaderboards/accounts-with-the-most-data': '%network_name% top accounts with the most data',
 
   // service routes, added only to make typescript happy
   '/login': '%network_name% login',
