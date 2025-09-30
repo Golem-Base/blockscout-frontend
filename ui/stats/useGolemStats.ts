@@ -16,6 +16,12 @@ export default function useGolemStats() {
             description: 'Data usage over time',
             resolutions: [ 'HOUR', 'DAY' ],
           },
+          {
+            id: 'storage-forecast',
+            title: 'Chain storage forecast',
+            description: 'Projection of total chain storage over time, starting from current data and trending down as entities expire (BTL)',
+            resolutions: [ 'HOUR', 'DAY' ],
+          },
         ],
       },
     ];
