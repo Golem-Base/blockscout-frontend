@@ -8,6 +8,8 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { Heading } from 'toolkit/chakra/heading';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { apos } from 'toolkit/utils/htmlEntities';
+import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
+import { golemChartIds } from 'ui/shared/chart/useGolemChartQuery';
 import EmptySearchResult from 'ui/shared/EmptySearchResult';
 import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import IconSvg from 'ui/shared/IconSvg';
@@ -89,11 +91,11 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
                 gap={{ base: 3, lg: 4 }}
               >
                 { section.charts.map((chart) => {
-                  if (chart.id === 'data-usage') {
+                  if (golemChartIds.includes(chart.id)) {
                     return (
                       <GolemChartWidgetContainer
                         key={ chart.id }
-                        id={ chart.id }
+                        id={ chart.id as GolemChartId }
                         title={ chart.title }
                         description={ chart.description }
                         interval={ interval }
