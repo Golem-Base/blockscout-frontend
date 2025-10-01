@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import { Resolution } from '@blockscout/stats-types';
+import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { ChartMargin, TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
@@ -24,7 +25,8 @@ interface Props {
   onZoom: (range: [ Date, Date ]) => void;
   margin?: ChartMargin;
   noAnimation?: boolean;
-  resolution?: Resolution;
+  resolution?: ChartResolution | Resolution;
+  valueFormatter?: (value: number | string) => string;
 }
 
 const DEFAULT_CHART_MARGIN = { bottom: 20, left: 10, right: 20, top: 10 };
@@ -39,6 +41,7 @@ const ChartWidgetGraph = ({
   noAnimation,
   resolution,
   zoomRange,
+  valueFormatter,
 }: Props) => {
   const isMobile = useIsMobile();
   const [ color ] = useToken('colors', 'blue.200');
@@ -54,10 +57,13 @@ const ChartWidgetGraph = ({
       .map((item) => ({
         ...item,
         dateLabel: getDateLabel(item.date, item.date_to, resolution),
+        valueFormatter,
       })),
-  [ items, range, resolution ]);
+  [ items, range, resolution, valueFormatter ]);
 
-  const chartData: TimeChartData = React.useMemo(() => ([ { items: displayedData, name: 'Value', color, units } ]), [ color, displayedData, units ]);
+  const chartData: TimeChartData = React.useMemo(() => {
+    return [ { items: displayedData, name: 'Value', color, units, valueFormatter } ];
+  }, [ color, displayedData, units, valueFormatter ]);
 
   const margin: ChartMargin = React.useMemo(() => ({ ...DEFAULT_CHART_MARGIN, ...marginProps }), [ marginProps ]);
   const axesConfig = React.useMemo(() => {
@@ -84,6 +90,10 @@ const ChartWidgetGraph = ({
     margin,
     axesConfig,
   });
+
+  const hourTickFormatter = React.useCallback(() => {
+    return (domainValue: d3.AxisDomain) => d3.timeFormat('%H:%M')(domainValue as Date);
+  }, []);
 
   return (
     <svg width="100%" height="100%" ref={ ref } cursor="pointer" id={ chartId } opacity={ rect ? 1 : 0 }>
@@ -129,7 +139,7 @@ const ChartWidgetGraph = ({
           transform={ `translate(0, ${ innerHeight })` }
           ticks={ axesConfig.x.ticks }
           anchorEl={ overlayRef.current }
-          tickFormatGenerator={ axes.x.tickFormatter }
+          tickFormatGenerator={ resolution === ChartResolution.HOUR ? hourTickFormatter : axes.x.tickFormatter }
           noAnimation
         />
 
@@ -161,8 +171,11 @@ const ChartWidgetGraph = ({
 
 export default React.memo(ChartWidgetGraph);
 
-function getDateLabel(date: Date, dateTo?: Date, resolution?: Resolution): string {
+function getDateLabel(date: Date, dateTo?: Date, resolution?: Resolution | ChartResolution): string {
   switch (resolution) {
+    case ChartResolution.HOUR:
+    case Resolution.DAY:
+      return d3.timeFormat('%e %b %Y')(date) + (dateTo ? ` – ${ d3.timeFormat('%e %b %Y')(dateTo) }` : '');
     case Resolution.WEEK:
       return d3.timeFormat('%e %b %Y')(date) + (dateTo ? ` – ${ d3.timeFormat('%e %b %Y')(dateTo) }` : '');
     case Resolution.MONTH:
