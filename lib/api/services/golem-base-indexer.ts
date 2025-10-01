@@ -106,8 +106,6 @@ R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesRespo
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
-R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.LeaderboardBiggestSpendersResponse> :
-R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
 R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartDataUsageResponse :
