@@ -83,6 +83,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/address/:address/leaderboard-ranks',
     pathParams: [ 'address' as const ],
   },
+  entityDataHistogram: {
+    path: '/api/v1/chart/entity-data-histogram',
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -104,6 +107,7 @@ R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexe
 R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
+R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.EntityHistoryEntry :
 never;
 /* eslint-enable @stylistic/indent */
 
