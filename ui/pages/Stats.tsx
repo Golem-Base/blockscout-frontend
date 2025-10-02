@@ -6,6 +6,7 @@ import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ChartsWidgetsList from '../stats/ChartsWidgetsList';
+import DataSizeHistogramWidget from '../stats/DataSizeHistogramWidget';
 import NumberWidgetsList from '../stats/NumberWidgetsList';
 import StatsFilters from '../stats/StatsFilters';
 import useStats from '../stats/useStats';
@@ -35,6 +36,10 @@ const Stats = () => {
 
       <Box mb={{ base: 6, sm: 8 }}>
         <NumberWidgetsList/>
+      </Box>
+
+      <Box mb={{ base: 6, sm: 8 }}>
+        <DataSizeHistogramWidget/>
       </Box>
 
       <Box mb={{ base: 6, sm: 8 }}>

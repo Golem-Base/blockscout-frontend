@@ -107,7 +107,7 @@ R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexe
 R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
-R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.EntityHistoryEntry :
+R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
