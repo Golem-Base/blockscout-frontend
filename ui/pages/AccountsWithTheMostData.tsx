@@ -14,19 +14,15 @@ import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 const AccountsWithTheMostData = () => {
   const { isError, isPlaceholderData, data, pagination } = useQueryWithPages({
     resourceName: 'golemBaseIndexer:addressByDataOwned',
+    filters: { page_size: '50' },
     options: {
-      placeholderData: generateListStub<'golemBaseIndexer:addressByDataOwned'>(
-        ADDRESS_BY_DATA_OWNED,
-        50,
-        {
-          pagination: {
-            page: '1',
-            page_size: '50',
-            total_items: '50',
-            total_pages: '1',
-          },
-          next_page_params: null,
+      enabled: true,
+      placeholderData: generateListStub<'golemBaseIndexer:addressByDataOwned'>(ADDRESS_BY_DATA_OWNED, 50, {
+        next_page_params: {
+          page: 2,
+          page_size: 50,
         },
+      },
       ),
     },
   });
