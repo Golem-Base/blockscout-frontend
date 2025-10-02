@@ -17,6 +17,7 @@ type Props = {
   onFilterInputChange: (q: string) => void;
   isLoading: boolean;
   initialFilterValue: string;
+  intervalOptions: Array<StatsIntervalIds>;
 };
 
 const StatsFilters = ({
@@ -28,6 +29,7 @@ const StatsFilters = ({
   onFilterInputChange,
   isLoading,
   initialFilterValue,
+  intervalOptions,
 }: Props) => {
 
   const collection = React.useMemo(() => {
@@ -72,7 +74,13 @@ const StatsFilters = ({
         w={{ base: '100%', lg: 'auto' }}
         area="interval"
       >
-        <ChartIntervalSelect interval={ interval } onIntervalChange={ onIntervalChange } isLoading={ isLoading } selectTagSize="md"/>
+        <ChartIntervalSelect
+          interval={ interval }
+          onIntervalChange={ onIntervalChange }
+          isLoading={ isLoading }
+          selectTagSize="md"
+          options={ intervalOptions }
+        />
       </GridItem>
 
       <GridItem

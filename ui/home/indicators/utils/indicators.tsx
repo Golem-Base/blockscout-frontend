@@ -3,6 +3,7 @@ import React from 'react';
 import type { TChainIndicator } from '../types';
 
 import config from 'configs/app';
+import formatDataSize from 'lib/formatDataSize';
 import IconSvg from 'ui/shared/IconSvg';
 import NativeTokenIcon from 'ui/shared/NativeTokenIcon';
 
@@ -91,6 +92,13 @@ const INDICATORS: Array<TChainIndicator> = [
       '$' + Number(stats.tvl).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
     icon: <IconSvg name="lock" boxSize={ 6 } bgColor="#517FDB" borderRadius="base" color="white"/>,
     hint: 'Total value of digital assets locked or staked in a chain',
+  },
+  {
+    id: 'data_usage',
+    title: 'Daily data usage',
+    value: (stats) => stats.data_usage_today === null ? '' : formatDataSize(stats.data_usage_today),
+    icon: <IconSvg name="database" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
+    hint: 'Total amount of data added to the chain today',
   },
 ];
 

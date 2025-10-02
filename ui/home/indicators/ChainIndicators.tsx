@@ -39,6 +39,8 @@ const ChainIndicators = () => {
 
   const queryResult = useChartDataQuery(selectedIndicatorData?.id as ChainIndicatorId);
 
+  const dataUsageQueryResult = useChartDataQuery('data_usage');
+
   const statsMicroserviceQueryResult = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -62,7 +64,7 @@ const ChainIndicators = () => {
   const hasData = Boolean(statsApiQueryResult?.data || statsMicroserviceQueryResult?.data);
 
   const { value: indicatorValue, valueDiff: indicatorValueDiff } =
-    getIndicatorValues(selectedIndicatorData as TChainIndicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data);
+    getIndicatorValues(selectedIndicatorData as TChainIndicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data, dataUsageQueryResult?.data);
 
   const title = (() => {
     let title: string | undefined;
@@ -155,7 +157,7 @@ const ChainIndicators = () => {
               icon={ indicator.icon }
               isSelected={ selectedIndicator === indicator.id }
               onClick={ selectIndicator }
-              { ...getIndicatorValues(indicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data) }
+              { ...getIndicatorValues(indicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data, dataUsageQueryResult?.data) }
               isLoading={ isPlaceholderData }
               hasData={ hasData }
             />

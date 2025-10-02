@@ -1,17 +1,19 @@
 import { chakra } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
-import { Resolution } from '@blockscout/stats-types';
+import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import type { Route } from 'nextjs-routes';
 
-import useChartQuery from 'ui/shared/chart/useChartQuery';
+import formatDataSize from 'lib/formatDataSize';
+import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
+import useGolemChartQuery from 'ui/shared/chart/useGolemChartQuery';
 
 import ChartWidget from '../shared/chart/ChartWidget';
 
 type Props = {
-  id: string;
+  id: GolemChartId;
   title: string;
   description: string;
   units?: string;
@@ -22,7 +24,7 @@ type Props = {
   href?: Route;
 };
 
-const ChartWidgetContainer = ({
+const GolemChartWidgetContainer = ({
   id,
   title,
   description,
@@ -33,13 +35,17 @@ const ChartWidgetContainer = ({
   className,
   href,
 }: Props) => {
-  const { items, lineQuery } = useChartQuery(id, Resolution.DAY, interval, !isPlaceholderData);
+  const resolution: ChartResolution = interval === 'oneDay' ? ChartResolution.HOUR : ChartResolution.DAY;
+
+  const { items, lineQuery } = useGolemChartQuery(id, resolution, interval, !isPlaceholderData);
 
   useEffect(() => {
     if (lineQuery.isError) {
       onLoadingError();
     }
   }, [ lineQuery.isError, onLoadingError ]);
+
+  const valueFormatter = useCallback((value: string | number) => formatDataSize(value), []);
 
   return (
     <ChartWidget
@@ -52,9 +58,10 @@ const ChartWidgetContainer = ({
       minH="230px"
       className={ className }
       href={ href }
-      resolution={ Resolution.DAY }
+      resolution={ resolution }
+      valueFormatter={ valueFormatter }
     />
   );
 };
 
-export default chakra(ChartWidgetContainer);
+export default chakra(GolemChartWidgetContainer);

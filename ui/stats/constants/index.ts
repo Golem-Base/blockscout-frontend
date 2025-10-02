@@ -1,6 +1,8 @@
 import { Resolution } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
+import dayjs from 'lib/date/dayjs';
+
 export const STATS_RESOLUTIONS: Array<{ id: Resolution; title: string }> = [
   {
     id: Resolution.DAY,
@@ -20,35 +22,38 @@ export const STATS_RESOLUTIONS: Array<{ id: Resolution; title: string }> = [
   },
 ];
 
-export const STATS_INTERVALS: { [key in StatsIntervalIds]: { title: string; shortTitle: string; start?: Date } } = {
+export const STATS_INTERVALS: Record<StatsIntervalIds, { title: string; shortTitle: string; start?: Date }> = {
   all: {
     title: 'All time',
     shortTitle: 'All time',
   },
+  oneDay: {
+    title: '1 day',
+    shortTitle: '1D',
+    start: getStartDateInPast('days', 1),
+  },
   oneMonth: {
     title: '1 month',
     shortTitle: '1M',
-    start: getStartDateInPast(1),
+    start: getStartDateInPast('months', 1),
   },
   threeMonths: {
     title: '3 months',
     shortTitle: '3M',
-    start: getStartDateInPast(3),
+    start: getStartDateInPast('months', 3),
   },
   sixMonths: {
     title: '6 months',
     shortTitle: '6M',
-    start: getStartDateInPast(6),
+    start: getStartDateInPast('months', 6),
   },
   oneYear: {
     title: '1 year',
     shortTitle: '1Y',
-    start: getStartDateInPast(12),
+    start: getStartDateInPast('months', 12),
   },
 };
 
-function getStartDateInPast(months: number): Date {
-  const date = new Date();
-  date.setMonth(date.getMonth() - months);
-  return date;
+function getStartDateInPast(type: 'months' | 'days' = 'months', count: number): Date {
+  return dayjs().subtract(count, type).toDate();
 }

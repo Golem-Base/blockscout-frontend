@@ -83,6 +83,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/address/:address/leaderboard-ranks',
     pathParams: [ 'address' as const ],
   },
+  chart: {
+    path: '/api/v1/chart/:id',
+    pathParams: [ 'id' as const ],
+  },
   entityDataHistogram: {
     path: '/api/v1/chart/entity-data-histogram',
   },
@@ -97,16 +101,17 @@ R extends 'golemBaseIndexer:entities' ? PaginatedResponse<golemBaseIndexer.ListE
 R extends 'golemBaseIndexer:operation' ? golemBaseIndexer.EntityHistoryEntry :
 R extends 'golemBaseIndexer:operations' ? PaginatedResponse<golemBaseIndexer.ListOperationsResponse> :
 R extends 'golemBaseIndexer:operationsCount' ? golemBaseIndexer.CountOperationsResponse :
+R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.LeaderboardBiggestSpendersResponse> :
+R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:longestLivedEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesByBtlResponse> :
 R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsResponse :
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
-R extends 'golemBaseIndexer:biggestSpenders' ? PaginatedResponse<golemBaseIndexer.LeaderboardBiggestSpendersResponse> :
-R extends 'golemBaseIndexer:entitiesOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesOwnedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
+R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartDataUsageResponse :
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 never;
 /* eslint-enable @stylistic/indent */

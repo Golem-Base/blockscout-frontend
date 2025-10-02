@@ -2,6 +2,8 @@ import { chakra, Flex } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 
 import type { TimeChartItem } from './types';
+import type { Resolution } from '@blockscout/stats-types';
+import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import { route, type Route } from 'nextjs-routes';
 
@@ -27,6 +29,8 @@ export type Props = {
   emptyText?: string;
   noAnimation?: boolean;
   href?: Route;
+  resolution?: ChartResolution | Resolution;
+  valueFormatter?: (value: number | string) => string;
 };
 
 const ChartWidget = ({
@@ -40,6 +44,8 @@ const ChartWidget = ({
   emptyText,
   noAnimation,
   href,
+  resolution,
+  valueFormatter,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
@@ -57,6 +63,8 @@ const ChartWidget = ({
       handleZoom={ handleZoom }
       zoomRange={ zoomRange }
       noAnimation={ noAnimation }
+      resolution={ resolution }
+      valueFormatter={ valueFormatter }
     />
   );
 
@@ -141,4 +149,4 @@ const ChartWidget = ({
   );
 };
 
-export default React.memo(chakra(ChartWidget));
+export default chakra(ChartWidget);
