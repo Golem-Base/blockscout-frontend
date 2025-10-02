@@ -54,11 +54,11 @@ test.beforeEach(async({ page, mockTextAd, mockGolemBase }) => {
   // debug
   const isDebug = process.env.PWDEBUG === '1';
 
-  // if (isDebug) {
-  page.on('console', msg => console.log(msg.text()));
-  page.on('request', request => console.info('\x1b[34m%s\x1b[0m', '>>', request.method(), request.url()));
-  page.on('response', response => console.info('\x1b[35m%s\x1b[0m', '<<', String(response.status()), response.url()));
-  // }
+  if (isDebug) {
+    page.on('console', msg => console.log(msg.text()));
+    page.on('request', request => console.info('\x1b[34m%s\x1b[0m', '>>', request.method(), request.url()));
+    page.on('response', response => console.info('\x1b[35m%s\x1b[0m', '<<', String(response.status()), response.url()));
+  }
 
   // Abort all other requests to external resources
   await page.route('**', (route) => {
