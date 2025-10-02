@@ -5,7 +5,7 @@ import { isNil } from 'es-toolkit';
  * @param sizeInBytes - Size in bytes as string, number, bigint, or undefined
  * @returns Formatted string like "1.23 KiB" or "Unknown" if input is invalid
  */
-export default function formatDataSize(sizeInBytes?: string | number | bigint | null): string {
+export default function formatDataSize(sizeInBytes?: string | number | bigint | null, shortBytes = false): string {
   if (isNil(sizeInBytes) || sizeInBytes === null) {
     return 'Unknown';
   }
@@ -24,7 +24,7 @@ export default function formatDataSize(sizeInBytes?: string | number | bigint | 
   const gb = mb * kb;
   const tb = gb * kb;
 
-  if (bytes < kb) return `${ bytes } bytes`;
+  if (bytes < kb) return `${ bytes } ${ shortBytes ? 'B' : 'bytes' }`;
 
   if (bytes < mb) return formatUnit(bytes, kb, 'KiB');
   if (bytes < gb) return formatUnit(bytes, mb, 'MiB');

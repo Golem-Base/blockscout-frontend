@@ -153,4 +153,5 @@ export const ADDRESS_RANKS: AddressLeaderboardRanksResponse = {
   entities_created: '1',
   entities_owned: '1000',
   data_owned: '20000',
+  top_accounts: '11',
 };

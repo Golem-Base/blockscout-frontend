@@ -87,4 +87,10 @@ describe('formatDataSize', () => {
       expect(formatDataSize(1035)).toBe('1.01 KiB'); // 11/1024 ≈ 0.01074219, rounds to .01
     });
   });
+
+  describe('short bytes', () => {
+    it('should format bytes correctly', () => {
+      expect(formatDataSize(1000, true)).toBe('1000 B');
+    });
+  });
 });
