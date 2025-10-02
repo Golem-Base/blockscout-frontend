@@ -3,6 +3,7 @@ import React from 'react';
 import type { LeaderboardEffectivelyLargestEntitiesItem } from '@golembase/l3-indexer-types';
 
 import formatDataSize from 'lib/formatDataSize';
+import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
@@ -45,8 +46,8 @@ const EffectivelyLargestEntitiesTableItem = ({
         </Skeleton>
       </TableCell>
       <TableCell isNumeric>
-        <Skeleton loading={ isLoading } display="inline-block" maxW="100%" fontWeight="700">
-          { item.lifespan }
+        <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
+          { formatBigNum(item.lifespan) }
         </Skeleton>
       </TableCell>
     </TableRow>
