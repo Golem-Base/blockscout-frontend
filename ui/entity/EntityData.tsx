@@ -41,9 +41,6 @@ const EntityData = ({ entityQuery }: Props) => {
     ...data.numeric_annotations.map((annotation) => ({ ...annotation, type: 'numeric' })),
   ];
 
-  const entitiesCount = annotations.reduce((acc, annotation) => acc + parseInt(annotation.related_entities), 0);
-  const entityPluralSingularInflectionLabel = entitiesCount === 1 ? 'entity' : 'entities';
-
   return (
     <Container data-testid="entity-data">
       <ItemLabel hint="Raw data content of this entity">Entity Data</ItemLabel>
@@ -101,14 +98,6 @@ const EntityData = ({ entityQuery }: Props) => {
           </ItemValue>
         </>
       ) }
-
-      <ItemDivider/>
-      <ItemLabel hint="Entities related to this entity">Related Entities</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <Text fontWeight="normal" fontSize="xs">{ entitiesCount } other { entityPluralSingularInflectionLabel } match these annotations</Text>
-        </Skeleton>
-      </ItemValue>
     </Container>
   );
 };
