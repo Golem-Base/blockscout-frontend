@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { EFFECTIVELY_LARGEST_ENTITIES } from 'stubs/leaderboards';
@@ -63,7 +63,7 @@ const EffectivelyLargestEntities = ({ isQueryEnabled = true }: Props) => {
 
   return (
     <>
-      <PageTitle title="Effectively largest entities" withTextAd/>
+      <PageTitle title="Effectively largest entities" secondRow={ <Text>Effectivity rank calculated as multiply of data size and lifespan.</Text> } withTextAd/>
       <DataListDisplay
         isError={ isError }
         itemsNum={ data?.items.length }

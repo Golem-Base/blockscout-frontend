@@ -20,7 +20,7 @@ const EffectivelyLargestEntitiesTable = ({ items, top, isLoading }: Props) => {
           <TableColumnHeader width="64px">Rank</TableColumnHeader>
           <TableColumnHeader width="80%">Key</TableColumnHeader>
           <TableColumnHeader width="15%">Data size</TableColumnHeader>
-          <TableColumnHeader width="15%" isNumeric>Blocks number</TableColumnHeader>
+          <TableColumnHeader width="15%" isNumeric>Lifespan</TableColumnHeader>
         </TableRow>
       </TableHeaderSticky>
       <TableBody>

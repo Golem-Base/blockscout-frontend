@@ -31,7 +31,7 @@ const LargestEntitiesListItem = ({
       </Skeleton>
 
       <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-        <chakra.span fontWeight={ 700 }>Blocks number:</chakra.span> { item.lifespan }
+        <chakra.span fontWeight={ 700 }>Lifespan:</chakra.span> { item.lifespan }
       </Skeleton>
     </ListItemMobile>
   );
