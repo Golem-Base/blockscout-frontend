@@ -94,6 +94,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   entityDataHistogram: {
     path: '/api/v1/chart/entity-data-histogram',
   },
+  addressByDataOwned: {
+    path: '/api/v1/leaderboard/data-owned',
+    paginated: true,
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -118,6 +122,7 @@ R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<gole
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
 R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartResponse :
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
+R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
 never;
 /* eslint-enable @stylistic/indent */
 
@@ -131,5 +136,6 @@ R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 R extends 'golemBaseIndexer:largestEntities' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerPaginationFilters :
+R extends 'golemBaseIndexer:addressByDataOwned' ? GolemBaseIndexerPaginationFilters :
 never;
 /* eslint-enable @stylistic/indent */

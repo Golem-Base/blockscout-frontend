@@ -225,6 +225,12 @@ export default function useNavItems(): ReturnType {
     const leaderboardsNavItems = [
       topAccounts,
       {
+        text: 'Accounts with the most data',
+        nextRoute: { pathname: '/leaderboards/accounts-with-the-most-data' as const },
+        icon: 'top-accounts',
+        isActive: pathname === '/leaderboards/accounts-with-the-most-data',
+      },
+      {
         text: 'Biggest Spenders',
         nextRoute: { pathname: '/leaderboards/spenders' as const },
         icon: 'flame',

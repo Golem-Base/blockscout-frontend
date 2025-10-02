@@ -1,6 +1,7 @@
 import type {
   AddressLeaderboardRanksResponse,
   AddressStatsResponse,
+  LeaderboardDataOwnedItem,
 } from '@golembase/l3-indexer-types';
 import type {
   Address,
@@ -154,4 +155,10 @@ export const ADDRESS_RANKS: AddressLeaderboardRanksResponse = {
   entities_owned: '1000',
   data_owned: '20000',
   top_accounts: '11',
+};
+
+export const ADDRESS_BY_DATA_OWNED: LeaderboardDataOwnedItem = {
+  rank: '1',
+  address: '0xF822070D07067D1519490dBf49448a7E30EE9ea5',
+  data_size: '1000000',
 };

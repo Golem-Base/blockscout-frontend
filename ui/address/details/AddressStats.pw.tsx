@@ -50,6 +50,6 @@ test('asserts correct links', async({ render, mockApiResponse }) => {
   const entitiesOwnedLink = component.locator('a[href*="/leaderboards/owners"]');
   await expect(entitiesOwnedLink).toHaveAttribute('href', '/leaderboards/owners');
 
-  const dataOwnedLink = component.locator('a[href*="/leaderboards/largest-entities"]');
-  await expect(dataOwnedLink).toHaveAttribute('href', '/leaderboards/largest-entities?page=100');
+  const dataOwnedLink = component.locator('a[href*="/leaderboards/accounts-with-the-most-data"]');
+  await expect(dataOwnedLink).toHaveAttribute('href', '/leaderboards/accounts-with-the-most-data?page=100');
 });
