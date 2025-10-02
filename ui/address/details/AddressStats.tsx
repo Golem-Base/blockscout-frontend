@@ -218,8 +218,7 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         'Data Owned Rank',
         'Rank in the largest entities leaderboard based on total data size owned',
         ranksData?.data_owned,
-        // @TODO: fix link once GBBE-150 is done
-        '/leaderboards/largest-entities',
+        '/leaderboards/accounts-with-the-most-data',
       ) }
     </>
   );
