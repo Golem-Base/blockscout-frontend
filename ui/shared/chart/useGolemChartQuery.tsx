@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { ChartDataUsageResponse } from '@golembase/l3-indexer-types';
+import type { ChartResponse } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -19,7 +19,7 @@ export default function useGolemChartQuery(id: GolemChartId, resolution: 'HOUR' 
   const endDate = selectedInterval.start ? dayjs().format(dateFormatByResolution) : undefined;
   const startDate = selectedInterval.start ? dayjs(selectedInterval.start).format(dateFormatByResolution) : undefined;
 
-  const [ info, setInfo ] = React.useState<ChartDataUsageResponse['info']>(apiData || undefined);
+  const [ info, setInfo ] = React.useState<ChartResponse['info']>(apiData || undefined);
 
   const lineQuery = useApiQuery('golemBaseIndexer:chart', {
     pathParams: { id },
