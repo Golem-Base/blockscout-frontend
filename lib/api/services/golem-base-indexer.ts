@@ -91,6 +91,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/chart/:id',
     pathParams: [ 'id' as const ],
   },
+  entityDataHistogram: {
+    path: '/api/v1/chart/entity-data-histogram',
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -113,7 +116,8 @@ R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<gole
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
-R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartDataUsageResponse :
+R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartResponse :
+R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 never;
 /* eslint-enable @stylistic/indent */
 

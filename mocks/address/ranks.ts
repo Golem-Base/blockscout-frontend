@@ -5,4 +5,5 @@ export const ranksResponse: AddressLeaderboardRanksResponse = {
   entities_created: '125',
   entities_owned: '45',
   data_owned: '5000',
+  top_accounts: '23',
 };
