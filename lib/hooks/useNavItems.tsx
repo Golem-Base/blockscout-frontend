@@ -248,6 +248,12 @@ export default function useNavItems(): ReturnType {
         icon: 'chart-pie',
         isActive: pathname === '/leaderboards/largest-entities',
       },
+      {
+        text: 'Effectively largest entities',
+        nextRoute: { pathname: '/leaderboards/effectively-largest-entities' as const },
+        icon: 'stats',
+        isActive: pathname === '/leaderboards/effectively-largest-entities',
+      },
       { text: 'Longest lived entities',
         nextRoute: { pathname: '/leaderboards/longest-lived-entities' as const },
         icon: 'clock',

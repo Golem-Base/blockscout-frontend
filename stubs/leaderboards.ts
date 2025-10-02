@@ -1,10 +1,11 @@
-import {
-  EntityStatus,
-  type LeaderboardEntitiesOwnedItem,
-  type LeaderboardEntitiesCreatedItem,
-  type LeaderboardBiggestSpendersItem,
-  type LeaderboardLargestEntitiesItem,
-  type EntityWithExpTimestamp,
+import { EntityStatus } from '@golembase/l3-indexer-types';
+import type {
+  LeaderboardEntitiesOwnedItem,
+  LeaderboardEntitiesCreatedItem,
+  LeaderboardBiggestSpendersItem,
+  LeaderboardLargestEntitiesItem,
+  EntityWithExpTimestamp,
+  LeaderboardEffectivelyLargestEntitiesItem,
 } from '@golembase/l3-indexer-types';
 
 export const TOP_SPENDER: LeaderboardBiggestSpendersItem = {
@@ -29,6 +30,13 @@ export const LARGEST_ENTITIES: LeaderboardLargestEntitiesItem = {
   rank: '1',
   entity_key: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
   data_size: '12345678901234567890',
+};
+
+export const EFFECTIVELY_LARGEST_ENTITIES: LeaderboardEffectivelyLargestEntitiesItem = {
+  rank: '1',
+  entity_key: '0xEB0680e8fEF19f5B6490a083d5b59f6F04930B5B',
+  data_size: '12345678901234567890',
+  lifespan: '123456789',
 };
 
 export const LONGEST_LIVED_ENTITIES: EntityWithExpTimestamp = {

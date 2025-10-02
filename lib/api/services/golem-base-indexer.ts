@@ -71,6 +71,10 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/largest-entities',
     paginated: true,
   },
+  effectivelyLargestEntities: {
+    path: '/api/v1/leaderboard/effectively-largest-entities',
+    paginated: true,
+  },
   entitiesCreated: {
     path: '/api/v1/leaderboard/entities-created',
     paginated: true,
@@ -105,6 +109,7 @@ R extends 'golemBaseIndexer:addressStats' ? golemBaseIndexer.AddressStatsRespons
 R extends 'golemBaseIndexer:entitiesCount' ? golemBaseIndexer.CountEntitiesResponse :
 R extends 'golemBaseIndexer:blockStats' ? golemBaseIndexer.BlockStatsResponse :
 R extends 'golemBaseIndexer:largestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardLargestEntitiesResponse> :
+R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<golemBaseIndexer.LeaderboardEffectivelyLargestEntitiesResponse> :
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
@@ -120,6 +125,7 @@ R extends 'golemBaseIndexer:entitiesOwned' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:longestLivedEntities' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:entities' ? GolemBaseIndexerEntitiesFilters :
 R extends 'golemBaseIndexer:largestEntities' ? GolemBaseIndexerPaginationFilters :
+R extends 'golemBaseIndexer:effectivelyLargestEntities' ? GolemBaseIndexerPaginationFilters :
 R extends 'golemBaseIndexer:entitiesCreated' ? GolemBaseIndexerPaginationFilters :
 never;
 /* eslint-enable @stylistic/indent */
