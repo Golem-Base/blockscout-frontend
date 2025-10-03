@@ -3,6 +3,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { LineChartSection } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
+import { isChartNameMatches } from './utils/isChartNameMatches';
+import { isSectionMatches } from './utils/isSectionMatches';
+
 export default function useGolemStats() {
   const charts: Array<LineChartSection> = useMemo(() => {
     return [
@@ -44,8 +47,20 @@ export default function useGolemStats() {
     setFilterQuery(q);
   }, []);
 
+  const displayedCharts = React.useMemo(() => {
+    return charts
+      ?.map((section) => {
+        const charts = section.charts.filter((chart) => isSectionMatches(section, currentSection) && isChartNameMatches(filterQuery, chart));
+
+        return {
+          ...section,
+          charts,
+        };
+      }).filter((section) => section.charts.length > 0);
+  }, [ currentSection, filterQuery, charts ]);
+
   return React.useMemo(() => ({
-    charts,
+    displayedCharts,
     sectionIds,
     filterQuery,
     currentSection,
@@ -54,7 +69,7 @@ export default function useGolemStats() {
     handleIntervalChange,
     handleFilterChange,
   }), [
-    charts,
+    displayedCharts,
     sectionIds,
     filterQuery,
     currentSection,

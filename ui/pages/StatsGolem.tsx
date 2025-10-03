@@ -11,7 +11,7 @@ import StatsFilters from '../stats/StatsFilters';
 
 export const StatsGolem = () => {
   const {
-    charts,
+    displayedCharts,
     currentSection,
     handleSectionChange,
     interval,
@@ -26,7 +26,7 @@ export const StatsGolem = () => {
         <StatsFilters
           isLoading={ false }
           initialFilterValue=""
-          sections={ charts }
+          sections={ displayedCharts }
           currentSection={ currentSection }
           onSectionChange={ handleSectionChange }
           interval={ interval }
@@ -41,7 +41,7 @@ export const StatsGolem = () => {
         initialFilterQuery=""
         isError={ false }
         isPlaceholderData={ false }
-        charts={ charts }
+        charts={ displayedCharts }
         interval={ interval }
       />
     </Box>
