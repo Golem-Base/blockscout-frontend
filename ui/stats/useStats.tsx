@@ -1,20 +1,14 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import type * as stats from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { STATS_CHARTS } from 'stubs/stats';
 
-function isSectionMatches(section: stats.LineChartSection, currentSection: string): boolean {
-  return currentSection === 'all' || section.id === currentSection;
-}
-
-function isChartNameMatches(q: string, chart: stats.LineChartInfo) {
-  return chart.title.toLowerCase().includes(q.toLowerCase());
-}
+import { isChartNameMatches } from './utils/isChartNameMatches';
+import { isSectionMatches } from './utils/isSectionMatches';
 
 export default function useStats() {
   const router = useRouter();

@@ -3,17 +3,26 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { LineChartSection } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
+import { isChartNameMatches } from './utils/isChartNameMatches';
+import { isSectionMatches } from './utils/isSectionMatches';
+
 export default function useGolemStats() {
   const charts: Array<LineChartSection> = useMemo(() => {
     return [
       {
         id: 'data-usage',
-        title: 'Network statistics',
+        title: 'Chain statistics',
         charts: [
           {
             id: 'data-usage',
-            title: 'Data usage',
+            title: 'Chain data usage',
             description: 'Data usage over time',
+            resolutions: [ 'HOUR', 'DAY' ],
+          },
+          {
+            id: 'storage-forecast',
+            title: 'Chain storage forecast',
+            description: 'Projection of total chain storage over time, starting from current data and trending down as entities expire (BTL)',
             resolutions: [ 'HOUR', 'DAY' ],
           },
         ],
@@ -38,8 +47,20 @@ export default function useGolemStats() {
     setFilterQuery(q);
   }, []);
 
+  const displayedCharts = React.useMemo(() => {
+    return charts
+      ?.map((section) => {
+        const charts = section.charts.filter((chart) => isSectionMatches(section, currentSection) && isChartNameMatches(filterQuery, chart));
+
+        return {
+          ...section,
+          charts,
+        };
+      }).filter((section) => section.charts.length > 0);
+  }, [ currentSection, filterQuery, charts ]);
+
   return React.useMemo(() => ({
-    charts,
+    displayedCharts,
     sectionIds,
     filterQuery,
     currentSection,
@@ -48,7 +69,7 @@ export default function useGolemStats() {
     handleIntervalChange,
     handleFilterChange,
   }), [
-    charts,
+    displayedCharts,
     sectionIds,
     filterQuery,
     currentSection,

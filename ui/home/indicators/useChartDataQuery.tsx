@@ -1,3 +1,4 @@
+import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
 import type { TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
@@ -141,14 +142,14 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const dateFormat = 'YYYY-MM-DD HH:mm';
+  const dateFormat = 'YYYY-MM-DD';
 
   const dataUsageQuery = useApiQuery('golemBaseIndexer:chart', {
     pathParams: { id: 'data-usage' },
     queryParams: {
-      from: dayjs().startOf('day').format(dateFormat),
-      to: dayjs().endOf('day').format(dateFormat),
-      resolution: 'HOUR',
+      from: dayjs().subtract(30, 'days').format(dateFormat),
+      to: dayjs().format(dateFormat),
+      resolution: ChartResolution.DAY,
     },
     queryOptions: {
       refetchOnMount: false,
