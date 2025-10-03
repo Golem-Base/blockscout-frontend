@@ -11,11 +11,11 @@ export default function useGolemStats() {
     return [
       {
         id: 'data-usage',
-        title: 'Network statistics',
+        title: 'Chain statistics',
         charts: [
           {
             id: 'data-usage',
-            title: 'Data usage',
+            title: 'Chain data usage',
             description: 'Data usage over time',
             resolutions: [ 'HOUR', 'DAY' ],
           },
