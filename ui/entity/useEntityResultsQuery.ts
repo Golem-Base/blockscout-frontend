@@ -8,7 +8,7 @@ import { ENTITY } from 'stubs/entity';
 import { generateListStub } from 'stubs/utils';
 import useQueryWithPages from 'ui/shared/pagination/useQueryWithPages';
 
-const ENTITY_RESULT_ITEM: Entity = pick(ENTITY, [
+export const ENTITY_RESULT_ITEM: Entity = pick(ENTITY, [
   'key',
   'status',
   'last_updated_at_tx_hash',
