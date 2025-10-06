@@ -43,8 +43,8 @@ const EntityResultsTable = ({
       <TableRoot fontWeight={ 500 } minWidth="800px">
         <TableHeaderSticky>
           <TableRow>
-            <TableColumnHeader width="80%">Search result</TableColumnHeader>
-            <TableColumnHeader width="20%" minWidth="100px" maxWidth="120px" textAlign="center">Status</TableColumnHeader>
+            <TableColumnHeader>Search result</TableColumnHeader>
+            <TableColumnHeader width="180px" isNumeric>Status</TableColumnHeader>
           </TableRow>
         </TableHeaderSticky>
         <TableBody>
@@ -86,15 +86,7 @@ const EntityResultsTable = ({
                   </Skeleton>
                 </Flex>
               </TableCell>
-              <TableCell
-                fontSize="sm"
-                textTransform="capitalize"
-                verticalAlign="middle"
-                width="30%"
-                minWidth="140px"
-                maxWidth="180px"
-                textAlign="center"
-              >
+              <TableCell textAlign="right">
                 <EntityStatus isLoading={ isLoading } status={ item.status }/>
               </TableCell>
             </TableRow>

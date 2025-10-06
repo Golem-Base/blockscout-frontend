@@ -20,7 +20,7 @@ import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import useSocketChannel from 'lib/socket/useSocketChannel';
 import useSocketMessage from 'lib/socket/useSocketMessage';
 import useFetchXStarScore from 'lib/xStarScore/useFetchXStarScore';
-import { ADDRESS_TABS_COUNTERS } from 'stubs/address';
+import { ADDRESS_STATS, ADDRESS_TABS_COUNTERS } from 'stubs/address';
 import { USER_OPS_ACCOUNT } from 'stubs/userOps';
 import RoutedTabs from 'toolkit/components/RoutedTabs/RoutedTabs';
 import Address3rdPartyWidgets from 'ui/address/Address3rdPartyWidgets';
@@ -35,6 +35,7 @@ import AddressEpochRewards from 'ui/address/AddressEpochRewards';
 import AddressInternalTxs from 'ui/address/AddressInternalTxs';
 import AddressLogs from 'ui/address/AddressLogs';
 import AddressMud from 'ui/address/AddressMud';
+import AddressOwnedEntities from 'ui/address/AddressOwnedEntities';
 import AddressTokens from 'ui/address/AddressTokens';
 import AddressTokenTransfers from 'ui/address/AddressTokenTransfers';
 import AddressTxs from 'ui/address/AddressTxs';
@@ -97,6 +98,14 @@ const AddressPageContent = () => {
   const countersQuery = useAddressCountersQuery({
     hash,
     addressQuery,
+  });
+
+  const addressStatsQuery = useApiQuery('golemBaseIndexer:addressStats', {
+    pathParams: { address: hash },
+    queryOptions: {
+      enabled: areQueriesEnabled && Boolean(hash),
+      placeholderData: ADDRESS_STATS,
+    },
   });
 
   const userOpsAccountQuery = useApiQuery('general:user_ops_account', {
@@ -231,6 +240,12 @@ const AddressPageContent = () => {
         component: <AddressEntityOps shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
         subTabs: ENTITY_OPS_TABS,
       },
+      addressStatsQuery.data?.created_entities?.length ? {
+        id: 'owned_entities',
+        title: 'Owned entities',
+        count: Number(addressStatsQuery.data.created_entities),
+        component: <AddressOwnedEntities shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
+      } : undefined,
       txInterpretation.isEnabled && txInterpretation.provider === 'noves' ?
         {
           id: 'account_history',
@@ -325,6 +340,7 @@ const AddressPageContent = () => {
     areQueriesEnabled,
     mudTablesCountQuery.data,
     address3rdPartyWidgets,
+    addressStatsQuery.data,
   ]);
 
   const usernameApiTag = userPropfileApiQuery.data?.user_profile?.username;

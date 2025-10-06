@@ -22,6 +22,7 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
       'string_annotation_value' as const,
       'numeric_annotation_key' as const,
       'numeric_annotation_value' as const,
+      'owner' as const,
     ],
   },
   entitiesCount: {
