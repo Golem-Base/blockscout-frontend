@@ -12,11 +12,10 @@ import { useAddressOwnedEntitiesFilters } from './useAddressOwnedEntitiesFilters
 
 type Props = {
   isLoading: boolean;
-  defaultFilterStatus: string;
 };
 
-const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) => {
-  const { state, setStatus, setInputValue, applyFilters } = useAddressOwnedEntitiesFilters(defaultFilterStatus);
+const AddressOwnedEntitiesFilters = ({ isLoading }: Props) => {
+  const { state, setStatus, setInputValue, applyFilters } = useAddressOwnedEntitiesFilters();
 
   const collection = React.useMemo(() => {
     const getStatusOption = (status: string) => ({
@@ -29,14 +28,13 @@ const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) 
   }, []);
 
   const handleStatusChange = React.useCallback(({ value }: { value: Array<string> }) => {
-    const selected = value?.length ? value[0] : defaultFilterStatus;
-    setStatus(selected);
-  }, [ defaultFilterStatus, setStatus ]);
+    setStatus(value[0]);
+  }, [ setStatus ]);
 
   const handleSubmit = React.useCallback((event: React.FormEvent) => {
     event.preventDefault();
-    applyFilters();
-  }, [ applyFilters ]);
+    applyFilters(state);
+  }, [ applyFilters, state ]);
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -56,10 +54,11 @@ const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) 
             onValueChange={ handleStatusChange }
             loading={ isLoading }
             w="140px"
+            fontWeight="normal"
           />
         </Flex>
 
-        <AddressOwnedEntitiesInputFilters loading={ isLoading } state={ state.inputValues } setInputValue={ setInputValue }/>
+        <AddressOwnedEntitiesInputFilters loading={ isLoading } state={ state } setInputValue={ setInputValue }/>
 
         <Button type="submit" size="sm">
           Apply
