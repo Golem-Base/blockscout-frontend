@@ -52,7 +52,7 @@ const EntityForm = ({
     try {
       const mappedData = await mapEntityFormDataToGolemCreate(data);
       await onSubmit?.(mappedData);
-    } catch {
+    } catch (err) {
       setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });
     }
   }, [ isConnected, setError, onSubmit, edit ]);
