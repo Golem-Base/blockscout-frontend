@@ -1,22 +1,22 @@
-import { createListCollection, Flex } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { Box, createListCollection, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import { EntityStatus } from '@golembase/l3-indexer-types';
 
 import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
+import { Button } from 'toolkit/chakra/button';
 import { Select } from 'toolkit/chakra/select';
+
+import AddressOwnedEntitiesInputFilters from './AddressOwnedEntitiesInputFilters';
+import { useAddressOwnedEntitiesFilters } from './useAddressOwnedEntitiesFilters';
 
 type Props = {
   isLoading: boolean;
   defaultFilterStatus: string;
 };
 
-const AddressOwnedEntitiesFilters = ({
-  isLoading,
-  defaultFilterStatus,
-}: Props) => {
-  const router = useRouter();
+const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) => {
+  const { state, setStatus, setInputValue, applyFilters } = useAddressOwnedEntitiesFilters(defaultFilterStatus);
 
   const collection = React.useMemo(() => {
     const getStatusOption = (status: string) => ({
@@ -28,35 +28,42 @@ const AddressOwnedEntitiesFilters = ({
     return createListCollection({ items });
   }, []);
 
-  const handleFilterChange = React.useCallback(({ value }: { value: Array<string> }) => {
-    const params = new URLSearchParams(router.query as Record<string, string>);
-    const selected = value?.length ? value[0] : undefined;
+  const handleStatusChange = React.useCallback(({ value }: { value: Array<string> }) => {
+    const selected = value?.length ? value[0] : defaultFilterStatus;
+    setStatus(selected);
+  }, [ defaultFilterStatus, setStatus ]);
 
-    const isAllSelected = selected?.toLowerCase() === 'all';
-
-    if (isAllSelected) params.delete('status');
-    if (!isAllSelected && selected) params.set('status', selected);
-
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: Object.fromEntries(params.entries()),
-      },
-      undefined,
-      { shallow: true },
-    );
-  }, [ router ]);
+  const handleSubmit = React.useCallback((event: React.FormEvent) => {
+    event.preventDefault();
+    applyFilters();
+  }, [ applyFilters ]);
 
   return (
-    <Flex w="fit-content">
-      <Select
-        collection={ collection }
-        placeholder="Select status"
-        defaultValue={ [ defaultFilterStatus ] }
-        onValueChange={ handleFilterChange }
-        loading={ isLoading }
-      />
-    </Flex>
+    <form onSubmit={ handleSubmit }>
+      <Flex
+        flexDir={{ xl: 'row', base: 'column' }}
+        gap={ 4 }
+        alignItems={{ xl: 'flex-end', base: 'flex-start' }}
+        backgroundColor={{ _light: 'gray.50', _dark: 'gray.800' }}
+        p={ 2 } borderRadius="base">
+        <Box>
+          <Select
+            collection={ collection }
+            placeholder="Select status"
+            value={ [ state.selectedStatus ] }
+            onValueChange={ handleStatusChange }
+            loading={ isLoading }
+            w="140px"
+          />
+        </Box>
+
+        <AddressOwnedEntitiesInputFilters loading={ isLoading } state={ state.inputValues } setInputValue={ setInputValue }/>
+
+        <Button type="submit" size="sm">
+          Apply
+        </Button>
+      </Flex>
+    </form>
   );
 };
 

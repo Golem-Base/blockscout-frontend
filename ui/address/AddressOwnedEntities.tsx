@@ -40,7 +40,10 @@ const AddressOwnedEntities = ({ shouldRender = true, isQueryEnabled = true }: Pr
     filters: {
       status: router.query.status as EntityStatus || EntityStatus.ALL,
       owner: router.query.hash as string,
-
+      numeric_annotation_key: router.query.numeric_annotation_key as string,
+      numeric_annotation_value: router.query.numeric_annotation_value as string,
+      string_annotation_key: router.query.string_annotation_key as string,
+      string_annotation_value: router.query.string_annotation_value as string,
     },
   });
 
