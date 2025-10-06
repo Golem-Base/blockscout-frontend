@@ -1,4 +1,4 @@
-import { Box, createListCollection, Flex } from '@chakra-ui/react';
+import { createListCollection, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { EntityStatus } from '@golembase/l3-indexer-types';
@@ -46,7 +46,9 @@ const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) 
         alignItems={{ xl: 'flex-end', base: 'flex-start' }}
         backgroundColor={{ _light: 'gray.50', _dark: 'gray.800' }}
         p={ 2 } borderRadius="base">
-        <Box>
+        <Flex flexDir="column" gap={ 1 }>
+          <Text fontSize="xs" color="gray.500">Status:</Text>
+
           <Select
             collection={ collection }
             placeholder="Select status"
@@ -55,7 +57,7 @@ const AddressOwnedEntitiesFilters = ({ isLoading, defaultFilterStatus }: Props) 
             loading={ isLoading }
             w="140px"
           />
-        </Box>
+        </Flex>
 
         <AddressOwnedEntitiesInputFilters loading={ isLoading } state={ state.inputValues } setInputValue={ setInputValue }/>
 
