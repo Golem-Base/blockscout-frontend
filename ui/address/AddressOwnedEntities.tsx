@@ -51,11 +51,9 @@ const AddressOwnedEntities = ({ shouldRender = true, isQueryEnabled = true }: Pr
     return null;
   }
 
-  const defaultFilterStatus = router.query.status ? String(router.query.status).toUpperCase() : EntityStatus.ALL;
-
   return (
     <>
-      <AddressOwnedEntitiesFilters isLoading={ isPlaceholderData } defaultFilterStatus={ defaultFilterStatus }/>
+      <AddressOwnedEntitiesFilters isLoading={ isPlaceholderData }/>
 
       <Layout.Content flexGrow={ 0 }>
         <EntityResultsBar

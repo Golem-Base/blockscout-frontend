@@ -1,24 +1,17 @@
 import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import { Input } from 'toolkit/chakra/input';
-import { Skeleton } from 'toolkit/chakra/skeleton';
-
-type InputValues = {
-  numeric_annotation_key: string;
-  numeric_annotation_value: string;
-  string_annotation_key: string;
-  string_annotation_value: string;
-};
+import AddressOwnedEntitiesInputField from './AddressOwnedEntitiesInputField';
+import type { FilterState, SetInputValue } from './addressOwnedFilterReducer';
 
 type Props = {
   loading: boolean;
-  state: InputValues;
-  setInputValue: (key: keyof InputValues, value: string) => void;
+  state: FilterState;
+  setInputValue: SetInputValue;
 };
 
 const AddressOwnedEntitiesInputFilters = ({ loading, state, setInputValue }: Props) => {
-  const handleUpdateQuery = React.useCallback((param: keyof InputValues) => {
+  const handleUpdateQuery = React.useCallback((param: keyof FilterState['inputValues']) => {
     const eventHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
       setInputValue(param, event.target.value);
     };
@@ -32,20 +25,23 @@ const AddressOwnedEntitiesInputFilters = ({ loading, state, setInputValue }: Pro
         <Text fontSize="xs" color="gray.500">Numeric annotation:</Text>
 
         <Flex gap={ 1 }>
-          <Skeleton loading={ loading }>
-            <Input
-              placeholder="key"
-              value={ state.numeric_annotation_key }
-              onChange={ handleUpdateQuery('numeric_annotation_key') }
-              size="sm"/>
-          </Skeleton>
-          <Skeleton loading={ loading }>
-            <Input
-              placeholder="value"
-              value={ state.numeric_annotation_value }
-              onChange={ handleUpdateQuery('numeric_annotation_value') }
-              size="sm"/>
-          </Skeleton>
+          <AddressOwnedEntitiesInputField
+            id="numeric_annotation_key"
+            placeholder="key"
+            loading={ loading }
+            error={ Boolean(state.errors.numeric_annotation_key) }
+            value={ state.inputValues.numeric_annotation_key }
+            onChange={ handleUpdateQuery('numeric_annotation_key') }
+          />
+          <AddressOwnedEntitiesInputField
+            id="numeric_annotation_value"
+            placeholder="value"
+            loading={ loading }
+            type="number"
+            error={ Boolean(state.errors.numeric_annotation_value) }
+            value={ state.inputValues.numeric_annotation_value }
+            onChange={ handleUpdateQuery('numeric_annotation_value') }
+          />
         </Flex>
       </Flex>
 
@@ -53,21 +49,22 @@ const AddressOwnedEntitiesInputFilters = ({ loading, state, setInputValue }: Pro
         <Text fontSize="xs" color="gray.500">String annotation:</Text>
 
         <Flex gap={ 1 }>
-          <Skeleton loading={ loading }>
-            <Input
-              placeholder="key"
-              value={ state.string_annotation_key }
-              onChange={ handleUpdateQuery('string_annotation_key') }
-              size="sm"/>
-          </Skeleton>
-
-          <Skeleton loading={ loading }>
-            <Input
-              placeholder="value"
-              value={ state.string_annotation_value }
-              onChange={ handleUpdateQuery('string_annotation_value') }
-              size="sm"/>
-          </Skeleton>
+          <AddressOwnedEntitiesInputField
+            id="string_annotation_key"
+            placeholder="key"
+            loading={ loading }
+            error={ Boolean(state.errors.string_annotation_key) }
+            value={ state.inputValues.string_annotation_key }
+            onChange={ handleUpdateQuery('string_annotation_key') }
+          />
+          <AddressOwnedEntitiesInputField
+            id="string_annotation_value"
+            placeholder="value"
+            loading={ loading }
+            error={ Boolean(state.errors.string_annotation_value) }
+            value={ state.inputValues.string_annotation_value }
+            onChange={ handleUpdateQuery('string_annotation_value') }
+          />
         </Flex>
       </Flex>
     </>
