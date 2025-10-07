@@ -30,7 +30,7 @@ const parseOwnerRule = (part: string): RuleType | null => {
 };
 
 const parseStringRule = (part: string): RuleType | null => {
-  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=)\s*"([^"]+)"$/i);
+  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=|~|!~)\s*"([^"]+)"$/i);
   return match ? {
     id: createRuleId(),
     field: `string:${ match[1] }`,
