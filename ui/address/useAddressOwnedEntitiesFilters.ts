@@ -64,8 +64,10 @@ export const useAddressOwnedEntitiesFilters = () => {
     const query = {
       pathname: router.pathname,
       query: {
-        ...Object.fromEntries(params.entries()),
-        ...pickBy(state.inputValues, Boolean),
+        ...pickBy({
+          ...Object.fromEntries(params.entries()),
+          ...state.inputValues,
+        }, Boolean),
       },
     };
 
