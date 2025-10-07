@@ -1,5 +1,6 @@
 export const SUPPORTED_OPERATORS = {
-  EQUALITY: '=',
+  EQUAL: '=',
+  NOT_EQUAL: '!=',
   LESS_THAN: '<',
   GREATER_THAN: '>',
 } as const;
@@ -19,6 +20,12 @@ export const OPERATOR_CONFIGS: Array<OperatorConfig> = [
     name: '=',
     label: '=',
     description: 'Equals operator',
+    supportedFields: [ 'owner', 'string', 'numeric' ],
+  },
+  {
+    name: '!=',
+    label: '!=',
+    description: 'Not equal operator',
     supportedFields: [ 'owner', 'string', 'numeric' ],
   },
   {

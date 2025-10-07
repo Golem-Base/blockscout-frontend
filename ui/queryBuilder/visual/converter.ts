@@ -20,12 +20,12 @@ const formatRule = (rule: RuleType): string => {
 };
 
 const parseOwnerRule = (part: string): RuleType | null => {
-  const match = part.match(/\$owner\s*=\s*"([^"]+)"/);
+  const match = part.match(/\$owner\s*(=|!=)\s*"([^"]+)"/);
   return match ? {
     id: createRuleId(),
     field: OWNER_KEY,
-    operator: '=',
-    value: match[1],
+    operator: match[1],
+    value: match[2],
   } : null;
 };
 
