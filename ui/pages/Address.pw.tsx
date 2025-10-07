@@ -4,6 +4,7 @@ import { numberToHex } from 'viem';
 import config from 'configs/app';
 import * as addressMock from 'mocks/address/address';
 import * as addressCountersMock from 'mocks/address/counters';
+import * as statsMock from 'mocks/address/stats';
 import * as addressTabCountersMock from 'mocks/address/tabCounters';
 import * as socketServer from 'playwright/fixtures/socketServer';
 import { test, expect } from 'playwright/lib';
@@ -27,6 +28,7 @@ test.describe('fetched bytecode', () => {
     await mockApiResponse('general:address_counters', addressCountersMock.forValidator, { pathParams: { hash: addressMock.hash } });
     await mockApiResponse('general:address_tabs_counters', addressTabCountersMock.base, { pathParams: { hash: addressMock.hash } });
     await mockApiResponse('general:address_txs', { items: [], next_page_params: null }, { pathParams: { hash: addressMock.hash } });
+    await mockApiResponse('golemBaseIndexer:addressStats', statsMock.statsResponse, { pathParams: { address: addressMock.hash } });
     await render(<Address/>, { hooksConfig }, { withSocket: true });
 
     const socket = await createSocket();
@@ -49,6 +51,7 @@ test('degradation view', async({ render, page, mockRpcResponse, mockApiResponse 
     Parameters: [ addressMock.hash, 'latest' ],
     ReturnType: numberToHex(1234567890123456),
   });
+  await mockApiResponse('golemBaseIndexer:addressStats', null as never, { pathParams: { address: addressMock.hash }, status: 500 });
 
   const component = await render(<Address/>, { hooksConfig });
   await page.waitForResponse(config.chain.rpcUrls[0]);
