@@ -2,7 +2,9 @@ export const SUPPORTED_OPERATORS = {
   EQUAL: '=',
   NOT_EQUAL: '!=',
   LESS_THAN: '<',
+  LESS_THAN_OR_EQUAL: '<=',
   GREATER_THAN: '>',
+  GREATER_THAN_OR_EQUAL: '>=',
 } as const;
 
 export type FieldType = 'owner' | 'string' | 'numeric';
@@ -35,9 +37,21 @@ export const OPERATOR_CONFIGS: Array<OperatorConfig> = [
     supportedFields: [ 'numeric' ],
   },
   {
+    name: '<=',
+    label: '<=',
+    description: 'Less than or equal operator',
+    supportedFields: [ 'numeric' ],
+  },
+  {
     name: '>',
     label: '>',
     description: 'Greater than operator',
+    supportedFields: [ 'numeric' ],
+  },
+  {
+    name: '>=',
+    label: '>=',
+    description: 'Greater than or equal operator',
     supportedFields: [ 'numeric' ],
   },
 ];

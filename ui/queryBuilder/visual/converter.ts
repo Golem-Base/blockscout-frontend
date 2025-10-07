@@ -34,7 +34,7 @@ const parseStringRule = (part: string): RuleType | null => {
   return match ? {
     id: createRuleId(),
     field: `string:${ match[1] }`,
-    operator: match[2] === '!=' ? '!=' : match[2],
+    operator: match[2],
     value: match[3],
   } : null;
 };
@@ -44,7 +44,7 @@ const parseNumericRule = (part: string): RuleType | null => {
   return match ? {
     id: createRuleId(),
     field: `numeric:${ match[1] }`,
-    operator: match[2] === '!=' ? '!=' : match[2],
+    operator: match[2],
     value: match[3],
   } : null;
 };

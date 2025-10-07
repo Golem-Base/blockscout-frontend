@@ -23,8 +23,8 @@ export const validateQuery = (query: string): ValidationResult => {
   }
 
   const annotationMatches = [
-    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*!?[=<>]\s*"[^"]+"/gu),
-    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*!?[=<>]\s*\d+(?:\.\d+)?/gu),
+    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*!?[=<>]=?\s*"[^"]+"/gu),
+    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*!?[=<>]=?\s*\d+(?:\.\d+)?/gu),
   ];
 
   for (const match of annotationMatches) {

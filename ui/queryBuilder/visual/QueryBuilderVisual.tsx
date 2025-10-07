@@ -70,7 +70,7 @@ const QueryBuilderVisual = ({ initialValue, onSubmit, isLoading }: Props) => {
             removeGroupAction: RemoveAction,
             addRuleAction: (props) => <ActionButton { ...props }>+ Rule</ActionButton>,
             addGroupAction: (props) => <ActionButton { ...props }>+ Group</ActionButton>,
-            operatorSelector: (props) => <SmartSelector { ...props } placeholder="Operator" name="operator" width="60px"/>,
+            operatorSelector: (props) => <SmartSelector { ...props } placeholder="Operator" name="operator" width="64px"/>,
             combinatorSelector: (props) => <SmartSelector { ...props } placeholder="Combinator" name="combinator"/>,
           }}
         />
