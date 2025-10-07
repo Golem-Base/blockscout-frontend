@@ -120,12 +120,22 @@ const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
         }));
 
         const operatorSuggestions = MONACO_OPERATORS.map(operator => {
-          const isLogical = operator === '&&' || operator === '||';
-          // eslint-disable-next-line no-nested-ternary
-          const description = isLogical ?
-            (operator === '&&' ? 'Logical AND operator' : 'Logical OR operator') :
-            getOperatorDescription(operator as Operator);
-          const detail = isLogical ? 'Logical' : 'Comparison';
+          const description = (() => {
+            if (operator === '&&') {
+              return 'Logical AND operator';
+            } else if (operator === '||') {
+              return 'Logical OR operator';
+            } else if (operator === '!') {
+              return 'Negation operator';
+            }
+            return getOperatorDescription(operator as Operator);
+          })();
+          const detail = (() => {
+            if (operator === '&&' || operator === '||') {
+              return 'Logical';
+            }
+            return operator === '!' ? 'Negation' : 'Comparison';
+          })();
 
           return {
             label: operator,

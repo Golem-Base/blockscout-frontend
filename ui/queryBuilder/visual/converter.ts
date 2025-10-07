@@ -79,7 +79,9 @@ export function ruleGroupToString(ruleGroup: RuleGroupType): string {
   ruleGroup.rules.forEach(processRule);
 
   const separator = ruleGroup.combinator === 'or' ? ' || ' : ' && ';
-  return parts.join(separator);
+  const result = parts.join(separator);
+
+  return ruleGroup.not ? `!(${ result })` : result;
 }
 
 function preprocessQueryForCEL(queryString: string): string {
@@ -126,12 +128,25 @@ export function stringToRuleGroup(queryString: string): RuleGroupType {
     return { combinator: 'and', rules: [] };
   }
 
+  const trimmed = queryString.trim();
+  const isNegated = trimmed.startsWith('!(') && trimmed.endsWith(')') &&
+                   !trimmed.slice(2, -1).includes('&&') && !trimmed.slice(2, -1).includes('||');
+  const content = isNegated ? trimmed.slice(2, -1) : trimmed;
+
   try {
-    const celQuery = preprocessQueryForCEL(queryString);
+    const celQuery = preprocessQueryForCEL(content);
     const parsedQuery = parseCEL(celQuery);
-    return postprocessParsedQuery(parsedQuery);
+    const result = postprocessParsedQuery(parsedQuery);
+    if (result.rules.length === 0) {
+      throw new Error('CEL parser returned empty rules');
+    }
+    return isNegated ? { ...result, not: true } : result;
   } catch {
-    const parts = queryString.split(/\s*&&\s*/).map(part => part.trim()).filter(Boolean);
-    return { combinator: 'and', rules: parts.map(parseRule) };
+    const parts = content.split(/\s*&&\s*/).map(part => part.trim()).filter(Boolean);
+    return {
+      combinator: 'and',
+      rules: parts.map(parseRule),
+      not: isNegated,
+    };
   }
 }

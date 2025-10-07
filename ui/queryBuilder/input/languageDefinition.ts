@@ -31,6 +31,7 @@ export const monarchTokensProvider: monaco.languages.IMonarchLanguage = {
       [ /<=/, 'operator' ],
       [ />=/, 'operator' ],
       [ /~/, 'operator' ],
+      [ /!/, 'operator' ],
       [ /[=><]/, 'operator' ],
 
       [ /[()]/, 'delimiter.parenthesis' ],

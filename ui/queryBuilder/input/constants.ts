@@ -13,4 +13,5 @@ export const MONACO_OPERATORS = [
   SUPPORTED_OPERATORS.NOT_GLOB,
   '&&',
   '||',
+  '!',
 ];
