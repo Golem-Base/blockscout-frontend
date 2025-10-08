@@ -4,6 +4,10 @@ import { parseCEL } from 'react-querybuilder/parseCEL';
 import { OWNER_KEY } from 'toolkit/components/forms/validators';
 import { parseField } from 'ui/queryBuilder/visual/utils';
 
+const OWNER_RULE_REGEXP = /\$owner\s*(=|!=)\s*"([^"]+)"/;
+const STRING_RULE_REGEXP = /^([a-z_]\w*)\s*([=<>]=?|!=|~|!~)\s*"([^"]+)"$/i;
+const NUMBER_RULE_REGEXP = /^([a-z_]\w*)\s*([=<>]=?|!=)\s*(\d+)$/i;
+
 const createRuleId = () => `rule_${ Math.random().toString(36).slice(2, 11) }`;
 
 const formatRule = (rule: RuleType): string => {
@@ -20,7 +24,7 @@ const formatRule = (rule: RuleType): string => {
 };
 
 const parseOwnerRule = (part: string): RuleType | null => {
-  const match = part.match(/\$owner\s*(=|!=)\s*"([^"]+)"/);
+  const match = part.match(OWNER_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: OWNER_KEY,
@@ -30,7 +34,7 @@ const parseOwnerRule = (part: string): RuleType | null => {
 };
 
 const parseStringRule = (part: string): RuleType | null => {
-  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=|~|!~)\s*"([^"]+)"$/i);
+  const match = part.match(STRING_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: `string:${ match[1] }`,
@@ -40,7 +44,7 @@ const parseStringRule = (part: string): RuleType | null => {
 };
 
 const parseNumericRule = (part: string): RuleType | null => {
-  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=)\s*(\d+)$/i);
+  const match = part.match(NUMBER_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: `numeric:${ match[1] }`,
