@@ -4,13 +4,13 @@ import dayjs from 'lib/date/dayjs';
 
 dayjs.extend(bigIntSupport);
 
-const MAX_TIMESTAMP = 8640000000000000;
+export const MAX_TIMESTAMP_MS = 8640000000000000;
 
 export function dayjsBigFuture(timestampInMs: number) {
-  const isBiggerThanMaxTimestamp = BigInt(timestampInMs) > MAX_TIMESTAMP;
+  const isBiggerThanMaxTimestamp = Number(timestampInMs) > MAX_TIMESTAMP_MS;
 
   if (isBiggerThanMaxTimestamp) {
-    const date = dayjs(MAX_TIMESTAMP);
+    const date = dayjs(MAX_TIMESTAMP_MS);
 
     return {
       formatted: 'after ' + date.format('llll'),
