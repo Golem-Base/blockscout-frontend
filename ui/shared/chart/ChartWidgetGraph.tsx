@@ -141,6 +141,7 @@ const ChartWidgetGraph = ({
           anchorEl={ overlayRef.current }
           tickFormatGenerator={ resolution === ChartResolution.HOUR ? hourTickFormatter : axes.x.tickFormatter }
           noAnimation
+          isMobile={ isMobile }
         />
 
         <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>

@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import useClientRect from 'lib/hooks/useClientRect';
+import useIsMobile from 'lib/hooks/useIsMobile';
 
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
@@ -18,19 +19,22 @@ interface Props {
   height?: number;
 }
 
-const MARGIN = { top: 10, right: 10, bottom: 25, left: 50 };
+const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
 const DEFAULT_HEIGHT = 300;
 
 const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const [ hoveredIndex, setHoveredIndex ] = React.useState<number | null>(null);
   const [ tooltipData, setTooltipData ] = React.useState<{ x: number; y: number; label: string; value: number } | null>(null);
+  const isMobile = useIsMobile();
 
   const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
   const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
 
-  const innerWidth = rect ? Math.max(rect.width - MARGIN.left - MARGIN.right, 0) : 0;
-  const innerHeight = Math.max(height - MARGIN.top - MARGIN.bottom, 0);
+  const margin = getMargin(isMobile);
+
+  const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
+  const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
 
   const xScale = React.useMemo(() => d3.scaleBand()
     .domain(items.map((_, i) => String(i)))
@@ -75,7 +79,7 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
         style={{ display: 'block' }}
         opacity={ rect ? 1 : 0 }
       >
-        <g transform={ `translate(${ MARGIN.left },${ MARGIN.top })` }>
+        <g transform={ `translate(${ margin.left },${ margin.top })` }>
           <ChartGridLine
             type="horizontal"
             scale={ yScale }
@@ -112,6 +116,7 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
             ticks={ items.length }
             tickFormatGenerator={ xAxisTickFormatter }
             noAnimation
+            isMobile={ isMobile }
           />
         </g>
       </svg>

@@ -26,7 +26,7 @@ const DataSizeHistogramWidget = () => {
   }
 
   const chartItems: Array<HistogramItem> = data.items.map((item: EntityDataHistogram) => ({
-    label: `${ formatDataSize(BigInt(item.bin_start), true) } - ${ formatDataSize(BigInt(item.bin_end), true) }`,
+    label: `${ formatDataSize(BigInt(item.bin_start), true, 0) }–${ formatDataSize(BigInt(item.bin_end), true, 0) }`,
     value: Number(item.count),
   }));
 

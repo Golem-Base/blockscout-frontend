@@ -18,7 +18,7 @@ const testData: Array<HistogramItem> = [
   { label: '10+ MB', value: 450 },
 ];
 
-test('histogram with size distribution +@dark-mode', async({ render }) => {
+test('histogram with size distribution +@dark-mode +@mobile', async({ render }) => {
   const component = await render(<HistogramChart items={ testData } height={ 350 }/>);
 
   await expect(component).toHaveScreenshot();
