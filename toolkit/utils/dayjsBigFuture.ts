@@ -1,8 +1,4 @@
-import bigIntSupport from 'dayjs/plugin/bigIntSupport';
-
 import dayjs from 'lib/date/dayjs';
-
-dayjs.extend(bigIntSupport);
 
 export const MAX_TIMESTAMP_MS = 8640000000000000;
 
