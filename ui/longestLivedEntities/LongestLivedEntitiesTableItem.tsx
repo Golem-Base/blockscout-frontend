@@ -44,10 +44,12 @@ const LongestLivedEntitiesTableItem = ({
       </TableCell>
       <TableCell isNumeric>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-          <LongestLivedEntitiesExpirationTime
-            timestamp={ item.expires_at_timestamp }
-            isLoading={ isLoading }
-          />
+          { item.expires_at_timestamp_sec && (
+            <LongestLivedEntitiesExpirationTime
+              expiresAtTimestampSec={ item.expires_at_timestamp_sec }
+              isLoading={ isLoading }
+            />
+          ) }
         </Skeleton>
       </TableCell>
     </TableRow>

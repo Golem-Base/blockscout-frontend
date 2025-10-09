@@ -7,7 +7,7 @@ import { Skeleton } from 'toolkit/chakra/skeleton';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
-import DetailedInfoTimestamp from './LongestLivedEntitiesExpirationTime';
+import LongestLivedEntitiesExpirationTime from './LongestLivedEntitiesExpirationTime';
 
 type Props = {
   item: EntityWithExpTimestamp;
@@ -20,7 +20,6 @@ const LongestLivedEntitiesListItem = ({
   isLoading,
   rank,
 }: Props) => {
-
   return (
     <ListItemMobile>
       <Flex justifyContent="space-between" w="100%" gap={ 6 }>
@@ -30,10 +29,12 @@ const LongestLivedEntitiesListItem = ({
       </Flex>
 
       <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
-        <DetailedInfoTimestamp
-          timestamp={ item.expires_at_timestamp }
-          isLoading={ isLoading }
-        />
+        { item?.expires_at_timestamp_sec && (
+          <LongestLivedEntitiesExpirationTime
+            expiresAtTimestampSec={ item.expires_at_timestamp_sec }
+            isLoading={ isLoading }
+          />
+        ) }
       </Skeleton>
     </ListItemMobile>
   );

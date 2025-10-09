@@ -1,24 +1,25 @@
 import { Flex } from '@chakra-ui/react';
-import { isNil } from 'es-toolkit';
 import React from 'react';
 
-import dayjs from 'lib/date/dayjs';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
+import { dayjsBigFuture } from 'toolkit/utils/dayjsBigFuture';
 import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
-  timestamp?: string | number | null;
+  expiresAtTimestampSec: string;
   isLoading?: boolean;
 };
 
-const LongestLivedEntitiesExpirationTime = ({ timestamp, isLoading }: Props) => {
+const LongestLivedEntitiesExpirationTime = ({ expiresAtTimestampSec, isLoading }: Props) => {
+  const { formatted, fromNow } = dayjsBigFuture(Number(expiresAtTimestampSec) * 1000);
+
   return (
     <Skeleton loading={ isLoading } cursor="pointer">
-      <Tooltip content={ dayjs(timestamp).format('llll') }>
+      <Tooltip content={ formatted }>
         <Flex alignItems="center" gap={ 2 }>
           <IconSvg name="clock" boxSize={ 4 } color="gray.500" isLoading={ isLoading }/>
-          { isNil(timestamp) ? 'Far in the future' : dayjs(timestamp).fromNow() }
+          { fromNow }
         </Flex>
       </Tooltip>
     </Skeleton>
