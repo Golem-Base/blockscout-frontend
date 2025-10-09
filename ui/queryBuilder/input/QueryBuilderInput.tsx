@@ -62,6 +62,22 @@ const EDITOR_OPTIONS: EditorProps['options'] = {
 const EDITOR_HEIGHT = 100;
 const LANGUAGE_ID = 'golembase-query';
 
+const AND_OPERATOR = '&&';
+const OR_OPERATOR = '||';
+const NOT_OPERATOR = '!';
+
+const descriptionByOperators: Record<string, string> = {
+  [AND_OPERATOR]: 'Logical AND operator',
+  [OR_OPERATOR]: 'Logical OR operator',
+  [NOT_OPERATOR]: 'Negation operator',
+};
+
+const detailsByOperator: Record<string, string> = {
+  [AND_OPERATOR]: 'Logical',
+  [OR_OPERATOR]: 'Logical',
+  [NOT_OPERATOR]: 'Negation',
+};
+
 interface Props {
   initialValue: string;
   onSubmit: (value: string) => void;
@@ -120,12 +136,8 @@ const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
         }));
 
         const operatorSuggestions = MONACO_OPERATORS.map(operator => {
-          const isLogical = operator === '&&' || operator === '||';
-          // eslint-disable-next-line no-nested-ternary
-          const description = isLogical ?
-            (operator === '&&' ? 'Logical AND operator' : 'Logical OR operator') :
-            getOperatorDescription(operator as Operator);
-          const detail = isLogical ? 'Logical' : 'Comparison';
+          const description = descriptionByOperators[operator] ?? getOperatorDescription(operator as Operator);
+          const detail = detailsByOperator[operator] ?? 'Comparison';
 
           return {
             label: operator,

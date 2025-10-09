@@ -9,6 +9,7 @@ import { Button } from 'toolkit/chakra/button';
 import ActionButton from './ActionButton';
 import { stringToRuleGroup, ruleGroupToString } from './converter';
 import FieldSelector from './FieldSelector';
+import NotToggle from './NotToggle';
 import RemoveAction from './RemoveAction';
 import SmartSelector from './SmartSelector';
 import { getOperators, validateQuery } from './utils';
@@ -70,9 +71,11 @@ const QueryBuilderVisual = ({ initialValue, onSubmit, isLoading }: Props) => {
             removeGroupAction: RemoveAction,
             addRuleAction: (props) => <ActionButton { ...props }>+ Rule</ActionButton>,
             addGroupAction: (props) => <ActionButton { ...props }>+ Group</ActionButton>,
-            operatorSelector: (props) => <SmartSelector { ...props } placeholder="Operator" name="operator" width="60px"/>,
+            operatorSelector: (props) => <SmartSelector { ...props } placeholder="Operator" name="operator" width="64px"/>,
             combinatorSelector: (props) => <SmartSelector { ...props } placeholder="Combinator" name="combinator"/>,
+            notToggle: NotToggle,
           }}
+          showNotToggle
         />
       </QueryBuilderChakra>
 

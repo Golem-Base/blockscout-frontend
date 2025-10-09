@@ -4,6 +4,10 @@ import { parseCEL } from 'react-querybuilder/parseCEL';
 import { OWNER_KEY } from 'toolkit/components/forms/validators';
 import { parseField } from 'ui/queryBuilder/visual/utils';
 
+const OWNER_RULE_REGEXP = /\$owner\s*(=|!=)\s*"([^"]+)"/;
+const STRING_RULE_REGEXP = /^([a-z_]\w*)\s*([=<>]=?|!=|~|!~)\s*"([^"]+)"$/i;
+const NUMBER_RULE_REGEXP = /^([a-z_]\w*)\s*([=<>]=?|!=)\s*(\d+)$/i;
+
 const createRuleId = () => `rule_${ Math.random().toString(36).slice(2, 11) }`;
 
 const formatRule = (rule: RuleType): string => {
@@ -20,31 +24,31 @@ const formatRule = (rule: RuleType): string => {
 };
 
 const parseOwnerRule = (part: string): RuleType | null => {
-  const match = part.match(/\$owner\s*=\s*"([^"]+)"/);
+  const match = part.match(OWNER_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: OWNER_KEY,
-    operator: '=',
-    value: match[1],
+    operator: match[1],
+    value: match[2],
   } : null;
 };
 
 const parseStringRule = (part: string): RuleType | null => {
-  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=)\s*"([^"]+)"$/i);
+  const match = part.match(STRING_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: `string:${ match[1] }`,
-    operator: match[2] === '!=' ? '!=' : match[2],
+    operator: match[2],
     value: match[3],
   } : null;
 };
 
 const parseNumericRule = (part: string): RuleType | null => {
-  const match = part.match(/^([a-z_]\w*)\s*([=<>]=?|!=)\s*(\d+)$/i);
+  const match = part.match(NUMBER_RULE_REGEXP);
   return match ? {
     id: createRuleId(),
     field: `numeric:${ match[1] }`,
-    operator: match[2] === '!=' ? '!=' : match[2],
+    operator: match[2],
     value: match[3],
   } : null;
 };
@@ -79,7 +83,9 @@ export function ruleGroupToString(ruleGroup: RuleGroupType): string {
   ruleGroup.rules.forEach(processRule);
 
   const separator = ruleGroup.combinator === 'or' ? ' || ' : ' && ';
-  return parts.join(separator);
+  const result = parts.join(separator);
+
+  return ruleGroup.not ? `!(${ result })` : result;
 }
 
 function preprocessQueryForCEL(queryString: string): string {
@@ -126,12 +132,25 @@ export function stringToRuleGroup(queryString: string): RuleGroupType {
     return { combinator: 'and', rules: [] };
   }
 
+  const trimmed = queryString.trim();
+  const isNegated = trimmed.startsWith('!(') && trimmed.endsWith(')') &&
+                   !trimmed.slice(2, -1).includes('&&') && !trimmed.slice(2, -1).includes('||');
+  const content = isNegated ? trimmed.slice(2, -1) : trimmed;
+
   try {
-    const celQuery = preprocessQueryForCEL(queryString);
+    const celQuery = preprocessQueryForCEL(content);
     const parsedQuery = parseCEL(celQuery);
-    return postprocessParsedQuery(parsedQuery);
+    const result = postprocessParsedQuery(parsedQuery);
+    if (result.rules.length === 0) {
+      throw new Error('CEL parser returned empty rules');
+    }
+    return isNegated ? { ...result, not: true } : result;
   } catch {
-    const parts = queryString.split(/\s*&&\s*/).map(part => part.trim()).filter(Boolean);
-    return { combinator: 'and', rules: parts.map(parseRule) };
+    const parts = content.split(/\s*&&\s*/).map(part => part.trim()).filter(Boolean);
+    return {
+      combinator: 'and',
+      rules: parts.map(parseRule),
+      not: isNegated,
+    };
   }
 }

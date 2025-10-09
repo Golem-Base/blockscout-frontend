@@ -21,6 +21,8 @@ import SearchBarSuggestApp from './SearchBarSuggestApp';
 import SearchBarSuggestBlockCountdown from './SearchBarSuggestBlockCountdown';
 import SearchBarSuggestItem from './SearchBarSuggestItem';
 
+const ENTITIES_QUERY_LIMIT = 5;
+
 interface Props {
   query: UseQueryResult<Array<SearchResultItem>, ResourceError<unknown>>;
   entitiesQuery: UseQueryResult<Array<{ entityKey: string; storageValue: Uint8Array }>, Error>;
@@ -98,7 +100,7 @@ const SearchBarSuggest = ({ query, entitiesQuery, searchTerm, onItemClick, conta
     });
 
     if (entitiesQuery.data && entitiesQuery.data.length > 0) {
-      const entityItems = entitiesQuery.data.map(item => ({
+      const entityItems = entitiesQuery.data.slice(0, ENTITIES_QUERY_LIMIT).map(item => ({
         type: 'golembase_entity' as const,
         golembase_entity: item.entityKey,
       }));

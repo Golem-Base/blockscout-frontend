@@ -12,9 +12,10 @@ export const validateQuery = (query: string): ValidationResult => {
     return { isValid: true, errors: [] };
   }
 
-  const ownerMatches = [ ...query.matchAll(/\$owner\s*=\s*"([^"]+)"/g) ];
+  // eslint-disable-next-line regexp/no-unused-capturing-group
+  const ownerMatches = [ ...query.matchAll(/\$owner\s*(=|!=)\s*"([^"]+)"/g) ];
   for (const match of ownerMatches) {
-    const address = match[1];
+    const address = match[2];
     const result = addressValidator(address);
     if (result !== true) {
       errors.push(result);
@@ -22,8 +23,8 @@ export const validateQuery = (query: string): ValidationResult => {
   }
 
   const annotationMatches = [
-    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*[=<>]\s*"[^"]+"/gu),
-    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*[=<>]\s*\d+(?:\.\d+)?/gu),
+    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*(?:!?[=<>]=?|!?~)\s*"[^"]+"/gu),
+    ...query.matchAll(/([\p{L}_][\p{L}\p{N}_]*)\s*!?[=<>]=?\s*\d+(?:\.\d+)?/gu),
   ];
 
   for (const match of annotationMatches) {

@@ -24,7 +24,7 @@ test('empty state - default', async({ render, mockGolemBase }) => {
 });
 
 test('with search results +@dark-mode +@mobile', async({ render, mockGolemBase }) => {
-  const searchTerm = 'name = "test entity" && (age > 18 || age < 65) && category = "inactive" && $owner = "0x1234567890123456789012345678901234567890"';
+  const searchTerm = 'name = "test entity" && !(age > 18 || age <= 65) && category ~ "inactive" && $owner != "0x1234567890123456789012345678901234567890"';
   const hooksConfig = {
     router: {
       query: { q: searchTerm },
