@@ -1,6 +1,7 @@
 import { pickBy } from 'es-toolkit';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { safeParse } from 'valibot';
 
 import { EntityStatus } from '@golembase/l3-indexer-types';
 
@@ -43,23 +44,25 @@ export const useAddressOwnedEntitiesFilters = () => {
   }, []);
 
   const applyFilters = React.useCallback((state: FilterState) => {
+    clearErrors();
+
     const params = new URLSearchParams(router.query as Record<string, string>);
     const isAllSelected = state.selectedStatus?.toLowerCase() === 'all';
 
     if (isAllSelected) params.delete('status');
     if (!isAllSelected && state.selectedStatus) params.set('status', state.selectedStatus);
 
-    const { error } = addressOwnedFilterSchema.safeParse(state.inputValues);
+    const { success, issues } = safeParse(addressOwnedFilterSchema, state.inputValues);
 
-    if (error) {
-      error.issues.forEach(({ path }) => {
-        setError(path[0] as keyof FilterState['inputValues'], true);
+    if (!success) {
+      issues.forEach(({ path }) => {
+        const key = path?.[0].key as keyof FilterState['inputValues'];
+
+        setError(key, true);
       });
 
       return;
     }
-
-    clearErrors();
 
     const query = {
       pathname: router.pathname,
