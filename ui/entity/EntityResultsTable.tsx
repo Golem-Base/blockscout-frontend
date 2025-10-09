@@ -1,8 +1,10 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { route } from 'nextjs-routes';
 
+import formatDataSize from 'lib/formatDataSize';
+import hexToSize from 'lib/hexToSize';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import {
@@ -14,6 +16,7 @@ import {
   TableCell,
 } from 'toolkit/chakra/table';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
+import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import IconSvg from 'ui/shared/IconSvg';
 import type { QueryWithPagesResult } from 'ui/shared/pagination/useQueryWithPages';
 import EntityStatus from 'ui/shared/statusTag/EntityStatus';
@@ -43,8 +46,11 @@ const EntityResultsTable = ({
       <TableRoot fontWeight={ 500 } minWidth="800px">
         <TableHeaderSticky>
           <TableRow>
-            <TableColumnHeader width="80%">Search result</TableColumnHeader>
-            <TableColumnHeader width="20%" minWidth="100px" maxWidth="120px" textAlign="center">Status</TableColumnHeader>
+            <TableColumnHeader>Search result</TableColumnHeader>
+            <TableColumnHeader width="15%">Created at transaction</TableColumnHeader>
+            <TableColumnHeader width="15%">Updated at transaction</TableColumnHeader>
+            <TableColumnHeader width="100px">size</TableColumnHeader>
+            <TableColumnHeader width="180px" isNumeric>Status</TableColumnHeader>
           </TableRow>
         </TableHeaderSticky>
         <TableBody>
@@ -86,15 +92,16 @@ const EntityResultsTable = ({
                   </Skeleton>
                 </Flex>
               </TableCell>
-              <TableCell
-                fontSize="sm"
-                textTransform="capitalize"
-                verticalAlign="middle"
-                width="30%"
-                minWidth="140px"
-                maxWidth="180px"
-                textAlign="center"
-              >
+              <TableCell>
+                { item.created_at_tx_hash && <TxEntity hash={ item.created_at_tx_hash } isLoading={ isLoading } truncation="constant"/> }
+              </TableCell>
+              <TableCell>
+                { item.last_updated_at_tx_hash && <TxEntity hash={ item.last_updated_at_tx_hash } isLoading={ isLoading } truncation="constant"/> }
+              </TableCell>
+              <TableCell>
+                <Text>{ item.data && formatDataSize(hexToSize(item.data)) }</Text>
+              </TableCell>
+              <TableCell textAlign="right">
                 <EntityStatus isLoading={ isLoading } status={ item.status }/>
               </TableCell>
             </TableRow>

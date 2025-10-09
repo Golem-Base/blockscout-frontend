@@ -91,7 +91,16 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
       { renderItem(
         'Created entities',
         'Number of entities created by this address',
-        formatBigNum(data.created_entities),
+        <Link
+          href={
+            route({
+              pathname: '/address/[hash]',
+              query: { hash: addressHash, tab: 'owned_entities' },
+            })
+          }
+        >
+          { formatBigNum(data.created_entities) }
+        </Link>,
       ) }
 
       { renderItem(
