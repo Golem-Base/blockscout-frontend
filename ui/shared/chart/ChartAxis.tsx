@@ -9,11 +9,12 @@ interface Props extends Omit<React.SVGProps<SVGGElement>, 'scale'> {
   scale: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number>;
   noAnimation?: boolean;
   ticks: number;
+  isMobile?: boolean;
   tickFormatGenerator?: (axis: d3.Axis<d3.NumberValue>) => (domainValue: d3.AxisDomain, index: number) => string;
   anchorEl?: SVGRectElement | null;
 }
 
-const ChartAxis = ({ type, scale, ticks, tickFormatGenerator, noAnimation, anchorEl, ...props }: Props) => {
+const ChartAxis = ({ type, scale, ticks, tickFormatGenerator, noAnimation, isMobile, anchorEl, ...props }: Props) => {
   const ref = React.useRef<SVGGElement>(null);
 
   const textColor = useToken('colors', useColorModeValue('blackAlpha.600', 'whiteAlpha.500'));
@@ -42,8 +43,16 @@ const ChartAxis = ({ type, scale, ticks, tickFormatGenerator, noAnimation, ancho
     axisGroup.selectAll('text')
       .attr('opacity', 1)
       .attr('color', textColor)
-      .style('font-size', '12px');
-  }, [ scale, ticks, tickFormatGenerator, noAnimation, type, textColor ]);
+      .style('font-size', '12px')
+      .each(function() {
+        if (type === 'bottom' && isMobile) {
+          d3.select(this)
+            .attr('transform', 'rotate(-45)')
+            .style('text-anchor', 'end')
+            .style('font-size', '10px');
+        }
+      });
+  }, [ scale, ticks, tickFormatGenerator, noAnimation, type, textColor, isMobile ]);
 
   React.useEffect(() => {
     if (!anchorEl) {

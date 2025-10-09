@@ -93,4 +93,12 @@ describe('formatDataSize', () => {
       expect(formatDataSize(1000, true)).toBe('1000 B');
     });
   });
+
+  describe('precision', () => {
+    it('should format fractions correctly', () => {
+      expect(formatDataSize(1059, true, 5)).toBe('1.03417 KiB');
+      expect(formatDataSize(1059, true, 2)).toBe('1.03 KiB');
+      expect(formatDataSize(1059, true, 0)).toBe('1 KiB');
+    });
+  });
 });
