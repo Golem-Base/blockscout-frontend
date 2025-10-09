@@ -158,7 +158,7 @@ const AddressPageContent = () => {
     (address3rdPartyWidgets.isEnabled && address3rdPartyWidgets.configQuery.isPlaceholderData) ||
     (config.features.userOps.isEnabled && userOpsAccountQuery.isPlaceholderData) ||
     (config.features.mudFramework.isEnabled && mudTablesCountQuery.isPlaceholderData) ||
-    (addressStatsQuery.data?.created_entities?.length && addressStatsQuery.isPlaceholderData);
+    (Boolean(addressStatsQuery.data?.created_entities.length) && addressStatsQuery.isPlaceholderData);
 
   const handleFetchedBytecodeMessage = React.useCallback(() => {
     addressQuery.refetch();
