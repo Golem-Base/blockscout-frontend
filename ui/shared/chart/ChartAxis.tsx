@@ -45,12 +45,11 @@ const ChartAxis = ({ type, scale, ticks, tickFormatGenerator, noAnimation, isMob
       .attr('color', textColor)
       .style('font-size', '12px')
       .each(function() {
-        if (type === 'bottom' && isMobile) {
-          d3.select(this)
-            .attr('transform', 'rotate(-45)')
-            .style('text-anchor', 'end')
-            .style('font-size', '10px');
-        }
+        if (type !== 'bottom') return;
+        d3.select(this)
+          .attr('transform', `rotate(${ isMobile ? -45 : 0 })`)
+          .style('text-anchor', isMobile ? 'end' : 'middle')
+          .style('font-size', isMobile ? '10px' : '12px');
       });
   }, [ scale, ticks, tickFormatGenerator, noAnimation, type, textColor, isMobile ]);
 
