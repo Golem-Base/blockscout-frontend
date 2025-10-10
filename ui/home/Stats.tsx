@@ -233,7 +233,7 @@ const Stats = () => {
       apiData?.golembase_used_slots && {
         id: 'golembase_used_slots' as const,
         icon: 'chart-pie' as const,
-        label: 'Used storage',
+        label: 'Currently used storage',
         value: formatDataSize(apiData.golembase_used_slots * golemBaseSlotSizeInBytes),
         isLoading,
       },
