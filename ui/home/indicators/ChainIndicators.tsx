@@ -2,6 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TChainIndicator } from './types';
+import { OperationType } from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
 
 import config from 'configs/app';
@@ -12,6 +13,7 @@ import { Hint } from 'toolkit/components/Hint/Hint';
 import IconSvg from 'ui/shared/IconSvg';
 
 import ChainIndicatorChartContainer from './ChainIndicatorChartContainer';
+import ChainIndicatorFilter from './ChainIndicatorFilter';
 import ChainIndicatorItem from './ChainIndicatorItem';
 import useChartDataQuery from './useChartDataQuery';
 import getIndicatorValues from './utils/getIndicatorValues';
@@ -135,14 +137,26 @@ const ChainIndicators = () => {
       alignItems="stretch"
     >
       <Flex flexGrow={ 1 } flexDir="column">
-        <Skeleton loading={ isPlaceholderData } display="flex" alignItems="center" w="fit-content" columnGap={ 1 }>
-          <Text fontWeight={ 500 }>{ title }</Text>
-          { hint && <Hint label={ hint }/> }
-        </Skeleton>
-        <Flex mb={{ base: 0, lg: 2 }} mt={ 1 } alignItems="end">
-          { valueTitle }
-          { valueDiff }
+        <Flex flexGrow={ 0 } justifyContent="space-between">
+          <Flex flexDir="column">
+            <Skeleton loading={ isPlaceholderData } display="flex" alignItems="center" w="fit-content" columnGap={ 1 }>
+              <Text fontWeight={ 500 }>{ title }</Text>
+              { hint && <Hint label={ hint }/> }
+            </Skeleton>
+            <Flex mb={{ base: 0, lg: 2 }} mt={ 1 } alignItems="end">
+              { valueTitle }
+              { valueDiff }
+            </Flex>
+          </Flex>
+
+          <ChainIndicatorFilter
+            defaultValue={ OperationType.CREATE }
+            isLoading={ false }
+            options={ operationTypeOptions }
+            onValueChange={ onOperationTypeChange }
+          />
         </Flex>
+
         <Flex h={{ base: '80px', lg: '110px' }} alignItems="flex-start" flexGrow={ 1 }>
           <ChainIndicatorChartContainer { ...queryResult }/>
         </Flex>

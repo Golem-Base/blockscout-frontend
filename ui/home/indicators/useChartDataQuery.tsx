@@ -1,12 +1,17 @@
+import { OperationTypeNode } from 'graphql';
+
 import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
 import type { TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
+import type { SelectOption } from 'toolkit/chakra/select';
 
+import type { OnValueChange } from './ChainIndicatorFilter';
 import prepareChartItems from './utils/prepareChartItems';
 
 const rollupFeature = config.features.rollup;
@@ -175,6 +180,12 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
       select: (data) => data.chart.map((item) => ({ date: new Date(item.date), value: Number(item.value) })) || [],
     },
   });
+
+  const onOperationTypeChange: OnValueChange<SelectOption<OperationType>> = React.useCallback((value) => {
+    console.log(value);
+  }, []);
+
+  const operationTypeOptions = Object.values(OperationTypeNode).map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
 
   switch (indicatorId) {
     case 'daily_txs': {
