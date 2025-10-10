@@ -6,6 +6,7 @@ export const CHAIN_INDICATOR_IDS = [
   'market_cap',
   'tvl',
   'data_usage',
+  'operation_trends',
 ] as const;
 
 export type ChainIndicatorId = typeof CHAIN_INDICATOR_IDS[number];

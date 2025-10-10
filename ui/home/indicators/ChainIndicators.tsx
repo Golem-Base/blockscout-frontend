@@ -41,6 +41,8 @@ const ChainIndicators = () => {
 
   const dataUsageQueryResult = useChartDataQuery('data_usage');
 
+  const operationTrendsQueryResult = useChartDataQuery('operation_trends');
+
   const statsMicroserviceQueryResult = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -63,8 +65,13 @@ const ChainIndicators = () => {
   const isPlaceholderData = (isStatsFeatureEnabled && statsMicroserviceQueryResult.isPlaceholderData) || statsApiQueryResult.isPlaceholderData;
   const hasData = Boolean(statsApiQueryResult?.data || statsMicroserviceQueryResult?.data);
 
-  const { value: indicatorValue, valueDiff: indicatorValueDiff } =
-    getIndicatorValues(selectedIndicatorData as TChainIndicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data, dataUsageQueryResult?.data);
+  const indicator = getIndicatorValues(
+    selectedIndicatorData as TChainIndicator,
+    statsMicroserviceQueryResult?.data,
+    statsApiQueryResult?.data,
+    dataUsageQueryResult?.data,
+    operationTrendsQueryResult?.data,
+  );
 
   const title = (() => {
     let title: string | undefined;
@@ -95,22 +102,22 @@ const ChainIndicators = () => {
 
     return (
       <Text fontWeight={ 700 } fontSize="30px" lineHeight="36px">
-        { indicatorValue }
+        { indicator.value }
       </Text>
     );
   })();
 
   const valueDiff = (() => {
-    if (indicatorValueDiff === undefined || indicatorValueDiff === null) {
+    if (indicator.valueDiff === undefined || indicator.valueDiff === null) {
       return null;
     }
 
-    const diffColor = indicatorValueDiff >= 0 ? 'green.500' : 'red.500';
+    const diffColor = indicator.valueDiff >= 0 ? 'green.500' : 'red.500';
 
     return (
       <Skeleton loading={ statsApiQueryResult.isPlaceholderData } display="flex" alignItems="center" color={ diffColor } ml={ 2 }>
-        <IconSvg name="arrows/up-head" boxSize={ 5 } mr={ 1 } transform={ indicatorValueDiff < 0 ? 'rotate(180deg)' : 'rotate(0)' }/>
-        <Text color={ diffColor } fontWeight={ 600 }>{ indicatorValueDiff }%</Text>
+        <IconSvg name="arrows/up-head" boxSize={ 5 } mr={ 1 } transform={ indicator.valueDiff < 0 ? 'rotate(180deg)' : 'rotate(0)' }/>
+        <Text color={ diffColor } fontWeight={ 600 }>{ indicator.valueDiff }%</Text>
       </Skeleton>
     );
   })();
@@ -157,7 +164,15 @@ const ChainIndicators = () => {
               icon={ indicator.icon }
               isSelected={ selectedIndicator === indicator.id }
               onClick={ selectIndicator }
-              { ...getIndicatorValues(indicator, statsMicroserviceQueryResult?.data, statsApiQueryResult?.data, dataUsageQueryResult?.data) }
+              {
+                ...getIndicatorValues(
+                  indicator,
+                  statsMicroserviceQueryResult?.data,
+                  statsApiQueryResult?.data,
+                  dataUsageQueryResult?.data,
+                  operationTrendsQueryResult?.data,
+                )
+              }
               isLoading={ isPlaceholderData }
               hasData={ hasData }
             />

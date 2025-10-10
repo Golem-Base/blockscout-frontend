@@ -42,6 +42,10 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
     name: 'Data usage',
     valueFormatter: (x: number) => formatDataSize(x),
   },
+  operation_trends: {
+    name: 'Operation trends',
+    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+  },
 };
 
 const isStatsFeatureEnabled = config.features.stats.isEnabled;
@@ -158,6 +162,20 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
+  const operationsTrendsQuery = useApiQuery('golemBaseIndexer:chart', {
+    pathParams: { id: 'operation-count' },
+    queryParams: {
+      from: dayjs().subtract(30, 'days').format(dateFormat),
+      to: dayjs().format(dateFormat),
+      resolution: ChartResolution.DAY,
+    },
+    queryOptions: {
+      refetchOnMount: false,
+      enabled: indicatorId === 'operation_trends',
+      select: (data) => data.chart.map((item) => ({ date: new Date(item.date), value: Number(item.value) })) || [],
+    },
+  });
+
   switch (indicatorId) {
     case 'daily_txs': {
       const query = isStatsFeatureEnabled ? statsDailyTxsQuery : apiDailyTxsQuery;
@@ -207,6 +225,13 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
         data: getChartData(indicatorId, dataUsageQuery.data || []),
         isError: dataUsageQuery.isError,
         isPending: dataUsageQuery.isPending,
+      };
+    }
+    case 'operation_trends': {
+      return {
+        data: getChartData(indicatorId, operationsTrendsQuery.data || []),
+        isError: operationsTrendsQuery.isError,
+        isPending: operationsTrendsQuery.isPending,
       };
     }
   }

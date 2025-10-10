@@ -96,9 +96,18 @@ const INDICATORS: Array<TChainIndicator> = [
   {
     id: 'data_usage',
     title: 'Daily data usage',
-    value: (stats) => stats.data_usage_today === null ? '' : formatDataSize(stats.data_usage_today),
+    value: (stats) => stats.monthly_data_usage === null ? '' : formatDataSize(stats.monthly_data_usage),
     icon: <IconSvg name="database" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
     hint: 'Daily amount of data added to the chain in the last 30 days',
+  },
+  {
+    id: 'operation_trends',
+    title: 'Operation trends',
+    value: (stats) => stats.monthly_operation_trends === null ?
+      'N/A' :
+      Number(stats.monthly_operation_trends).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
+    hint: 'Daily amount of operations that have occurred in the last 30 days',
   },
 ];
 
