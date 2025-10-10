@@ -157,7 +157,8 @@ const AddressPageContent = () => {
     addressTabsCountersQuery.isPlaceholderData ||
     (address3rdPartyWidgets.isEnabled && address3rdPartyWidgets.configQuery.isPlaceholderData) ||
     (config.features.userOps.isEnabled && userOpsAccountQuery.isPlaceholderData) ||
-    (config.features.mudFramework.isEnabled && mudTablesCountQuery.isPlaceholderData);
+    (config.features.mudFramework.isEnabled && mudTablesCountQuery.isPlaceholderData) ||
+    (Boolean(addressStatsQuery.data?.created_entities.length) && addressStatsQuery.isPlaceholderData);
 
   const handleFetchedBytecodeMessage = React.useCallback(() => {
     addressQuery.refetch();
@@ -340,7 +341,7 @@ const AddressPageContent = () => {
     areQueriesEnabled,
     mudTablesCountQuery.data,
     address3rdPartyWidgets,
-    addressStatsQuery.data,
+    addressStatsQuery,
   ]);
 
   const usernameApiTag = userPropfileApiQuery.data?.user_profile?.username;
