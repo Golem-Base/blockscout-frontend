@@ -25,6 +25,12 @@ export default function useGolemStats() {
             description: 'Projection of total chain storage over time, starting from current data and trending down as entities expire (BTL)',
             resolutions: [ 'HOUR', 'DAY' ],
           },
+          {
+            id: 'operation-count',
+            title: 'Chain operation trends',
+            description: 'Operation trends over time',
+            resolutions: [ 'HOUR', 'DAY' ],
+          },
         ],
       },
     ];

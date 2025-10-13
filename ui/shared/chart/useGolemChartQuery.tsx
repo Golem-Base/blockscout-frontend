@@ -8,10 +8,10 @@ import { useAppContext } from 'lib/contexts/app';
 
 import { getGolemBaseChartQueryParams } from './utils/getGolemBaseChartQueryParams';
 
-export type GolemChartId = 'data-usage' | 'storage-forecast';
+export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count';
 export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
-export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast' ];
+export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count' ];
 
 export default function useGolemChartQuery(id: GolemChartId, resolution: GolemChartQueryResolution, interval: StatsIntervalIds, enabled = true) {
   const { apiData } = useAppContext<'/stats/[id]'>();
