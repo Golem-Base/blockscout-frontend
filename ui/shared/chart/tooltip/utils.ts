@@ -3,6 +3,7 @@ export const PADDING = 16;
 export const LINE_SPACE = 10;
 export const POINT_SIZE = 16;
 export const LABEL_WIDTH = 80;
+export const COLUMN_GAP = 16;
 
 export const calculateContainerHeight = (seriesNum: number, isIncomplete?: boolean) => {
   const linesNum = isIncomplete ? seriesNum + 2 : seriesNum + 1;

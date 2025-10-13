@@ -5,7 +5,7 @@ import React from 'react';
 import type { TimeChartData } from '../types';
 
 import type { CurrentPoint } from './ChartTooltipPoint';
-import { calculateRowTransformValue, LABEL_WIDTH, PADDING } from './utils';
+import { calculateRowTransformValue, PADDING, COLUMN_GAP } from './utils';
 
 type Props = {
   lineNum: number;
@@ -29,7 +29,7 @@ const ChartTooltipRow = ({ label, lineNum, children }: Props) => {
           </text>
           <text
             className="ChartTooltip__value"
-            transform={ `translate(${ LABEL_WIDTH },0)` }
+            transform="translate(0,0)"
             dominantBaseline="hanging"
             fill={ textColor[0] }
           />
@@ -44,14 +44,14 @@ export default React.memo(ChartTooltipRow);
 interface UseRenderRowsParams {
   data: TimeChartData;
   xScale: d3.ScaleTime<number, number>;
-  minWidth: number;
+  minWidth?: number;
 }
 
 interface UseRenderRowsReturnType {
   width: number;
 }
 
-export function useRenderRows(ref: React.RefObject<SVGGElement | null>, { data, xScale, minWidth }: UseRenderRowsParams) {
+export function useRenderRows(ref: React.RefObject<SVGGElement | null>, { data, xScale }: UseRenderRowsParams) {
   return React.useCallback((x: number, currentPoints: Array<CurrentPoint>): UseRenderRowsReturnType => {
 
     // update "transform" prop of all rows
@@ -86,11 +86,24 @@ export function useRenderRows(ref: React.RefObject<SVGGElement | null>, { data, 
       })
       .nodes();
 
-    const valueWidths = valueNodes.map((node) => node?.getBoundingClientRect?.().width);
-    const maxValueWidth = Math.max(...valueWidths);
-    const maxRowWidth = Math.max(minWidth, 2 * PADDING + LABEL_WIDTH + maxValueWidth);
+    const labelNodes = d3.select(ref.current)
+      .selectAll<Element, TimeChartData>('.ChartTooltip__label')
+      .nodes();
+
+    const labelWidths = labelNodes.map((node) => node?.getBoundingClientRect?.().width || 0);
+    const maxLabelWidth = Math.max(...labelWidths, 0);
+
+    const valueWidths = valueNodes.map((node) => node?.getBoundingClientRect?.().width || 0);
+    const maxValueWidth = Math.max(...valueWidths, 0);
+
+    const valueColumnX = maxLabelWidth + COLUMN_GAP;
+    d3.select(ref.current)
+      .selectAll<Element, TimeChartData>('.ChartTooltip__value')
+      .attr('transform', `translate(${ valueColumnX },0)`);
+
+    const maxRowWidth = 2 * PADDING + maxLabelWidth + COLUMN_GAP + maxValueWidth;
 
     return { width: maxRowWidth };
 
-  }, [ data, minWidth, ref, xScale ]);
+  }, [ data, ref, xScale ]);
 }
