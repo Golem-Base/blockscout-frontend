@@ -2,7 +2,6 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TChainIndicator } from './types';
-import { OperationType } from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
 
 import config from 'configs/app';
@@ -149,12 +148,17 @@ const ChainIndicators = () => {
             </Flex>
           </Flex>
 
-          <ChainIndicatorFilter
-            defaultValue={ OperationType.CREATE }
-            isLoading={ false }
-            options={ operationTypeOptions }
-            onValueChange={ onOperationTypeChange }
-          />
+          { queryResult?.filters?.map(filter => (
+            <ChainIndicatorFilter
+              key={ filter.name }
+              name={ filter.name }
+              defaultValue={ filter.value }
+              isLoading={ isPlaceholderData }
+              options={ filter.options }
+              onValueChange={ filter.onChange }
+            />
+          )) }
+
         </Flex>
 
         <Flex h={{ base: '80px', lg: '110px' }} alignItems="flex-start" flexGrow={ 1 }>

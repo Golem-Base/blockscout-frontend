@@ -1,20 +1,21 @@
-import type { CollectionItem, SelectValueChangeDetails } from '@chakra-ui/react';
+import type { CollectionItem } from '@chakra-ui/react';
 import { Flex, Text, createListCollection } from '@chakra-ui/react';
 import React from 'react';
+
+import type { OnFilterChange } from './types';
 
 import type { SelectOption } from 'toolkit/chakra/select';
 import { Select } from 'toolkit/chakra/select';
 
-export type OnValueChange<T extends SelectOption<string>> = ((details: SelectValueChangeDetails<T>) => void);
-
-interface Props<T extends SelectOption<string>> {
+interface Props {
   isLoading: boolean;
   options: Array<CollectionItem>;
   defaultValue: string;
-  onValueChange: OnValueChange<T>;
+  onValueChange: OnFilterChange;
+  name: string;
 }
 
-const ChainIndicatorFilter = <T extends SelectOption<string>>({ defaultValue, options, isLoading, onValueChange }: Props<T>) => {
+const ChainIndicatorFilter = ({ defaultValue, options, isLoading, onValueChange, name }: Props) => {
   const collection = React.useMemo(() => {
     return createListCollection<SelectOption<string>>({ items: options });
   }, [ options ]);
@@ -26,7 +27,7 @@ const ChainIndicatorFilter = <T extends SelectOption<string>>({ defaultValue, op
         collection={ collection }
         placeholder="Select section"
         defaultValue={ [ defaultValue ] }
-        onValueChange={ onValueChange }
+        onValueChange={ onValueChange(name) }
         size="xs"
         w="90px"
         loading={ isLoading }

@@ -1,3 +1,5 @@
+import type { SelectValueChangeDetails } from '@chakra-ui/react';
+
 export interface TimeChartItemRaw {
   date: Date;
   dateLabel?: string;
@@ -30,6 +32,7 @@ export interface TimeChartDataItem {
   units?: string;
   color?: string;
   valueFormatter?: (value: number) => string;
+  filters?: Array<ChartFilter>;
 }
 
 export type TimeChartData = Array<TimeChartDataItem>;
@@ -44,3 +47,13 @@ export interface AxesConfig {
   x?: AxisConfig;
   y?: AxisConfig;
 }
+
+export type OnFilterChange = (name: string) => ((details: SelectValueChangeDetails<string>) => void);
+
+export interface ChartFilter {
+  type: 'select';
+  name: string;
+  value: string;
+  options: Array<{ value: string; label: string }>;
+  onChange: OnFilterChange;
+};

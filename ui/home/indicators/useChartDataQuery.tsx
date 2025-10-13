@@ -1,17 +1,18 @@
-import { OperationTypeNode } from 'graphql';
+import React from 'react';
 
-import { ChartResolution } from '@golembase/l3-indexer-types';
+import {
+  ChartResolution,
+  OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
+} from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
-import type { TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
+import type { ChartFilter, OnFilterChange, TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
-import type { SelectOption } from 'toolkit/chakra/select';
 
-import type { OnValueChange } from './ChainIndicatorFilter';
 import prepareChartItems from './utils/prepareChartItems';
 
 const rollupFeature = config.features.rollup;
@@ -59,6 +60,7 @@ type UseFetchChartDataResult = {
   isError: boolean;
   isPending: boolean;
   data: TimeChartData;
+  filters?: Array<ChartFilter>;
 };
 
 function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
@@ -70,6 +72,14 @@ function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRa
 }
 
 export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFetchChartDataResult {
+  const [ filters, setFilters ] = React.useState<Record<string, string>>({
+    operation: OperationTypeFilter.ALL,
+  });
+
+  const updateFilter = React.useCallback((name: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  }, []);
+
   const statsDailyTxsQuery = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -173,6 +183,7 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
       from: dayjs().subtract(30, 'days').format(dateFormat),
       to: dayjs().format(dateFormat),
       resolution: ChartResolution.DAY,
+      operation: filters?.operation,
     },
     queryOptions: {
       refetchOnMount: false,
@@ -181,11 +192,11 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const onOperationTypeChange: OnValueChange<SelectOption<OperationType>> = React.useCallback((value) => {
-    console.log(value);
-  }, []);
+  const onFilterChange: OnFilterChange = React.useCallback((name) => {
+    return (value) => updateFilter(name, value.value[0]);
+  }, [ updateFilter ]);
 
-  const operationTypeOptions = Object.values(OperationTypeNode).map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
+  const operationTypeOptions = Object.values(OperationTypeFilter).map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
 
   switch (indicatorId) {
     case 'daily_txs': {
@@ -243,6 +254,15 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
         data: getChartData(indicatorId, operationsTrendsQuery.data || []),
         isError: operationsTrendsQuery.isError,
         isPending: operationsTrendsQuery.isPending,
+        filters: [
+          {
+            type: 'select',
+            name: 'operation',
+            value: filters?.operation,
+            options: operationTypeOptions,
+            onChange: onFilterChange,
+          },
+        ],
       };
     }
   }
