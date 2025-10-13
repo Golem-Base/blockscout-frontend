@@ -2,7 +2,7 @@ import type { CollectionItem } from '@chakra-ui/react';
 import { Flex, Text, createListCollection } from '@chakra-ui/react';
 import React from 'react';
 
-import type { OnFilterChange } from './types';
+import type { OnFilterChange } from 'ui/shared/chart/types';
 
 import type { SelectOption } from 'toolkit/chakra/select';
 import { Select } from 'toolkit/chakra/select';
