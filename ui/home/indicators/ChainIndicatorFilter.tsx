@@ -28,7 +28,6 @@ const ChainIndicatorFilter = ({ defaultValue, options, isLoading, onValueChange,
         placeholder="Select section"
         defaultValue={ [ defaultValue ] }
         onValueChange={ onValueChange(name) }
-        size="xs"
         w="90px"
         loading={ isLoading }
       />

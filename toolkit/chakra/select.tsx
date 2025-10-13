@@ -176,7 +176,6 @@ export const SelectValueText = React.forwardRef<
     <ChakraSelect.ValueText
       ref={ ref }
       { ...rest }
-      px={ 1 }
     >
       { content }
     </ChakraSelect.ValueText>
