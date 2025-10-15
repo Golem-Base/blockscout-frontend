@@ -53,5 +53,8 @@ export function getGolemBaseChartQueryParams({ id, interval, resolution }: GetGo
     },
   };
 
-  return { ...queryParamsByChartQueryType[chartQueryType], ...restQueryParamsById[id] };
+  return {
+    ...queryParamsByChartQueryType[chartQueryType],
+    ...restQueryParamsById[id],
+  };
 }

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 
-import type { ChartResponse } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import { useAppContext } from 'lib/contexts/app';
+import type { ApiData } from 'lib/metadata';
 
 import { getGolemBaseChartQueryParams } from './utils/getGolemBaseChartQueryParams';
 
@@ -13,16 +13,22 @@ export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
 export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count' ];
 
-export default function useGolemChartQuery(id: GolemChartId, resolution: GolemChartQueryResolution, interval: StatsIntervalIds, enabled = true) {
+export default function useGolemChartQuery(
+  id: GolemChartId,
+  resolution: GolemChartQueryResolution,
+  interval: StatsIntervalIds,
+  enabled = true,
+  extendedQueryParams?: Record<string, string>,
+) {
   const { apiData } = useAppContext<'/stats/[id]'>();
 
-  const [ info, setInfo ] = React.useState<ChartResponse['info']>(apiData || undefined);
+  const [ info, setInfo ] = React.useState<ApiData<'/stats/[id]'>>(apiData || undefined);
 
   const queryParams = useMemo(() => getGolemBaseChartQueryParams({ id, interval, resolution }), [ id, interval, resolution ]);
 
   const lineQuery = useApiQuery('golemBaseIndexer:chart', {
     pathParams: { id },
-    queryParams,
+    queryParams: { ...queryParams, ...extendedQueryParams },
     queryOptions: {
       enabled: enabled,
       refetchOnMount: false,
@@ -40,7 +46,7 @@ export default function useGolemChartQuery(id: GolemChartId, resolution: GolemCh
   React.useEffect(() => {
     if (!info && lineQuery.data?.info && !lineQuery.isPlaceholderData) {
       // save info to keep title and description when change query params
-      setInfo(lineQuery.data?.info);
+      setInfo(lineQuery.data?.info as ApiData<'/stats/[id]'>);
     }
   }, [ info, lineQuery.data?.info, lineQuery.isPlaceholderData ]);
 
