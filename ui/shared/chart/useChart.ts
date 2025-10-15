@@ -6,7 +6,6 @@ import { Resolution } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 import { StatsIntervalId } from 'types/client/stats';
 
-import { useAppContext } from 'lib/contexts/app';
 import useIsMobile from 'lib/hooks/useIsMobile';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { isBrowser } from 'toolkit/utils/isBrowser';
@@ -65,19 +64,10 @@ export const useChart = () => {
   const isMobile = useIsMobile();
   const isInBrowser = isBrowser();
 
-  const appProps = useAppContext();
-  const backLink = React.useMemo(() => {
-    const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/stats');
-
-    if (!hasGoBackLink) {
-      return;
-    }
-
-    return {
-      label: 'Back to charts list',
-      url: appProps.referrer,
-    };
-  }, [ appProps.referrer ]);
+  const backLink = {
+    label: 'Back to charts list',
+    url: '/stats',
+  };
 
   const onIntervalChange = React.useCallback((interval: StatsIntervalIds) => {
     setIntervalState(interval);
