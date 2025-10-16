@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-import { EntityStatus } from '@golembase/l3-indexer-types';
+import { EntityStatusFilter_EntityStatusFilter as EntityStatusFilter } from '@golembase/l3-indexer-types';
 
 import * as entityMock from 'mocks/entity';
 import { expect, test } from 'playwright/lib';
@@ -11,7 +11,7 @@ import AddressOwnedEntities from './AddressOwnedEntities';
 const ADDRESS_HASH = '0x1234567890abcdef1234567890abcdef12345678';
 
 const queryParams = {
-  status: EntityStatus.ALL,
+  status: EntityStatusFilter.ALL,
   hash: ADDRESS_HASH,
 };
 
