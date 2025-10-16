@@ -1,3 +1,4 @@
+import { pick } from 'es-toolkit/compat';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 
@@ -16,13 +17,7 @@ const useGolemChartParams = (id: GolemChartId) => {
   const paramsList = paramsListByChartId[id];
 
   const params = useMemo(() => {
-    return paramsList.reduce((filteredParams, param) => {
-      if (!routerQuery[param]) return filteredParams;
-
-      filteredParams[param] = routerQuery[param] as string;
-
-      return filteredParams;
-    }, {} as Record<string, string>);
+    return pick(routerQuery, paramsList) as Record<string, string>;
   }, [ routerQuery, paramsList ]);
 
   const handleParamChange = useCallback((param: string, value: string) => {

@@ -50,7 +50,7 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
   },
   operation_trends: {
     name: 'Operation trends',
-    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   },
 };
 
@@ -196,7 +196,9 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     return (value) => updateFilter(name, value.value[0]);
   }, [ updateFilter ]);
 
-  const operationTypeOptions = Object.values(OperationTypeFilter).map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
+  const operationTypeOptions = Object.values(OperationTypeFilter)
+    .filter((type) => type !== OperationTypeFilter.UNRECOGNIZED)
+    .map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
 
   switch (indicatorId) {
     case 'daily_txs': {

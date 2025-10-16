@@ -95,7 +95,9 @@ const StandardChart = () => {
   }, [ handleParamChange ]);
 
   const operationFilterOptions = React.useMemo(() => {
-    return Object.values(OperationTypeFilter).map((operation) => ({ value: operation, label: operation }));
+    return Object.values(OperationTypeFilter)
+      .filter((type) => type !== OperationTypeFilter.UNRECOGNIZED)
+      .map((operation) => ({ value: operation, label: operation }));
   }, []);
 
   return (
@@ -123,7 +125,7 @@ const StandardChart = () => {
             <ChainIndicatorFilter
               name="operation"
               options={ operationFilterOptions }
-              defaultValue={ OperationTypeFilter.ALL }
+              defaultValue={ params.operation || OperationTypeFilter.ALL }
               onValueChange={ onFilterChange }
               isLoading={ isInfoLoading }
             />
