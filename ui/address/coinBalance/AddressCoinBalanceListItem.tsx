@@ -1,4 +1,4 @@
-import { Stat, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -6,11 +6,13 @@ import type { AddressCoinBalanceHistoryItem } from 'types/api/address';
 
 import { currencyUnits } from 'lib/units';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { WEI, ZERO } from 'toolkit/utils/consts';
+import { WEI } from 'toolkit/utils/consts';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
+
+import AddressCoinBalanceDeltaTruncated from './AddressCoinBalanceDeltaTruncated';
 
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
@@ -19,7 +21,6 @@ type Props = AddressCoinBalanceHistoryItem & {
 
 const AddressCoinBalanceListItem = (props: Props) => {
   const deltaBn = BigNumber(props.delta).div(WEI);
-  const isPositiveDelta = deltaBn.gte(ZERO);
 
   return (
     <ListItemMobile rowGap={ 2 }>
@@ -27,14 +28,10 @@ const AddressCoinBalanceListItem = (props: Props) => {
         <Skeleton loading={ props.isLoading } fontWeight={ 600 }>
           { BigNumber(props.value).div(WEI).dp(8).toFormat() } { currencyUnits.ether }
         </Skeleton>
-        <Skeleton loading={ props.isLoading }>
-          <Stat.Root flexGrow="0" positive={ isPositiveDelta } size="sm">
-            <Stat.ValueText fontWeight={ 600 }>
-              { deltaBn.dp(8).toFormat() }
-            </Stat.ValueText>
-            { isPositiveDelta ? <Stat.UpIndicator/> : <Stat.DownIndicator/> }
-          </Stat.Root>
-        </Skeleton>
+        <AddressCoinBalanceDeltaTruncated
+          isLoading={ props.isLoading }
+          deltaBn={ deltaBn }
+        />
       </Flex>
       <Flex columnGap={ 2 } w="100%">
         <Skeleton loading={ props.isLoading } fontWeight={ 500 } flexShrink={ 0 }>Block</Skeleton>

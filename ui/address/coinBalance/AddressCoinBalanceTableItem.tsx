@@ -1,4 +1,3 @@
-import { Stat } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -6,10 +5,12 @@ import type { AddressCoinBalanceHistoryItem } from 'types/api/address';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
-import { WEI, ZERO } from 'toolkit/utils/consts';
+import { WEI } from 'toolkit/utils/consts';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
+
+import AddressCoinBalanceDeltaTruncated from './AddressCoinBalanceDeltaTruncated';
 
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
@@ -18,7 +19,6 @@ type Props = AddressCoinBalanceHistoryItem & {
 
 const AddressCoinBalanceTableItem = (props: Props) => {
   const deltaBn = BigNumber(props.delta).div(WEI);
-  const isPositiveDelta = deltaBn.gte(ZERO);
 
   return (
     <TableRow>
@@ -56,14 +56,10 @@ const AddressCoinBalanceTableItem = (props: Props) => {
         </Skeleton>
       </TableCell>
       <TableCell isNumeric display="flex" justifyContent="end">
-        <Skeleton loading={ props.isLoading }>
-          <Stat.Root flexGrow="0" size="sm" positive={ isPositiveDelta }>
-            <Stat.ValueText fontWeight={ 600 }>
-              { deltaBn.dp(8).toFormat() }
-            </Stat.ValueText>
-            { isPositiveDelta ? <Stat.UpIndicator/> : <Stat.DownIndicator/> }
-          </Stat.Root>
-        </Skeleton>
+        <AddressCoinBalanceDeltaTruncated
+          isLoading={ props.isLoading }
+          deltaBn={ deltaBn }
+        />
       </TableCell>
     </TableRow>
   );
