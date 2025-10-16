@@ -1,3 +1,4 @@
+import { OperationTypeFilter_OperationTypeFilter as OperationTypeFilter } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import dayjs from 'lib/date/dayjs';
@@ -22,6 +23,14 @@ const futureDataQueryDateTo: Record<StatsIntervalIds, dayjs.Dayjs | undefined> =
   oneYear: dayjs().add(1, 'years'),
 };
 
+const restQueryParamsById: Record<GolemChartId, Record<string, string>> = {
+  'data-usage': {},
+  'storage-forecast': {},
+  'operation-count': {
+    operation: OperationTypeFilter.ALL,
+  },
+};
+
 export function getGolemBaseChartQueryParams({ id, interval, resolution }: GetGolemBaseChartQueryParamsAttributes) {
   const selectedInterval = STATS_INTERVALS[interval];
 
@@ -44,5 +53,8 @@ export function getGolemBaseChartQueryParams({ id, interval, resolution }: GetGo
     },
   };
 
-  return queryParamsByChartQueryType[chartQueryType];
+  return {
+    ...queryParamsByChartQueryType[chartQueryType],
+    ...restQueryParamsById[id],
+  };
 }

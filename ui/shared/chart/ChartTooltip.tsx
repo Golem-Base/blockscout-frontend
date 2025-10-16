@@ -16,7 +16,6 @@ import type { Pointer } from './tooltip/pointerTracker';
 
 interface Props {
   width?: number;
-  tooltipWidth?: number;
   height?: number;
   data: TimeChartData;
   xScale: d3.ScaleTime<number, number>;
@@ -30,7 +29,6 @@ const ChartTooltip = ({
   xScale,
   yScale,
   width,
-  tooltipWidth = 200,
   height,
   data,
   anchorEl,
@@ -48,7 +46,7 @@ const ChartTooltip = ({
   const renderContent = useRenderContent(ref, { chart: { width, height }, transitionDuration });
   const renderPoints = useRenderPoints(ref, { data, xScale, yScale });
   const renderTitle = useRenderTitle(ref);
-  const renderRows = useRenderRows(ref, { data, xScale, minWidth: tooltipWidth });
+  const renderRows = useRenderRows(ref, { data, xScale });
   const renderBackdrop = useRenderBackdrop(ref, { seriesNum: data.length, transitionDuration });
 
   const draw = React.useCallback((pointer: Pointer) => {

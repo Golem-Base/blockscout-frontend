@@ -12,11 +12,14 @@ export default function getIndicatorValues(
   statsData?: stats.MainPageStats,
   statsApiData?: HomeStats,
   dataUsageData?: TimeChartData,
+  operationTrendsData?: TimeChartData,
 ) {
   const dataUsageItems = dataUsageData?.[0].items;
+  const operationTrendsItems = operationTrendsData?.[0].items;
 
   const extendedStatsData = {
-    data_usage_today: dataUsageItems ? sumBy(dataUsageItems, ({ value }) => Number(value)) : null,
+    monthly_data_usage: dataUsageItems ? sumBy(dataUsageItems, ({ value }) => Number(value)) : null,
+    monthly_operation_trends: operationTrendsItems ? sumBy(operationTrendsItems, ({ value }) => Number(value)) : null,
   };
 
   const value = (() => {

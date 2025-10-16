@@ -1,8 +1,10 @@
-import { createListCollection, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { OperationTypeFilter_OperationTypeFilter as OperationTypeFilter } from '@golembase/l3-indexer-types';
 import type { StatsIntervalIds } from 'types/client/stats';
+import type { OnFilterChange } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
@@ -10,23 +12,25 @@ import * as metadata from 'lib/metadata';
 import * as mixpanel from 'lib/mixpanel/index';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { Button } from 'toolkit/chakra/button';
-import type { SelectOption } from 'toolkit/chakra/select';
-import { Select } from 'toolkit/chakra/select';
-import { Skeleton } from 'toolkit/chakra/skeleton';
+import ChainIndicatorFilter from 'ui/home/indicators/ChainIndicatorFilter';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import ChartIntervalSelect from 'ui/shared/chart/ChartIntervalSelect';
 import ChartMenu from 'ui/shared/chart/ChartMenu';
 import ChartWidgetContent from 'ui/shared/chart/ChartWidgetContent';
 import { useChart } from 'ui/shared/chart/useChart';
-import useChartQuery from 'ui/shared/chart/useChartQuery';
+import useGolemChartParams from 'ui/shared/chart/useGolemChartParams';
+import type { GolemChartId, GolemChartQueryResolution } from 'ui/shared/chart/useGolemChartQuery';
+import useGolemChartQuery from 'ui/shared/chart/useGolemChartQuery';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import IconSvg from 'ui/shared/IconSvg';
 import PageTitle from 'ui/shared/Page/PageTitle';
-import { STATS_INTERVALS, STATS_RESOLUTIONS } from 'ui/stats/constants';
+import { STATS_INTERVALS } from 'ui/stats/constants';
 
 const StandardChart = () => {
   const router = useRouter();
-  const id = getQueryParamString(router.query.id);
+  const id = getQueryParamString(router.query.id) as GolemChartId;
+
+  const { params, handleParamChange, filterableParamsList } = useGolemChartParams(id);
 
   const {
     interval,
@@ -39,12 +43,10 @@ const StandardChart = () => {
     isInBrowser,
     backLink,
     onIntervalChange,
-    onResolutionChange,
     handleReset,
-    defaultResolution,
   } = useChart();
 
-  const { items, info, lineQuery } = useChartQuery(id, resolution, interval);
+  const { items, info, lineQuery } = useGolemChartQuery(id, resolution as GolemChartQueryResolution, interval, true, params);
 
   React.useEffect(() => {
     if (info && !config.meta.seo.enhancedDataEnabled) {
@@ -86,14 +88,17 @@ const StandardChart = () => {
     </Button>
   );
 
-  const resolutionCollection = React.useMemo(() => {
-    const resolutions = lineQuery.data?.info?.resolutions || [];
-    const items = STATS_RESOLUTIONS
-      .filter((resolution) => resolutions.includes(resolution.id))
-      .map((resolution) => ({ value: resolution.id, label: resolution.title }));
+  const onFilterChange: OnFilterChange = React.useCallback((name) => {
+    return (value) => {
+      handleParamChange(name, value.value[0]);
+    };
+  }, [ handleParamChange ]);
 
-    return createListCollection<SelectOption>({ items });
-  }, [ lineQuery.data?.info?.resolutions ]);
+  const operationFilterOptions = React.useMemo(() => {
+    return Object.values(OperationTypeFilter)
+      .filter((type) => type !== OperationTypeFilter.UNRECOGNIZED)
+      .map((operation) => ({ value: operation, label: operation }));
+  }, []);
 
   return (
     <>
@@ -116,24 +121,16 @@ const StandardChart = () => {
             />
           </Flex>
 
-          { (
-            (info?.resolutions && info?.resolutions.length > 1) ||
-            (!info && lineQuery.data?.info?.resolutions && lineQuery.data?.info?.resolutions.length > 1)
-          ) && (
-            <Flex alignItems="center" gap={ 3 }>
-              <Skeleton loading={ isInfoLoading }>
-                { isMobile ? 'Res.' : 'Resolution' }
-              </Skeleton>
-              <Select
-                collection={ resolutionCollection }
-                placeholder="Select resolution"
-                defaultValue={ [ defaultResolution ] }
-                onValueChange={ onResolutionChange }
-                w={{ base: 'fit-content', lg: '160px' }}
-                loading={ isInfoLoading }
-              />
-            </Flex>
+          { filterableParamsList.includes('operation') && (
+            <ChainIndicatorFilter
+              name="operation"
+              options={ operationFilterOptions }
+              defaultValue={ params.operation || OperationTypeFilter.ALL }
+              onValueChange={ onFilterChange }
+              isLoading={ isInfoLoading }
+            />
           ) }
+
           { (Boolean(zoomRange)) && (
             <Button
               variant="link"

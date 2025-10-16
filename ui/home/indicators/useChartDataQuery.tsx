@@ -1,9 +1,15 @@
-import { ChartResolution } from '@golembase/l3-indexer-types';
+import React from 'react';
+
+import {
+  ChartResolution,
+  OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
+} from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
-import type { TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
+import type { ChartFilter, OnFilterChange, TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
 
@@ -42,6 +48,10 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
     name: 'Data usage',
     valueFormatter: (x: number) => formatDataSize(x),
   },
+  operation_trends: {
+    name: 'Operation trends',
+    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
+  },
 };
 
 const isStatsFeatureEnabled = config.features.stats.isEnabled;
@@ -50,6 +60,7 @@ type UseFetchChartDataResult = {
   isError: boolean;
   isPending: boolean;
   data: TimeChartData;
+  filters?: Array<ChartFilter>;
 };
 
 function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
@@ -61,6 +72,14 @@ function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRa
 }
 
 export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFetchChartDataResult {
+  const [ filters, setFilters ] = React.useState<Record<string, string>>({
+    operation: OperationTypeFilter.ALL,
+  });
+
+  const updateFilter = React.useCallback((name: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  }, []);
+
   const statsDailyTxsQuery = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -158,6 +177,29 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
+  const operationsTrendsQuery = useApiQuery('golemBaseIndexer:chart', {
+    pathParams: { id: 'operation-count' },
+    queryParams: {
+      from: dayjs().subtract(30, 'days').format(dateFormat),
+      to: dayjs().format(dateFormat),
+      resolution: ChartResolution.DAY,
+      operation: filters?.operation,
+    },
+    queryOptions: {
+      refetchOnMount: false,
+      enabled: indicatorId === 'operation_trends',
+      select: (data) => data.chart.map((item) => ({ date: new Date(item.date), value: Number(item.value) })) || [],
+    },
+  });
+
+  const onFilterChange: OnFilterChange = React.useCallback((name) => {
+    return (value) => updateFilter(name, value.value[0]);
+  }, [ updateFilter ]);
+
+  const operationTypeOptions = Object.values(OperationTypeFilter)
+    .filter((type) => type !== OperationTypeFilter.UNRECOGNIZED)
+    .map((type) => ({ value: type, label: capitalizeFirstLetter(type) }));
+
   switch (indicatorId) {
     case 'daily_txs': {
       const query = isStatsFeatureEnabled ? statsDailyTxsQuery : apiDailyTxsQuery;
@@ -207,6 +249,22 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
         data: getChartData(indicatorId, dataUsageQuery.data || []),
         isError: dataUsageQuery.isError,
         isPending: dataUsageQuery.isPending,
+      };
+    }
+    case 'operation_trends': {
+      return {
+        data: getChartData(indicatorId, operationsTrendsQuery.data || []),
+        isError: operationsTrendsQuery.isError,
+        isPending: operationsTrendsQuery.isPending,
+        filters: [
+          {
+            type: 'select',
+            name: 'operation',
+            value: filters?.operation,
+            options: operationTypeOptions,
+            onChange: onFilterChange,
+          },
+        ],
       };
     }
   }

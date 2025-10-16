@@ -147,7 +147,6 @@ const ChartWidgetGraph = ({
           <ChartTooltip
             anchorEl={ overlayRef.current }
             width={ innerWidth }
-            tooltipWidth={ (resolution === Resolution.WEEK) ? 280 : 200 }
             height={ innerHeight }
             xScale={ axes.x.scale }
             yScale={ axes.y.scale }
