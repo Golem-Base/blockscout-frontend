@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { EntityStatus } from '@golembase/l3-indexer-types';
+import { EntityStatusFilter_EntityStatusFilter as EntityStatusFilter } from '@golembase/l3-indexer-types';
 
 import useIsMounted from 'lib/hooks/useIsMounted';
 import { generateListStub } from 'stubs/utils';
@@ -38,7 +38,7 @@ const AddressOwnedEntities = ({ shouldRender = true, isQueryEnabled = true }: Pr
       ),
     },
     filters: {
-      status: router.query.status as EntityStatus || EntityStatus.ALL,
+      status: router.query.status as EntityStatusFilter || EntityStatusFilter.ALL,
       owner: router.query.hash as string,
       numeric_annotation_key: router.query.numeric_annotation_key as string,
       numeric_annotation_value: router.query.numeric_annotation_value as string,

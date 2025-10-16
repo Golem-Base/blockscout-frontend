@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { safeParse } from 'valibot';
 
-import { EntityStatus } from '@golembase/l3-indexer-types';
+import { EntityStatusFilter_EntityStatusFilter as EntityStatusFilter } from '@golembase/l3-indexer-types';
 
 import type { FilterState, SetError, SetInputValue } from './addressOwnedFilterReducer';
 import { filterReducer, initialState } from './addressOwnedFilterReducer';
@@ -14,7 +14,7 @@ export const useAddressOwnedEntitiesFilters = () => {
   const [ state, dispatch ] = React.useReducer(filterReducer, initialState);
 
   React.useEffect(() => {
-    const defaultFilterStatus = router.query.status ? String(router.query.status).toUpperCase() : EntityStatus.ALL;
+    const defaultFilterStatus = router.query.status ? String(router.query.status).toUpperCase() : EntityStatusFilter.ALL;
 
     dispatch({
       type: 'INITIALIZE',

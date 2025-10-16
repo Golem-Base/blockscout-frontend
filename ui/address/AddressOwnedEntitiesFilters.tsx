@@ -1,7 +1,7 @@
 import { createListCollection, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import { EntityStatus } from '@golembase/l3-indexer-types';
+import { EntityStatusFilter_EntityStatusFilter as EntityStatusFilter } from '@golembase/l3-indexer-types';
 
 import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import { Button } from 'toolkit/chakra/button';
@@ -22,7 +22,7 @@ const AddressOwnedEntitiesFilters = ({ isLoading }: Props) => {
       value: status,
       label: capitalizeFirstLetter(status.toLowerCase()),
     });
-    const items = Object.keys(EntityStatus).map(getStatusOption);
+    const items = Object.keys(EntityStatusFilter).filter(status => status !== EntityStatusFilter.UNRECOGNIZED).map(getStatusOption);
 
     return createListCollection({ items });
   }, []);

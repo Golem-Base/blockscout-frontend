@@ -2,7 +2,7 @@ import { pick } from 'es-toolkit';
 import { useRouter } from 'next/router';
 
 import type { Entity } from '@golembase/l3-indexer-types';
-import { EntityStatus } from '@golembase/l3-indexer-types';
+import { EntityStatusFilter_EntityStatusFilter as EntityStatusFilter } from '@golembase/l3-indexer-types';
 
 import { ENTITY } from 'stubs/entity';
 import { generateListStub } from 'stubs/utils';
@@ -33,7 +33,7 @@ export default function useEntityResultsQuery() {
     resourceName: 'golemBaseIndexer:entities',
     filters: {
       ...filters,
-      status: EntityStatus.ACTIVE,
+      status: EntityStatusFilter.ACTIVE,
     },
     options: {
       enabled: Object.keys(filters).length > 0,
