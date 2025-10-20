@@ -41,7 +41,7 @@ test('asserts correct links', async({ render, mockApiResponse }) => {
     <AddressStats addressHash={ ADDRESS_HASH }/>,
   );
 
-  const topAccountsLink = component.locator('a[href*="/accounts"]');
+  const topAccountsLink = component.locator('a[href="/accounts"]');
   await expect(topAccountsLink).toHaveAttribute('href', '/accounts');
 
   const biggestSpendersLink = component.locator('a[href*="/leaderboards/spenders"]');
