@@ -46,6 +46,7 @@ const LongestLivedEntitiesTableItem = ({
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
           { item.expires_at_timestamp_sec && (
             <LongestLivedEntitiesExpirationTime
+              expiresAtTimestamp={ item.expires_at_timestamp }
               expiresAtTimestampSec={ item.expires_at_timestamp_sec }
               isLoading={ isLoading }
             />

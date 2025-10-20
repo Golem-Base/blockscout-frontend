@@ -1,102 +1,4 @@
-function getYearFromSeconds(seconds: number) {
-  const secondsPerDay = 24 * 60 * 60;
-  const daysSince1970 = Math.floor(seconds / secondsPerDay);
-
-  let year = 1970;
-  let remainingDays = daysSince1970;
-  while (true) {
-    const daysInYear = ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 366 : 365;
-    if (remainingDays >= daysInYear) {
-      remainingDays -= daysInYear;
-      year++;
-    } else {
-      break;
-    }
-  }
-  return year;
-}
-
-function getMonthFromSeconds(seconds: number) {
-  const secondsPerDay = 24 * 60 * 60;
-  const daysSince1970 = Math.floor(seconds / secondsPerDay);
-
-  let year = 1970;
-  let remainingDays = daysSince1970;
-  while (true) {
-    const daysInYear = ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 366 : 365;
-    if (remainingDays >= daysInYear) {
-      remainingDays -= daysInYear;
-      year++;
-    } else {
-      break;
-    }
-  }
-
-  const monthDays = [
-    31,
-    ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 29 : 28,
-    31, 30, 31, 30,
-    31, 31, 30, 31,
-    30, 31,
-  ];
-
-  let month = 0;
-  while (month < 12) {
-    if (remainingDays >= monthDays[month]) {
-      remainingDays -= monthDays[month];
-      month++;
-    } else {
-      break;
-    }
-  }
-
-  return month + 1;
-}
-
-function getDayFromSeconds(seconds: number) {
-  const secondsPerDay = 24 * 60 * 60;
-  const daysSince1970 = Math.floor(seconds / secondsPerDay);
-
-  let year = 1970;
-  let remainingDays = daysSince1970;
-  while (true) {
-    const daysInYear = ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 366 : 365;
-    if (remainingDays >= daysInYear) {
-      remainingDays -= daysInYear;
-      year++;
-    } else {
-      break;
-    }
-  }
-
-  const monthDays = [
-    31,
-    ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 29 : 28,
-    31, 30, 31, 30,
-    31, 31, 30, 31,
-    30, 31,
-  ];
-
-  let month = 0;
-  while (month < 12) {
-    if (remainingDays >= monthDays[month]) {
-      remainingDays -= monthDays[month];
-      month++;
-    } else {
-      break;
-    }
-  }
-
-  return remainingDays + 1;
-}
-
-function getHourFromSeconds(seconds: number) {
-  return Math.floor((seconds % (24 * 60 * 60)) / 3600);
-}
-
-function getMinuteFromSeconds(seconds: number) {
-  return Math.floor((seconds % 3600) / 60);
-}
+import dayjs from 'lib/date/dayjs';
 
 function getYearsMonthsDaysHoursMinutes(secondsNow: number, secondsTimestamp: number) {
   let diff = secondsTimestamp - secondsNow;
@@ -136,22 +38,24 @@ function displayFirstDateUnit(fromNow: ReturnType<typeof getYearsMonthsDaysHours
   return first ? `in ${ first.value } ${ first.label }${ first.value !== 1 ? 's' : '' }` : 'in 0 minutes';
 }
 
-export function dayBigFuture(timestampInSeconds: number) {
+export function dayBigFuture(timestampInSeconds: number, expiresAtTimestamp?: string) {
+  if (expiresAtTimestamp) {
+    const preciseDate = dayjs(expiresAtTimestamp);
+    const formatted = preciseDate.format('lll');
+    const fromNow = preciseDate.fromNow();
+
+    return {
+      formatted,
+      fromNow,
+    };
+  }
+
   const currentDateSeconds = new Date().getTime() / 1000;
-
-  const year = getYearFromSeconds(timestampInSeconds);
-  const month = getMonthFromSeconds(timestampInSeconds);
-  const day = getDayFromSeconds(timestampInSeconds);
-  const hour = getHourFromSeconds(timestampInSeconds);
-  const minute = getMinuteFromSeconds(timestampInSeconds);
-
-  const date = `${ month }/${ day }/${ year } ${ hour }:${ minute }`;
 
   const fromNow = getYearsMonthsDaysHoursMinutes(currentDateSeconds, timestampInSeconds);
   const fromNowString = displayFirstDateUnit(fromNow);
 
   return {
-    formatted: date,
     fromNow: fromNowString,
   };
 }
