@@ -16,7 +16,6 @@ import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp'
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 
 const PAGE_SIZE = 50;
-type LeaderboardRoute = Extract<Route, { pathname: `/leaderboards/${ string }` }>['pathname'];
 
 interface Props {
   addressHash: string;
@@ -67,18 +66,19 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
     </>
   );
 
-  const renderRankItem = (label: string, hint: string, rank: string | undefined, pathname: LeaderboardRoute) => {
+  const renderRankItem = <T extends Route['pathname']>(label: string, hint: string, rank: string | undefined, pathname: T) => {
     const rankInt = rank ? parseInt(rank, 10) : 0;
     if (rankInt === 0) {
       return null;
     }
 
     const pageNum = Math.ceil(rankInt / PAGE_SIZE);
+    const query = pageNum > 1 ? { page: String(pageNum) } : {};
 
     return renderItem(
       label,
       hint,
-      <Link href={ route({ pathname, query: (pageNum > 1 ? { page: String(pageNum) } : {}) }) }>
+      <Link href={ route({ pathname, query } as Route) }>
         #{ formatBigNum(rank) }
       </Link>,
     );
@@ -201,6 +201,13 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
         ) }
 
       { hasRanksData && <ItemDivider/> }
+
+      { renderRankItem(
+        'Top Account Rank',
+        'Rank in the top accounts leaderboard based on largest balances',
+        ranksData?.top_accounts,
+        '/accounts',
+      ) }
 
       { renderRankItem(
         'Biggest Spenders Rank',
