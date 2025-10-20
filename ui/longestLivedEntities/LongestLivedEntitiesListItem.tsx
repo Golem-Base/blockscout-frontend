@@ -32,6 +32,7 @@ const LongestLivedEntitiesListItem = ({
         { item?.expires_at_timestamp_sec && (
           <LongestLivedEntitiesExpirationTime
             expiresAtTimestampSec={ item.expires_at_timestamp_sec }
+            expiresAtTimestamp={ item.expires_at_timestamp }
             isLoading={ isLoading }
           />
         ) }

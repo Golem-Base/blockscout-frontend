@@ -5,7 +5,6 @@ import { EntityStatus } from '@golembase/l3-indexer-types';
 
 import type { PaginatedResponse } from 'lib/api/services/paginationConverter';
 import { test, expect } from 'playwright/lib';
-import { MAX_TIMESTAMP_MS } from 'toolkit/utils/dayjsBigFuture';
 
 import LongestLivedEntities from './LongestLivedEntities';
 
@@ -17,7 +16,7 @@ const longestLivedEntities: PaginatedResponse<LeaderboardEntitiesByBtlResponse> 
       key: '0x1234567890abcdef1234567890abcdef',
       created_at_tx_hash: '0x1234567890abcdef1234567890abcdef',
       status: EntityStatus.ACTIVE,
-      expires_at_timestamp_sec: String((MAX_TIMESTAMP_MS / 1_000) - 1),
+      expires_at_timestamp_sec: String(18000001759909158),
       data: '0x1234567890abcdef1234567890abcdef',
     },
     {
@@ -26,7 +25,7 @@ const longestLivedEntities: PaginatedResponse<LeaderboardEntitiesByBtlResponse> 
       key: '0x1234567890abcdef1234567890abcdef',
       created_at_tx_hash: '0x1234567890abcdef1234567890abcdef',
       status: EntityStatus.ACTIVE,
-      expires_at_timestamp_sec: String((MAX_TIMESTAMP_MS / 1_000) + 1),
+      expires_at_timestamp_sec: String(3520387490),
       data: '0x1234567890abcdef1234567890abcdef',
     },
   ],
