@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
-import { dayjsBigFuture } from 'toolkit/utils/dayjsBigFuture';
+import { dayBigFuture } from 'toolkit/utils/dayBigFuture';
 import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const LongestLivedEntitiesExpirationTime = ({ expiresAtTimestampSec, isLoading }: Props) => {
-  const { formatted, fromNow } = dayjsBigFuture(Number(expiresAtTimestampSec) * 1000);
+  const { formatted, fromNow } = dayBigFuture(Number(expiresAtTimestampSec));
 
   return (
     <Skeleton loading={ isLoading } cursor="pointer">
