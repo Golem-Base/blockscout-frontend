@@ -41,16 +41,14 @@ const AddressCoinBalanceHistory = ({ query }: Props) => {
             </TableRow>
           </TableHeaderSticky>
           <TableBody>
-            { query.data.items.map((item, index) => {
-              return (
-                <AddressCoinBalanceTableItem
-                  key={ item.block_number + (query.isPlaceholderData ? String(index) : '') }
-                  { ...item }
-                  page={ query.pagination.page }
-                  isLoading={ query.isPlaceholderData }
-                />
-              );
-            }) }
+            { query.data.items.splice(0, 2).map((item, index) => (
+              <AddressCoinBalanceTableItem
+                key={ item.block_number + (query.isPlaceholderData ? String(index) : '') }
+                { ...item }
+                page={ query.pagination.page }
+                isLoading={ query.isPlaceholderData }
+              />
+            )) }
           </TableBody>
         </TableRoot>
       </Box>
