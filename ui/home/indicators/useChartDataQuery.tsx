@@ -13,7 +13,7 @@ import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
 
-import { prepareChartItemsWithDate } from './utils/prepareChartItems';
+import { prepareChartItemsWithDate, prepareChartItemsWithNumberOnly } from './utils/prepareChartItems';
 
 const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
@@ -70,6 +70,14 @@ type UseFetchChartDataResult = {
 function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
   return [ {
     items: prepareChartItemsWithDate(data),
+    name: CHART_ITEMS[indicatorId].name,
+    valueFormatter: CHART_ITEMS[indicatorId].valueFormatter,
+  } ];
+}
+
+function getNumberOnlyChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
+  return [ {
+    items: prepareChartItemsWithNumberOnly(data),
     name: CHART_ITEMS[indicatorId].name,
     valueFormatter: CHART_ITEMS[indicatorId].valueFormatter,
   } ];
@@ -201,7 +209,10 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     queryOptions: {
       refetchOnMount: false,
       enabled: indicatorId === 'block_transactions',
-      select: (data) => data.chart.map((item) => ({ date: new Date(item.date), value: Number(item.value) })) || [],
+      select: (data) => data.chart.map((item) => {
+        console.log(item)
+        return { x: Number(item.block_number), y: Number(item.tx_count) };
+      }) || [],
     },
   });
 
@@ -282,7 +293,7 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     }
     case 'block_transactions': {
       return {
-        data: getChartData(indicatorId, blockTransactionsQuery.data || []),
+        data: getNumberOnlyChartData(indicatorId, blockTransactionsQuery.data || []),
         isError: blockTransactionsQuery.isError,
         isPending: blockTransactionsQuery.isPending,
       };
