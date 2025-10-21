@@ -1,6 +1,6 @@
 import type { TimeChartItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
-import { sortByDateDesc } from 'ui/shared/chart/utils/sorts';
+import { sortByDateDesc, sortByXDesc } from 'ui/shared/chart/utils/sorts';
 
 const nonNullTailReducer = (result: Array<TimeChartItemRaw>, item: TimeChartItemRaw) => {
   if (item.value === null && result.length === 0) {
@@ -15,6 +15,13 @@ const mapNullToZero: (item: TimeChartItemRaw) => TimeChartItem = (item) => ({ ..
 export function prepareChartItemsWithDate(items: Array<TimeChartItemRaw>) {
   return items
     .sort(sortByDateDesc)
+    .reduceRight(nonNullTailReducer, [] as Array<TimeChartItemRaw>)
+    .map(mapNullToZero);
+}
+
+export function prepareChartItemsWithNumberOnly(items: Array<TimeChartItemRaw>) {
+  return items
+    .sort(sortByXDesc)
     .reduceRight(nonNullTailReducer, [] as Array<TimeChartItemRaw>)
     .map(mapNullToZero);
 }
