@@ -3,14 +3,14 @@ import React from 'react';
 
 import type { AddressCoinBalanceHistoryItem } from 'types/api/address';
 
-import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import { WEI } from 'toolkit/utils/consts';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
 
-import AddressCoinBalanceDeltaTruncated from './AddressCoinBalanceDeltaTruncated';
+import AddressCoinBalanceDelta from './AddressCoinBalanceDelta';
+import AddressCoinBalanceValue from './AddressCoinBalanceValue';
 
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
@@ -51,12 +51,10 @@ const AddressCoinBalanceTableItem = (props: Props) => {
         />
       </TableCell>
       <TableCell isNumeric pr={ 1 }>
-        <Skeleton loading={ props.isLoading } color="text.secondary" display="inline-block">
-          <span>{ BigNumber(props.value).div(WEI).dp(8).toFormat() }</span>
-        </Skeleton>
+        <AddressCoinBalanceValue isLoading={ props.isLoading } value={ props.value }/>
       </TableCell>
       <TableCell isNumeric display="flex" justifyContent="end">
-        <AddressCoinBalanceDeltaTruncated
+        <AddressCoinBalanceDelta
           isLoading={ props.isLoading }
           deltaBn={ deltaBn }
         />

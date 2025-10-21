@@ -2,22 +2,24 @@ import { Stat } from '@chakra-ui/react';
 import type BigNumber from 'bignumber.js';
 import React from 'react';
 
+import { getShortenedBigNumber } from 'lib/getShortenedBigNumber';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import { ZERO } from 'toolkit/utils/consts';
 
-const AddressCoinBalanceDeltaTruncated = ({ isLoading, deltaBn }: { isLoading: boolean; deltaBn: BigNumber }) => {
+const AddressCoinBalanceDelta = ({ isLoading, deltaBn }: { isLoading: boolean; deltaBn: BigNumber }) => {
   const isPositiveDelta = deltaBn.gte(ZERO);
 
-  const MAX_DELTA_LENGTH = 12;
   const formattedDeltaBn = deltaBn.dp(8).toFormat();
-  const displayDelta = formattedDeltaBn.length > MAX_DELTA_LENGTH ? `${ formattedDeltaBn.slice(0, MAX_DELTA_LENGTH) }...` : formattedDeltaBn;
+  const absoluteDelta = deltaBn.abs();
+
+  const displayDelta = isPositiveDelta ? getShortenedBigNumber(deltaBn) : '-' + getShortenedBigNumber(absoluteDelta);
 
   return (
     <Skeleton loading={ isLoading }>
       <Tooltip
         positioning={{ placement: 'top' }}
-        disabled={ formattedDeltaBn.length <= MAX_DELTA_LENGTH }
+        disabled={ displayDelta === formattedDeltaBn }
         content={ (
           <Stat.Root size="sm" positive={ isPositiveDelta }>
             <Stat.ValueText whiteSpace="normal" wordBreak="break-word" maxW="250px">
@@ -37,6 +39,7 @@ const AddressCoinBalanceDeltaTruncated = ({ isLoading, deltaBn }: { isLoading: b
       </Tooltip>
     </Skeleton>
   );
-};
+}
+;
 
-export default AddressCoinBalanceDeltaTruncated;
+export default AddressCoinBalanceDelta;
