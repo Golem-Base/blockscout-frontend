@@ -24,7 +24,6 @@ interface Props {
 }
 
 const AddressCoinBalanceValue = ({ isLoading, value }: Props) => {
-
   const valueBn = BigNumber(value).div(WEI);
   const formattedTotalValue = valueBn.dp(8).toFormat();
   const shortenedValue = getShortenedBigNumber(valueBn);
