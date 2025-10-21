@@ -12,7 +12,7 @@ import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
 
-import AddressCoinBalanceDeltaTruncated from './AddressCoinBalanceDeltaTruncated';
+import AddressCoinBalanceDelta from './AddressCoinBalanceDelta';
 
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
@@ -28,7 +28,7 @@ const AddressCoinBalanceListItem = (props: Props) => {
         <Skeleton loading={ props.isLoading } fontWeight={ 600 }>
           { BigNumber(props.value).div(WEI).dp(8).toFormat() } { currencyUnits.ether }
         </Skeleton>
-        <AddressCoinBalanceDeltaTruncated
+        <AddressCoinBalanceDelta
           isLoading={ props.isLoading }
           deltaBn={ deltaBn }
         />

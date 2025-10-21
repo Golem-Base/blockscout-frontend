@@ -13,16 +13,16 @@ export const baseResponse: AddressCoinBalanceHistoryResponse = {
     {
       block_number: 30367643,
       block_timestamp: '2022-10-11T17:55:20Z',
-      delta: '-21056822338488568128418248124812841281284412812848124818412',
+      delta: '-2105682233848856812841824812481284128128441',
       transaction_hash: null,
-      value: '10102109526582662088',
+      value: '1010210952658266208831424',
     },
     {
       block_number: 30367234,
       block_timestamp: '2022-10-01T17:55:20Z',
       delta: '1933020674364000',
       transaction_hash: null,
-      value: '10143933697708939226',
+      value: '101439336977089392',
     },
     {
       block_number: 30363402,
