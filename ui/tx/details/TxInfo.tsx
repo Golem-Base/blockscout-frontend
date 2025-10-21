@@ -857,24 +857,25 @@ const TxInfo = ({ data, tacOperations, isLoading, socketStatus, isSingleOperatio
               </DetailedInfo.ItemValue>
             </>
           ) }
-
-          { isSingleOperation && (
-            <>
-              <DetailedInfo.ItemDivider/>
-
-              <DetailedInfo.ItemLabel
-                hint="Since the transaction contains exactly one operation, we automatically show its full preview."
-                isLoading={ isLoading }
-              >
-                Entity operation
-              </DetailedInfo.ItemLabel>
-              <DetailedInfo.ItemValue>
-                <OpExpandableDetails txHash={ data.hash } opIndex="0"/>
-              </DetailedInfo.ItemValue>
-            </>
-          ) }
         </>
       ) }
+
+      { isSingleOperation && (
+        <>
+          <DetailedInfo.ItemDivider/>
+
+          <DetailedInfo.ItemLabel
+            hint="Since the transaction contains exactly one operation, we automatically show its full preview."
+            isLoading={ isLoading }
+          >
+            Entity operation
+          </DetailedInfo.ItemLabel>
+          <DetailedInfo.ItemValue>
+            <OpExpandableDetails txHash={ data.hash } opIndex="0" withEntity/>
+          </DetailedInfo.ItemValue>
+        </>
+      ) }
+
       <TxInfoScrollFees data={ data } isLoading={ isLoading }/>
 
       <CollapsibleDetails loading={ isLoading } mt={ 6 } gridColumn={{ base: undefined, lg: '1 / 3' }} isExpanded={ isExpanded } onClick={ handleCutLinkClick }>

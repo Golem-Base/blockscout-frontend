@@ -1,5 +1,6 @@
 import React from 'react';
 
+import * as entityOpsMock from 'mocks/operations/entityOps';
 import * as tokenInstanceMock from 'mocks/tokens/tokenInstance';
 import * as txMock from 'mocks/txs/tx';
 import { ENVS_MAP } from 'playwright/fixtures/mockEnvs';
@@ -161,6 +162,23 @@ test('with interop message out +@mobile', async({ page, render, mockEnvs, mockAs
   const component = await render(<TxInfo data={ txMock.withInteropOutMessage } isLoading={ false }/>);
   await component.getByText('View details').first().click();
   await expect(component.getByText('Interop status')).toBeVisible();
+
+  await expect(component).toHaveScreenshot({
+    mask: [ page.locator(pwConfig.adsBannerSelector) ],
+    maskColor: pwConfig.maskColor,
+  });
+});
+
+test('with sigle operation only +@mobile +@dark-mode', async({ page, render, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.createEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: txMock.base.hash,
+      op_index: '0',
+    },
+  });
+  const component = await render(<TxInfo data={ txMock.base } isLoading={ false } isSingleOperation/>);
+
+  await page.getByText('View details').click();
 
   await expect(component).toHaveScreenshot({
     mask: [ page.locator(pwConfig.adsBannerSelector) ],
