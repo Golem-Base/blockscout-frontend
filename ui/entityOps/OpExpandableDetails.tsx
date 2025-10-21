@@ -9,15 +9,17 @@ import OperationSpecificData from 'ui/entityOp/OperationSpecificData';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
+import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 
 import EntityOpType from './EntityOpType';
 
 interface Props {
   txHash: string;
   opIndex: string;
+  withEntity?: boolean;
 }
 
-const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
+const OpExpandableDetails = ({ txHash, opIndex, withEntity }: Props) => {
   const { data, isPlaceholderData: isLoading } = useApiQuery('golemBaseIndexer:operation', {
     pathParams: { tx_hash: txHash, op_index: opIndex },
     queryOptions: {
@@ -32,6 +34,19 @@ const OpExpandableDetails = ({ txHash, opIndex }: Props) => {
 
   return (
     <Container data-testid="operation-details">
+      { withEntity && (
+        <>
+          <ItemLabel hint="Entity operation type">Entity</ItemLabel>
+          <ItemValue>
+            <StorageEntity
+              entityKey={ data.entity_key }
+              isLoading={ isLoading }
+              truncation="dynamic"
+            />
+          </ItemValue>
+        </>
+      ) }
+
       <ItemLabel hint="Entity operation type">Type</ItemLabel>
       <ItemValue>
         <EntityOpType operation={ data.operation } isLoading={ isLoading }/>
