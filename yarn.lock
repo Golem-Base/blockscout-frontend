@@ -2276,10 +2276,17 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.9.tgz#50dea3616bc8191fb8e112283b49eaff03e78429"
   integrity sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==
 
+<<<<<<< HEAD
 "@golembase/l3-indexer-types@^0.0.28":
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@golembase/l3-indexer-types/-/l3-indexer-types-0.0.28.tgz#21dd06ff96abdef77494cf0a06b981741de93ced"
   integrity sha512-0i0f51Y6wKj5wa6foO8CMwA8WhnEc3PRJwK+TdD9LgU+fE6z4AxI2V4Wjj4hrsZwFbzahU3NYXNOzQqUQpmp1Q==
+=======
+"@golembase/l3-indexer-types@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@golembase/l3-indexer-types/-/l3-indexer-types-0.0.27.tgz#b1ea434c1b746153ea8511d9e01bd272b2dfa06f"
+  integrity sha512-ZMPFTiE8eVCMbIe8BI1Qoaujdmo9chtcUwr7ja4+C7BkUOZrpX08nq3bMY53KIjrAiZ3Z285SXZVHwWYvrO5Kg==
+>>>>>>> 17fa89fb9 (feature/GBBE-267 Add block transactions dashboard chart)
 
 "@graphiql/react@^0.15.0":
   version "0.15.0"

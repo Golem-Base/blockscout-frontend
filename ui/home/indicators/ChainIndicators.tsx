@@ -44,6 +44,8 @@ const ChainIndicators = () => {
 
   const operationTrendsQueryResult = useChartDataQuery('operation_trends');
 
+  const blockTransactionsQueryResult = useChartDataQuery('block_transactions');
+
   const statsMicroserviceQueryResult = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -72,6 +74,7 @@ const ChainIndicators = () => {
     statsApiQueryResult?.data,
     dataUsageQueryResult?.data,
     operationTrendsQueryResult?.data,
+    blockTransactionsQueryResult?.data,
   );
 
   const title = (() => {

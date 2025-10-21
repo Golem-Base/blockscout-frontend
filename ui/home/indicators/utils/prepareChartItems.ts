@@ -12,7 +12,7 @@ const nonNullTailReducer = (result: Array<TimeChartItemRaw>, item: TimeChartItem
 
 const mapNullToZero: (item: TimeChartItemRaw) => TimeChartItem = (item) => ({ ...item, value: Number(item.value) });
 
-export default function prepareChartItems(items: Array<TimeChartItemRaw>) {
+export function prepareChartItemsWithDate(items: Array<TimeChartItemRaw>) {
   return items
     .sort(sortByDateDesc)
     .reduceRight(nonNullTailReducer, [] as Array<TimeChartItemRaw>)
