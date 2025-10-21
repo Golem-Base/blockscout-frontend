@@ -51,6 +51,7 @@ export const HOMEPAGE_STATS: HomeStats = {
   monthly_operation_trends: 431,
   golembase_total_operations: 1000,
   golembase_unique_active_addresses: 100,
+  recent_block_transactions: 103,
 };
 
 const STATS_CHART_INFO: stats.LineChartInfo = {

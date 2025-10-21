@@ -65,8 +65,6 @@ const ChartTooltip = ({
     if (!isVisible.current) {
       if (transitionDuration) {
         d3.select(ref.current)
-          .transition()
-          .delay(transitionDuration)
           .attr('opacity', 1);
       } else {
         d3.select(ref.current)
