@@ -13,6 +13,7 @@ import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
 
 import AddressCoinBalanceDelta from './AddressCoinBalanceDelta';
+import AddressCoinBalanceValue from './AddressCoinBalanceValue';
 
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
@@ -25,8 +26,8 @@ const AddressCoinBalanceListItem = (props: Props) => {
   return (
     <ListItemMobile rowGap={ 2 }>
       <Flex justifyContent="space-between" w="100%">
-        <Skeleton loading={ props.isLoading } fontWeight={ 600 }>
-          { BigNumber(props.value).div(WEI).dp(8).toFormat() } { currencyUnits.ether }
+        <Skeleton loading={ props.isLoading } fontWeight={ 600 } display="inline-flex" gap={ 1 }>
+          <AddressCoinBalanceValue isLoading={ props.isLoading } value={ props.value }/> <span>{ currencyUnits.ether }</span>
         </Skeleton>
         <AddressCoinBalanceDelta
           isLoading={ props.isLoading }
