@@ -26,6 +26,7 @@ export type HomeStats = {
   golembase_active_entities_count: number | null;
   monthly_data_usage: number | null;
   monthly_operation_trends: number | null;
+  recent_block_transactions: number | null;
   celo?: {
     epoch_number: number;
   };

@@ -121,7 +121,7 @@ R extends 'golemBaseIndexer:effectivelyLargestEntities' ? PaginatedResponse<gole
 R extends 'golemBaseIndexer:entitiesCreated' ? PaginatedResponse<golemBaseIndexer.LeaderboardEntitiesCreatedResponse> :
 R extends 'golemBaseIndexer:customContractTransactions' ? PaginatedResponse<golemBaseIndexer.ListCustomContractTransactionsResponse> :
 R extends 'golemBaseIndexer:addressLeaderboardRanks' ? golemBaseIndexer.AddressLeaderboardRanksResponse :
-R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartResponse :
+R extends 'golemBaseIndexer:chart' ? golemBaseIndexer.ChartResponse | golemBaseIndexer.ChartBlockTransactionsResponse :
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
 never;

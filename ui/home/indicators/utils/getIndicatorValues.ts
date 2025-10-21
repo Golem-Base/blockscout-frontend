@@ -13,13 +13,16 @@ export default function getIndicatorValues(
   statsApiData?: HomeStats,
   dataUsageData?: TimeChartData,
   operationTrendsData?: TimeChartData,
+  blockTransactionsQueryResult?: TimeChartData,
 ) {
   const dataUsageItems = dataUsageData?.[0].items;
   const operationTrendsItems = operationTrendsData?.[0].items;
+  const blockTransactionsItems = blockTransactionsQueryResult?.[0].items;
 
   const extendedStatsData = {
     monthly_data_usage: dataUsageItems ? sumBy(dataUsageItems, ({ value }) => Number(value)) : null,
     monthly_operation_trends: operationTrendsItems ? sumBy(operationTrendsItems, ({ value }) => Number(value)) : null,
+    recent_block_transactions: blockTransactionsItems ? sumBy(blockTransactionsItems, ({ value }) => Number(value)) : null,
   };
 
   const value = (() => {
