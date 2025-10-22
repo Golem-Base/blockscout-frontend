@@ -1,10 +1,11 @@
-import { useToken } from '@chakra-ui/react';
+import { Grid, Text, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
 import React from 'react';
 
 import type { ChartMargin } from 'ui/shared/chart/types';
 
 import useClientRect from 'lib/hooks/useClientRect';
+import { Tooltip } from 'toolkit/chakra/tooltip';
 import calculateInnerSize from 'ui/shared/chart/utils/calculateInnerSize';
 
 interface Props {
@@ -12,12 +13,11 @@ interface Props {
   caption?: string;
 }
 
-const CHART_MARGIN: ChartMargin = { bottom: 5, left: 10, right: 10, top: 5 };
+const CHART_MARGIN: ChartMargin = { bottom: 5, left: 0, right: 0, top: 5 };
 
 const SimpleChartContent = ({ data }: Props) => {
-  const barColor = useToken('colors', 'blue.500');
   const gradientStartColor = useToken('colors', 'blue.500');
-  const gradientStopColor = useToken('colors', 'blue.200');
+  const gradientStopColor = useToken('colors', 'blue.50');
 
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const { innerWidth, innerHeight } = calculateInnerSize(rect, CHART_MARGIN);
@@ -102,7 +102,7 @@ const SimpleChartContent = ({ data }: Props) => {
   }, [ bars, innerHeight ]);
 
   return (
-    <svg width="100%" height="100%" ref={ ref } cursor="pointer">
+    <svg width="300%" height="100%" ref={ ref } cursor="pointer">
       <defs>
         <linearGradient id="simple-chart-gradient" x1="0%" x2="0%" y1="0%" y2="100%">
           <stop offset="0%" stopColor={ gradientStartColor[0] }/>
@@ -111,19 +111,31 @@ const SimpleChartContent = ({ data }: Props) => {
       </defs>
       <g transform={ `translate(${ CHART_MARGIN.left || 0 },${ CHART_MARGIN.top || 0 })` } opacity={ rect ? 1 : 0 }>
         <g ref={ barsRef }>
-          { bars.map((bar, index) => (
-            <rect
-              key={ index }
-              x={ bar.x }
-              y={ bar.y }
-              width={ barWidth }
-              height={ bar.height }
-              fill="url(#simple-chart-gradient)"
-              stroke={ barColor[0] }
-              strokeWidth={ 0.5 }
-              rx={ 2 }
-            />
-          )) }
+          { bars.map((bar, index) => {
+            const item = data[0].items[index];
+
+            return (
+              <Tooltip key={ index } content={ (
+                <Grid templateColumns="auto 1fr" gapX={ 2 } gapY={ 1 } textAlign="left" fontSize="xs">
+                  <Text fontWeight={ 500 } color="blue.100">Block number</Text>
+                  <Text>{ item.x }</Text>
+
+                  <Text fontWeight={ 500 } color="blue.100">Transactions count</Text>
+                  <Text>{ item.y }</Text>
+                </Grid>
+              ) }>
+                <rect
+                  key={ index }
+                  x={ bar.x }
+                  y={ bar.y }
+                  width={ barWidth }
+                  height={ bar.height }
+                  fill="url(#simple-chart-gradient)"
+                  rx={ 2 }
+                />
+              </Tooltip>
+            );
+          }) }
         </g>
       </g>
     </svg>
