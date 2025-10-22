@@ -60,13 +60,13 @@ export const OPERATOR_CONFIGS: Array<OperatorConfig> = [
     name: '~',
     label: '~',
     description: 'Glob pattern matching operator',
-    supportedFields: [ 'string' ],
+    supportedFields: [ 'string', 'owner' ],
   },
   {
     name: '!~',
     label: '!~',
     description: 'Not glob pattern matching operator',
-    supportedFields: [ 'string' ],
+    supportedFields: [ 'string', 'owner' ],
   },
 ];
 
