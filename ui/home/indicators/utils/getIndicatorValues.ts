@@ -22,7 +22,7 @@ export default function getIndicatorValues(
   const extendedStatsData = {
     monthly_data_usage: dataUsageItems ? sumBy(dataUsageItems, ({ value }) => Number(value)) : null,
     monthly_operation_trends: operationTrendsItems ? sumBy(operationTrendsItems, ({ value }) => Number(value)) : null,
-    recent_block_transactions: blockTransactionsItems ? sumBy(blockTransactionsItems, ({ value }) => Number(value)) : null,
+    recent_block_transactions: blockTransactionsItems ? sumBy(blockTransactionsItems, ({ y }) => Number(y)) : null,
   };
 
   const value = (() => {

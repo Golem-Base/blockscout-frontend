@@ -210,7 +210,6 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
       refetchOnMount: false,
       enabled: indicatorId === 'block_transactions',
       select: (data) => data.chart.map((item) => {
-        console.log(item)
         return { x: Number(item.block_number), y: Number(item.tx_count) };
       }) || [],
     },

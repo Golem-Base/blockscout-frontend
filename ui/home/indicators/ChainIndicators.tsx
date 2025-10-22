@@ -163,7 +163,7 @@ const ChainIndicators = () => {
           )) }
 
         </Flex>
-
+ 
         <Flex h={{ base: '80px', lg: '110px' }} alignItems="flex-start" flexGrow={ 1 }>
           <ChainIndicatorChartContainer { ...queryResult }/>
         </Flex>
@@ -193,6 +193,7 @@ const ChainIndicators = () => {
                   statsApiQueryResult?.data,
                   dataUsageQueryResult?.data,
                   operationTrendsQueryResult?.data,
+                  blockTransactionsQueryResult?.data,
                 )
               }
               isLoading={ isPlaceholderData }

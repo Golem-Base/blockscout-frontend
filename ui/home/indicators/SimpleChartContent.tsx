@@ -2,41 +2,33 @@ import { useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
 import React from 'react';
 
-import useClientRect from 'lib/hooks/useClientRect';
+import type { ChartMargin } from 'ui/shared/chart/types';
 
+import useClientRect from 'lib/hooks/useClientRect';
 import calculateInnerSize from 'ui/shared/chart/utils/calculateInnerSize';
 
 interface Props {
-  data: Array<{ x: number; y: number }>;
+  data: [{ items: Array<{ x: number; y: number }> }];
   caption?: string;
-}
-
-interface ChartMargin {
-  top?: number;
-  right?: number;
-  bottom?: number;
-  left?: number;
 }
 
 const CHART_MARGIN: ChartMargin = { bottom: 5, left: 10, right: 10, top: 5 };
 
 const SimpleChartContent = ({ data }: Props) => {
-  const lineColor = useToken('colors', 'blue.500');
-  const gradientStartColor = useToken('colors', 'blue.100');
-  const gradientStopColor = 'rgba(190, 227, 248, 0)'; // blue.100 with 0 opacity
-  
+  const barColor = useToken('colors', 'blue.500');
+  const gradientStartColor = useToken('colors', 'blue.500');
+  const gradientStopColor = useToken('colors', 'blue.200');
+
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const { innerWidth, innerHeight } = calculateInnerSize(rect, CHART_MARGIN);
 
-  const pathRef = React.useRef<SVGPathElement>(null);
-  const areaRef = React.useRef<SVGPathElement>(null);
+  const barsRef = React.useRef<SVGGElement>(null);
 
-  // Create scales
   const xScale = React.useMemo(() => {
-    if (!data.length) {
+    if (!data[0]?.items.length) {
       return d3.scaleLinear().domain([ 0, 1 ]).range([ 0, innerWidth ]);
     }
-    const xExtent = d3.extent(data, d => d.x) as [ number, number ];
+    const xExtent = d3.extent(data[0].items, d => d.x) as [ number, number ];
     return d3.scaleLinear()
       .domain(xExtent)
       .range([ 0, innerWidth ])
@@ -44,87 +36,98 @@ const SimpleChartContent = ({ data }: Props) => {
   }, [ data, innerWidth ]);
 
   const yScale = React.useMemo(() => {
-    if (!data.length) {
+    if (!data[0]?.items.length) {
       return d3.scaleLinear().domain([ 0, 1 ]).range([ innerHeight, 0 ]);
     }
-    const yExtent = d3.extent(data, d => d.y) as [ number, number ];
+    const yExtent = d3.extent(data[0].items, d => d.y) as [ number, number ];
+    const [ min, max ] = yExtent;
+
     return d3.scaleLinear()
-      .domain(yExtent)
+      .domain([ Math.min(0, min), max ])
       .range([ innerHeight, 0 ])
       .nice();
   }, [ data, innerHeight ]);
 
-  // Create line and area generators
-  const line = React.useMemo(() => {
-    return d3.line<{ x: number; y: number }>()
-      .x(d => xScale(d.x))
-      .y(d => yScale(d.y))
-      .curve(d3.curveMonotoneX);
-  }, [ xScale, yScale ]);
+  const barWidth = React.useMemo(() => {
+    if (!data[0]?.items.length || data[0].items.length === 1) {
+      return innerWidth;
+    }
 
-  const area = React.useMemo(() => {
-    return d3.area<{ x: number; y: number }>()
-      .x(d => xScale(d.x))
-      .y1(d => yScale(d.y))
-      .y0(() => yScale(yScale.domain()[0]))
-      .curve(d3.curveMonotoneX);
-  }, [ xScale, yScale ]);
+    const sortedItems = [ ...data[0].items ].sort((a, b) => a.x - b.x);
+    const spacings = [];
 
-  const linePath = React.useMemo(() => line(data) || undefined, [ line, data ]);
-  const areaPath = React.useMemo(() => area(data) || undefined, [ area, data ]);
+    for (let i = 1; i < sortedItems.length; i++) {
+      spacings.push(xScale(sortedItems[i].x) - xScale(sortedItems[i - 1].x));
+    }
+    const avgSpacing = spacings.reduce((sum, s) => sum + s, 0) / spacings.length;
 
-  // Animate on mount
+    return avgSpacing * 0.8;
+  }, [ data, xScale, innerWidth ]);
+
+  const bars = React.useMemo(() => {
+    if (!data[0]?.items.length) {
+      return [];
+    }
+    const zeroY = yScale(0);
+    return data[0].items.map((item, index) => {
+      const x = xScale(item.x) - barWidth / 2;
+      const y = yScale(item.y);
+      const height = Math.abs(zeroY - y);
+      return { x, y: Math.min(y, zeroY), height, index };
+    });
+  }, [ data, xScale, yScale, barWidth ]);
+
+  const asd = React.useRef(false);
+
   React.useEffect(() => {
-    if (pathRef.current) {
-      const totalLength = pathRef.current.getTotalLength();
-      d3.select(pathRef.current)
-        .attr('stroke-dasharray', `${ totalLength },${ totalLength }`)
-        .attr('stroke-dashoffset', totalLength)
-        .attr('opacity', 1)
-        .transition()
-        .duration(750)
-        .ease(d3.easeLinear)
-        .attr('stroke-dashoffset', 0);
-    }
+    const timeoutId = window.setTimeout(() => {
+      if (barsRef.current && !asd.current) {
+        asd.current = true;
+        d3.select(barsRef.current)
+          .selectAll('rect')
+          .data(bars)
+          .attr('height', 0)
+          .attr('y', innerHeight)
+          .transition()
+          .duration(750)
+          .ease(d3.easeBackOut)
+          .attr('height', d => d.height)
+          .attr('y', d => d.y);
+      }
+    }, 100);
 
-    if (areaRef.current) {
-      d3.select(areaRef.current)
-        .attr('opacity', 0)
-        .transition()
-        .duration(750)
-        .ease(d3.easeBackIn)
-        .attr('opacity', 1);
-    }
-  }, [ linePath, areaPath ]);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [ bars, innerHeight ]);
 
   return (
     <svg width="100%" height="100%" ref={ ref } cursor="pointer">
       <defs>
         <linearGradient id="simple-chart-gradient" x1="0%" x2="0%" y1="0%" y2="100%">
           <stop offset="0%" stopColor={ gradientStartColor[0] }/>
-          <stop offset="100%" stopColor={ gradientStopColor }/>
+          <stop offset="100%" stopColor={ gradientStopColor[0] }/>
         </linearGradient>
       </defs>
       <g transform={ `translate(${ CHART_MARGIN.left || 0 },${ CHART_MARGIN.top || 0 })` } opacity={ rect ? 1 : 0 }>
-        <path
-          ref={ areaRef }
-          d={ areaPath }
-          fill="url(#simple-chart-gradient)"
-          opacity={ 0 }
-        />
-        <path
-          ref={ pathRef }
-          d={ linePath }
-          stroke={ lineColor[0] }
-          strokeWidth={ 3 }
-          strokeLinecap="round"
-          fill="none"
-          opacity={ 0 }
-        />
+        <g ref={ barsRef }>
+          { bars.map((bar, index) => (
+            <rect
+              key={ index }
+              x={ bar.x }
+              y={ bar.y }
+              width={ barWidth }
+              height={ bar.height }
+              fill="url(#simple-chart-gradient)"
+              stroke={ barColor[0] }
+              strokeWidth={ 0.5 }
+              rx={ 2 }
+            />
+          )) }
+        </g>
       </g>
     </svg>
   );
 };
 
 export default React.memo(SimpleChartContent);
-
