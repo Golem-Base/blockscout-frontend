@@ -116,7 +116,7 @@ const INDICATORS: Array<TChainIndicator> = [
       'N/A' :
       Number(stats.recent_block_transactions).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
     icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
-    hint: 'Recent block transactions',
+    hint: 'Recent transactions in the last 100 blocks',
   },
 ];
 

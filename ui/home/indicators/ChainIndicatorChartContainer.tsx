@@ -7,6 +7,7 @@ import ContentLoader from 'ui/shared/ContentLoader';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
 import ChainIndicatorChartContent from './ChainIndicatorChartContent';
+import SimpleChartContent from './SimpleChartContent';
 
 type Props = {
   data: TimeChartData;
@@ -28,9 +29,14 @@ const ChainIndicatorChartContainer = ({ data, isError, isPending }: Props) => {
     return <chakra.span fontSize="xs">no data</chakra.span>;
   }
 
+  const firstItem = data[0].items[0];
+
   return (
     <Box mx="-10px" my="-5px" h="calc(100% + 10px)" w="calc(100% + 20px)">
-      <ChainIndicatorChartContent data={ data }/>
+      { ('x' in firstItem && 'y' in firstItem) ?
+        <SimpleChartContent data={ data }/> :
+        <ChainIndicatorChartContent data={ data }/>
+      }
     </Box>
   );
 };
