@@ -3,7 +3,7 @@ import { sumBy } from 'es-toolkit/compat';
 import type { TChainIndicator } from '../types';
 import type * as stats from '@blockscout/stats-types';
 import type { HomeStats } from 'types/api/stats';
-import type { TimeChartData } from 'ui/shared/chart/types';
+import type { TimeChartData, SimpleChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 
@@ -13,7 +13,7 @@ export default function getIndicatorValues(
   statsApiData?: HomeStats,
   dataUsageData?: TimeChartData,
   operationTrendsData?: TimeChartData,
-  blockTransactionsQueryResult?: TimeChartData,
+  blockTransactionsQueryResult?: SimpleChartData,
 ) {
   const dataUsageItems = dataUsageData?.[0].items;
   const operationTrendsItems = operationTrendsData?.[0].items;

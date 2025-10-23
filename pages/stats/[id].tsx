@@ -34,6 +34,19 @@ const Page: NextPage<PageProps> = (props) => {
 
 export default Page;
 
+const getChartResource = (id: string) => {
+  switch (id) {
+    case 'data-usage':
+      return 'golemBaseIndexer:chartDataUsage' as const;
+    case 'storage-forecast':
+      return 'golemBaseIndexer:chartStorageForecast' as const;
+    case 'operation-count':
+      return 'golemBaseIndexer:chartOperationCount' as const;
+    default:
+      return null;
+  }
+};
+
 export const getServerSideProps: GetServerSideProps<PageProps> = async(ctx) => {
   const baseResponse = await gSSP.base<typeof pathname>(ctx);
 
@@ -42,18 +55,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async(ctx) => {
       config.meta.seo.enhancedDataEnabled ||
       (config.meta.og.enhancedDataEnabled && detectBotRequest(ctx.req)?.type === 'social_preview')
     ) {
-      const isGolemBaseChart = golemChartIds.includes(getQueryParamString(ctx.query.id));
+      const chartId = getQueryParamString(ctx.query.id);
+      const isGolemBaseChart = golemChartIds.includes(chartId);
 
       const chartData = isGolemBaseChart ?
         await fetchApi({
-          resource: 'golemBaseIndexer:chart',
-          pathParams: { id: getQueryParamString(ctx.query.id) },
+          resource: getChartResource(chartId)!,
           queryParams: { from: dayjs().format('YYYY-MM-DD'), to: dayjs().format('YYYY-MM-DD'), resolution: 'DAY' },
           timeout: 1000,
         }) :
         await fetchApi({
           resource: 'stats:line',
-          pathParams: { id: getQueryParamString(ctx.query.id) },
+          pathParams: { id: chartId },
           queryParams: { from: dayjs().format('YYYY-MM-DD'), to: dayjs().format('YYYY-MM-DD') },
           timeout: 1000,
         });
