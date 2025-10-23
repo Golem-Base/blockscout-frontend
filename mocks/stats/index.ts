@@ -53,6 +53,7 @@ export const base: HomeStats = {
   monthly_operation_trends: 431,
   golembase_total_operations: 1000,
   golembase_unique_active_addresses: 100,
+  recent_block_transactions: 103,
 };
 
 export const withBtcLocked: HomeStats = {

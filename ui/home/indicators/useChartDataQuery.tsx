@@ -1,11 +1,13 @@
 import React from 'react';
 
+import type {
+  BlockTransactionPoint } from '@golembase/l3-indexer-types';
 import {
   ChartResolution,
   OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
 } from '@golembase/l3-indexer-types';
 import type { ChainIndicatorId } from 'types/homepage';
-import type { ChartFilter, OnFilterChange, TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
+import type { ChartFilter, OnFilterChange, SimpleChartData, TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
@@ -63,7 +65,7 @@ const isStatsFeatureEnabled = config.features.stats.isEnabled;
 type UseFetchChartDataResult = {
   isError: boolean;
   isPending: boolean;
-  data: TimeChartData;
+  data: TimeChartData | SimpleChartData;
   filters?: Array<ChartFilter>;
 };
 
@@ -75,7 +77,7 @@ function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRa
   } ];
 }
 
-function getNumberOnlyChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
+function getNumberOnlyChartData(indicatorId: ChainIndicatorId, data: Array<BlockTransactionPoint>): SimpleChartData {
   return [ {
     items: prepareChartItemsWithNumberOnly(data),
     name: CHART_ITEMS[indicatorId].name,
@@ -175,8 +177,7 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
 
   const dateFormat = 'YYYY-MM-DD';
 
-  const dataUsageQuery = useApiQuery('golemBaseIndexer:chart', {
-    pathParams: { id: 'data-usage' },
+  const dataUsageQuery = useApiQuery('golemBaseIndexer:chartDataUsage', {
     queryParams: {
       from: dayjs().subtract(30, 'days').format(dateFormat),
       to: dayjs().format(dateFormat),
@@ -189,8 +190,7 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const operationsTrendsQuery = useApiQuery('golemBaseIndexer:chart', {
-    pathParams: { id: 'operation-count' },
+  const operationsTrendsQuery = useApiQuery('golemBaseIndexer:chartOperationCount', {
     queryParams: {
       from: dayjs().subtract(30, 'days').format(dateFormat),
       to: dayjs().format(dateFormat),
@@ -204,14 +204,11 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const blockTransactionsQuery = useApiQuery('golemBaseIndexer:chart', {
-    pathParams: { id: 'block-transactions' },
+  const blockTransactionsQuery = useApiQuery('golemBaseIndexer:chartBlockTransactions', {
     queryOptions: {
       refetchOnMount: false,
       enabled: indicatorId === 'block_transactions',
-      select: (data) => data.chart.map((item) => {
-        return { x: Number(item.block_number), y: Number(item.tx_count) };
-      }) || [],
+      select: (data) => data.chart || [],
     },
   });
 

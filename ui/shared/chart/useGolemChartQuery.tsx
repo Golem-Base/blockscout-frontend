@@ -13,6 +13,15 @@ export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
 export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count' ];
 
+const getChartResourceName = (id: GolemChartId) => {
+  const resourceMap = {
+    'data-usage': 'golemBaseIndexer:chartDataUsage' as const,
+    'storage-forecast': 'golemBaseIndexer:chartStorageForecast' as const,
+    'operation-count': 'golemBaseIndexer:chartOperationCount' as const,
+  };
+  return resourceMap[id];
+};
+
 export default function useGolemChartQuery(
   id: GolemChartId,
   resolution: GolemChartQueryResolution,
@@ -26,8 +35,9 @@ export default function useGolemChartQuery(
 
   const queryParams = useMemo(() => getGolemBaseChartQueryParams({ id, interval, resolution }), [ id, interval, resolution ]);
 
-  const lineQuery = useApiQuery('golemBaseIndexer:chart', {
-    pathParams: { id },
+  const resourceName = getChartResourceName(id);
+
+  const lineQuery = useApiQuery(resourceName, {
     queryParams: { ...queryParams, ...extendedQueryParams },
     queryOptions: {
       enabled: enabled,

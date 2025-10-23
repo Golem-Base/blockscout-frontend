@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { TChainIndicator } from './types';
 import type { ChainIndicatorId } from 'types/homepage';
+import type { SimpleChartData, TimeChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
@@ -72,9 +73,9 @@ const ChainIndicators = () => {
     selectedIndicatorData as TChainIndicator,
     statsMicroserviceQueryResult?.data,
     statsApiQueryResult?.data,
-    dataUsageQueryResult?.data,
-    operationTrendsQueryResult?.data,
-    blockTransactionsQueryResult?.data,
+    dataUsageQueryResult?.data as TimeChartData,
+    operationTrendsQueryResult?.data as TimeChartData,
+    blockTransactionsQueryResult?.data as SimpleChartData,
   );
 
   const title = (() => {
@@ -163,9 +164,9 @@ const ChainIndicators = () => {
           )) }
 
         </Flex>
- 
+
         <Flex h={{ base: '80px', lg: '110px' }} alignItems="flex-start" flexGrow={ 1 }>
-          <ChainIndicatorChartContainer { ...queryResult }/>
+          <ChainIndicatorChartContainer { ...queryResult } data={ queryResult?.data as TimeChartData }/>
         </Flex>
       </Flex>
       { indicators.length > 1 && (
@@ -191,9 +192,9 @@ const ChainIndicators = () => {
                   indicator,
                   statsMicroserviceQueryResult?.data,
                   statsApiQueryResult?.data,
-                  dataUsageQueryResult?.data,
-                  operationTrendsQueryResult?.data,
-                  blockTransactionsQueryResult?.data,
+                  dataUsageQueryResult?.data as TimeChartData,
+                  operationTrendsQueryResult?.data as TimeChartData,
+                  blockTransactionsQueryResult?.data as SimpleChartData,
                 )
               }
               isLoading={ isPlaceholderData }

@@ -8,6 +8,8 @@ import useClientRect from 'lib/hooks/useClientRect';
 import { Tooltip } from 'toolkit/chakra/tooltip';
 import calculateInnerSize from 'ui/shared/chart/utils/calculateInnerSize';
 
+import SimpleChartContentScrollWrapper from './SimpleChartContentScrollWrapper';
+
 interface Props {
   data: [{ items: Array<{ x: number; y: number }> }];
   caption?: string;
@@ -102,43 +104,45 @@ const SimpleChartContent = ({ data }: Props) => {
   }, [ bars, innerHeight ]);
 
   return (
-    <svg width="300%" height="100%" ref={ ref } cursor="pointer">
-      <defs>
-        <linearGradient id="simple-chart-gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-          <stop offset="0%" stopColor={ gradientStartColor[0] }/>
-          <stop offset="100%" stopColor={ gradientStopColor[0] }/>
-        </linearGradient>
-      </defs>
-      <g transform={ `translate(${ CHART_MARGIN.left || 0 },${ CHART_MARGIN.top || 0 })` } opacity={ rect ? 1 : 0 }>
-        <g ref={ barsRef }>
-          { bars.map((bar, index) => {
-            const item = data[0].items[index];
+    <SimpleChartContentScrollWrapper>
+      <svg width="300%" height="100%" ref={ ref } cursor="pointer">
+        <defs>
+          <linearGradient id="simple-chart-gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor={ gradientStartColor[0] }/>
+            <stop offset="100%" stopColor={ gradientStopColor[0] }/>
+          </linearGradient>
+        </defs>
+        <g transform={ `translate(${ CHART_MARGIN.left || 0 },${ CHART_MARGIN.top || 0 })` } opacity={ rect ? 1 : 0 }>
+          <g ref={ barsRef }>
+            { bars.map((bar, index) => {
+              const item = data[0].items[index];
 
-            return (
-              <Tooltip key={ index } content={ (
-                <Grid templateColumns="auto 1fr" gapX={ 2 } gapY={ 1 } textAlign="left" fontSize="xs">
-                  <Text fontWeight={ 500 } color="blue.100">Block number</Text>
-                  <Text>{ item.x }</Text>
+              return (
+                <Tooltip key={ index } content={ (
+                  <Grid templateColumns="auto 1fr" gapX={ 2 } gapY={ 1 } textAlign="left" fontSize="xs">
+                    <Text fontWeight={ 500 } color="blue.100">Block number</Text>
+                    <Text>{ item.x }</Text>
 
-                  <Text fontWeight={ 500 } color="blue.100">Transactions count</Text>
-                  <Text>{ item.y }</Text>
-                </Grid>
-              ) }>
-                <rect
-                  key={ index }
-                  x={ bar.x }
-                  y={ bar.y }
-                  width={ barWidth }
-                  height={ bar.height }
-                  fill="url(#simple-chart-gradient)"
-                  rx={ 2 }
-                />
-              </Tooltip>
-            );
-          }) }
+                    <Text fontWeight={ 500 } color="blue.100">Transactions count</Text>
+                    <Text>{ item.y }</Text>
+                  </Grid>
+                ) }>
+                  <rect
+                    key={ index }
+                    x={ bar.x }
+                    y={ bar.y }
+                    width={ barWidth }
+                    height={ bar.height }
+                    fill="url(#simple-chart-gradient)"
+                    rx={ 2 }
+                  />
+                </Tooltip>
+              );
+            }) }
+          </g>
         </g>
-      </g>
-    </svg>
+      </svg>
+    </SimpleChartContentScrollWrapper>
   );
 };
 
