@@ -1,9 +1,9 @@
 import { type RuleGroupTypeAny, type RuleType, type ValidationMap } from 'react-querybuilder';
 
 import {
+  addressValidator,
   annotationKeyValidator,
   integerValidator,
-  ownerKeyPatternValidator,
   OWNER_KEY,
 } from 'toolkit/components/forms/validators';
 
@@ -23,6 +23,9 @@ export function parseField(value?: string): [FieldType, string] {
 }
 
 export function getOperators(field: string) {
+  if (field === OWNER_KEY) {
+    return getOperatorsForField('owner');
+  }
   if (field.startsWith('numeric:')) {
     return getOperatorsForField('numeric');
   }
@@ -39,8 +42,8 @@ export function validateQuery(query: RuleGroupTypeAny): ValidationMap {
     const reasons: Array<string> = [];
 
     if (field === OWNER_KEY) {
-      if (value && ownerKeyPatternValidator(value) !== true) {
-        reasons.push(ownerKeyPatternValidator(value) as string);
+      if (value && addressValidator(value) !== true) {
+        reasons.push(addressValidator(value) as string);
       }
       validationMap[id] = { valid: reasons.length === 0, reasons };
       return;

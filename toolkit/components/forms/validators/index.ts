@@ -3,7 +3,6 @@ export * from './annotationKey';
 export * from './color';
 export * from './email';
 export * from './integer';
-export * from './ownerKey';
 export * from './signature';
 export * from './text';
 export * from './transaction';
