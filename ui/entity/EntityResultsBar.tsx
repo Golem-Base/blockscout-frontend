@@ -29,7 +29,7 @@ const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
     Object.entries(router.query)
       .filter(([ key ]) => getFilterValue(key));
 
-  const resultsCount = pagination.page === 1 ? displayedItems.length : '50+';
+  const resultsCount = displayedItems.length;
 
   const text =
     isLoading && pagination.page === 1 ? (
@@ -46,7 +46,9 @@ const EntityResultsBar = ({ isLoading, isError, pagination, data }: Props) => {
           <span>
             Found
             { ' ' }
-            <chakra.span fontWeight={ 700 }>{ resultsCount }</chakra.span>
+            <Skeleton display="inline-block" loading={ isLoading } fontWeight={ 700 }>
+              { isLoading ? '100' : resultsCount }
+            </Skeleton>
             { ' ' }
             matching result
             { (displayedItems.length || 0) > 1 || pagination.page > 1 ? 's' : '' }
