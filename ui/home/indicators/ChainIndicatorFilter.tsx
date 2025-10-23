@@ -22,13 +22,13 @@ const ChainIndicatorFilter = ({ defaultValue, options, isLoading, onValueChange,
 
   return (
     <Flex gap={ 1 } alignItems="center" h="fit-content">
-      <Text fontSize="xs">Type:</Text>
+      <Text fontSize="xs" display={{ base: 'none', md: 'block' }}>Type:</Text>
       <Select
         collection={ collection }
         placeholder="Select section"
         defaultValue={ [ defaultValue ] }
         onValueChange={ onValueChange(name) }
-        w="90px"
+        w="105px"
         loading={ isLoading }
       />
     </Flex>

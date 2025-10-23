@@ -173,6 +173,7 @@ const ChainIndicators = () => {
           borderRadius="lg"
           rowGap="6px"
           m={{ base: 'auto 0', lg: 0 }}
+          height="max-content"
         >
           { indicators.map((indicator) => (
             <ChainIndicatorItem
