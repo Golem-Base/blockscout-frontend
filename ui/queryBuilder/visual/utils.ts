@@ -1,9 +1,9 @@
 import { type RuleGroupTypeAny, type RuleType, type ValidationMap } from 'react-querybuilder';
 
 import {
-  addressValidator,
   annotationKeyValidator,
   integerValidator,
+  ownerKeyPatternValidator,
   OWNER_KEY,
 } from 'toolkit/components/forms/validators';
 
@@ -39,8 +39,8 @@ export function validateQuery(query: RuleGroupTypeAny): ValidationMap {
     const reasons: Array<string> = [];
 
     if (field === OWNER_KEY) {
-      if (value && addressValidator(value) !== true) {
-        reasons.push('Invalid wallet address format');
+      if (value && ownerKeyPatternValidator(value) !== true) {
+        reasons.push(ownerKeyPatternValidator(value) as string);
       }
       validationMap[id] = { valid: reasons.length === 0, reasons };
       return;

@@ -25,6 +25,15 @@ const SmartSelector = ({ options, value, handleOnChange, className, placeholder,
     handleOnChange(newValue[0]);
   }, [ handleOnChange ]);
 
+  const normalizedOptions = normalizeOptions(Array.isArray(options) ? options : []);
+  const isValidValue = value && normalizedOptions.some(option => option.value === value);
+
+  React.useEffect(() => {
+    if (!isValidValue) {
+      handleOnChange(normalizedOptions[0]?.value);
+    }
+  }, [ isValidValue, normalizedOptions, handleOnChange ]);
+
   if (options.length === 1) {
     return (
       <Text fontSize="sm" fontWeight="medium" px={ 2 }>
@@ -34,7 +43,7 @@ const SmartSelector = ({ options, value, handleOnChange, className, placeholder,
   }
 
   const collection = createListCollection({
-    items: normalizeOptions(Array.isArray(options) ? options : []),
+    items: normalizedOptions,
   });
 
   return (
