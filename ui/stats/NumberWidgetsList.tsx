@@ -57,19 +57,23 @@ const NumberWidgetsList = () => {
         })
       }
 
-      <StatsWidget
-        label="Total operations"
-        value={ BigNumber(statsQuery.data?.golembase_total_operations).toFormat() }
-        isLoading={ isPlaceholderData }
-        hint="Total number of operations, including Created, Updated, Deleted, and Extended"
-      />
+      { statsQuery.data?.golembase_total_operations && (
+        <StatsWidget
+          label="Total operations"
+          value={ BigNumber(statsQuery.data.golembase_total_operations).toFormat() }
+          isLoading={ isPlaceholderData }
+          hint="Total number of operations, including Created, Updated, Deleted, and Extended"
+        />
+      ) }
 
-      <StatsWidget
-        label="Unique active addresses"
-        value={ BigNumber(statsQuery.data?.golembase_unique_active_addresses).toFormat() }
-        isLoading={ isPlaceholderData }
-        hint="Represents the number of distinct addresses that currently own at least one active entity."
-      />
+      { statsQuery.data?.golembase_unique_active_addresses && (
+        <StatsWidget
+          label="Unique active addresses"
+          value={ BigNumber(statsQuery.data.golembase_unique_active_addresses).toFormat() }
+          isLoading={ isPlaceholderData }
+          hint="Represents the number of distinct addresses that currently own at least one active entity."
+        />
+      ) }
     </Grid>
   );
 };
