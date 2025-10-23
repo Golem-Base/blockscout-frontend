@@ -1,8 +1,9 @@
 import { Grid } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
-import { STATS_COUNTER } from 'stubs/stats';
+import { HOMEPAGE_STATS, STATS_COUNTER } from 'stubs/stats';
 import StatsWidget from 'ui/shared/stats/StatsWidget';
 
 import DataFetchAlert from '../shared/DataFetchAlert';
@@ -10,11 +11,20 @@ import DataFetchAlert from '../shared/DataFetchAlert';
 const UNITS_WITHOUT_SPACE = [ 's' ];
 
 const NumberWidgetsList = () => {
-  const { data, isPlaceholderData, isError } = useApiQuery('stats:counters', {
+  const countersQuery = useApiQuery('stats:counters', {
     queryOptions: {
       placeholderData: { counters: Array(10).fill(STATS_COUNTER) },
     },
   });
+
+  const statsQuery = useApiQuery('general:stats', {
+    queryOptions: {
+      placeholderData: HOMEPAGE_STATS,
+    },
+  });
+
+  const isPlaceholderData = countersQuery.isPlaceholderData || statsQuery.isPlaceholderData;
+  const isError = countersQuery.isError || statsQuery.isError;
 
   if (isError) {
     return <DataFetchAlert/>;
@@ -26,7 +36,7 @@ const NumberWidgetsList = () => {
       gridGap={{ base: 1, lg: 2 }}
     >
       {
-        data?.counters?.map(({ id, title, value, units, description }, index) => {
+        countersQuery.data?.counters?.map(({ id, title, value, units, description }, index) => {
 
           let unitsStr = '';
           if (units && UNITS_WITHOUT_SPACE.includes(units)) {
@@ -46,6 +56,20 @@ const NumberWidgetsList = () => {
           );
         })
       }
+
+      <StatsWidget
+        label="Total operations"
+        value={ BigNumber(statsQuery.data?.golembase_total_operations).toFormat() }
+        isLoading={ isPlaceholderData }
+        hint="Total number of operations, including Created, Updated, Deleted, and Extended"
+      />
+
+      <StatsWidget
+        label="Unique active addresses"
+        value={ BigNumber(statsQuery.data?.golembase_unique_active_addresses).toFormat() }
+        isLoading={ isPlaceholderData }
+        hint="Represents the number of distinct addresses that currently own at least one active entity."
+      />
     </Grid>
   );
 };
