@@ -251,6 +251,20 @@ const Stats = () => {
         value: `${ BigNumber(apiData.golembase_active_entities_count).toFormat() }`,
         isLoading,
       },
+      apiData?.golembase_total_operations && {
+        id: 'golembase_total_operations' as const,
+        icon: 'operation' as const,
+        label: 'Total operations',
+        value: `${ BigNumber(apiData.golembase_total_operations).toFormat() }`,
+        isLoading,
+      },
+      apiData?.golembase_unique_active_addresses && {
+        id: 'golembase_unique_active_addresses' as const,
+        icon: 'profile' as const,
+        label: 'Unique active addresses',
+        value: `${ BigNumber(apiData.golembase_unique_active_addresses).toFormat() }`,
+        isLoading,
+      },
     ]
       .filter(Boolean)
       .filter(({ id }) => config.UI.homepage.stats.includes(id))

@@ -28,6 +28,8 @@ export const HOME_STATS_WIDGET_IDS = [
   'golembase_used_slots',
   'golembase_active_entities_size',
   'golembase_active_entities_count',
+  'golembase_total_operations',
+  'golembase_unique_active_addresses',
 ] as const;
 export type HomeStatsWidgetId = typeof HOME_STATS_WIDGET_IDS[number];
 
