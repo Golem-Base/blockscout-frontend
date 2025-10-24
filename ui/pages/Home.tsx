@@ -15,7 +15,6 @@ import TopNotice from 'ui/shared/TopNotice';
 const rollupFeature = config.features.rollup;
 
 const Home = () => {
-
   const leftWidget = (() => {
     if (rollupFeature.isEnabled && !rollupFeature.homepage.showLatestBlocks) {
       switch (rollupFeature.type) {

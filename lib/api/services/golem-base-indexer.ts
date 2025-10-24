@@ -100,6 +100,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   chartBlockTransactions: {
     path: '/api/v1/chart/block-transactions',
   },
+  chartBlockOperations: {
+    path: '/api/v1/chart/block-operations',
+  },
   entityDataHistogram: {
     path: '/api/v1/chart/entity-data-histogram',
   },
@@ -133,6 +136,7 @@ R extends 'golemBaseIndexer:chartDataUsage' ? golemBaseIndexer.ChartResponse :
 R extends 'golemBaseIndexer:chartStorageForecast' ? golemBaseIndexer.ChartResponse :
 R extends 'golemBaseIndexer:chartOperationCount' ? golemBaseIndexer.ChartOperationCountResponse :
 R extends 'golemBaseIndexer:chartBlockTransactions' ? golemBaseIndexer.ChartBlockTransactionsResponse :
+R extends 'golemBaseIndexer:chartBlockOperations' ? golemBaseIndexer.ChartBlockOperationsResponse :
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
 never;
