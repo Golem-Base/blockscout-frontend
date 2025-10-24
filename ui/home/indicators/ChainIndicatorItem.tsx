@@ -64,7 +64,6 @@ const ChainIndicatorItem = ({ id, title, value, valueDiff, icon, isSelected, onC
       onClick={ handleClick }
       fontSize="xs"
       fontWeight={ 500 }
-      maxHeight="fit-content"
       _hover={{
         bgColor: { _light: 'white', _dark: 'black' },
         color: isSelected ? { _light: 'gray.500', _dark: 'gray.400' } : 'link.primary.hover',
