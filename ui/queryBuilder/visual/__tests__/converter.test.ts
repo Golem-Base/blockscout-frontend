@@ -113,7 +113,7 @@ describe('converter', () => {
     });
 
     it('should handle complex query with parentheses and mixed operators', () => {
-      const queryString = 'name = "test entity" && !(age > 18 || age < 65) && category = "inactive" && $owner = "0x1234567890123456789012345678901234567890"';
+      const queryString = 'name = "test entity" && !(age > 18 || age < 65) && category = "inactive" && $owner = "0x123"';
       const result = stringToRuleGroup(queryString);
 
       expect(result.combinator).toBe('and');
@@ -148,7 +148,7 @@ describe('converter', () => {
       expect(result.rules[3]).toMatchObject({
         field: OWNER_KEY,
         operator: '=',
-        value: '0x1234567890123456789012345678901234567890',
+        value: '0x123',
       });
     });
   });
