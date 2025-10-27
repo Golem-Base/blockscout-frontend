@@ -13,7 +13,8 @@ import config from 'configs/app';
 import dayjs from 'lib/date/dayjs';
 import type { ApiData } from 'lib/metadata';
 import getQueryParamString from 'lib/router/getQueryParamString';
-import { golemChartIds } from 'ui/shared/chart/useGolemChartQuery';
+import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
+import { getChartResourceName, golemChartIds } from 'ui/shared/chart/useGolemChartQuery';
 
 const GolemChart = dynamic(() => import('ui/pages/GolemChart'), { ssr: false });
 const StandardChart = dynamic(() => import('ui/pages/Chart'), { ssr: false });
@@ -34,19 +35,6 @@ const Page: NextPage<PageProps> = (props) => {
 
 export default Page;
 
-const getChartResource = (id: string) => {
-  switch (id) {
-    case 'data-usage':
-      return 'golemBaseIndexer:chartDataUsage' as const;
-    case 'storage-forecast':
-      return 'golemBaseIndexer:chartStorageForecast' as const;
-    case 'operation-count':
-      return 'golemBaseIndexer:chartOperationCount' as const;
-    default:
-      return null;
-  }
-};
-
 export const getServerSideProps: GetServerSideProps<PageProps> = async(ctx) => {
   const baseResponse = await gSSP.base<typeof pathname>(ctx);
 
@@ -60,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async(ctx) => {
 
       const chartData = isGolemBaseChart ?
         await fetchApi({
-          resource: getChartResource(chartId)!,
+          resource: getChartResourceName(chartId as GolemChartId)!,
           queryParams: { from: dayjs().format('YYYY-MM-DD'), to: dayjs().format('YYYY-MM-DD'), resolution: 'DAY' },
           timeout: 1000,
         }) :

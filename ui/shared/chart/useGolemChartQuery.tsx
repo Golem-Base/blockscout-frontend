@@ -13,7 +13,7 @@ export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
 export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count' ];
 
-const getChartResourceName = (id: GolemChartId) => {
+export const getChartResourceName = (id: GolemChartId) => {
   const resourceMap = {
     'data-usage': 'golemBaseIndexer:chartDataUsage' as const,
     'storage-forecast': 'golemBaseIndexer:chartStorageForecast' as const,
