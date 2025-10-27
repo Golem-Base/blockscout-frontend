@@ -49,6 +49,8 @@ export const HOMEPAGE_STATS: HomeStats = {
   golembase_active_entities_count: 3,
   monthly_data_usage: 1230,
   monthly_operation_trends: 431,
+  golembase_total_operations: 1000,
+  golembase_unique_active_addresses: 100,
 };
 
 const STATS_CHART_INFO: stats.LineChartInfo = {
