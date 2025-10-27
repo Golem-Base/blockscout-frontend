@@ -1,4 +1,4 @@
-import { useToken } from '@chakra-ui/react';
+import { Box, useToken } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TimeChartData } from 'ui/shared/chart/types';
@@ -34,33 +34,35 @@ const ChainIndicatorChartContent = ({ data }: Props) => {
   });
 
   return (
-    <svg width="100%" height="100%" ref={ ref } cursor="pointer">
-      <g transform={ `translate(${ chartMargin.left || 0 },${ chartMargin.top || 0 })` } opacity={ rect ? 1 : 0 }>
-        <ChartArea
-          data={ data[0].items }
-          xScale={ axes.x.scale }
-          yScale={ axes.y.scale }
-        />
-        <ChartLine
-          data={ data[0].items }
-          xScale={ axes.x.scale }
-          yScale={ axes.y.scale }
-          stroke={ lineColor[0] }
-          animation="left"
-          strokeWidth={ 3 }
-        />
-        <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
-          <ChartTooltip
-            anchorEl={ overlayRef.current }
-            width={ innerWidth }
-            height={ innerHeight }
+    <Box mx="-10px" my="-5px" h="calc(100% + 10px)" w="calc(100% + 20px)">
+      <svg width="100%" height="100%" ref={ ref } cursor="pointer">
+        <g transform={ `translate(${ chartMargin.left || 0 },${ chartMargin.top || 0 })` } opacity={ rect ? 1 : 0 }>
+          <ChartArea
+            data={ data[0].items }
             xScale={ axes.x.scale }
             yScale={ axes.y.scale }
-            data={ data }
           />
-        </ChartOverlay>
-      </g>
-    </svg>
+          <ChartLine
+            data={ data[0].items }
+            xScale={ axes.x.scale }
+            yScale={ axes.y.scale }
+            stroke={ lineColor[0] }
+            animation="left"
+            strokeWidth={ 3 }
+          />
+          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
+            <ChartTooltip
+              anchorEl={ overlayRef.current }
+              width={ innerWidth }
+              height={ innerHeight }
+              xScale={ axes.x.scale }
+              yScale={ axes.y.scale }
+              data={ data }
+            />
+          </ChartOverlay>
+        </g>
+      </svg>
+    </Box>
   );
 };
 

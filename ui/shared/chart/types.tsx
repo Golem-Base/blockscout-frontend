@@ -14,6 +14,11 @@ export interface TimeChartItem {
   isApproximate?: boolean;
 }
 
+export interface SimpleChartItem {
+  x: number;
+  y: number;
+}
+
 export interface ChartMargin {
   top?: number;
   right?: number;
@@ -35,7 +40,18 @@ export interface TimeChartDataItem {
   filters?: Array<ChartFilter>;
 }
 
+export interface SimpleChartDataItem {
+  items: Array<SimpleChartItem>;
+  name: string;
+  units?: string;
+  color?: string;
+  valueFormatter?: (value: number) => string;
+  filters?: Array<ChartFilter>;
+}
+
 export type TimeChartData = Array<TimeChartDataItem>;
+
+export type SimpleChartData = Array<SimpleChartDataItem>;
 
 export interface AxisConfig {
   ticks?: number;

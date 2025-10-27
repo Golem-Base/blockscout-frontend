@@ -13,7 +13,8 @@ import config from 'configs/app';
 import dayjs from 'lib/date/dayjs';
 import type { ApiData } from 'lib/metadata';
 import getQueryParamString from 'lib/router/getQueryParamString';
-import { golemChartIds } from 'ui/shared/chart/useGolemChartQuery';
+import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
+import { getChartResourceName, golemChartIds } from 'ui/shared/chart/useGolemChartQuery';
 
 const GolemChart = dynamic(() => import('ui/pages/GolemChart'), { ssr: false });
 const StandardChart = dynamic(() => import('ui/pages/Chart'), { ssr: false });
@@ -42,18 +43,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async(ctx) => {
       config.meta.seo.enhancedDataEnabled ||
       (config.meta.og.enhancedDataEnabled && detectBotRequest(ctx.req)?.type === 'social_preview')
     ) {
-      const isGolemBaseChart = golemChartIds.includes(getQueryParamString(ctx.query.id));
+      const chartId = getQueryParamString(ctx.query.id);
+      const isGolemBaseChart = golemChartIds.includes(chartId);
 
       const chartData = isGolemBaseChart ?
         await fetchApi({
-          resource: 'golemBaseIndexer:chart',
-          pathParams: { id: getQueryParamString(ctx.query.id) },
+          resource: getChartResourceName(chartId as GolemChartId)!,
           queryParams: { from: dayjs().format('YYYY-MM-DD'), to: dayjs().format('YYYY-MM-DD'), resolution: 'DAY' },
           timeout: 1000,
         }) :
         await fetchApi({
           resource: 'stats:line',
-          pathParams: { id: getQueryParamString(ctx.query.id) },
+          pathParams: { id: chartId },
           queryParams: { from: dayjs().format('YYYY-MM-DD'), to: dayjs().format('YYYY-MM-DD') },
           timeout: 1000,
         });
