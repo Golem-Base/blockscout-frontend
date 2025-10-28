@@ -42,11 +42,7 @@ const DataSizeHistogramWidget = () => {
     return null;
   }
 
-  const chartItems: Array<HistogramItem> = [
-    ...data.chart,
-    { block_number: '1204198', create_count: '14', update_count: '12', extend_count: '12', delete_count: '10' },
-    { block_number: '1204198', create_count: '6', update_count: '42', extend_count: '18', delete_count: '7' },
-  ].map((item) => ({
+  const chartItems: Array<HistogramItem> = data.chart.map((item) => ({
     label: item.block_number,
     value: sum([ Number(item.create_count), Number(item.update_count), Number(item.extend_count), Number(item.delete_count) ]),
     ...item,
@@ -54,7 +50,8 @@ const DataSizeHistogramWidget = () => {
 
   const visibleOperations = selectedOperations.map(operation => `${ operation }_count` as OperationTypeCount);
   const visibleOperationsOptions = createListCollection({
-    items: [ { label: 'Create', value: 'create' },
+    items: [
+      { label: 'Create', value: 'create' },
       { label: 'Update', value: 'update' },
       { label: 'Extend', value: 'extend' },
       { label: 'Delete', value: 'delete' },

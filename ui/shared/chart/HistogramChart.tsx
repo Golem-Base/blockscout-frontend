@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import useClientRect from 'lib/hooks/useClientRect';
-import useIsMobile from 'lib/hooks/useIsMobile';
 
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
@@ -26,12 +25,11 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const [ hoveredIndex, setHoveredIndex ] = React.useState<number | null>(null);
   const [ tooltipData, setTooltipData ] = React.useState<{ x: number; y: number; label: string; value: number } | null>(null);
-  const isMobile = useIsMobile();
 
   const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
   const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
 
-  const margin = getMargin(isMobile);
+  const margin = getMargin(true);
 
   const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
@@ -45,6 +43,11 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
     .domain([ 0, d3.max(items, (d) => d.value) || 0 ])
     .range([ innerHeight, 0 ])
     .nice(), [ items, innerHeight ]);
+
+  const xAxisTickFormatter = React.useCallback(() => (domainValue: d3.AxisDomain) => {
+    const index = Number(domainValue);
+    return items[index]?.label || '';
+  }, [ items ]);
 
   const handleBarMouseEnter = React.useCallback((index: number, event: React.MouseEvent<SVGRectElement>) => {
     setHoveredIndex(index);
@@ -103,6 +106,16 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
               onMouseLeave={ handleBarMouseLeave }
             />
           )) }
+
+          <ChartAxis
+            type="bottom"
+            scale={ xScale as unknown as d3.ScaleLinear<number, number> }
+            transform={ `translate(0, ${ innerHeight })` }
+            ticks={ items.length }
+            tickFormatGenerator={ xAxisTickFormatter }
+            noAnimation
+            isMobile
+          />
         </g>
       </svg>
 
