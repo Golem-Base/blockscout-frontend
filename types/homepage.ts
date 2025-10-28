@@ -34,6 +34,8 @@ export const HOME_STATS_WIDGET_IDS = [
   'golembase_total_entities_created',
   'golembase_entities_deleted',
   'golembase_entities_expired',
+  'average_entity_size',
+  'average_entity_btl',
 ] as const;
 export type HomeStatsWidgetId = typeof HOME_STATS_WIDGET_IDS[number];
 

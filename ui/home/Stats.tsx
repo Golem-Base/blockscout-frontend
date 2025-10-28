@@ -70,6 +70,16 @@ const Stats = () => {
     },
   });
 
+  const entitiesAveragesQuery = useApiQuery('golemBaseIndexer:entities_averages', {
+    queryOptions: {
+      enabled: config.UI.homepage.stats.some((id) => id === 'average_entity_size' || id === 'average_entity_btl'),
+      placeholderData: {
+        average_entity_size: '0',
+        average_entity_btl: '0',
+      },
+    },
+  });
+
   const latestBatchQuery = (() => {
     if (!rollupFeature.isEnabled || !config.UI.homepage.stats.includes('latest_batch')) {
       return;
@@ -97,6 +107,7 @@ const Stats = () => {
 
   const apiData = apiQuery.data;
   const statsData = statsQuery.data;
+  const averagesData = entitiesAveragesQuery.data;
 
   const golemBaseSlotSizeInBytes = 32;
 
@@ -270,6 +281,19 @@ const Stats = () => {
         icon: 'layers' as const,
         label: 'Total entities created',
         value: `${ BigNumber(apiData.golembase_total_entities_created).toFormat() }`,
+      },
+      averagesData?.average_entity_size && {
+        id: 'average_entity_size' as const,
+        icon: 'database' as const,
+        label: 'Average entity size',
+        value: formatDataSize(averagesData.average_entity_size),
+        isLoading,
+      },
+      averagesData?.average_entity_btl && {
+        id: 'average_entity_btl' as const,
+        icon: 'clock-light' as const,
+        label: 'Average entity BTL',
+        value: `${ averagesData.average_entity_btl } blocks`,
         isLoading,
       },
     ]
