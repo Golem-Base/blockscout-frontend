@@ -46,11 +46,6 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
     .range([ innerHeight, 0 ])
     .nice(), [ items, innerHeight ]);
 
-  const xAxisTickFormatter = React.useCallback(() => (domainValue: d3.AxisDomain) => {
-    const index = Number(domainValue);
-    return items[index]?.label || '';
-  }, [ items ]);
-
   const handleBarMouseEnter = React.useCallback((index: number, event: React.MouseEvent<SVGRectElement>) => {
     setHoveredIndex(index);
     const barRect = event.currentTarget.getBoundingClientRect();
@@ -108,16 +103,6 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
               onMouseLeave={ handleBarMouseLeave }
             />
           )) }
-
-          <ChartAxis
-            type="bottom"
-            scale={ xScale as unknown as d3.ScaleLinear<number, number> }
-            transform={ `translate(0, ${ innerHeight })` }
-            ticks={ items.length }
-            tickFormatGenerator={ xAxisTickFormatter }
-            noAnimation
-            isMobile={ isMobile }
-          />
         </g>
       </svg>
 

@@ -8,7 +8,6 @@ export const CHAIN_INDICATOR_IDS = [
   'data_usage',
   'operation_trends',
   'block_transactions',
-  'block_operations',
 ] as const;
 
 export type ChainIndicatorId = typeof CHAIN_INDICATOR_IDS[number];

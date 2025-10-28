@@ -1,4 +1,3 @@
-import { sum } from 'es-toolkit';
 import React from 'react';
 
 import type {
@@ -57,10 +56,6 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
   },
   block_transactions: {
     name: 'Block transactions',
-  },
-  block_operations: {
-    name: 'Block operations',
-    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   },
 };
 
@@ -216,17 +211,6 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const blockOperationsQuery = useApiQuery('golemBaseIndexer:chartBlockOperations', {
-    queryOptions: {
-      refetchOnMount: false,
-      enabled: indicatorId === 'block_operations',
-      select: (data) => data.chart.map((item) => ({
-        block_number: item.block_number,
-        value: sum([ Number(item.create_count), Number(item.update_count), Number(item.extend_count), Number(item.delete_count) ]),
-      })) || [],
-    },
-  });
-
   const onFilterChange: OnFilterChange = React.useCallback((name) => {
     return (value) => updateFilter(name, value.value[0]);
   }, [ updateFilter ]);
@@ -307,14 +291,6 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
         data: getNumberOnlyChartData(indicatorId, blockTransactionsQuery.data || []),
         isError: blockTransactionsQuery.isError,
         isPending: blockTransactionsQuery.isPending,
-      };
-    }
-
-    case 'block_operations': {
-      return {
-        data: getNumberOnlyChartData(indicatorId, blockOperationsQuery.data || []),
-        isError: blockOperationsQuery.isError,
-        isPending: blockOperationsQuery.isPending,
       };
     }
   }
