@@ -33,6 +33,9 @@ export type HomeStats = {
     epoch_number: number;
   };
   chain_id?: number | null;
+  golembase_total_entities_created: number | null;
+  golembase_entities_deleted: number | null;
+  golembase_entities_expired: number | null;
 };
 
 export type GasPrices = {
