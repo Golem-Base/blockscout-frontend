@@ -10,7 +10,7 @@ import type { OperationTypeCount } from 'ui/shared/chart/HistogramBlockOperation
 import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
-const DataSizeHistogramWidget = () => {
+const BlockOperationsHistogramWidget = () => {
   const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete' ]);
 
   const handleOperationChange = React.useCallback((e: { value: Array<string> }) => {
@@ -100,4 +100,4 @@ const DataSizeHistogramWidget = () => {
   );
 };
 
-export default DataSizeHistogramWidget;
+export default BlockOperationsHistogramWidget;

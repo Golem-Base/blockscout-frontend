@@ -13,6 +13,11 @@ import HistogramBlockOperationsChartBar from './HistogramBlockOperationsChartBar
 export interface HistogramItem {
   label: string;
   value: number;
+  create_count?: string;
+  update_count?: string;
+  extend_count?: string;
+  delete_count?: string;
+  block_number?: string;
 }
 
 interface Props {
