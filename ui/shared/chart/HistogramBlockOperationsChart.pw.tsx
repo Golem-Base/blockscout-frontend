@@ -94,7 +94,5 @@ test('histogram with block operations tooltip', async({ render, page }) => {
 
   await page.mouse.move(xPos, yPos);
 
-  // await page.getByText('1245536').waitFor({ state: 'visible' });
-
   await expect(component).toHaveScreenshot();
 });

@@ -18,7 +18,7 @@ interface Props {
   height?: number;
 }
 
-const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
+const margin = ({ top: 10, right: 10, bottom: 80, left: 50 });
 const DEFAULT_HEIGHT = 300;
 
 const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
@@ -28,8 +28,6 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
 
   const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
   const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
-
-  const margin = getMargin(true);
 
   const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);

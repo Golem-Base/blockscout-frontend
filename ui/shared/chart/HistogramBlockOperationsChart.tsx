@@ -37,8 +37,11 @@ interface TooltipData {
   'delete': number;
 }
 
+type UseTokenTokensAttribute = Parameters<typeof useToken>[1];
+
 const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
 const DEFAULT_HEIGHT = 300;
+const colorTokens: UseTokenTokensAttribute = [ 'blackAlpha.900', 'blue.100', 'green.400', 'blue.400', 'orange.400', 'red.400' ];
 
 const HistogramBlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperations }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
@@ -46,12 +49,14 @@ const HistogramBlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visible
   const [ tooltipData, setTooltipData ] = React.useState<TooltipData>();
   const isMobile = useIsMobile();
 
-  const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
-  const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
-  const [ createColor ] = useToken('colors', [ 'green.400' ]);
-  const [ updateColor ] = useToken('colors', [ 'blue.400' ]);
-  const [ extendColor ] = useToken('colors', [ 'orange.400' ]);
-  const [ deleteColor ] = useToken('colors', [ 'red.400' ]);
+  const [
+    tooltipBg,
+    labelColor,
+    createColor,
+    updateColor,
+    extendColor,
+    deleteColor,
+  ] = useToken('colors', colorTokens);
 
   const margin = getMargin(isMobile);
 

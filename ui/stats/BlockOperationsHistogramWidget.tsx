@@ -3,6 +3,7 @@ import { sum } from 'es-toolkit/compat';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import { BLOCK_OPERATIONS_HISTOGRAM } from 'stubs/stats';
 import { Select } from 'toolkit/chakra/select';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import HistogramBlockOperationsChart from 'ui/shared/chart/HistogramBlockOperationsChart';
@@ -23,14 +24,7 @@ const BlockOperationsHistogramWidget = () => {
     },
     queryOptions: {
       refetchOnMount: false,
-      placeholderData: {
-        chart: [ { block_number: '0', create_count: '0', update_count: '0', extend_count: '0', delete_count: '0' } ],
-        info: {
-          id: 'block_operations',
-          title: 'Block operations',
-          description: 'Block operations',
-        },
-      },
+      placeholderData: BLOCK_OPERATIONS_HISTOGRAM,
     },
   });
 
