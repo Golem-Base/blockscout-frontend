@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import useClientRect from 'lib/hooks/useClientRect';
-import useIsMobile from 'lib/hooks/useIsMobile';
 
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
@@ -19,19 +18,16 @@ interface Props {
   height?: number;
 }
 
-const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
+const margin = ({ top: 10, right: 10, bottom: 80, left: 50 });
 const DEFAULT_HEIGHT = 300;
 
 const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const [ hoveredIndex, setHoveredIndex ] = React.useState<number | null>(null);
   const [ tooltipData, setTooltipData ] = React.useState<{ x: number; y: number; label: string; value: number } | null>(null);
-  const isMobile = useIsMobile();
 
   const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
   const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
-
-  const margin = getMargin(isMobile);
 
   const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
@@ -116,7 +112,7 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
             ticks={ items.length }
             tickFormatGenerator={ xAxisTickFormatter }
             noAnimation
-            isMobile={ isMobile }
+            isMobile
           />
         </g>
       </svg>

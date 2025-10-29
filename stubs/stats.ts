@@ -55,6 +55,7 @@ export const HOMEPAGE_STATS: HomeStats = {
   golembase_total_entities_created: 1000,
   golembase_entities_deleted: 100,
   golembase_entities_expired: 10,
+  recent_block_operations: 103,
 };
 
 const STATS_CHART_INFO: stats.LineChartInfo = {
@@ -133,5 +134,14 @@ export const HOMEPAGE_STATS_MICROSERVICE: stats.MainPageStats = {
   daily_new_operational_transactions: {
     chart: [],
     info: STATS_CHART_INFO,
+  },
+};
+
+export const BLOCK_OPERATIONS_HISTOGRAM = {
+  chart: [ { block_number: '0', create_count: '0', update_count: '0', extend_count: '0', delete_count: '0' } ],
+  info: {
+    id: 'block_operations',
+    title: 'Block operations',
+    description: 'Block operations',
   },
 };

@@ -4,6 +4,7 @@ import React from 'react';
 import config from 'configs/app';
 import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import PageTitle from 'ui/shared/Page/PageTitle';
+import BlockOperationsHistogramWidget from 'ui/stats/BlockOperationsHistogramWidget';
 
 import DataSizeHistogramWidget from '../stats/DataSizeHistogramWidget';
 import NumberWidgetsList from '../stats/NumberWidgetsList';
@@ -23,9 +24,10 @@ const Stats = () => {
         <NumberWidgetsList/>
       </Box>
 
-      <Box mb={{ base: 6, sm: 8 }}>
+      <Flex flexDirection={{ base: 'column', lg: 'row' }} mb={{ base: 6, sm: 8 }} gap={ 4 } width="100%">
         <DataSizeHistogramWidget/>
-      </Box>
+        <BlockOperationsHistogramWidget/>
+      </Flex>
 
       <Flex flexDirection="column" gap={ 16 }>
         <StatsGolem/>

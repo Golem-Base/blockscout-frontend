@@ -56,7 +56,6 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
   },
   block_transactions: {
     name: 'Block transactions',
-    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   },
 };
 

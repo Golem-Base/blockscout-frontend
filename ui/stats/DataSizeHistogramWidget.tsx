@@ -32,6 +32,7 @@ const DataSizeHistogramWidget = () => {
 
   return (
     <Box
+      flex={ 1 }
       borderRadius="lg"
       borderWidth="1px"
       borderColor={{ _light: 'gray.200', _dark: 'gray.600' }}
