@@ -1,4 +1,3 @@
-import { Grid } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -13,7 +12,12 @@ import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import GasPrice from 'ui/shared/gas/GasPrice';
 import IconSvg from 'ui/shared/IconSvg';
 import type { Props as StatsWidgetProps } from 'ui/shared/stats/StatsWidget';
-import StatsWidget from 'ui/shared/stats/StatsWidget';
+
+import StatsList from './StatsList';
+
+export interface Item extends StatsWidgetProps {
+  id: HomeStatsWidgetId;
+}
 
 const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
@@ -95,11 +99,7 @@ const Stats = () => {
     return null;
   }
 
-  const isLoading = isPlaceholderData || latestBatchQuery?.isPlaceholderData;
-
-  interface Item extends StatsWidgetProps {
-    id: HomeStatsWidgetId;
-  }
+  const isLoading = isPlaceholderData || Boolean(latestBatchQuery?.isPlaceholderData);
 
   const apiData = apiQuery.data;
   const statsData = statsQuery.data;
@@ -312,24 +312,7 @@ const Stats = () => {
     return null;
   }
 
-  return (
-    <Grid
-      gridTemplateColumns="1fr 1fr"
-      gridGap={{ base: 1, lg: 2 }}
-      flexBasis="50%"
-      flexGrow={ 1 }
-    >
-      { items.map((item, index) => (
-        <StatsWidget
-          key={ item.id }
-          { ...item }
-          isLoading={ isLoading }
-          _last={ items.length % 2 === 1 && index === items.length - 1 ? { gridColumn: 'span 2' } : undefined }/>
-      ),
-      ) }
-    </Grid>
-
-  );
+  return <StatsList items={ items } isLoading={ isLoading }/>;
 };
 
 export default Stats;

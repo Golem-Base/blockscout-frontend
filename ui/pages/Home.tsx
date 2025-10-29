@@ -12,6 +12,8 @@ import Transactions from 'ui/home/Transactions';
 import AdBanner from 'ui/shared/ad/AdBanner';
 import TopNotice from 'ui/shared/TopNotice';
 
+import L2ConsensusData from './L2ConsensusData';
+
 const rollupFeature = config.features.rollup;
 
 const Home = () => {
@@ -41,6 +43,8 @@ const Home = () => {
         { leftWidget }
         <Box flexGrow={ 1 }>
           <Transactions/>
+
+          <L2ConsensusData/>
         </Box>
       </Flex>
     </Box>
