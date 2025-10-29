@@ -74,6 +74,33 @@ const NumberWidgetsList = () => {
           hint="Represents the number of distinct addresses that currently own at least one active entity."
         />
       ) }
+
+      { statsQuery.data?.golembase_total_entities_created && (
+        <StatsWidget
+          label="Total entities created"
+          value={ BigNumber(statsQuery.data.golembase_total_entities_created).toFormat() }
+          isLoading={ isPlaceholderData }
+          hint="Total number of entities created"
+        />
+      ) }
+
+      { statsQuery.data?.golembase_entities_deleted && (
+        <StatsWidget
+          label="Entities deleted"
+          value={ BigNumber(statsQuery.data.golembase_entities_deleted).toFormat() }
+          isLoading={ isPlaceholderData }
+          hint="Total number of entities deleted"
+        />
+      ) }
+
+      { statsQuery.data?.golembase_entities_expired && (
+        <StatsWidget
+          label="Entities expired"
+          value={ BigNumber(statsQuery.data.golembase_entities_expired).toFormat() }
+          isLoading={ isPlaceholderData }
+          hint="Total number of entities expired"
+        />
+      ) }
     </Grid>
   );
 };

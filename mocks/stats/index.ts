@@ -54,6 +54,9 @@ export const base: HomeStats = {
   golembase_total_operations: 1000,
   golembase_unique_active_addresses: 100,
   recent_block_transactions: 103,
+  golembase_total_entities_created: 1000,
+  golembase_entities_deleted: 100,
+  golembase_entities_expired: 10,
 };
 
 export const withBtcLocked: HomeStats = {

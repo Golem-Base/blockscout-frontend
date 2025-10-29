@@ -265,6 +265,13 @@ const Stats = () => {
         value: `${ BigNumber(apiData.golembase_unique_active_addresses).toFormat() }`,
         isLoading,
       },
+      apiData?.golembase_total_entities_created && {
+        id: 'golembase_total_entities_created' as const,
+        icon: 'layers' as const,
+        label: 'Total entities created',
+        value: `${ BigNumber(apiData.golembase_total_entities_created).toFormat() }`,
+        isLoading,
+      },
     ]
       .filter(Boolean)
       .filter(({ id }) => config.UI.homepage.stats.includes(id))

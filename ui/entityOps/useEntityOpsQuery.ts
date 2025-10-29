@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { OperationType } from '@golembase/l3-indexer-types';
+import { OperationTypeFilter_OperationTypeFilter as OperationType } from '@golembase/l3-indexer-types';
 import type { GolemBaseIndexerOpsFilters } from 'types/api/golemBaseIndexer';
 
 import getFilterValueFromQuery from 'lib/getFilterValueFromQuery';
