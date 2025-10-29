@@ -107,6 +107,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
     path: '/api/v1/leaderboard/data-owned',
     paginated: true,
   },
+  entities_averages: {
+    path: '/api/v1/entities/averages',
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -135,6 +138,7 @@ R extends 'golemBaseIndexer:chartOperationCount' ? golemBaseIndexer.ChartOperati
 R extends 'golemBaseIndexer:chartBlockTransactions' ? golemBaseIndexer.ChartBlockTransactionsResponse :
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
+R extends 'golemBaseIndexer:entities_averages' ? golemBaseIndexer.EntitiesAveragesResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
