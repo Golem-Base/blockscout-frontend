@@ -1,10 +1,9 @@
+import { Grid } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
-import { nbsp, rightLineArrow } from 'toolkit/utils/htmlEntities';
-import type { Item } from 'ui/home/Stats';
-import StatsList from 'ui/home/StatsList';
 import PageTitle from 'ui/shared/Page/PageTitle';
+import StatsWidget, { type Props as StatsWidgetProps } from 'ui/shared/stats/StatsWidget';
 
 const L2ConsensusData = () => {
   const consensusInfoQuery = useApiQuery('golemBaseIndexer:consensusInfo', {
@@ -26,50 +25,43 @@ const L2ConsensusData = () => {
   const consensusInfo = consensusInfoQuery.data;
   const isLoading = Boolean(consensusInfoQuery.isPlaceholderData);
 
-  const items: Array<Item> = React.useMemo(() => {
+  const items: Array<StatsWidgetProps> = React.useMemo(() => {
     if (!consensusInfo) {
       return [];
     }
 
-    const stats: Array<Item> = [
+    const stats: Array<StatsWidgetProps> = [
       {
-        id: 'finalized_block_number',
-        icon: 'block',
+        icon: 'block_full',
         label: 'Finalized block number',
         value: consensusInfo.finalized_block_number,
       },
       {
-        id: 'unsafe_block_number',
-        icon: 'block',
+        icon: 'block_full',
         label: 'Unsafe block number',
         value: consensusInfo.unsafe_block_number,
       },
       {
-        id: 'finalized_block_timestamp',
-        icon: 'block_countdown',
+        icon: 'block_countdown_full',
         label: 'Finalized block timestamp',
         value: consensusInfo.finalized_block_timestamp,
       },
       {
-        id: 'unsafe_block_timestamp',
-        icon: 'block_countdown',
+        icon: 'block_countdown_full',
         label: 'Unsafe block timestamp',
         value: consensusInfo.unsafe_block_timestamp,
       },
       {
-        id: 'rollup_gas_price',
         icon: 'gas',
         label: 'Rollup gas price',
         value: consensusInfo.rollup_gas_price,
       },
       {
-        id: 'rollup_gas_used',
         icon: 'gas',
         label: 'Rollup gas used',
         value: consensusInfo.rollup_gas_used,
       },
       {
-        id: 'rollup_transaction_fee',
         icon: 'donate',
         label: 'Rollup transaction fee',
         value: consensusInfo.rollup_transaction_fee,
@@ -81,9 +73,11 @@ const L2ConsensusData = () => {
 
   return (
     <>
-      <PageTitle title={ `Consensus data (L2${ nbsp }${ rightLineArrow }${ nbsp }L3)` } withTextAd/>
-      <StatsList items={ items } isLoading={ isLoading }/>
+      <PageTitle title="L2 Consensus & Performance" withTextAd/>
 
+      <Grid gridGap={ 2 } gridTemplateColumns="repeat(auto-fill, minmax(250px, 1fr))">
+        { items.map((item) => <StatsWidget key={ item.label } { ...item } isLoading={ isLoading }/>) }
+      </Grid>
     </>
   );
 };

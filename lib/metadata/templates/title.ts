@@ -97,7 +97,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/leaderboards/largest-entities': '%network_name% largest entities',
   '/leaderboards/effectively-largest-entities': '%network_name% effectively largest entities',
   '/custom-contract-txs': '%network_name% custom contract transactions',
-  '/consensus-data': '%network_name% consensus data',
+  '/consensus-data': '%network_name% - L2 consensus & performance metrics',
 };
 
 const TEMPLATE_MAP_ENHANCED: Partial<Record<Route['pathname'], string>> = {

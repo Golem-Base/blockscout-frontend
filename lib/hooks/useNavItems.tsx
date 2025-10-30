@@ -101,7 +101,7 @@ export default function useNavItems(): ReturnType {
       isActive: pathname === '/withdrawals',
     };
     const consensusData = {
-      text: `Consensus data (L2${ rightLineArrow }L3)`,
+      text: 'L2 Consensus & Performance',
       nextRoute: { pathname: '/consensus-data' as const },
       icon: 'arrows/south-east',
       isActive: pathname === '/consensus-data',
