@@ -1,8 +1,10 @@
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import { nbsp, rightLineArrow } from 'toolkit/utils/htmlEntities';
 import type { Item } from 'ui/home/Stats';
 import StatsList from 'ui/home/StatsList';
+import PageTitle from 'ui/shared/Page/PageTitle';
 
 const L2ConsensusData = () => {
   const consensusInfoQuery = useApiQuery('golemBaseIndexer:consensusInfo', {
@@ -78,7 +80,11 @@ const L2ConsensusData = () => {
   }, [ consensusInfo ]);
 
   return (
-    <StatsList items={ items } isLoading={ isLoading }/>
+    <>
+      <PageTitle title={ `Consensus data (L2${ nbsp }${ rightLineArrow }${ nbsp }L3)` } withTextAd/>
+      <StatsList items={ items } isLoading={ isLoading }/>
+
+    </>
   );
 };
 

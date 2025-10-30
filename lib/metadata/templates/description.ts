@@ -87,6 +87,7 @@ const TEMPLATE_MAP: Record<Route['pathname'], string> = {
   '/leaderboards/longest-lived-entities': DEFAULT_TEMPLATE,
   '/leaderboards/accounts-with-the-most-data': DEFAULT_TEMPLATE,
   '/custom-contract-txs': 'View custom contract transactions on %network_title%.',
+  '/consensus-data': 'View consensus data on %network_title%.',
 
   // service routes, added only to make typescript happy
   '/login': DEFAULT_TEMPLATE,
