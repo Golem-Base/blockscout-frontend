@@ -7,6 +7,7 @@ import type { ConsensusInfoResponse } from '@golembase/l3-indexer-types';
 import useApiQuery from 'lib/api/useApiQuery';
 import dayjs from 'lib/date/dayjs';
 import { currencyUnits } from 'lib/units';
+import { emptyConsensusInfo } from 'stubs/consensusData';
 import { WEI } from 'toolkit/utils/consts';
 import EmptySearchResult from 'ui/shared/EmptySearchResult';
 import PageTitle from 'ui/shared/Page/PageTitle';
@@ -75,17 +76,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Array<StatsWidgetProps>
 const L2ConsensusData = () => {
   const consensusInfoQuery = useApiQuery('golemBaseIndexer:consensusInfo', {
     queryOptions: {
-      placeholderData: {
-        finalized_block_number: '0',
-        unsafe_block_number: '0',
-        unsafe_block_timestamp: '0',
-        safe_block_number: '0',
-        safe_block_timestamp: '0',
-        finalized_block_timestamp: '0',
-        rollup_gas_price: '0',
-        rollup_gas_used: '0',
-        rollup_transaction_fee: '0',
-      },
+      placeholderData: emptyConsensusInfo,
     },
   });
 
