@@ -6,9 +6,12 @@ import type { ConsensusInfoResponse } from '@golembase/l3-indexer-types';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import dayjs from 'lib/date/dayjs';
+import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import { currencyUnits } from 'lib/units';
 import { emptyConsensusInfo } from 'stubs/consensusData';
 import { WEI } from 'toolkit/utils/consts';
+import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
+import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import EmptySearchResult from 'ui/shared/EmptySearchResult';
 import PageTitle from 'ui/shared/Page/PageTitle';
 import StatsWidget, { type Props as StatsWidgetProps } from 'ui/shared/stats/StatsWidget';
@@ -90,6 +93,17 @@ const L2ConsensusData = () => {
 
     return stats.filter(Boolean);
   }, [ consensusInfo ]);
+
+  if (consensusInfoQuery.isError) {
+    if (isCustomAppError(consensusInfoQuery.error)) {
+      throwOnResourceLoadError({
+        isError: consensusInfoQuery.isError,
+        error: consensusInfoQuery.error,
+      });
+    }
+
+    return <DataFetchAlert/>;
+  }
 
   if (keysToCheck.every(value => consensusInfo?.[value] === '0')) {
     return <EmptySearchResult heading="Data not found" text="No consensus data available yet"/>;
