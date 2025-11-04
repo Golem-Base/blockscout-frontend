@@ -1,5 +1,6 @@
 import { useToken } from '@chakra-ui/react';
 import type * as d3 from 'd3';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { HistogramItem } from './HistogramBlockGasUsedChart';
@@ -25,6 +26,7 @@ const HistogramBlockGasUsedChartBar = ({
   onMouseEnter,
   onMouseLeave,
 }: Props) => {
+  const router = useRouter();
   const x = xScale(String(index)) || 0;
   const barWidth = xScale.bandwidth();
 
@@ -52,6 +54,10 @@ const HistogramBlockGasUsedChartBar = ({
     onMouseEnter(index, e);
   }, [ index, onMouseEnter ]);
 
+  const handleRedirectToBlock = React.useCallback(() => {
+    router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: item.label } });
+  }, [ item.label, router ]);
+
   return (
     <>
       <defs>
@@ -78,6 +84,7 @@ const HistogramBlockGasUsedChartBar = ({
         style={{ cursor: 'pointer', transition: 'fill 0.2s ease, opacity 0.2s ease' }}
         onMouseEnter={ handleMouseEnter }
         onMouseLeave={ onMouseLeave }
+        onClick={ handleRedirectToBlock }
       />
     </>
   );
