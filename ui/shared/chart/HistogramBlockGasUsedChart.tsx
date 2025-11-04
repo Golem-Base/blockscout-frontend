@@ -66,19 +66,14 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
       return d3.scaleLinear().domain([ 0, 1 ]).range([ innerHeight, 0 ]);
     }
 
-    // Find the minimum gas_used value
     const minGasUsed = d3.min(items, (d) => Number(d.gas_used) || d.value || 0) || 0;
 
-    // Find the maximum gas_used value
     const maxGasUsedValue = d3.max(items, (d) => Number(d.gas_used) || d.value || 0) || 0;
 
-    // Get gas_limit value (assuming it's the same for all items)
     const gasLimit = items[0] ? Number(items[0].gas_limit) : 0;
 
-    // The maximum should be the higher of max gas_used or gas_limit
     const maxValue = Math.max(maxGasUsedValue, gasLimit);
 
-    // If all values are the same, create a reasonable range
     if (minGasUsed === maxValue) {
       const padding = maxValue * 0.1 || 1;
       return d3.scaleLinear()
@@ -86,7 +81,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
         .range([ innerHeight, 0 ]);
     }
 
-    // Calculate range and add margins
     const dataRange = maxValue - minGasUsed;
     const bottomMargin = dataRange * 0.1;
     const topMargin = dataRange * 0.05;
