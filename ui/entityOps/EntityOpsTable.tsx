@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { Operation } from '@golembase/l3-indexer-types';
@@ -14,6 +15,10 @@ type Props = {
 };
 
 const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
+  const router = useRouter<'/entity/[key]'>();
+  const tab = router.query.tab;
+  const isAllTab = tab === 'entity_ops_all';
+
   return (
     <AddressHighlightProvider>
       <TableRoot minW="950px">
@@ -24,7 +29,8 @@ const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
             <TableColumnHeader w="120px">Block</TableColumnHeader>
             <TableColumnHeader >Transaction</TableColumnHeader>
             <TableColumnHeader w="100px">Operation Index</TableColumnHeader>
-            <TableColumnHeader w="120px" textAlign="right">BTL</TableColumnHeader>
+            <TableColumnHeader w="120px" textAlign="right" >BTL</TableColumnHeader>
+            { isAllTab && <TableColumnHeader w="120px" textAlign="right">Operation</TableColumnHeader> }
           </TableRow>
         </TableHeaderSticky>
         <TableBody>
@@ -33,6 +39,7 @@ const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
               key={ item.entity_key + item.index + (isLoading ? index : '') }
               item={ item }
               isLoading={ isLoading }
+              isAllTab={ isAllTab }
             />
           )) }
         </TableBody>

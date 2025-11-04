@@ -1,8 +1,9 @@
 import type { UseQueryResult } from '@tanstack/react-query';
-import { map } from 'es-toolkit/compat';
+import { map, sum } from 'es-toolkit/compat';
 import React from 'react';
 
-import { OperationType } from '@golembase/l3-indexer-types';
+import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
+import { OperationTypeFilter_OperationTypeFilter as OperationType } from '@golembase/l3-indexer-types';
 import type { FilterOperationType } from 'types/api/golemBaseIndexer';
 
 import type { ResourceError, ResourcePayload } from 'lib/api/resources';
@@ -26,6 +27,7 @@ const TAB_LIST_PROPS_MOBILE = {
 };
 
 const LABELS: Record<FilterOperationType, string> = {
+  [OperationType.ALL]: 'All',
   [OperationType.CREATE]: 'Create',
   [OperationType.UPDATE]: 'Update',
   [OperationType.EXTEND]: 'Extend',
@@ -58,13 +60,15 @@ const EntityOps = ({ opsQuery, opsCountQuery }: Props) => {
   ), [ opsQuery.pagination, opsQuery.data?.items, opsQuery.isPlaceholderData, opsQuery.isError ]);
 
   const tabs = React.useMemo(() => map(LABELS, (title, operation): TabItemRegular => {
-    const count = opsCountQuery?.data ?
-      Number(opsCountQuery?.data[`${ operation.toLowerCase() as Lowercase<FilterOperationType> }_count`]) :
-      null;
+    const operationType = operation.toLowerCase() as Lowercase<FilterOperationType>;
+    const key: keyof CountOperationsResponse = `${ operationType }_count` as keyof CountOperationsResponse;
+    const count = opsCountQuery?.data ? Number(opsCountQuery?.data[key]) : null;
+    const countAll = opsCountQuery?.data ? sum(Object.values(opsCountQuery?.data).map(Number)) : null;
+
     return {
       id: operationToTab(operation),
       title,
-      count,
+      count: operation === OperationType.ALL ? countAll : count,
       component,
     };
   }), [ opsCountQuery?.data, component ]);

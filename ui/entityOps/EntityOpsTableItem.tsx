@@ -12,14 +12,16 @@ import EntityOp from 'ui/shared/entities/entityOp/EntityOp';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
 
+import OperationTypeBadge from './OperationTypeBadge';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
   item: Operation;
   isLoading?: boolean;
+  isAllTab?: boolean;
 };
 
-const EntityOpsTableItem = ({ item, isLoading }: Props) => {
+const EntityOpsTableItem = ({ item, isLoading, isAllTab }: Props) => {
   const section = useDisclosure();
 
   const mainRowBorderColor = section.open ? 'transparent' : 'border.divider';
@@ -73,6 +75,11 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             { formatBigNum(item.btl) }
           </Skeleton>
         </TableCell>
+        { isAllTab && (
+          <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle" textAlign="right">
+            <OperationTypeBadge operation={ item.operation } isLoading={ isLoading }/>
+          </TableCell>
+        ) }
       </TableRow>
       { section.open && (
         <TableRow>

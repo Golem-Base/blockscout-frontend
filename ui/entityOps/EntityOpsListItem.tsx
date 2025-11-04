@@ -13,6 +13,7 @@ import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 
+import OperationTypeBadge from './OperationTypeBadge';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
@@ -86,6 +87,10 @@ const EntityOpsListItem = ({ item, isLoading }: Props) => {
         <Skeleton loading={ isLoading } fontWeight="700">
           { formatBigNum(item.btl) }
         </Skeleton>
+      </Flex>
+      <Flex mt={ 2 }>
+        <Skeleton loading={ isLoading } display="inline-block" whiteSpace="pre">Operation </Skeleton>
+        <OperationTypeBadge operation={ item.operation } isLoading={ isLoading }/>
       </Flex>
       { section.open && (
         <Flex mt={ 4 }>
