@@ -1,5 +1,6 @@
 import { Grid } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
+import { isNil } from 'es-toolkit/compat';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -84,7 +85,7 @@ const NumberWidgetsList = () => {
         />
       ) }
 
-      { statsQuery.data?.golembase_entities_deleted && (
+      { !isNil(statsQuery.data?.golembase_entities_deleted) && (
         <StatsWidget
           label="Entities deleted"
           value={ BigNumber(statsQuery.data.golembase_entities_deleted).toFormat() }
@@ -93,7 +94,7 @@ const NumberWidgetsList = () => {
         />
       ) }
 
-      { statsQuery.data?.golembase_entities_expired && (
+      { !isNil(statsQuery.data?.golembase_entities_expired) && (
         <StatsWidget
           label="Entities expired"
           value={ BigNumber(statsQuery.data.golembase_entities_expired).toFormat() }

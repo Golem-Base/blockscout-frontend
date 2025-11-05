@@ -43,11 +43,11 @@ const BlockGasUsageHistogramWidget = () => {
     >
       <Box>
         <Skeleton loading={ isPlaceholderData } fontWeight={ 600 } textStyle="md">
-          <span>Block operations</span>
+          <span>Gas usage per block</span>
         </Skeleton>
 
         <Skeleton loading={ isPlaceholderData } color="text.secondary" fontSize="xs" mt={ 1 }>
-          <span>Operations count by block</span>
+          <span>Recent blocks gas consumption per block</span>
         </Skeleton>
       </Box>
 
