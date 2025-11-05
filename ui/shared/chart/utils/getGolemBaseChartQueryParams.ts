@@ -32,7 +32,8 @@ const restQueryParamsById: Record<GolemChartId, Record<string, string>> = {
   'entity-count': {},
 };
 
-export function getGolemBaseChartQueryParams({ id, interval, resolution }: GetGolemBaseChartQueryParamsAttributes) {
+export function getGolemBaseChartQueryParams({ id, interval, resolution: defaultResolution }: GetGolemBaseChartQueryParamsAttributes) {
+  const resolution = interval === 'oneDay' ? 'HOUR' : defaultResolution;
   const selectedInterval = STATS_INTERVALS[interval];
 
   const dateFormatByResolution = resolution === 'HOUR' ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD';
