@@ -18,10 +18,9 @@ import OpExpandableDetails from './OpExpandableDetails';
 type Props = {
   item: Operation;
   isLoading?: boolean;
-  isAllTab?: boolean;
 };
 
-const EntityOpsTableItem = ({ item, isLoading, isAllTab }: Props) => {
+const EntityOpsTableItem = ({ item, isLoading }: Props) => {
   const section = useDisclosure();
 
   const mainRowBorderColor = section.open ? 'transparent' : 'border.divider';
@@ -75,11 +74,9 @@ const EntityOpsTableItem = ({ item, isLoading, isAllTab }: Props) => {
             { formatBigNum(item.btl) }
           </Skeleton>
         </TableCell>
-        { isAllTab && (
-          <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle" textAlign="right">
-            <OperationTypeBadge operation={ item.operation } isLoading={ isLoading }/>
-          </TableCell>
-        ) }
+        <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle" textAlign="right">
+          <OperationTypeBadge operation={ item.operation } isLoading={ isLoading }/>
+        </TableCell>
       </TableRow>
       { section.open && (
         <TableRow>
