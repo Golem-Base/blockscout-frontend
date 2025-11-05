@@ -145,3 +145,24 @@ export const BLOCK_OPERATIONS_HISTOGRAM = {
     description: 'Block operations',
   },
 };
+
+export const BLOCK_GAS_USAGE_HISTOGRAM = {
+  chart: [ {
+    block_number: '0',
+    gas_used: '0',
+    gas_limit: '11500000',
+    gas_usage_percentage: '0',
+  },
+  {
+    block_number: '1',
+    gas_used: '1022480',
+    gas_limit: '11511229',
+    gas_usage_percentage: '8.88',
+  },
+  ],
+  info: {
+    id: 'block_gas_usage',
+    title: 'Block gas usage',
+    description: 'Block gas usage',
+  },
+};

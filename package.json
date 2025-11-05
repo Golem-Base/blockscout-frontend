@@ -57,7 +57,7 @@
     "@chakra-ui/react": "3.15.0",
     "@cloudnouns/kit": "1.1.6",
     "@emotion/react": "11.14.0",
-    "@golembase/l3-indexer-types": "^0.0.29",
+    "@golembase/l3-indexer-types": "^0.0.30",
     "@growthbook/growthbook-react": "0.21.0",
     "@helia/verified-fetch": "2.6.12",
     "@hypelab/sdk-react": "^1.0.0",

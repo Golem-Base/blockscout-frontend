@@ -103,6 +103,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   chartBlockOperations: {
     path: '/api/v1/chart/block-operations',
   },
+  chartBlockGasUsage: {
+    path: '/api/v1/chart/block-gas-usage-limit',
+  },
   entityDataHistogram: {
     path: '/api/v1/chart/entity-data-histogram',
   },
@@ -143,6 +146,7 @@ R extends 'golemBaseIndexer:chartBlockOperations' ? golemBaseIndexer.ChartBlockO
 R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDataHistogramResponse :
 R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
 R extends 'golemBaseIndexer:entities_averages' ? golemBaseIndexer.EntitiesAveragesResponse :
+R extends 'golemBaseIndexer:chartBlockGasUsage' ? golemBaseIndexer.ChartBlockGasUsageLimitResponse :
 never;
 /* eslint-enable @stylistic/indent */
 
