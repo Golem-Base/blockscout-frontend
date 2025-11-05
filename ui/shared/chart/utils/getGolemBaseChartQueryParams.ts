@@ -29,6 +29,7 @@ const restQueryParamsById: Record<GolemChartId, Record<string, string>> = {
   'operation-count': {
     operation: OperationTypeFilter.ALL,
   },
+  'entity-count': {},
 };
 
 export function getGolemBaseChartQueryParams({ id, interval, resolution }: GetGolemBaseChartQueryParamsAttributes) {
