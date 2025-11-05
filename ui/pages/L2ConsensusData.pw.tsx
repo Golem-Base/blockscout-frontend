@@ -5,7 +5,6 @@ import type { ConsensusInfoResponse } from '@golembase/l3-indexer-types';
 import { test, expect } from 'playwright/lib';
 
 import L2ConsensusData from './L2ConsensusData';
-import LargestEntities from './LargestEntities';
 
 const consensusInfo: ConsensusInfoResponse = {
   finalized_block_number: '1273866',
@@ -41,6 +40,6 @@ test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiRespon
 test('empty view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
   await mockTextAd();
   await mockApiResponse('golemBaseIndexer:consensusInfo', emptyConsensusInfo);
-  const component = await render(<LargestEntities/>);
+  const component = await render(<L2ConsensusData/>);
   await expect(component).toHaveScreenshot({ timeout: 15000 });
 });
