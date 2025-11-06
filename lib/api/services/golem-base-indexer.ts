@@ -116,6 +116,9 @@ export const GOLEM_BASE_INDEXER_API_RESOURCES = {
   entities_averages: {
     path: '/api/v1/entities/averages',
   },
+  consensusInfo: {
+    path: '/api/v1/chain/consensus-info',
+  },
 } satisfies Record<string, ApiResource>;
 
 export type GolemBaseIndexerApiResourceName = `golemBaseIndexer:${ keyof typeof GOLEM_BASE_INDEXER_API_RESOURCES }`;
@@ -147,6 +150,7 @@ R extends 'golemBaseIndexer:entityDataHistogram' ? golemBaseIndexer.GetEntityDat
 R extends 'golemBaseIndexer:addressByDataOwned' ? PaginatedResponse<golemBaseIndexer.LeaderboardDataOwnedResponse> :
 R extends 'golemBaseIndexer:entities_averages' ? golemBaseIndexer.EntitiesAveragesResponse :
 R extends 'golemBaseIndexer:chartBlockGasUsage' ? golemBaseIndexer.ChartBlockGasUsageLimitResponse :
+R extends 'golemBaseIndexer:consensusInfo' ? golemBaseIndexer.ConsensusInfoResponse :
 never;
 /* eslint-enable @stylistic/indent */
 

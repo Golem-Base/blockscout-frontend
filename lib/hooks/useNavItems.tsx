@@ -100,6 +100,12 @@ export default function useNavItems(): ReturnType {
       icon: 'arrows/north-east',
       isActive: pathname === '/withdrawals',
     };
+    const consensusData = {
+      text: 'L2 Consensus & Performance',
+      nextRoute: { pathname: '/consensus-data' as const },
+      icon: 'arrows/south-east',
+      isActive: pathname === '/consensus-data',
+    };
     const rollupTxnBatches = {
       text: 'Txn batches',
       nextRoute: { pathname: '/batches' as const },
@@ -154,6 +160,7 @@ export default function useNavItems(): ReturnType {
           rollupDeposits,
           rollupWithdrawals,
           rollupInteropMessages,
+          consensusData,
         ].filter(Boolean),
         [
           blocks,

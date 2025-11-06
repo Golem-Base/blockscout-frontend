@@ -8,10 +8,11 @@ import emptySearchResultIcon from 'icons/empty_search_result.svg';
 import { Heading } from 'toolkit/chakra/heading';
 
 interface Props {
+  heading?: string;
   text: string | React.JSX.Element;
 }
 
-const EmptySearchResult = ({ text }: Props) => {
+const EmptySearchResult = ({ heading, text }: Props) => {
   return (
     <Box
       display="flex"
@@ -28,7 +29,7 @@ const EmptySearchResult = ({ text }: Props) => {
       />
 
       <Heading level="3" mb={ 2 }>
-        No results
+        { heading || 'No results' }
       </Heading>
 
       <Box fontSize={{ base: 'sm', sm: 'md' }} textAlign="center">
