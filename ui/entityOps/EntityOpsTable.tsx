@@ -24,7 +24,8 @@ const EntityOpsTable = ({ operations, isLoading, top }: Props) => {
             <TableColumnHeader w="120px">Block</TableColumnHeader>
             <TableColumnHeader >Transaction</TableColumnHeader>
             <TableColumnHeader w="100px">Operation Index</TableColumnHeader>
-            <TableColumnHeader w="120px" textAlign="right">BTL</TableColumnHeader>
+            <TableColumnHeader w="120px" textAlign="right" >BTL</TableColumnHeader>
+            <TableColumnHeader w="120px" textAlign="right">Operation</TableColumnHeader>
           </TableRow>
         </TableHeaderSticky>
         <TableBody>

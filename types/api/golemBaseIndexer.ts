@@ -1,13 +1,13 @@
 import type {
   ListEntitiesRequest,
   ListOperationsRequest,
-  OperationType,
+  OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
   PaginationRequest,
 } from '@golembase/l3-indexer-types';
 
 export type GolemBaseIndexerOpsFilters = Omit<ListOperationsRequest, 'page'>;
 
-export type FilterOperationType = Exclude<OperationType, 'UNRECOGNIZED'>;
+export type FilterOperationType = Exclude<OperationTypeFilter, 'UNRECOGNIZED'>;
 
 export type GolemBaseIndexerPaginationFilters = Omit<PaginationRequest, 'page'>;
 

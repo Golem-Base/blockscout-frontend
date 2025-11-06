@@ -17,9 +17,10 @@ interface Props {
   txHash: string;
   opIndex: string;
   withEntity?: boolean;
+  withOperationType?: boolean;
 }
 
-const OpExpandableDetails = ({ txHash, opIndex, withEntity }: Props) => {
+const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }: Props) => {
   const { data, isPlaceholderData: isLoading } = useApiQuery('golemBaseIndexer:operation', {
     pathParams: { tx_hash: txHash, op_index: opIndex },
     queryOptions: {
@@ -47,10 +48,13 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity }: Props) => {
         </>
       ) }
 
-      <ItemLabel hint="Entity operation type">Type</ItemLabel>
-      <ItemValue>
-        <EntityOpType operation={ data.operation } isLoading={ isLoading }/>
-      </ItemValue>
+      { withOperationType && (
+        <>
+          <ItemLabel hint="Entity operation type">Type</ItemLabel><ItemValue>
+            <EntityOpType operation={ data.operation } isLoading={ isLoading }/>
+          </ItemValue>
+        </>
+      ) }
 
       <ItemLabel hint="Timestamp when this operation occurred">Timestamp</ItemLabel>
       <ItemValue>
