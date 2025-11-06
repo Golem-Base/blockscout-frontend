@@ -1,4 +1,5 @@
 import { chakra } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React, { useCallback, useEffect } from 'react';
 
 import { ChartResolution } from '@golembase/l3-indexer-types';
@@ -45,7 +46,16 @@ const GolemChartWidgetContainer = ({
     }
   }, [ lineQuery.isError, onLoadingError ]);
 
-  const valueFormatter = useCallback((value: string | number) => formatDataSize(value), []);
+  const valueFormatter = useCallback((value: string | number) => {
+    const valueFormatterMap: Record<GolemChartId, string> = {
+      'data-usage': formatDataSize(value),
+      'storage-forecast': formatDataSize(value),
+      'operation-count': BigNumber(value).toFormat(),
+      'entity-count': BigNumber(value).toFormat(),
+    };
+
+    return valueFormatterMap[id];
+  }, [ id ]);
 
   return (
     <ChartWidget

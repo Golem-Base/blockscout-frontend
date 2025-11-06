@@ -8,16 +8,17 @@ import type { ApiData } from 'lib/metadata';
 
 import { getGolemBaseChartQueryParams } from './utils/getGolemBaseChartQueryParams';
 
-export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count';
+export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count' | 'entity-count';
 export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
-export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count' ];
+export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count', 'entity-count' ];
 
 export const getChartResourceName = (id: GolemChartId) => {
   const resourceMap = {
     'data-usage': 'golemBaseIndexer:chartDataUsage' as const,
     'storage-forecast': 'golemBaseIndexer:chartStorageForecast' as const,
     'operation-count': 'golemBaseIndexer:chartOperationCount' as const,
+    'entity-count': 'golemBaseIndexer:chartEntityCount' as const,
   };
   return resourceMap[id];
 };

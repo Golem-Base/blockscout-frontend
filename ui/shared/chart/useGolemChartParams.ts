@@ -8,6 +8,7 @@ const paramsListByChartId: Record<GolemChartId, Array<string>> = {
   'data-usage': [],
   'storage-forecast': [],
   'operation-count': [ 'operation' ],
+  'entity-count': [],
 };
 
 const useGolemChartParams = (id: GolemChartId) => {

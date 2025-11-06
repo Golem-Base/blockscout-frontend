@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import type { LineChartSection } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
@@ -6,40 +6,44 @@ import type { StatsIntervalIds } from 'types/client/stats';
 import { isChartNameMatches } from './utils/isChartNameMatches';
 import { isSectionMatches } from './utils/isSectionMatches';
 
-export default function useGolemStats() {
-  const charts: Array<LineChartSection> = useMemo(() => {
-    return [
+const charts: Array<LineChartSection> = [
+  {
+    id: 'data-usage',
+    title: 'Chain statistics',
+    charts: [
       {
         id: 'data-usage',
-        title: 'Chain statistics',
-        charts: [
-          {
-            id: 'data-usage',
-            title: 'Chain data usage',
-            description: 'Data usage over time',
-            resolutions: [ 'HOUR', 'DAY' ],
-          },
-          {
-            id: 'storage-forecast',
-            title: 'Chain storage forecast',
-            description: 'Projection of total chain storage over time, starting from current data and trending down as entities expire (BTL)',
-            resolutions: [ 'HOUR', 'DAY' ],
-          },
-          {
-            id: 'operation-count',
-            title: 'Chain operation trends',
-            description: 'Operation trends over time',
-            resolutions: [ 'HOUR', 'DAY' ],
-          },
-        ],
+        title: 'Chain data usage',
+        description: 'Data usage over time',
+        resolutions: [ 'HOUR', 'DAY' ],
       },
-    ];
-  }, []);
+      {
+        id: 'storage-forecast',
+        title: 'Chain storage forecast',
+        description: 'Projection of total chain storage over time, starting from current data and trending down as entities expire (BTL)',
+        resolutions: [ 'HOUR', 'DAY' ],
+      },
+      {
+        id: 'operation-count',
+        title: 'Chain operation trends',
+        description: 'Operation trends over time',
+        resolutions: [ 'HOUR', 'DAY' ],
+      },
+      {
+        id: 'entity-count',
+        title: 'Chain entity count',
+        description: 'Entity count over time',
+        resolutions: [ 'HOUR', 'DAY' ],
+      },
+    ],
+  },
+];
 
+export default function useGolemStats() {
   const [ currentSection, setCurrentSection ] = useState('all');
   const [ filterQuery, setFilterQuery ] = useState('');
   const [ interval, setInterval ] = useState<StatsIntervalIds>('oneMonth');
-  const sectionIds = useMemo(() => charts?.map(({ id }) => id), [ charts ]);
+  const sectionIds = charts?.map(({ id }) => id);
 
   const handleSectionChange = useCallback((newSection: string) => {
     setCurrentSection(newSection);
@@ -63,7 +67,7 @@ export default function useGolemStats() {
           charts,
         };
       }).filter((section) => section.charts.length > 0);
-  }, [ currentSection, filterQuery, charts ]);
+  }, [ currentSection, filterQuery ]);
 
   return React.useMemo(() => ({
     displayedCharts,
