@@ -143,17 +143,6 @@ const Stats = () => {
         href: { pathname: '/blocks' as const },
         isLoading,
       },
-      // (statsData?.average_block_time?.value || apiData?.average_block_time) && {
-      //   id: 'average_block_time' as const,
-      //   icon: 'clock-light' as const,
-      //   label: statsData?.average_block_time?.title || 'Average block time',
-      //   value: `${
-      //     statsData?.average_block_time?.value ?
-      //       Number(statsData.average_block_time.value).toFixed(1) :
-      //       (apiData!.average_block_time / 1000).toFixed(1)
-      //   }s`,
-      //   isLoading,
-      // },
       (statsData?.total_transactions?.value || apiData?.total_transactions) && {
         id: 'total_txs' as const,
         icon: 'transactions_slim' as const,
