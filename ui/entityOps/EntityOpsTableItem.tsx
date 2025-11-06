@@ -12,7 +12,7 @@ import EntityOp from 'ui/shared/entities/entityOp/EntityOp';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
 
-import OperationTypeBadge from './OperationTypeBadge';
+import EntityOpType from './EntityOpType';
 import OpExpandableDetails from './OpExpandableDetails';
 
 type Props = {
@@ -75,7 +75,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           </Skeleton>
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle" textAlign="right">
-          <OperationTypeBadge operation={ item.operation } isLoading={ isLoading }/>
+          <EntityOpType operation={ item.operation } isLoading={ isLoading }/>
         </TableCell>
       </TableRow>
       { section.open && (

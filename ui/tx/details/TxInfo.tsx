@@ -871,7 +871,7 @@ const TxInfo = ({ data, tacOperations, isLoading, socketStatus, isSingleOperatio
             Entity operation
           </DetailedInfo.ItemLabel>
           <DetailedInfo.ItemValue>
-            <OpExpandableDetails txHash={ data.hash } opIndex="0" withEntity/>
+            <OpExpandableDetails txHash={ data.hash } opIndex="0" withEntity withOperationType/>
           </DetailedInfo.ItemValue>
         </>
       ) }
