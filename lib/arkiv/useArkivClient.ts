@@ -1,15 +1,23 @@
 import type { Chain, PublicArkivClient, WalletArkivClient } from '@arkiv-network/sdk';
 import { createPublicClient as createArkivPublicClient, createWalletClient as createArkivWalletClient, http } from '@arkiv-network/sdk';
+import { kaolin, localhost, marketplace } from '@arkiv-network/sdk/chains';
 import { useCallback } from 'react';
+import { custom } from 'viem';
 import { useWalletClient } from 'wagmi';
 
 import config from 'configs/app';
 
 function getChainConfig(): Chain {
+  const id = Number(config.chain.id);
   const [ rpcUrl ] = config.chain.rpcUrls;
   const currency = config.chain.currency;
+
+  const chain = [ kaolin, localhost, marketplace ].find(chain => chain.id === id);
+
   return {
-    id: Number(config.chain.id),
+    // Set block explorers url
+    ...(chain ?? {}),
+    id,
     name: config.chain.name || 'Unknown Chain',
     nativeCurrency: {
       name: currency.name || 'Unknown',
@@ -45,11 +53,21 @@ export function useArkivClient(): ArkivClientReturn {
       throw new Error('Wallet not connected');
     }
 
-    const chain = getChainConfig();
+    const chain = (walletClient.chain ? {
+      ...walletClient.chain,
+      id: walletClient.chain.id,
+      name: walletClient.chain.name,
+      nativeCurrency: walletClient.chain.nativeCurrency,
+      rpcUrls: walletClient.chain.rpcUrls,
+    } : getChainConfig()) as unknown as Chain;
+
     return createArkivWalletClient({
       account: walletClient.account.address,
       chain,
-      transport: http(),
+      // @ts-expect-error - viem version mismatch between SDK's bundled viem and project's viem
+      transport: custom({
+        request: walletClient.request,
+      }),
     });
   }, [ walletClient ]);
 

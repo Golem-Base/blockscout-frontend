@@ -1,15 +1,13 @@
+import type { Entity } from '@arkiv-network/sdk';
 import type { UseQueryOptions } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import type { Hex } from 'golem-base-sdk';
 
-import { createPublicClient } from 'lib/golemBase/useGolemBaseClient';
-
-type QueryEntitiesItem = { entityKey: Hex; storageValue: Uint8Array };
+import { createPublicClient } from 'lib/arkiv/useArkivClient';
 
 export default function useQueryEntities(
   searchTerm: string,
   options?: Omit<
-    UseQueryOptions<Array<QueryEntitiesItem>, Error, Array<QueryEntitiesItem>>,
+    UseQueryOptions<Array<Entity>, Error, Array<Entity>>,
     'queryKey' | 'queryFn'
   >,
 ) {
@@ -17,7 +15,7 @@ export default function useQueryEntities(
     queryKey: [ 'golemBase', 'queryEntities', { searchTerm } ],
     queryFn: async() => {
       const client = createPublicClient();
-      return client.queryEntities(searchTerm);
+      return client.query(searchTerm);
     },
     enabled: options?.enabled !== false && Boolean(searchTerm?.trim()),
     ...options,
