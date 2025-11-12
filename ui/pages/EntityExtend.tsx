@@ -2,6 +2,8 @@ import type { Hex } from '@arkiv-network/sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
+import type { ArkivExtendEntity } from '../entity/utils/types';
+
 import useApiQuery from 'lib/api/useApiQuery';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
@@ -14,7 +16,6 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ExtendEntityForm from '../entity/ExtendEntityForm';
 import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
-import { convertBtlToExpiresIn, type ExtendEntityWithBtl } from '../entity/utils/utils';
 
 const EntityExtend = () => {
   const router = useRouter();
@@ -40,11 +41,10 @@ const EntityExtend = () => {
     }
   }, [ canEdit, entityQuery.isLoading, key, router ]);
 
-  const handleSubmit = React.useCallback(async(entityData: ExtendEntityWithBtl) => {
+  const handleSubmit = React.useCallback(async(data: ArkivExtendEntity) => {
     const client = await createClient();
-    const expiresIn = await convertBtlToExpiresIn(entityData.btl);
     const updatedAfter = String(Date.now());
-    await client.extendEntity({ entityKey: key as Hex, expiresIn });
+    await client.extendEntity({ ...data, entityKey: key as Hex });
 
     toaster.success({
       title: 'Success',

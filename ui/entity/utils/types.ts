@@ -1,12 +1,15 @@
 import type { Attribute } from '@arkiv-network/sdk';
 import type { UseQueryResult } from '@tanstack/react-query';
 
-import type { MimeType } from '@arkiv-network/sdk/types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
 import type { ResourceError } from 'lib/api/resources';
 
+import type { MIME_TYPES } from './utils';
+
 export type EntityQuery = UseQueryResult<FullEntity, ResourceError<unknown>>;
+
+export type MimeType = typeof MIME_TYPES[number];
 
 export interface Annotation {
   id: string;
