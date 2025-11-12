@@ -6,7 +6,7 @@ import React from 'react';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
 import type { ResourceError } from 'lib/api/resources';
-import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
+import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import { toaster } from 'toolkit/chakra/toaster';
 import DeleteModal from 'ui/shared/DeleteModal';
 
@@ -28,7 +28,7 @@ const EntityDeleteConfirmationModal = ({
   const key = entityQuery.data?.key;
 
   const router = useRouter();
-  const { createClient } = useGolemBaseClient();
+  const { createClient } = useArkivClient();
 
   const handleDelete = React.useCallback(async() => {
     if (!key) return;

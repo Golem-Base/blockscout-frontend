@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
+import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import type { ButtonLinkProps } from 'ui/shared/ButtonLink';
 import ButtonLink from 'ui/shared/ButtonLink';
 import IconSvg from 'ui/shared/IconSvg';
 
 const CreateEntityLink = ({ children, ...props }: Omit<ButtonLinkProps, 'href'>) => {
-  const { isConnected } = useGolemBaseClient();
+  const { isConnected } = useArkivClient();
 
   if (!isConnected) {
     return null;

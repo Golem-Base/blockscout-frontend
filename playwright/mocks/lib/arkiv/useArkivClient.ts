@@ -31,7 +31,7 @@ const createMockPublicClient = () => {
   };
 };
 
-export const useGolemBaseClient = () => {
+export const useArkivClient = () => {
   const config = getGolemBaseConfig();
   return {
     isConnected: config.isConnected,

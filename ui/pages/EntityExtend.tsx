@@ -5,9 +5,9 @@ import React, { useEffect } from 'react';
 import type { ArkivExtendEntity } from '../entity/utils/types';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
-import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { toaster } from 'toolkit/chakra/toaster';
 import ContentLoader from 'ui/shared/ContentLoader';
@@ -28,7 +28,7 @@ const EntityExtend = () => {
     },
   });
 
-  const { createClient } = useGolemBaseClient();
+  const { createClient } = useArkivClient();
 
   throwOnAbsentParamError(key);
   throwOnResourceLoadError(entityQuery);

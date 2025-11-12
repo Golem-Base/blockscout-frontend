@@ -10,7 +10,7 @@ import type {
 } from './types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
-import { createPublicClient } from 'lib/golemBase/useGolemBaseClient';
+import { createPublicClient } from 'lib/arkiv/useArkivClient';
 import hexToUtf8 from 'lib/hexToUtf8';
 import { Kb } from 'toolkit/utils/consts';
 

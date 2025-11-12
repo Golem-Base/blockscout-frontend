@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import type { ArkivEntityData, EntityFormFields } from './utils/types';
 
-import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
+import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import { Button } from 'toolkit/chakra/button';
 import ContentLoader from 'ui/shared/ContentLoader';
 
@@ -40,7 +40,7 @@ const EntityForm = ({
   });
   const { handleSubmit, formState, setError } = formApi;
 
-  const { isConnected, isLoading } = useGolemBaseClient();
+  const { isConnected, isLoading } = useArkivClient();
 
   const onFormSubmit: SubmitHandler<EntityFormFields> = React.useCallback(async(data) => {
     if (!isConnected) {
