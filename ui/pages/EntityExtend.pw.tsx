@@ -7,7 +7,7 @@ import EntityExtend from './EntityExtend';
 
 const entityKey = entityMock.base.key;
 
-test('base entity extend view', async({ render, mockApiResponse, mockGolemBase }) => {
+test('base entity extend view', async({ render, mockApiResponse, mockArkiv }) => {
   const hooksConfig = {
     router: {
       query: { key: entityKey },
@@ -15,7 +15,7 @@ test('base entity extend view', async({ render, mockApiResponse, mockGolemBase }
     },
   };
 
-  await mockGolemBase({ isConnected: true });
+  await mockArkiv({ isConnected: true });
 
   await mockApiResponse('golemBaseIndexer:entity', entityMock.base, {
     pathParams: { key: entityKey },

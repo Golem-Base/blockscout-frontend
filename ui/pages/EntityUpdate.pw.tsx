@@ -7,7 +7,7 @@ import EntityUpdate from './EntityUpdate';
 
 const entityKey = entityMock.base.key;
 
-test('base view with entity data', async({ render, mockApiResponse, mockGolemBase }) => {
+test('base view with entity data', async({ render, mockApiResponse, mockArkiv }) => {
   const hooksConfig = {
     router: {
       query: { key: entityKey },
@@ -15,7 +15,7 @@ test('base view with entity data', async({ render, mockApiResponse, mockGolemBas
     },
   };
 
-  await mockGolemBase({ isConnected: true });
+  await mockArkiv({ isConnected: true });
 
   await mockApiResponse('golemBaseIndexer:entity', entityMock.base, {
     pathParams: { key: entityKey },

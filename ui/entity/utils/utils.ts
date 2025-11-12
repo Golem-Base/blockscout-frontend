@@ -92,9 +92,14 @@ async function convertBtlToExpiresIn(btl: string): Promise<number> {
 }
 
 function getMimeType(file?: File): MimeType {
-  if (file && MIME_TYPES.includes(file.type)) {
-    return file.type as MimeType;
+  if (file) {
+    if (MIME_TYPES.includes(file.type)) {
+      return file.type as MimeType;
+    }
+    // If file exists but type is not recognized, treat as binary
+    return 'application/octet-stream';
   }
 
+  // No file provided, using text input - default to text/plain
   return 'text/plain';
 }

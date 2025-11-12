@@ -18,8 +18,8 @@ const authTest = test.extend<{ context: BrowserContext }>({
   context: contextWithRewards,
 });
 
-authTest('customization +@dark-mode', async({ render, page, mockEnvs, mockApiResponse, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+authTest('customization +@dark-mode', async({ render, page, mockEnvs, mockApiResponse, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const IMAGE_URL = 'https://localhost:3000/my-image.png';
 

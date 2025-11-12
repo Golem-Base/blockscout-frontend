@@ -11,8 +11,8 @@ test.beforeEach(async({ mockEnvs }) => {
   ]);
 });
 
-test('default view +@dark-mode', async({ render, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('default view +@dark-mode', async({ render, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
   const component = await render(<HeaderDesktop/>);
   await expect(component).toHaveScreenshot();
 });

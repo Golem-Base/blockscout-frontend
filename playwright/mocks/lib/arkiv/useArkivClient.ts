@@ -2,14 +2,14 @@ const DEFAULT_ENTITY_KEY = '0x0137cd898a9aaa92bbe94999d2a98241f5eabc829d93541600
 
 const DEFAULT_CONFIG = {
   isConnected: false,
-  createEntitiesResponse: [ { entityKey: DEFAULT_ENTITY_KEY } ],
-  updateEntitiesResponse: [ { entityKey: DEFAULT_ENTITY_KEY } ],
-  queryEntitiesResponse: [],
+  createEntityResponse: [ { entityKey: DEFAULT_ENTITY_KEY } ],
+  updateEntityResponse: [ { entityKey: DEFAULT_ENTITY_KEY } ],
+  queryResponse: [],
 };
 
-function getGolemBaseConfig() {
+function getArkivConfig() {
   try {
-    const stored = window.localStorage.getItem('pw_golem_base');
+    const stored = window.localStorage.getItem('pw_arkiv');
     return stored ? { ...DEFAULT_CONFIG, ...(JSON.parse(stored) as typeof DEFAULT_CONFIG) } : DEFAULT_CONFIG;
   } catch {
     return DEFAULT_CONFIG;
@@ -17,22 +17,22 @@ function getGolemBaseConfig() {
 }
 
 const createMockClient = () => {
-  const config = getGolemBaseConfig();
+  const config = getArkivConfig();
   return {
-    createEntities: () => Promise.resolve(config.createEntitiesResponse),
-    updateEntities: () => Promise.resolve(config.updateEntitiesResponse),
+    createEntity: () => Promise.resolve(config.createEntityResponse),
+    updateEntity: () => Promise.resolve(config.updateEntityResponse),
   };
 };
 
 const createMockPublicClient = () => {
-  const config = getGolemBaseConfig();
+  const config = getArkivConfig();
   return {
-    queryEntities: () => Promise.resolve(config.queryEntitiesResponse),
+    query: () => Promise.resolve(config.queryResponse),
   };
 };
 
 export const useArkivClient = () => {
-  const config = getGolemBaseConfig();
+  const config = getArkivConfig();
   return {
     isConnected: config.isConnected,
     isLoading: false,

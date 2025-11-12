@@ -4,8 +4,8 @@ import { expect, test } from 'playwright/lib';
 
 import ExtendEntityForm from './ExtendEntityForm';
 
-test('default view +@dark-mode +@mobile', async({ render, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('default view +@dark-mode +@mobile', async({ render, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const component = await render(<ExtendEntityForm/>);
 
