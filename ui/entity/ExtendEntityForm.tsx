@@ -1,10 +1,9 @@
 import { chakra, Grid, Text, Flex } from '@chakra-ui/react';
-import type { GolemBaseExtend } from 'golem-base-sdk';
 import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import type { ExtendEntityFormFields } from './utils/types';
+import type { ArkivExtendEntity, ExtendEntityFormFields } from './utils/types';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
@@ -12,10 +11,10 @@ import ContentLoader from 'ui/shared/ContentLoader';
 
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import ReturnButton from './ReturnButton';
-import { mapExtendEntityFormDataToGolemExtend } from './utils/utils';
+import { mapExtendEntityFormDataToArkivExtend } from './utils/utils';
 
 interface Props {
-  onSubmit?: (data: Omit<GolemBaseExtend, 'entityKey'>) => Promise<void>;
+  onSubmit?: (data: ArkivExtendEntity) => Promise<void>;
 }
 
 const submitText = 'Extend Entity';
@@ -37,7 +36,7 @@ const ExtendEntityForm = ({
     }
 
     try {
-      const mappedData = await mapExtendEntityFormDataToGolemExtend(data);
+      const mappedData = await mapExtendEntityFormDataToArkivExtend(data);
       await onSubmit?.(mappedData);
     } catch (e) {
       setError('root', { message: `Failed to extend entity` });

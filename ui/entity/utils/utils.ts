@@ -1,9 +1,10 @@
-import type { GolemBaseCreate, GolemBaseExtend } from 'golem-base-sdk';
-import { Annotation as GolemAnnotation } from 'golem-base-sdk';
+import type { Attribute } from '@arkiv-network/sdk';
 
-import type { Annotation, EntityFormFields, ExtendEntityFormFields } from './types';
+import type { Annotation, ArkivEntityData, ArkivExtendEntity, EntityFormFields, ExtendEntityFormFields } from './types';
+import type { MimeType } from '@arkiv-network/sdk/types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
+import { createPublicClient } from 'lib/golemBase/useGolemBaseClient';
 import hexToUtf8 from 'lib/hexToUtf8';
 import { Kb } from 'toolkit/utils/consts';
 
@@ -21,22 +22,31 @@ function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: s
   };
 }
 
+// @TODO: check if remove can
 function formatGolemBaseNumber(value: string): number {
   return value === '0' ? '' as unknown as number : Number(value);
 }
 
-export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields): Promise<GolemBaseCreate> {
+export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields): Promise<ArkivEntityData> {
+  const payload = await convertFormDataToUint8Array(formData);
+  const contentType = (formData.dataFile[0]?.type ?? 'text/plain') as MimeType;
+
+  const attributes: Array<Attribute> = [
+    ...formData.stringAnnotations.map(annotation => ({ key: annotation.key, value: annotation.value })),
+    ...formData.numericAnnotations.map(annotation => ({ key: annotation.key, value: formatGolemBaseNumber(annotation.value) })),
+  ];
+
   return {
-    data: await convertFormDataToUint8Array(formData),
-    btl: Number(formData.btl),
-    stringAnnotations: formData.stringAnnotations.map(annotation => new GolemAnnotation(annotation.key, annotation.value)),
-    numericAnnotations: formData.numericAnnotations.map(annotation => new GolemAnnotation(annotation.key, formatGolemBaseNumber(annotation.value))),
+    payload,
+    attributes,
+    contentType,
+    expiresIn: await convertBtlToExpiresIn(formData.btl),
   };
 }
 
-export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<Omit<GolemBaseExtend, 'entityKey'>> {
+export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    numberOfBlocks: Number(formData.btl),
+    expiresIn: await convertBtlToExpiresIn(formData.btl),
   };
 }
 
@@ -58,4 +68,10 @@ async function convertFormDataToUint8Array(formData: EntityFormFields): Promise<
 
   const encoder = new TextEncoder();
   return encoder.encode(formData.dataText);
+}
+
+export async function convertBtlToExpiresIn(btl: string): Promise<number> {
+  const publicClient = createPublicClient();
+  const blockTiming = await publicClient.getBlockTiming();
+  return Number(btl) * blockTiming.blockDuration;
 }

@@ -1,6 +1,8 @@
-import type { GolemBaseCreate, Hex } from 'golem-base-sdk';
+import type { Hex } from '@arkiv-network/sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo } from 'react';
+
+import type { ArkivEntityData } from 'ui/entity/utils/types';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
@@ -14,7 +16,8 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import EntityForm from '../entity/EntityForm';
 import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
-import { mapFullEntityToFormFields } from '../entity/utils/utils';
+import { mapFullEntityToFormFields,
+} from '../entity/utils/utils';
 
 const EntityUpdate = () => {
   const router = useRouter();
@@ -40,12 +43,10 @@ const EntityUpdate = () => {
     }
   }, [ canEdit, entityQuery.isLoading, key, router ]);
 
-  const handleSubmit = React.useCallback(async(entityData: GolemBaseCreate,
-  ) => {
+  const handleSubmit = React.useCallback(async(entityData: ArkivEntityData) => {
     const client = await createClient();
-    const updateData = { ...entityData, entityKey: key as Hex };
     const updatedAfter = String(Date.now());
-    await client.updateEntities([ updateData ]);
+    await client.updateEntity({ ...entityData, entityKey: key as Hex });
 
     toaster.success({
       title: 'Success',

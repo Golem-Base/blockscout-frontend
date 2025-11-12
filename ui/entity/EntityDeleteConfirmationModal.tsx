@@ -1,5 +1,5 @@
+import type { Hex } from '@arkiv-network/sdk';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { Hex } from 'golem-base-sdk';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -33,7 +33,7 @@ const EntityDeleteConfirmationModal = ({
   const handleDelete = React.useCallback(async() => {
     if (!key) return;
     const client = await createClient();
-    await client.deleteEntities([ key as Hex ]);
+    await client.deleteEntity({ entityKey: key as Hex });
   }, [ key, createClient ]);
 
   const onSuccess = React.useCallback(async() => {

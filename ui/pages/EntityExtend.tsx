@@ -1,4 +1,4 @@
-import type { GolemBaseExtend, Hex } from 'golem-base-sdk';
+import type { Hex } from '@arkiv-network/sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
@@ -14,6 +14,7 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ExtendEntityForm from '../entity/ExtendEntityForm';
 import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
+import { convertBtlToExpiresIn, type ExtendEntityWithBtl } from '../entity/utils/utils';
 
 const EntityExtend = () => {
   const router = useRouter();
@@ -39,12 +40,11 @@ const EntityExtend = () => {
     }
   }, [ canEdit, entityQuery.isLoading, key, router ]);
 
-  const handleSubmit = React.useCallback(async(entityData: Omit<GolemBaseExtend, 'entityKey'>,
-  ) => {
+  const handleSubmit = React.useCallback(async(entityData: ExtendEntityWithBtl) => {
     const client = await createClient();
-    const extendData = { entityKey: key as Hex, numberOfBlocks: entityData.numberOfBlocks };
+    const expiresIn = await convertBtlToExpiresIn(entityData.btl);
     const updatedAfter = String(Date.now());
-    await client.extendEntities([ extendData ]);
+    await client.extendEntity({ entityKey: key as Hex, expiresIn });
 
     toaster.success({
       title: 'Success',

@@ -1,10 +1,9 @@
 import { chakra, Grid, Text, Flex } from '@chakra-ui/react';
-import type { GolemBaseCreate } from 'golem-base-sdk';
 import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import type { EntityFormFields } from './utils/types';
+import type { ArkivEntityData, EntityFormFields } from './utils/types';
 
 import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import { Button } from 'toolkit/chakra/button';
@@ -14,10 +13,10 @@ import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
 import ReturnButton from './ReturnButton';
-import { mapEntityFormDataToGolemCreate } from './utils/utils';
+import { mapEntityFormDataToArkivCreate } from './utils/utils';
 
 interface Props {
-  onSubmit?: (data: GolemBaseCreate) => Promise<void>;
+  onSubmit?: (data: ArkivEntityData) => Promise<void>;
   initialValues?: Partial<EntityFormFields> | null;
   submitText?: string;
   edit?: boolean;
@@ -50,7 +49,7 @@ const EntityForm = ({
     }
 
     try {
-      const mappedData = await mapEntityFormDataToGolemCreate(data);
+      const mappedData = await mapEntityFormDataToArkivCreate(data);
       await onSubmit?.(mappedData);
     } catch {
       setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });
