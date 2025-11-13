@@ -183,7 +183,7 @@ test.describe('Entity page', () => {
   test('active entity - entity operations tab', async({ render, mockApiResponse }) => {
     const hooksConfigWithTab = {
       router: {
-        query: { key: entityKey, tab: 'entity_ops' },
+        query: { key: entityKey, tab: 'entity_ops_all' },
       },
     };
 
