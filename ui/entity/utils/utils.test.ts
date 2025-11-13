@@ -72,7 +72,7 @@ describe('entity utils', () => {
         { key: 'stringKey1', value: 'stringValue1' },
         { key: 'stringKey2', value: 'stringValue2' },
         { key: 'numKey1', value: 42 },
-        { key: 'numKey2', value: '' },
+        { key: 'numKey2', value: 0 },
       ]);
     });
 
