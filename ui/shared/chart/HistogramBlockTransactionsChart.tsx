@@ -106,7 +106,7 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
           <ChartAxis
             type="left"
             scale={ yScale }
-            ticks={ 5 }
+            ticks={ 4 }
             noAnimation
           />
 
@@ -130,7 +130,7 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
         <Box
           position="absolute"
           left={ `${ tooltipData.x }px` }
-          top={ `${ tooltipData.y - 80 }px` }
+          top="-40px"
           transform="translate(-50%, 0%)"
           bg={ tooltipBg }
           borderRadius="12px"
