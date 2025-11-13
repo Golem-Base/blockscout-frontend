@@ -22,10 +22,10 @@ const hooksConfig = {
 test('related entities view', async({
   render,
   mockApiResponse,
-  mockGolemBase,
+  mockArkiv,
 }) => {
 
-  await mockGolemBase({ isConnected: true });
+  await mockArkiv({ isConnected: true });
 
   await mockApiResponse('golemBaseIndexer:entities', { items: entityMock.entityResult.items, next_page_params: { page: 1, page_size: 10 } }, {
     queryParams,
@@ -39,9 +39,9 @@ test('related entities view', async({
 test('related entities view +@dark-mode +@mobile', async({
   render,
   mockApiResponse,
-  mockGolemBase,
+  mockArkiv,
 }) => {
-  await mockGolemBase({ isConnected: true });
+  await mockArkiv({ isConnected: true });
 
   await mockApiResponse('golemBaseIndexer:entities', { items: entityMock.entityResult.items, next_page_params: { page: 1, page_size: 10 } }, {
     queryParams,

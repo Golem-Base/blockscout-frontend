@@ -183,12 +183,12 @@ test('search by entity hash +@mobile', async({ render, page, mockApiResponse }) 
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1200, height: 300 } });
 });
 
-test('search by entity query +@mobile', async({ render, page, mockApiResponse, mockGolemBase }) => {
+test('search by entity query +@mobile', async({ render, page, mockApiResponse, mockArkiv }) => {
   const apiUrl = await mockApiResponse('general:quick_search', [], { queryParams: { q: 'test' } });
-  await mockGolemBase({
+  await mockArkiv({
     isConnected: true,
-    queryEntitiesResponse: [
-      { entityKey: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', storageValue: new Uint8Array([ 1, 2, 3 ]) },
+    queryResponse: [
+      { key: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', storageValue: new Uint8Array([ 1, 2, 3 ]) },
     ],
   });
   await render(<SearchBar/>);

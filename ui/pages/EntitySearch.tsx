@@ -44,7 +44,7 @@ const SearchEntityPageContent = () => {
 
     return data.slice(0, renderedItemsNum).map((item) => ({
       type: 'golembase_entity' as const,
-      golembase_entity: item.entityKey,
+      golembase_entity: item.key,
     }));
   }, [ data, renderedItemsNum ]);
 

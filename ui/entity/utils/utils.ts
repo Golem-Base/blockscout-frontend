@@ -1,13 +1,30 @@
-import type { GolemBaseCreate, GolemBaseExtend } from 'golem-base-sdk';
-import { Annotation as GolemAnnotation } from 'golem-base-sdk';
+import type { Attribute } from '@arkiv-network/sdk';
 
-import type { Annotation, EntityFormFields, ExtendEntityFormFields } from './types';
+import type {
+  Annotation,
+  ArkivEntityData,
+  ArkivExtendEntity,
+  EntityFormFields,
+  ExtendEntityFormFields,
+  MimeType,
+} from './types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
+import { createPublicClient } from 'lib/arkiv/useArkivClient';
 import hexToUtf8 from 'lib/hexToUtf8';
 import { Kb } from 'toolkit/utils/consts';
 
 export const MAX_SIZE = 100 * Kb;
+
+// MimeType from @arkiv-network/sdk
+export const MIME_TYPES = [
+  'text/plain', 'text/html', 'text/css', 'text/csv', 'text/xml', 'text/javascript',
+  'application/json', 'application/xml', 'application/pdf', 'application/zip',
+  'application/gzip', 'application/octet-stream', 'application/javascript',
+  'application/x-www-form-urlencoded', 'image/png', 'image/jpeg', 'image/webp',
+  'image/gif', 'image/svg+xml', 'audio/mpeg', 'audio/wav', 'audio/ogg',
+  'video/mp4', 'video/webm', 'video/ogg', 'multipart/form-data',
+] as const;
 
 export function generateAnnotationId(): string {
   return Math.random().toString(36);
@@ -21,22 +38,25 @@ function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: s
   };
 }
 
-function formatGolemBaseNumber(value: string): number {
-  return value === '0' ? '' as unknown as number : Number(value);
-}
+export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields): Promise<ArkivEntityData> {
+  const payload = await convertFormDataToUint8Array(formData);
 
-export async function mapEntityFormDataToGolemCreate(formData: EntityFormFields): Promise<GolemBaseCreate> {
+  const attributes: Array<Attribute> = [
+    ...formData.stringAnnotations.map(annotation => ({ key: annotation.key, value: annotation.value })),
+    ...formData.numericAnnotations.map(annotation => ({ key: annotation.key, value: Number(annotation.value) })),
+  ];
+
   return {
-    data: await convertFormDataToUint8Array(formData),
-    btl: Number(formData.btl),
-    stringAnnotations: formData.stringAnnotations.map(annotation => new GolemAnnotation(annotation.key, annotation.value)),
-    numericAnnotations: formData.numericAnnotations.map(annotation => new GolemAnnotation(annotation.key, formatGolemBaseNumber(annotation.value))),
+    payload,
+    attributes,
+    contentType: getMimeType(formData.dataFile[0]),
+    expiresIn: await convertBtlToExpiresIn(formData.btl),
   };
 }
 
-export async function mapExtendEntityFormDataToGolemExtend(formData: ExtendEntityFormFields): Promise<Omit<GolemBaseExtend, 'entityKey'>> {
+export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    numberOfBlocks: Number(formData.btl),
+    expiresIn: await convertBtlToExpiresIn(formData.btl),
   };
 }
 
@@ -58,4 +78,23 @@ async function convertFormDataToUint8Array(formData: EntityFormFields): Promise<
 
   const encoder = new TextEncoder();
   return encoder.encode(formData.dataText);
+}
+
+async function convertBtlToExpiresIn(btl: string): Promise<number> {
+  const publicClient = createPublicClient();
+  const blockTiming = await publicClient.getBlockTiming();
+  return Number(btl) * blockTiming.blockDuration;
+}
+
+function getMimeType(file?: File): MimeType {
+  if (file) {
+    if (MIME_TYPES.includes(file.type)) {
+      return file.type as MimeType;
+    }
+    // If file exists but type is not recognized, treat as binary
+    return 'application/octet-stream';
+  }
+
+  // No file provided, using text input - default to text/plain
+  return 'text/plain';
 }

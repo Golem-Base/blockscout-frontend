@@ -4,12 +4,12 @@ import type { Page } from '@playwright/test';
 
 import * as injectMetaMaskProvider from './fixtures/injectMetaMaskProvider';
 import * as mockApiResponse from './fixtures/mockApiResponse';
+import * as mockArkiv from './fixtures/mockArkiv';
 import * as mockAssetResponse from './fixtures/mockAssetResponse';
 import * as mockConfigResponse from './fixtures/mockConfigResponse';
 import * as mockContractReadResponse from './fixtures/mockContractReadResponse';
 import * as mockEnvs from './fixtures/mockEnvs';
 import * as mockFeatures from './fixtures/mockFeatures';
-import * as mockGolemBase from './fixtures/mockGolemBase';
 import * as mockRpcResponse from './fixtures/mockRpcResponse';
 import * as mockTextAd from './fixtures/mockTextAd';
 import * as render from './fixtures/render';
@@ -23,7 +23,7 @@ export interface Fixtures {
   mockContractReadResponse: mockContractReadResponse.MockContractReadResponseFixture;
   mockEnvs: mockEnvs.MockEnvsFixture;
   mockFeatures: mockFeatures.MockFeaturesFixture;
-  mockGolemBase: mockGolemBase.MockGolemBaseFixture;
+  mockArkiv: mockArkiv.MockArkivFixture;
   mockRpcResponse: mockRpcResponse.MockRpcResponseFixture;
   createSocket: socketServer.CreateSocketFixture;
   injectMetaMaskProvider: injectMetaMaskProvider.InjectMetaMaskProvider;
@@ -40,7 +40,7 @@ const test = base.extend<Fixtures>({
   mockContractReadResponse: mockContractReadResponse.default,
   mockEnvs: mockEnvs.default,
   mockFeatures: mockFeatures.default,
-  mockGolemBase: mockGolemBase.default,
+  mockArkiv: mockArkiv.default,
   mockRpcResponse: mockRpcResponse.default,
   // FIXME: for some reason Playwright does not intercept requests to text ad provider when running multiple tests in parallel
   // even if we have a global request interceptor (maybe it is related to service worker issue, maybe not)
@@ -50,7 +50,7 @@ const test = base.extend<Fixtures>({
   injectMetaMaskProvider: injectMetaMaskProvider.default,
 });
 
-test.beforeEach(async({ page, mockTextAd, mockGolemBase }) => {
+test.beforeEach(async({ page, mockTextAd, mockArkiv }) => {
   // debug
   const isDebug = process.env.PWDEBUG === '1';
 
@@ -75,7 +75,7 @@ test.beforeEach(async({ page, mockTextAd, mockGolemBase }) => {
   await mockTextAd();
 
   // Reset Golem Base to default state
-  await mockGolemBase();
+  await mockArkiv();
 });
 
 export * from '@playwright/experimental-ct-react';

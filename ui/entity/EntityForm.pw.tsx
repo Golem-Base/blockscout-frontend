@@ -4,16 +4,16 @@ import { expect, test } from 'playwright/lib';
 
 import EntityForm from './EntityForm';
 
-test('default view +@dark-mode +@mobile', async({ render, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('default view +@dark-mode +@mobile', async({ render, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const component = await render(<EntityForm/>);
 
   await expect(component).toHaveScreenshot();
 });
 
-test('text input view with all fields filled', async({ render, page, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('text input view with all fields filled', async({ render, page, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const initialValues = {
     dataText: 'This is comprehensive test entity data',
@@ -33,8 +33,8 @@ test('text input view with all fields filled', async({ render, page, mockGolemBa
   await expect(component).toHaveScreenshot();
 });
 
-test('file input view with all fields filled', async({ render, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('file input view with all fields filled', async({ render, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const initialValues = {
     btl: '25',

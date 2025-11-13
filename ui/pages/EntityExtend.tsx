@@ -1,11 +1,13 @@
-import type { GolemBaseExtend, Hex } from 'golem-base-sdk';
+import type { Hex } from '@arkiv-network/sdk';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
+import type { ArkivExtendEntity } from '../entity/utils/types';
+
 import useApiQuery from 'lib/api/useApiQuery';
+import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
-import { useGolemBaseClient } from 'lib/golemBase/useGolemBaseClient';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { toaster } from 'toolkit/chakra/toaster';
 import ContentLoader from 'ui/shared/ContentLoader';
@@ -26,7 +28,7 @@ const EntityExtend = () => {
     },
   });
 
-  const { createClient } = useGolemBaseClient();
+  const { createClient } = useArkivClient();
 
   throwOnAbsentParamError(key);
   throwOnResourceLoadError(entityQuery);
@@ -39,12 +41,10 @@ const EntityExtend = () => {
     }
   }, [ canEdit, entityQuery.isLoading, key, router ]);
 
-  const handleSubmit = React.useCallback(async(entityData: Omit<GolemBaseExtend, 'entityKey'>,
-  ) => {
+  const handleSubmit = React.useCallback(async(data: ArkivExtendEntity) => {
     const client = await createClient();
-    const extendData = { entityKey: key as Hex, numberOfBlocks: entityData.numberOfBlocks };
     const updatedAfter = String(Date.now());
-    await client.extendEntities([ extendData ]);
+    await client.extendEntity({ ...data, entityKey: key as Hex });
 
     toaster.success({
       title: 'Success',

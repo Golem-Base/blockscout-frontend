@@ -4,8 +4,8 @@ import { expect, test } from 'playwright/lib';
 
 import EntityCreate from './EntityCreate';
 
-test('base view', async({ render, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('base view', async({ render, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   const component = await render(<EntityCreate/>);
 

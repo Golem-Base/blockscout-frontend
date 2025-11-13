@@ -81,11 +81,11 @@ const config: PlaywrightTestConfig = defineConfig({
           // Mock for reCaptcha hook
           { find: 'ui/shared/reCaptcha/useReCaptcha', replacement: './playwright/mocks/ui/shared/recaptcha/useReCaptcha.js' },
 
-          // Mock for golem-base-sdk to avoid process reference error
-          { find: 'golem-base-sdk', replacement: './playwright/mocks/modules/golem-base-sdk.js' },
+          // Mock for @arkiv-network/sdk to avoid process reference error
+          { find: '@arkiv-network/sdk', replacement: './playwright/mocks/modules/@arkiv-network/sdk.js' },
 
-          // Mock for useGolemBaseClient to control wallet connection state
-          { find: 'lib/golemBase/useGolemBaseClient', replacement: './playwright/mocks/lib/golemBase/useGolemBaseClient.ts' },
+          // Mock for useArkivClient to control wallet connection state
+          { find: 'lib/arkiv/useArkivClient', replacement: './playwright/mocks/lib/arkiv/useArkivClient.ts' },
 
           // The createWeb3Modal() function from web3modal/wagmi/react somehow pollutes the global styles which causes the tests to fail
           // We don't call this function in TestApp and since we use useWeb3Modal() and useWeb3ModalState() hooks in the code, we have to mock the module

@@ -1,12 +1,21 @@
-import { Annotation as GolemAnnotation } from 'golem-base-sdk';
-
-import type { EntityFormFields } from './types';
+import type { EntityFormFields, ExtendEntityFormFields } from './types';
 import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
 
-import { generateAnnotationId, mapEntityFormDataToGolemCreate, mapFullEntityToFormFields } from './utils';
+import {
+  generateAnnotationId,
+  mapEntityFormDataToArkivCreate,
+  mapExtendEntityFormDataToArkivExtend,
+  mapFullEntityToFormFields,
+} from './utils';
 
-jest.mock('golem-base-sdk', () => ({
-  Annotation: jest.fn().mockImplementation((key, value) => ({ key, value })),
+jest.mock('lib/arkiv/useArkivClient', () => ({
+  createPublicClient: jest.fn(() => ({
+    getBlockTiming: jest.fn().mockResolvedValue({
+      currentBlock: BigInt(100),
+      currentBlockTime: 1000000,
+      blockDuration: 2,
+    }),
+  })),
 }));
 
 const createMockFile = (content: string | Uint8Array, name: string, type: string) => {
@@ -32,14 +41,14 @@ describe('entity utils', () => {
     });
   });
 
-  describe('mapEntityFormDataToGolemCreate', () => {
+  describe('mapEntityFormDataToArkivCreate', () => {
     const mockFile = createMockFile('test file content', 'test.txt', 'text/plain');
 
     beforeEach(() => {
       jest.clearAllMocks();
     });
 
-    it('should map form data with file correctly', async() => {
+    it('should map form data with file correctly and convert btl to expiresIn', async() => {
       const formData: EntityFormFields = {
         dataText: '',
         dataFile: [ mockFile ],
@@ -54,24 +63,17 @@ describe('entity utils', () => {
         ],
       };
 
-      const result = await mapEntityFormDataToGolemCreate(formData);
+      const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.btl).toBe(123);
-      expect(Array.from(result.data)).toEqual(Array.from(new TextEncoder().encode('test file content')));
-      expect(result.stringAnnotations).toEqual([
+      expect(result.expiresIn).toBe(246);
+      expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('test file content')));
+      expect(result.contentType).toBe('text/plain');
+      expect(result.attributes).toEqual([
         { key: 'stringKey1', value: 'stringValue1' },
         { key: 'stringKey2', value: 'stringValue2' },
-      ]);
-      expect(result.numericAnnotations).toEqual([
         { key: 'numKey1', value: 42 },
-        { key: 'numKey2', value: '' },
+        { key: 'numKey2', value: 0 },
       ]);
-
-      expect(GolemAnnotation).toHaveBeenCalledTimes(4);
-      expect(GolemAnnotation).toHaveBeenCalledWith('stringKey1', 'stringValue1');
-      expect(GolemAnnotation).toHaveBeenCalledWith('stringKey2', 'stringValue2');
-      expect(GolemAnnotation).toHaveBeenCalledWith('numKey1', 42);
-      expect(GolemAnnotation).toHaveBeenCalledWith('numKey2', '');
     });
 
     it('should map form data with text data correctly', async() => {
@@ -83,12 +85,12 @@ describe('entity utils', () => {
         numericAnnotations: [],
       };
 
-      const result = await mapEntityFormDataToGolemCreate(formData);
+      const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.btl).toBe(456);
-      expect(Array.from(result.data)).toEqual(Array.from(new TextEncoder().encode('Hello, World!')));
-      expect(result.stringAnnotations).toEqual([]);
-      expect(result.numericAnnotations).toEqual([]);
+      expect(result.expiresIn).toBe(912);
+      expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('Hello, World!')));
+      expect(result.contentType).toBe('text/plain');
+      expect(result.attributes).toEqual([]);
     });
 
     it('should handle mixed data sources (file takes precedence)', async() => {
@@ -103,12 +105,48 @@ describe('entity utils', () => {
         numericAnnotations: [ { id: '1', key: 'count', value: '5' } ],
       };
 
-      const result = await mapEntityFormDataToGolemCreate(formData);
+      const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.data).toEqual(binaryData);
-      expect(result.btl).toBe(999);
-      expect(result.stringAnnotations).toHaveLength(1);
-      expect(result.numericAnnotations).toHaveLength(1);
+      expect(result.payload).toEqual(binaryData);
+      expect(result.contentType).toBe('application/octet-stream');
+      expect(result.expiresIn).toBe(1998);
+      expect(result.attributes).toHaveLength(2);
+    });
+
+    it('should default to text/plain for contentType when no file is provided', async() => {
+      const formData: EntityFormFields = {
+        dataText: 'Plain text',
+        dataFile: [],
+        btl: '10',
+        stringAnnotations: [],
+        numericAnnotations: [],
+      };
+
+      const result = await mapEntityFormDataToArkivCreate(formData);
+
+      expect(result.contentType).toBe('text/plain');
+    });
+  });
+
+  describe('mapExtendEntityFormDataToArkivExtend', () => {
+    it('should map extend form data and convert btl to expiresIn', async() => {
+      const formData: ExtendEntityFormFields = {
+        btl: '500',
+      };
+
+      const result = await mapExtendEntityFormDataToArkivExtend(formData);
+
+      expect(result.expiresIn).toBe(1000); // 500 blocks * 2 seconds = 1000 seconds
+    });
+
+    it('should handle small btl values', async() => {
+      const formData: ExtendEntityFormFields = {
+        btl: '1',
+      };
+
+      const result = await mapExtendEntityFormDataToArkivExtend(formData);
+
+      expect(result.expiresIn).toBe(2);
     });
   });
 

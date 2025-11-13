@@ -13,8 +13,8 @@ test.beforeEach(async({ mockEnvs }) => {
   ]);
 });
 
-test('default view +@dark-mode', async({ render, page, mockGolemBase }) => {
-  await mockGolemBase({ isConnected: true });
+test('default view +@dark-mode', async({ render, page, mockArkiv }) => {
+  await mockArkiv({ isConnected: true });
 
   await render(<HeaderMobile/>);
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1500, height: 150 } });
