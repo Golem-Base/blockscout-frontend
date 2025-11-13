@@ -1,5 +1,6 @@
 import type { Chain, PublicArkivClient, WalletArkivClient } from '@arkiv-network/sdk';
 import { createPublicClient as createArkivPublicClient, createWalletClient as createArkivWalletClient, http } from '@arkiv-network/sdk';
+import * as chains from '@arkiv-network/sdk/chains';
 import { useCallback } from 'react';
 import { custom } from 'viem';
 import { useWalletClient } from 'wagmi';
@@ -10,6 +11,8 @@ function getChainConfig(): Chain {
   const id = Number(config.chain.id);
   const [ rpcUrl ] = config.chain.rpcUrls;
   const currency = config.chain.currency;
+
+  const chain = Object.values(chains).find((chain) => chain.id === id);
 
   return {
     id,
@@ -23,6 +26,7 @@ function getChainConfig(): Chain {
       'default': { http: [ rpcUrl ] },
       'public': { http: [ rpcUrl ] },
     },
+    ...(chain ? { blockExplorers: chain.blockExplorers } : {}),
   };
 }
 

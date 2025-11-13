@@ -38,17 +38,12 @@ function mapApiAnnotationToFormAnnotation(apiAnnotation: { key: string; value: s
   };
 }
 
-// @TODO: check if remove can
-function formatGolemBaseNumber(value: string): number {
-  return value === '0' ? '' as unknown as number : Number(value);
-}
-
 export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields): Promise<ArkivEntityData> {
   const payload = await convertFormDataToUint8Array(formData);
 
   const attributes: Array<Attribute> = [
     ...formData.stringAnnotations.map(annotation => ({ key: annotation.key, value: annotation.value })),
-    ...formData.numericAnnotations.map(annotation => ({ key: annotation.key, value: formatGolemBaseNumber(annotation.value) })),
+    ...formData.numericAnnotations.map(annotation => ({ key: annotation.key, value: Number(annotation.value) })),
   ];
 
   return {

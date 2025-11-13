@@ -42,8 +42,8 @@ const EntityFieldAnnotations = ({ variant, hint }: Props) => {
     inputProps: { type: 'number' },
     rules: {
       min: {
-        value: 0,
-        message: 'Must be at least 0',
+        value: 1,
+        message: 'Must be at least 1',
       },
       max: {
         value: Number.MAX_SAFE_INTEGER,
