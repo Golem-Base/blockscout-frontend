@@ -53,7 +53,11 @@ const EntityForm = ({
       await onSubmit?.(mappedData);
     } catch (e) {
       // eslint-disable-next-line
-      console.log('EntityForm', e);
+      console.error('EntityForm:', {
+        error: e,
+        action: edit ? 'update' : 'create',
+      });
+
       setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });
     }
   }, [ isConnected, setError, onSubmit, edit ]);
