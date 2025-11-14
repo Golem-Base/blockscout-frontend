@@ -197,7 +197,7 @@ test.describe('Entity page', () => {
     };
 
     await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
-      queryParams: { operation: 'CREATE', page_size: '50', entity_key: entityKey },
+      queryParams: { operation: 'ALL', page_size: '50', entity_key: entityKey },
     });
 
     await mockApiResponse('golemBaseIndexer:operationsCount', {
