@@ -63,6 +63,9 @@ export function app(): CspDev.DirectiveDescriptor {
       // https://github.com/vercel/next.js/issues/14221#issuecomment-657258278
       config.app.isDev ? KEY_WORDS.UNSAFE_EVAL : '',
 
+      // Allow WebAssembly compilation (required for Arkiv SDK content zipping)
+      '\'wasm-unsafe-eval\'',
+
       // hash of ColorModeScript: system + dark
       '\'sha256-yYJq8IP5/WhJj6zxyTmujEqBFs/MufRufp2QKJFU76M=\'',
 
