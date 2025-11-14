@@ -100,7 +100,7 @@ const TransactionPageContent = () => {
         { id: 'wrapped', title: 'Regular tx details', component: <TxDetailsWrapped data={ data.wrapped }/> } :
         undefined,
       {
-        id: 'entity_ops',
+        id: 'entity_ops_all',
         title: 'Entity operations',
         component: (
           <TxEntityOps txQuery={ txQuery }/>

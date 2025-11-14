@@ -85,7 +85,7 @@ const BlockPageContent = () => {
       ),
     },
     {
-      id: 'entity_ops',
+      id: 'entity_ops_all',
       title: 'Entity operations',
       component: (
         <BlockEntityOps heightOrHash={ heightOrHash }/>
