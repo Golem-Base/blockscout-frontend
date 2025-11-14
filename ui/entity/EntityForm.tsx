@@ -51,7 +51,9 @@ const EntityForm = ({
     try {
       const mappedData = await mapEntityFormDataToArkivCreate(data);
       await onSubmit?.(mappedData);
-    } catch {
+    } catch (e) {
+      // eslint-disable-next-line
+      console.log('EntityForm', e);
       setError('root', { message: `Failed to ${ edit ? 'update' : 'create' } entity` });
     }
   }, [ isConnected, setError, onSubmit, edit ]);
