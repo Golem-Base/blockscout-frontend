@@ -8,7 +8,12 @@ import HistogramBlockGasUsedChart from 'ui/shared/chart/HistogramBlockGasUsedCha
 import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
-const BlockGasUsageHistogramWidget = () => {
+type Props = {
+  title: string;
+  description: string;
+};
+
+const BlockGasUsageHistogramWidget = ({ title, description }: Props) => {
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockGasUsage', {
     queryParams: {
       limit: 30,
@@ -43,11 +48,11 @@ const BlockGasUsageHistogramWidget = () => {
     >
       <Box>
         <Skeleton loading={ isPlaceholderData } fontWeight={ 600 } textStyle="md">
-          <span>Gas usage per block</span>
+          <span>{ title }</span>
         </Skeleton>
 
         <Skeleton loading={ isPlaceholderData } color="text.secondary" fontSize="xs" mt={ 1 }>
-          <span>Recent blocks gas consumption per block</span>
+          <span>{ description }</span>
         </Skeleton>
       </Box>
 
