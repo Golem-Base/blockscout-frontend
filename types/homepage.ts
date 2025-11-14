@@ -10,7 +10,7 @@ export const CHAIN_INDICATOR_IDS = [
   'block_transactions',
 ] as const;
 
-export type ChainIndicatorId = typeof CHAIN_INDICATOR_IDS[number];
+export type ChainIndicatorId = Exclude<typeof CHAIN_INDICATOR_IDS[number], 'block_transactions'>;
 
 export const HOME_STATS_WIDGET_IDS = [
   'latest_batch',
