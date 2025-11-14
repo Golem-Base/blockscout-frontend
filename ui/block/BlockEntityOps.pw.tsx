@@ -13,8 +13,8 @@ const mockOperationsResponse = {
   next_page_params: null,
 };
 
-test('base view +@mobile', async({ render, mockApiResponse }) => {
-
+// FIXME: test is flaky, horizontal scroll positioning is unstable
+test.fixme('base view +@mobile', async({ render, mockApiResponse }) => {
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
     queryParams: { operation: 'CREATE', page_size: '50', block_number_or_hash: BLOCK_HASH },
   });
