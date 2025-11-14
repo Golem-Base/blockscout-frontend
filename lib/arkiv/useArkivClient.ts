@@ -63,13 +63,6 @@ export function useArkivClient(): ArkivClientReturn {
       await switchChainAsync({ chainId: chain.id });
     }
 
-    // eslint-disable-next-line
-    console.log('useArkivClient', {
-      address,
-      chain,
-      walletClient,
-    });
-
     return createArkivWalletClient({
       account: address,
       chain,
