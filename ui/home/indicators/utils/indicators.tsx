@@ -109,15 +109,6 @@ const INDICATORS: Array<TChainIndicator> = [
     icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
     hint: 'Daily amount of operations that have occurred in the last 30 days',
   },
-  {
-    id: 'block_transactions',
-    title: 'Recent block transactions',
-    value: (stats) => stats.recent_block_transactions === null ?
-      'N/A' :
-      Number(stats.recent_block_transactions).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-    icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
-    hint: 'Recent transactions in the last 100 blocks',
-  },
 ];
 
 export default INDICATORS;
