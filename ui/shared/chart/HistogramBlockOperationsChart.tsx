@@ -159,7 +159,7 @@ const HistogramBlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visible
         <Box
           position="absolute"
           left={ `${ tooltipData.x }px` }
-          top={ `${ tooltipData.y - 50 }px` }
+          top="-50%"
           transform="translateX(-50%)"
           bg={ tooltipBg }
           borderRadius="12px"

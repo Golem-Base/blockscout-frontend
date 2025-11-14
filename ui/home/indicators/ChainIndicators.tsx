@@ -3,7 +3,7 @@ import React from 'react';
 
 import type { TChainIndicator } from './types';
 import type { ChainIndicatorId } from 'types/homepage';
-import type { SimpleChartData, TimeChartData } from 'ui/shared/chart/types';
+import type { TimeChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
@@ -45,8 +45,6 @@ const ChainIndicators = () => {
 
   const operationTrendsQueryResult = useChartDataQuery('operation_trends');
 
-  const blockTransactionsQueryResult = useChartDataQuery('block_transactions');
-
   const statsMicroserviceQueryResult = useApiQuery('stats:pages_main', {
     queryOptions: {
       refetchOnMount: false,
@@ -75,7 +73,6 @@ const ChainIndicators = () => {
     statsApiQueryResult?.data,
     dataUsageQueryResult?.data as TimeChartData,
     operationTrendsQueryResult?.data as TimeChartData,
-    blockTransactionsQueryResult?.data as SimpleChartData,
   );
 
   const title = (() => {
@@ -194,7 +191,6 @@ const ChainIndicators = () => {
                   statsApiQueryResult?.data,
                   dataUsageQueryResult?.data as TimeChartData,
                   operationTrendsQueryResult?.data as TimeChartData,
-                  blockTransactionsQueryResult?.data as SimpleChartData,
                 )
               }
               isLoading={ isPlaceholderData }

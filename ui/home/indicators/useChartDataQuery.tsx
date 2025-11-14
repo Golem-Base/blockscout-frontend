@@ -1,7 +1,5 @@
 import React from 'react';
 
-import type {
-  BlockTransactionPoint } from '@golembase/l3-indexer-types';
 import {
   ChartResolution,
   OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
@@ -15,7 +13,7 @@ import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
 
-import { prepareChartItemsWithDate, prepareChartItemsWithNumberOnly } from './utils/prepareChartItems';
+import { prepareChartItemsWithDate } from './utils/prepareChartItems';
 
 const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
@@ -54,9 +52,6 @@ const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'va
     name: 'Operation trends',
     valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
   },
-  block_transactions: {
-    name: 'Block transactions',
-  },
 };
 
 const isStatsFeatureEnabled = config.features.stats.isEnabled;
@@ -71,14 +66,6 @@ type UseFetchChartDataResult = {
 function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
   return [ {
     items: prepareChartItemsWithDate(data),
-    name: CHART_ITEMS[indicatorId].name,
-    valueFormatter: CHART_ITEMS[indicatorId].valueFormatter,
-  } ];
-}
-
-function getNumberOnlyChartData(indicatorId: ChainIndicatorId, data: Array<BlockTransactionPoint>): SimpleChartData {
-  return [ {
-    items: prepareChartItemsWithNumberOnly(data),
     name: CHART_ITEMS[indicatorId].name,
     valueFormatter: CHART_ITEMS[indicatorId].valueFormatter,
   } ];
@@ -203,14 +190,6 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
     },
   });
 
-  const blockTransactionsQuery = useApiQuery('golemBaseIndexer:chartBlockTransactions', {
-    queryOptions: {
-      refetchOnMount: false,
-      enabled: indicatorId === 'block_transactions',
-      select: (data) => data.chart || [],
-    },
-  });
-
   const onFilterChange: OnFilterChange = React.useCallback((name) => {
     return (value) => updateFilter(name, value.value[0]);
   }, [ updateFilter ]);
@@ -284,13 +263,6 @@ export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFet
             onChange: onFilterChange,
           },
         ],
-      };
-    }
-    case 'block_transactions': {
-      return {
-        data: getNumberOnlyChartData(indicatorId, blockTransactionsQuery.data || []),
-        isError: blockTransactionsQuery.isError,
-        isPending: blockTransactionsQuery.isPending,
       };
     }
   }

@@ -1,4 +1,5 @@
 import type * as stats from '@blockscout/stats-types';
+import type { ChartBlockTransactionsResponse } from '@golembase/l3-indexer-types';
 import type { HomeStats } from 'types/api/stats';
 
 export const HOMEPAGE_STATS: HomeStats = {
@@ -164,5 +165,18 @@ export const BLOCK_GAS_USAGE_HISTOGRAM = {
     id: 'block_gas_usage',
     title: 'Block gas usage',
     description: 'Block gas usage',
+  },
+};
+
+export const BLOCK_TRANSACTIONS_HISTOGRAM: ChartBlockTransactionsResponse = {
+  chart: [
+    { block_number: '12345671', tx_count: '100' },
+    { block_number: '12345672', tx_count: '105' },
+    { block_number: '12345673', tx_count: '100' },
+  ],
+  info: {
+    id: 'block_transactions',
+    title: 'Block transactions',
+    description: 'Block transactions',
   },
 };
