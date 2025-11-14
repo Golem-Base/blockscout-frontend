@@ -210,7 +210,7 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
         <Box
           position="absolute"
           left={ `${ tooltipData.x }px` }
-          top={ `${ tooltipData.y - 80 }px` }
+          top="-10%"
           transform="translate(-50%, 0%)"
           bg={ tooltipBg }
           borderRadius="12px"
