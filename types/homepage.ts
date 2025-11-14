@@ -7,9 +7,11 @@ export const CHAIN_INDICATOR_IDS = [
   'tvl',
   'data_usage',
   'operation_trends',
+  'block_transactions',
 ] as const;
 
 export type ChainIndicatorId = typeof CHAIN_INDICATOR_IDS[number];
+export type ChainIndicatorIdWithNoBlockTransactions = Exclude<ChainIndicatorId, 'block_transactions'>;
 
 export const HOME_STATS_WIDGET_IDS = [
   'latest_batch',

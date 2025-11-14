@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TChainIndicator } from './types';
-import type { ChainIndicatorId } from 'types/homepage';
+import type { ChainIndicatorIdWithNoBlockTransactions as ChainIndicatorId } from 'types/homepage';
 import type { TimeChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
