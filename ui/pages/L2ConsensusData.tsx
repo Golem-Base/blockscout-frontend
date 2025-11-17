@@ -1,4 +1,4 @@
-import { Grid } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React from 'react';
 
@@ -26,54 +26,54 @@ const keysToCheck: Array<keyof ConsensusInfoResponse> = [
   'rollup_transaction_fee',
 ];
 
-const getStats = (consensusInfo: ConsensusInfoResponse): Array<StatsWidgetProps> => {
-  return [
-    {
+const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusInfoResponse, StatsWidgetProps> => {
+  return {
+    finalized_block_number: {
       icon: 'block_full',
       label: 'Finalized block number',
       value: consensusInfo.finalized_block_number,
     },
-    {
+    finalized_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Finalized block timestamp',
       value: dayjs.unix(Number(consensusInfo.finalized_block_timestamp)).format('lll'),
     },
-    {
+    unsafe_block_number: {
       icon: 'block_full',
       label: 'Unsafe block number',
       value: consensusInfo.unsafe_block_number,
     },
-    {
+    unsafe_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Unsafe block created at',
       value: dayjs.unix(Number(consensusInfo.unsafe_block_timestamp)).format('lll'),
     },
-    {
+    safe_block_number: {
       icon: 'block_full',
       label: 'Safe block number',
       value: consensusInfo.safe_block_number,
     },
-    {
+    safe_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Safe block created at',
       value: dayjs.unix(Number(consensusInfo.safe_block_timestamp)).format('lll'),
     },
-    {
+    rollup_gas_price: {
       icon: 'gas',
       label: 'Rollup gas price',
-      value: `${ BigNumber(consensusInfo.rollup_gas_used).dividedBy(WEI).toFixed() } ${ currencyUnits.ether }`,
+      value: `${ BigNumber(consensusInfo.rollup_gas_price).dividedBy(WEI).toFixed() } ${ currencyUnits.ether }`,
     },
-    {
+    rollup_gas_used: {
       icon: 'gas',
       label: 'Rollup gas used',
       value: consensusInfo.rollup_gas_used,
     },
-    {
+    rollup_transaction_fee: {
       icon: 'donate',
       label: 'Rollup transaction fee',
       value: `${ BigNumber(consensusInfo.rollup_transaction_fee).dividedBy(WEI).toFixed() } ${ currencyUnits.ether }`,
     },
-  ];
+  };
 };
 
 const L2ConsensusData = () => {
@@ -86,12 +86,10 @@ const L2ConsensusData = () => {
   const consensusInfo = consensusInfoQuery.data;
   const isLoading = Boolean(consensusInfoQuery.isPlaceholderData);
 
-  const items: Array<StatsWidgetProps> = React.useMemo(() => {
-    if (!consensusInfo) return [];
+  const items = React.useMemo(() => {
+    if (!consensusInfo) return undefined;
 
-    const stats = getStats(consensusInfo);
-
-    return stats.filter(Boolean);
+    return getStats(consensusInfo);
   }, [ consensusInfo ]);
 
   if (consensusInfoQuery.isError) {
@@ -105,7 +103,7 @@ const L2ConsensusData = () => {
     return <DataFetchAlert/>;
   }
 
-  if (keysToCheck.every(value => consensusInfo?.[value] === '0')) {
+  if (keysToCheck.every(value => consensusInfo?.[value] === '0') || !items) {
     return <EmptySearchResult heading="Data not found" text="No consensus data available yet"/>;
   }
 
@@ -113,9 +111,28 @@ const L2ConsensusData = () => {
     <>
       <PageTitle title="L2 Consensus & Performance" withTextAd/>
 
-      <Grid gridGap={ 2 } gridTemplateColumns="repeat(auto-fill, minmax(250px, 1fr))">
-        { items.map((item) => <StatsWidget key={ item.label } { ...item } isLoading={ isLoading }/>) }
-      </Grid>
+      <Flex flexDir="column" gridGap={{ base: 5, lg: 4 }}>
+        <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 }>
+          <StatsWidget { ...items.unsafe_block_number } isLoading={ isLoading }/>
+          <StatsWidget { ...items.unsafe_block_timestamp } isLoading={ isLoading }/>
+        </Flex>
+
+        <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 } >
+          <StatsWidget { ...items.safe_block_number } isLoading={ isLoading }/>
+          <StatsWidget { ...items.safe_block_timestamp } isLoading={ isLoading }/>
+        </Flex>
+
+        <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 } >
+          <StatsWidget { ...items.finalized_block_number } isLoading={ isLoading }/>
+          <StatsWidget { ...items.finalized_block_timestamp } isLoading={ isLoading }/>
+        </Flex>
+
+        <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 } >
+          <StatsWidget { ...items.rollup_gas_price } isLoading={ isLoading }/>
+          <StatsWidget { ...items.rollup_gas_used } isLoading={ isLoading }/>
+          <StatsWidget { ...items.rollup_transaction_fee } isLoading={ isLoading }/>
+        </Flex>
+      </Flex>
     </>
   );
 };
