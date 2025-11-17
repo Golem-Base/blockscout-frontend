@@ -32,6 +32,7 @@ const LABELS: Record<FilterOperationType, string> = {
   [OperationType.UPDATE]: 'Update',
   [OperationType.EXTEND]: 'Extend',
   [OperationType.DELETE]: 'Delete',
+  [OperationType.CHANGEOWNER]: 'Change Owner',
 };
 
 function operationToTab(operation: string) {
@@ -63,7 +64,7 @@ const EntityOps = ({ opsQuery, opsCountQuery }: Props) => {
     const operationType = operation.toLowerCase() as Lowercase<FilterOperationType>;
     const key: keyof CountOperationsResponse = `${ operationType }_count` as keyof CountOperationsResponse;
     const count = opsCountQuery?.data ? Number(opsCountQuery?.data[key]) : null;
-    const countAll = opsCountQuery?.data ? sum(Object.values(opsCountQuery?.data).map(Number)) : null;
+    const countAll = opsCountQuery?.data ? sum(Object.values(opsCountQuery.data).map(Number)) : null;
 
     return {
       id: operationToTab(operation),

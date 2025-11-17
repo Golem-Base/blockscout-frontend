@@ -7,6 +7,7 @@ export const statsResponse: BlockStatsResponse = {
     expire_count: '502',
     delete_count: '8',
     extend_count: '51',
+    changeowner_count: '0',
   },
   storage: {
     block_bytes: '190000',

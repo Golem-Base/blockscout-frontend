@@ -29,8 +29,7 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityOpQuery;
   const { data: counts, isPlaceholderData: isCountLoading } = txOpCountQuery;
 
-  const sumCounts = (c: CountOperationsResponse) =>
-    BigNumber(c.create_count).plus(BigNumber(c.delete_count)).plus(BigNumber(c.extend_count)).plus(BigNumber(c.update_count));
+  const sumCounts = (c: CountOperationsResponse) => BigNumber.sum(...Object.values(c));
 
   const txOpCount = !isCountLoading && counts ? sumCounts(counts) : BigNumber(0);
 

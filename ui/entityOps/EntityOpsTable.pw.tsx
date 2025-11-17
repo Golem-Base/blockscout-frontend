@@ -13,6 +13,7 @@ test('base view +@dark-mode', async({ render }) => {
         entityOpsMock.updateEntityOperation,
         entityOpsMock.extendEntityOperation,
         entityOpsMock.deleteEntityOperation,
+        entityOpsMock.changeOwnerEntityOperation,
       ] }
     />,
   );
@@ -102,6 +103,25 @@ test('expanded DELETE operation details', async({ render, page, mockApiResponse 
   const component = await render(
     <EntityOpsTable
       operations={ [ entityOpsMock.deleteEntityOperation ] }
+    />,
+  );
+
+  await page.getByTestId('expand-button').click();
+  await expect(page.getByTestId('operation-details')).toBeVisible();
+  await expect(component).toHaveScreenshot();
+});
+
+test('expanded CHANGE OWNER operation details', async({ render, page, mockApiResponse }) => {
+  await mockApiResponse('golemBaseIndexer:operation', entityOpsMock.changeOwnerEntityHistoryEntry, {
+    pathParams: {
+      tx_hash: entityOpsMock.changeOwnerEntityOperation.transaction_hash,
+      op_index: entityOpsMock.changeOwnerEntityOperation.index,
+    },
+  });
+
+  const component = await render(
+    <EntityOpsTable
+      operations={ [ entityOpsMock.changeOwnerEntityOperation ] }
     />,
   );
 

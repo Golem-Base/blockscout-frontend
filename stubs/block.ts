@@ -45,6 +45,7 @@ export const BLOCK_STATS: BlockStatsResponse = {
     expire_count: '102',
     delete_count: '8',
     extend_count: '51',
+    changeowner_count: '0',
   },
   storage: {
     block_bytes: '140000',

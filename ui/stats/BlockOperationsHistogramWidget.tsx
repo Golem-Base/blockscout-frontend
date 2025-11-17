@@ -1,5 +1,5 @@
 import { Box, createListCollection, Flex } from '@chakra-ui/react';
-import { sum } from 'es-toolkit/compat';
+import { sum, pick } from 'es-toolkit/compat';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
@@ -38,7 +38,7 @@ const BlockOperationsHistogramWidget = () => {
 
   const chartItems: Array<HistogramItem> = data.chart.map((item) => ({
     label: item.block_number,
-    value: sum([ Number(item.create_count), Number(item.update_count), Number(item.extend_count), Number(item.delete_count) ]),
+    value: sum(Object.values(pick(item, [ 'create_count', 'update_count', 'extend_count', 'delete_count', 'changeowner_count' ])).map(Number)),
     ...item,
   }));
 
@@ -49,6 +49,7 @@ const BlockOperationsHistogramWidget = () => {
       { label: 'Update', value: 'update' },
       { label: 'Extend', value: 'extend' },
       { label: 'Delete', value: 'delete' },
+      { label: 'Change Owner', value: 'changeowner' },
     ],
   });
 

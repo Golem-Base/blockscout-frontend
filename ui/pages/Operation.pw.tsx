@@ -77,4 +77,17 @@ test.describe('Operation page', () => {
     const component = await render(<Operation/>, { hooksConfig });
     await expect(component).toHaveScreenshot();
   });
+  test('change owner operation', async({ render, mockApiResponse }) => {
+    await mockApiResponse('golemBaseIndexer:operation', entityMock.changeOwnerEntityHistoryEntry, {
+      pathParams,
+    });
+    await mockApiResponse('golemBaseIndexer:operationsCount', entityMock.operationCounts, {
+      queryParams: {
+        transaction_hash: pathParams.tx_hash,
+      },
+    });
+
+    const component = await render(<Operation/>, { hooksConfig });
+    await expect(component).toHaveScreenshot();
+  });
 });
