@@ -138,7 +138,7 @@ export const HOMEPAGE_STATS_MICROSERVICE: stats.MainPageStats = {
 };
 
 export const BLOCK_OPERATIONS_HISTOGRAM = {
-  chart: [ { block_number: '0', create_count: '0', update_count: '0', extend_count: '0', delete_count: '0' } ],
+  chart: [ { block_number: '0', create_count: '0', update_count: '0', extend_count: '0', delete_count: '0', changeowner_count: '0' } ],
   info: {
     id: 'block_operations',
     title: 'Block operations',

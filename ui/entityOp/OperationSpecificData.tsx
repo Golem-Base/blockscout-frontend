@@ -9,6 +9,7 @@ import hexToSize from 'lib/hexToSize';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
+import AddressStringOrParam from 'ui/shared/entities/address/AddressStringOrParam';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import IconSvg from 'ui/shared/IconSvg';
 import RawInputData from 'ui/shared/RawInputData';
@@ -194,6 +195,20 @@ const OperationSpecificData = ({ data, isLoading, withTimestamps }: Props) => {
               </ItemValue>
             </>
           ) }
+        </>
+      );
+    }
+
+    case OperationType.CHANGEOWNER: {
+      return (
+        <>
+          <ItemLabel hint="Owner change">Owner</ItemLabel>
+          <ItemValue>
+            { renderValueTransition(
+              data.prev_owner && <AddressStringOrParam address={ data.prev_owner } isLoading={ isLoading }/>,
+              data.owner && <AddressStringOrParam address={ data.owner } isLoading={ isLoading }/>,
+            ) }
+          </ItemValue>
         </>
       );
     }

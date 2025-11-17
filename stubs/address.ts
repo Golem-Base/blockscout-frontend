@@ -64,6 +64,7 @@ export const ADDRESS_STATS: AddressStatsResponse = {
     update_count: '21',
     delete_count: '9',
     extend_count: '1',
+    changeowner_count: '0',
   },
 };
 

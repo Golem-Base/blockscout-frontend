@@ -37,20 +37,25 @@ export const createEntityHistoryEntryMock = (operationType: OperationType): Enti
   fees_paid: '1000000',
   expires_at_timestamp: '2024-12-31T23:59:59.000Z',
   prev_expires_at_timestamp: operationType === OperationType.CREATE ? undefined : '2024-12-31T23:59:50.000Z',
+  prev_owner: operationType === OperationType.CHANGEOWNER ? ADDRESS_HASH : undefined,
+  owner: operationType === OperationType.CHANGEOWNER ? '0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba' : undefined,
 });
 
 export const baseEntityOperation = createEntityOperation(OperationType.CREATE);
 export const updateEntityOperation = createEntityOperation(OperationType.UPDATE);
 export const extendEntityOperation = createEntityOperation(OperationType.EXTEND);
 export const deleteEntityOperation = createEntityOperation(OperationType.DELETE);
+export const changeOwnerEntityOperation = createEntityOperation(OperationType.CHANGEOWNER);
 
 export const createEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.CREATE);
 export const updateEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.UPDATE);
 export const extendEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.EXTEND);
 export const deleteEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.DELETE);
+export const changeOwnerEntityHistoryEntry = createEntityHistoryEntryMock(OperationType.CHANGEOWNER);
 export const operationCounts: CountOperationsResponse = {
   create_count: '1',
   update_count: '2',
   delete_count: '3',
   extend_count: '4',
+  changeowner_count: '5',
 };

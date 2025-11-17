@@ -11,6 +11,7 @@ export const statsResponse: AddressStatsResponse = {
     update_count: '21',
     delete_count: '9',
     extend_count: '1',
+    changeowner_count: '0',
   },
   first_seen_block: '12',
   first_seen_timestamp: '2024-01-11T10:30:00Z',

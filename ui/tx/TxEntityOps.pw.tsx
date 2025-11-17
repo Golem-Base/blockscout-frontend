@@ -23,6 +23,7 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
     update_count: '2',
     extend_count: '3',
     delete_count: '0',
+    changeowner_count: '0',
   }, {
     queryParams: { transaction_hash: txMock.base.hash },
   });

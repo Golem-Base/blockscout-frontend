@@ -31,6 +31,10 @@ const EntityOpType = ({ operation, isLoading }: Props) => {
       label = 'Delete';
       colorPalette = 'red';
       break;
+    case OperationType.CHANGEOWNER:
+      label = 'Change Owner';
+      colorPalette = 'orange';
+      break;
     case OperationType.UNRECOGNIZED:
     default:
       label = 'Unrecognized';

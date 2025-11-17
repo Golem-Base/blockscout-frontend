@@ -36,4 +36,6 @@ export const ENTITY_HISTORY_ENTRY: EntityHistoryEntry = {
   fees_paid: '1000000',
   expires_at_timestamp: '2024-12-31T23:59:59.000Z',
   prev_expires_at_timestamp: undefined,
+  prev_owner: undefined,
+  owner: undefined,
 };

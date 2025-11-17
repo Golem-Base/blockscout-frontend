@@ -32,6 +32,7 @@ const LABELS: Record<FilterOperationType, string> = {
   [OperationType.UPDATE]: 'Update',
   [OperationType.EXTEND]: 'Extend',
   [OperationType.DELETE]: 'Delete',
+  [OperationType.CHANGEOWNER]: 'Change Owner',
 };
 
 function operationToTab(operation: string) {
