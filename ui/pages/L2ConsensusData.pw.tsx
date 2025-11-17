@@ -30,14 +30,29 @@ const emptyConsensusInfo: ConsensusInfoResponse = {
   safe_block_timestamp: '0',
 };
 
-test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
+const rollupParentChainEnvMock = {
+  id: 393530,
+  isTestnet: true,
+  name: 'Golem Base L2 Testnet-001 "Erech"',
+  baseUrl: 'https://explorer.golem-base.io',
+  rpcUrls: [ 'https://execution.holesky.l2.gobas.me' ],
+  currency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+};
+const rollupParentChainEnv: [string, string] = [ 'NEXT_PUBLIC_ROLLUP_PARENT_CHAIN', JSON.stringify(rollupParentChainEnvMock) ];
+const rollupTypeEnv: [string, string] = [ 'NEXT_PUBLIC_ROLLUP_TYPE', 'optimistic' ];
+
+test('base view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse, mockEnvs }) => {
+  await mockEnvs([ rollupParentChainEnv, rollupTypeEnv ]);
+
   await mockTextAd();
   await mockApiResponse('golemBaseIndexer:consensusInfo', consensusInfo);
   const component = await render(<L2ConsensusData/>);
   await expect(component).toHaveScreenshot({ timeout: 15000 });
 });
 
-test('empty view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse }) => {
+test('empty view +@mobile +@dark-mode', async({ render, mockTextAd, mockApiResponse, mockEnvs }) => {
+  await mockEnvs([ rollupParentChainEnv, rollupTypeEnv ]);
+
   await mockTextAd();
   await mockApiResponse('golemBaseIndexer:consensusInfo', emptyConsensusInfo);
   const component = await render(<L2ConsensusData/>);
