@@ -9,7 +9,7 @@ import EntityEntityOps from './EntityEntityOps';
 
 const hooksConfig = {
   router: {
-    query: { key: ENTITY_KEY },
+    query: { key: ENTITY_KEY, tab: 'entity_ops_all' },
   },
 };
 
@@ -21,7 +21,7 @@ const mockOperationsResponse = {
 test('base view +@mobile', async({ render, mockApiResponse }) => {
 
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
-    queryParams: { operation: 'CREATE', page_size: '50', entity_key: ENTITY_KEY },
+    queryParams: { operation: 'ALL', page_size: '50', entity_key: ENTITY_KEY },
   });
   await mockApiResponse('golemBaseIndexer:operationsCount', {
     create_count: '1',
