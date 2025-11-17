@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 import type { LineCharts } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
@@ -25,7 +25,9 @@ export default function useStats() {
 
     const extendedData = { ...data };
 
-    const gasSection = extendedData?.sections?.find((section) => section.id === 'gas');
+    const getSectionById = (id: string) => extendedData.sections?.find((section) => section.id === id);
+
+    const gasSection = getSectionById('gas');
     const isGasBlockChartExists = gasSection?.charts.some((chart) => chart.id === 'gas-block');
 
     if (gasSection && !isGasBlockChartExists) {
@@ -38,13 +40,26 @@ export default function useStats() {
       });
     }
 
+    const transactionsSection = getSectionById('transactions');
+    const isTransactionsBlockChartExists = transactionsSection?.charts.some((chart) => chart.id === 'transactions-block');
+
+    if (transactionsSection && !isTransactionsBlockChartExists) {
+      transactionsSection.charts.push({
+        id: 'transactions-block',
+        title: 'Recent block transactions',
+        description: 'Recent transactions in the last 100 blocks',
+        units: undefined,
+        resolutions: [],
+      });
+    }
+
     return extendedData;
   }, [ data ]);
 
-  const [ currentSection, setCurrentSection ] = useState('all');
-  const [ filterQuery, setFilterQuery ] = useState('');
+  const [ currentSection, setCurrentSection ] = React.useState('all');
+  const [ filterQuery, setFilterQuery ] = React.useState('');
   const [ initialFilterQuery, setInitialFilterQuery ] = React.useState('');
-  const [ interval, setInterval ] = useState<StatsIntervalIds>('oneMonth');
+  const [ interval, setInterval ] = React.useState<StatsIntervalIds>('oneMonth');
   const sectionIds = React.useMemo(() => extendedData?.sections?.map(({ id }) => id), [ extendedData ]);
 
   React.useEffect(() => {

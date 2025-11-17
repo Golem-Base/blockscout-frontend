@@ -77,7 +77,7 @@ const EntityPageContent = () => {
       component: <EntityData entityQuery={ entityQuery }/>,
     },
     {
-      id: 'entity_ops',
+      id: 'entity_ops_all',
       title: 'Entity operations',
       component: <EntityEntityOps/>,
       subTabs: ENTITY_OPS_TABS,

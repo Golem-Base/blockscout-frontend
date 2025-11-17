@@ -183,7 +183,7 @@ test.describe('Entity page', () => {
   test('active entity - entity operations tab', async({ render, mockApiResponse }) => {
     const hooksConfigWithTab = {
       router: {
-        query: { key: entityKey, tab: 'entity_ops' },
+        query: { key: entityKey, tab: 'entity_ops_all' },
       },
     };
 
@@ -197,7 +197,7 @@ test.describe('Entity page', () => {
     };
 
     await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
-      queryParams: { operation: 'CREATE', page_size: '50', entity_key: entityKey },
+      queryParams: { operation: 'ALL', page_size: '50', entity_key: entityKey },
     });
 
     await mockApiResponse('golemBaseIndexer:operationsCount', {

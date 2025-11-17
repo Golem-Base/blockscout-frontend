@@ -3,7 +3,7 @@ import { createPublicClient as createArkivPublicClient, createWalletClient as cr
 import * as chains from '@arkiv-network/sdk/chains';
 import { useCallback } from 'react';
 import { custom } from 'viem';
-import { useWalletClient } from 'wagmi';
+import { useAccount, useSwitchChain, useWalletClient } from 'wagmi';
 
 import config from 'configs/app';
 
@@ -45,22 +45,30 @@ export interface ArkivClientReturn {
 }
 
 export function useArkivClient(): ArkivClientReturn {
-  const { data: walletClient, isPending } = useWalletClient();
+  const chain = getChainConfig();
+  const { data: walletClient, isPending } = useWalletClient({ chainId: chain.id });
+  const { address, chainId } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
 
   const createClient = useCallback(async() => {
     if (!walletClient) {
       throw new Error('Wallet not connected');
     }
 
+    if (!address) {
+      throw new Error('Account not connected');
+    }
+
+    if (chainId && chainId !== chain.id) {
+      await switchChainAsync({ chainId: chain.id });
+    }
+
     return createArkivWalletClient({
-      account: walletClient.account.address,
-      chain: walletClient.chain as Chain,
-      // @ts-expect-error - viem version mismatch between SDK's bundled viem and project's viem
-      transport: custom({
-        request: walletClient.request,
-      }),
+      account: address,
+      chain,
+      transport: custom(walletClient) as Parameters<typeof createArkivWalletClient>[0]['transport'],
     });
-  }, [ walletClient ]);
+  }, [ walletClient, address, chainId, chain, switchChainAsync ]);
 
   return {
     isConnected: Boolean(walletClient),
