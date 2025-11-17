@@ -3,13 +3,13 @@ import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { ConsensusInfoResponse } from '@golembase/l3-indexer-types';
+import { getFeaturePayload } from 'configs/app/features/types';
 
+import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import dayjs from 'lib/date/dayjs';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
-import { currencyUnits } from 'lib/units';
 import { emptyConsensusInfo } from 'stubs/consensusData';
-import { WEI } from 'toolkit/utils/consts';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import EmptySearchResult from 'ui/shared/EmptySearchResult';
@@ -26,7 +26,13 @@ const keysToCheck: Array<keyof ConsensusInfoResponse> = [
   'rollup_transaction_fee',
 ];
 
+const rollupPayload = getFeaturePayload(config.features.rollup);
+const parentChainCurrencySymbol = rollupPayload?.parentChain.currency?.symbol;
+const parentChainCurrencyDecimals = rollupPayload?.parentChain.currency?.decimals ?? 18;
+
 const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusInfoResponse, StatsWidgetProps> => {
+  const decimalsDivisor = BigNumber(10 ** parentChainCurrencyDecimals);
+
   return {
     finalized_block_number: {
       icon: 'block_full',
@@ -61,7 +67,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
     rollup_gas_price: {
       icon: 'gas',
       label: 'Rollup gas price',
-      value: `${ BigNumber(consensusInfo.rollup_gas_price).dividedBy(WEI).toFixed() } ${ currencyUnits.ether }`,
+      value: `${ BigNumber(consensusInfo.rollup_gas_price).div(decimalsDivisor).toFixed() } ${ parentChainCurrencySymbol }`,
     },
     rollup_gas_used: {
       icon: 'gas',
@@ -71,7 +77,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
     rollup_transaction_fee: {
       icon: 'donate',
       label: 'Rollup transaction fee',
-      value: `${ BigNumber(consensusInfo.rollup_transaction_fee).dividedBy(WEI).toFixed() } ${ currencyUnits.ether }`,
+      value: `${ BigNumber(consensusInfo.rollup_transaction_fee).div(decimalsDivisor).toFixed() } ${ parentChainCurrencySymbol }`,
     },
   };
 };
@@ -103,7 +109,7 @@ const L2ConsensusData = () => {
     return <DataFetchAlert/>;
   }
 
-  if (keysToCheck.every(value => consensusInfo?.[value] === '0') || !items) {
+  if (keysToCheck.every(value => consensusInfo?.[value] === '0') || !items || !parentChainCurrencySymbol) {
     return <EmptySearchResult heading="Data not found" text="No consensus data available yet"/>;
   }
 
