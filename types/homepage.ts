@@ -37,6 +37,7 @@ export const HOME_STATS_WIDGET_IDS = [
   'golembase_entities_expired',
   'average_entity_size',
   'average_entity_btl',
+  'unique_active_addresses',
 ] as const;
 export type HomeStatsWidgetId = typeof HOME_STATS_WIDGET_IDS[number];
 

@@ -159,6 +159,13 @@ const Stats = () => {
         href: { pathname: '/txs' as const },
         isLoading,
       },
+      apiData?.golembase_unique_active_addresses && {
+        id: 'unique_active_addresses' as const,
+        icon: 'profile' as const,
+        label: 'Unique active addresses',
+        value: BigNumber(apiData.golembase_unique_active_addresses).toFormat(),
+        isLoading,
+      },
       (isOptimisticRollup && statsData?.op_stack_total_operational_transactions?.value) && {
         id: 'total_operational_txs' as const,
         icon: 'transactions_slim' as const,
@@ -269,7 +276,7 @@ const Stats = () => {
       },
     ]
       .filter(Boolean)
-      .filter(({ id }) => config.UI.homepage.stats.includes(id))
+      .filter((item) => config.UI.homepage.stats.includes(item.id))
       .sort((a, b) => {
         const indexA = config.UI.homepage.stats.indexOf(a.id);
         const indexB = config.UI.homepage.stats.indexOf(b.id);
