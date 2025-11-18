@@ -52,8 +52,7 @@ const test = base.extend<Fixtures>({
 
 test.beforeEach(async({ page, mockTextAd, mockArkiv }) => {
   // debug
-  // const isDebug = process.env.PWDEBUG === '1';
-  const isDebug = true;
+  const isDebug = process.env.PWDEBUG === '1';
 
   if (isDebug) {
     page.on('console', msg => console.log(msg.text()));

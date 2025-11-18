@@ -117,7 +117,7 @@ const L2ConsensusData = () => {
     <>
       <PageTitle title="L2 Consensus & Performance" withTextAd/>
 
-      <Flex flexDir="column" gridGap={{ base: 5, lg: 4 }}>
+      <Flex flexDir="column" gridGap={{ base: 5, lg: 2 }}>
         <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 }>
           <StatsWidget { ...items.unsafe_block_number } isLoading={ isLoading }/>
           <StatsWidget { ...items.unsafe_block_timestamp } isLoading={ isLoading }/>
