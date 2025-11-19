@@ -36,6 +36,7 @@ export const base: golemBaseIndexer.FullEntity = {
   expires_at_block_number: '2234567',
   expires_at_timestamp: '2024-06-15T10:30:00Z',
   owner: '0x742d35cc6bc59fb56d41229f1e5e0d5c3f2cf9b7',
+  creator: '0x742d35cc6bc59fb56d41229f1e5e0d5c3f2cf9b7',
   gas_used: '21000',
   fees_paid: '500000000000000',
   updated_at_tx_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
