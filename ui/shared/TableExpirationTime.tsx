@@ -7,16 +7,17 @@ import { dayBigFuture } from 'toolkit/utils/dayBigFuture';
 import IconSvg from 'ui/shared/IconSvg';
 
 type Props = {
-  expiresAtTimestampSec: string;
+  expiresAtTimestampSec?: string;
   expiresAtTimestamp?: string;
   isLoading?: boolean;
+  justifyItems?: React.ComponentProps<typeof Skeleton>['justifyItems'];
 };
 
-const LongestLivedEntitiesExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoading }: Props) => {
+const TableExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoading, justifyItems }: Props) => {
   const { formatted, fromNow } = dayBigFuture(Number(expiresAtTimestampSec), expiresAtTimestamp);
 
   return (
-    <Skeleton loading={ isLoading } cursor="pointer">
+    <Skeleton loading={ isLoading } cursor="pointer" justifyItems={ justifyItems }>
       <Tooltip content={ formatted } disabled={ !formatted }>
         <Flex alignItems="center" gap={ 2 }>
           <IconSvg name="clock" boxSize={ 4 } color="gray.500" isLoading={ isLoading }/>
@@ -27,4 +28,4 @@ const LongestLivedEntitiesExpirationTime = ({ expiresAtTimestampSec, expiresAtTi
   );
 };
 
-export default LongestLivedEntitiesExpirationTime;
+export default TableExpirationTime;

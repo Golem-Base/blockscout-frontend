@@ -1,7 +1,13 @@
-import { Tabs as ChakraTabs, chakra } from '@chakra-ui/react';
+import { Tabs as ChakraTabs, chakra, type SlotRecipeProps } from '@chakra-ui/react';
 import * as React from 'react';
 
-export interface TabsProps extends ChakraTabs.RootProps {}
+type TabsVariant = SlotRecipeProps<'tabs'>['variant'];
+type TabsSize = SlotRecipeProps<'tabs'>['size'];
+
+export interface TabsProps extends Omit<ChakraTabs.RootProps, 'variant' | 'size'> {
+  variant?: TabsVariant;
+  size?: TabsSize;
+}
 
 export const TabsRoot = React.forwardRef<HTMLDivElement, TabsProps>(
   function TabsRoot(props, ref) {
