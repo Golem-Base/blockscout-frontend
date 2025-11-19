@@ -14,6 +14,10 @@ type Props = {
 };
 
 const TableExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoading, justifyItems }: Props) => {
+  if (!expiresAtTimestampSec && !expiresAtTimestamp) {
+    return null;
+  }
+
   const { formatted, fromNow } = dayBigFuture(Number(expiresAtTimestampSec), expiresAtTimestamp);
 
   return (
