@@ -69,6 +69,20 @@ const EntityDetails = ({ entityQuery }: Props) => {
         </>
       ) }
 
+      { data.creator && (
+        <>
+          <ItemLabel hint="Address that created this entity">Creator</ItemLabel>
+          <ItemValue>
+            <Skeleton loading={ isLoading }>
+              <AddressEntity
+                address={{ hash: data.creator }}
+                truncation="dynamic"
+              />
+            </Skeleton>
+          </ItemValue>
+        </>
+      ) }
+
       <ItemLabel hint="Total gas consumed by this entity">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
