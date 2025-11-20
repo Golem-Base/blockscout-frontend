@@ -14,6 +14,8 @@ export const createEntityOperation = (operationType: OperationType): Operation =
   btl: '1',
   gas_used: '10',
   fees_paid: '100',
+  expires_at_timestamp: '2024-12-31T23:59:59.000Z',
+  expires_at_timestamp_sec: '1735689599',
 });
 
 export const createEntityHistoryEntryMock = (operationType: OperationType): EntityHistoryEntry => ({
