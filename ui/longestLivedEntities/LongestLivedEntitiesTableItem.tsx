@@ -5,7 +5,7 @@ import type { EntityWithExpTimestamp } from '@golembase/l3-indexer-types';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
-import TableExpirationTime from 'ui/shared/TableExpirationTime';
+import ExpirationTime from 'ui/shared/ExpirationTime';
 
 type Props = {
   item: EntityWithExpTimestamp;
@@ -44,7 +44,7 @@ const LongestLivedEntitiesTableItem = ({
       <TableCell isNumeric>
         <Skeleton loading={ isLoading } display="inline-block" maxW="100%">
           { item.expires_at_timestamp_sec && (
-            <TableExpirationTime
+            <ExpirationTime
               expiresAtTimestamp={ item.expires_at_timestamp }
               expiresAtTimestampSec={ item.expires_at_timestamp_sec }
               isLoading={ isLoading }

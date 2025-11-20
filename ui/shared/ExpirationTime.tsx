@@ -13,7 +13,7 @@ type Props = {
   justifyItems?: React.ComponentProps<typeof Skeleton>['justifyItems'];
 };
 
-const TableExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoading, justifyItems }: Props) => {
+const ExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoading, justifyItems }: Props) => {
   if (!expiresAtTimestampSec && !expiresAtTimestamp) {
     return null;
   }
@@ -32,4 +32,4 @@ const TableExpirationTime = ({ expiresAtTimestampSec, expiresAtTimestamp, isLoad
   );
 };
 
-export default TableExpirationTime;
+export default ExpirationTime;

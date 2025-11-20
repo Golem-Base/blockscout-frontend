@@ -11,7 +11,7 @@ import StorageEntity from 'ui/shared/entities/entity/StorageEntity';
 import EntityOp from 'ui/shared/entities/entityOp/EntityOp';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ExpandButton from 'ui/shared/ExpandButton';
-import TableExpirationTime from 'ui/shared/TableExpirationTime';
+import ExpirationTime from 'ui/shared/ExpirationTime';
 
 import EntityOpType from './EntityOpType';
 import OpExpandableDetails from './OpExpandableDetails';
@@ -76,7 +76,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
           </Skeleton>
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle">
-          <TableExpirationTime
+          <ExpirationTime
             expiresAtTimestampSec={ item.expires_at_timestamp_sec }
             expiresAtTimestamp={ item.expires_at_timestamp }
             isLoading={ isLoading }
