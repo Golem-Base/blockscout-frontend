@@ -29,6 +29,14 @@ const SearchEntityPageContent = () => {
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, {
     placeholderData: Array(50).fill(ENTITY_QUERY_ITEM),
     enabled,
+    searchOptions: {
+      resultsPerPage: 50,
+      includeData: {
+        attributes: false,
+        payload: false,
+        metadata: false,
+      },
+    },
   });
 
   const { cutRef, renderedItemsNum } = useLazyRenderedList(data || [], !isLoading, 50);
