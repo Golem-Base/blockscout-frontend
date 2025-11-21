@@ -27,18 +27,18 @@ const SearchEntityPageContent = () => {
   const enabled = Boolean(searchTerm);
 
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, {
-    placeholderData: Array(50).fill(ENTITY_QUERY_ITEM),
+    placeholderData: {
+      entities: Array(50).fill(ENTITY_QUERY_ITEM),
+      cursor: undefined,
+      blockNumber: undefined,
+    },
     searchOptions: {
       resultsPerPage: 500,
-      includeData: {
-        attributes: false,
-        payload: false,
-        metadata: false,
-      },
+      includeData: { payload: false },
     },
   });
 
-  const { cutRef, renderedItemsNum } = useLazyRenderedList(data || [], !isLoading, 50);
+  const { cutRef, renderedItemsNum } = useLazyRenderedList(data?.entities || [], !isLoading, 50);
 
   const handleSubmit = React.useCallback((value: string) => {
     if (value) {
@@ -49,7 +49,7 @@ const SearchEntityPageContent = () => {
   const displayedItems = React.useMemo(() => {
     if (!data) return [];
 
-    return data.slice(0, renderedItemsNum).map((item) => ({
+    return data.entities.slice(0, renderedItemsNum).map((item) => ({
       type: 'golembase_entity' as const,
       golembase_entity: item.key,
     }));
@@ -113,7 +113,7 @@ const SearchEntityPageContent = () => {
       return null;
     }
 
-    const resultsCount = data?.length ?? 0;
+    const resultsCount = data?.entities.length ?? 0;
 
     return isLoading ? (
       <Skeleton loading h={ 6 } w="280px" borderRadius="full" mb={ 6 }/>

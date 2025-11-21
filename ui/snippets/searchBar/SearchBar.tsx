@@ -44,12 +44,13 @@ const SearchBar = ({ isHomepage }: Props) => {
     event.preventDefault();
     if (searchTerm && searchTerm === debouncedSearchTerm && entitiesQuery.isFetched) {
       const resultRoute: Route = (() => {
-        if (entitiesQuery.data?.length === 1) {
-          const entityKey = entitiesQuery.data[0].key;
+        const entities = entitiesQuery.data?.entities ?? [];
+        if (entities.length === 1) {
+          const entityKey = entities[0].key;
           return { pathname: '/entity/[key]', query: { key: entityKey } };
         }
 
-        if (entitiesQuery.data && entitiesQuery.data.length > 1) {
+        if (entities.length > 1) {
           return { pathname: '/entity/search', query: { q: searchTerm } };
         }
 

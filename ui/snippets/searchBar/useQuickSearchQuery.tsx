@@ -27,11 +27,7 @@ export default function useQuickSearchQuery() {
   const entitiesQuery = useQueryEntities(debouncedSearchTerm, {
     searchOptions: {
       resultsPerPage: RPC_LIMIT,
-      includeData: {
-        attributes: false,
-        payload: false,
-        metadata: false,
-      },
+      includeData: { payload: false },
     },
     retry: false,
   });
