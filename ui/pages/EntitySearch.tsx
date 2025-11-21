@@ -28,7 +28,6 @@ const SearchEntityPageContent = () => {
 
   const { data, isError, isPlaceholderData: isLoading } = useQueryEntities(searchTerm, {
     placeholderData: Array(50).fill(ENTITY_QUERY_ITEM),
-    enabled,
     searchOptions: {
       resultsPerPage: 500,
       includeData: {

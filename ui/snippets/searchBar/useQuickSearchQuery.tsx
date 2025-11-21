@@ -33,8 +33,6 @@ export default function useQuickSearchQuery() {
         metadata: false,
       },
     },
-    // Shortest valid query a=1 - 3 chars
-    enabled: Boolean(debouncedSearchTerm.length >= 3),
     retry: false,
   });
 
