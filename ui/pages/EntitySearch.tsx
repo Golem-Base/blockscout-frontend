@@ -30,7 +30,7 @@ const SearchEntityPageContent = () => {
     placeholderData: Array(50).fill(ENTITY_QUERY_ITEM),
     enabled,
     searchOptions: {
-      resultsPerPage: 50,
+      resultsPerPage: 500,
       includeData: {
         attributes: false,
         payload: false,
