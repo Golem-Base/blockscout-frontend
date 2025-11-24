@@ -12,7 +12,7 @@ export default function useQueryEntities(
   > = {},
 ) {
   return useQuery({
-    queryKey: [ 'golemBase', 'queryEntities', { searchTerm } ],
+    queryKey: [ 'golemBase', 'queryEntities', searchTerm, searchOptions ],
     queryFn: async() => {
       const client = createPublicClient();
       return client.query(searchTerm, searchOptions);
