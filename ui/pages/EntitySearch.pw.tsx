@@ -37,7 +37,7 @@ test('with search results +@dark-mode +@mobile', async({ render, mockArkiv }) =>
     { key: '0x8ba1f109551bd432803012645hac136c0b1b6b7c2d8e3f9a1b4c5d6e7f8a9b0c' },
   ];
 
-  await mockArkiv({ queryResponse: { data: mockEntities } });
+  await mockArkiv({ queryResponse: { entities: mockEntities } });
 
   const component = await render(<EntitySearch/>, { hooksConfig });
   await expect(component).toHaveScreenshot();

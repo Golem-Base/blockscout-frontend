@@ -4,7 +4,7 @@ interface MockArkivConfig {
   isConnected?: boolean;
   createEntityResponse?: Array<{ entityKey: string }>;
   updateEntityResponse?: Array<{ entityKey: string }>;
-  queryResponse?: { data: Array<{ key: string }>; cursor?: string };
+  queryResponse?: { entities: Array<{ key: string }>; cursor?: string };
 }
 
 export type MockArkivFixture = (config?: MockArkivConfig) => Promise<void>;
@@ -16,7 +16,7 @@ const fixture: TestFixture<MockArkivFixture, { page: Page }> = async({ page }, u
       isConnected: false,
       createEntityResponse: [ { entityKey: defaultEntityKey } ],
       updateEntityResponse: [ { entityKey: defaultEntityKey } ],
-      queryResponse: { data: [] },
+      queryResponse: { entities: [] },
       ...config,
     };
 

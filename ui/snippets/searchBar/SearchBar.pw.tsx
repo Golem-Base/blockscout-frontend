@@ -187,7 +187,7 @@ test('search by entity query +@mobile', async({ render, page, mockApiResponse, m
   const apiUrl = await mockApiResponse('general:quick_search', [], { queryParams: { q: 'test' } });
   await mockArkiv({
     isConnected: true,
-    queryResponse: { data: [ { key: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef' } ] },
+    queryResponse: { entities: [ { key: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef' } ] },
   });
   await render(<SearchBar/>);
   await page.getByPlaceholder(/search/i).fill('test');
