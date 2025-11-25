@@ -1,4 +1,4 @@
-import type { Entity } from '@arkiv-network/sdk';
+import type { QueryReturnType } from '@arkiv-network/sdk';
 import { Box, Text } from '@chakra-ui/react';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { throttle } from 'es-toolkit';
@@ -26,7 +26,7 @@ const ENTITIES_QUERY_LIMIT = 5;
 
 interface Props {
   query: UseQueryResult<Array<SearchResultItem>, ResourceError<unknown>>;
-  entitiesQuery: UseQueryResult<Array<Entity>, Error>;
+  entitiesQuery: UseQueryResult<QueryReturnType, Error>;
   searchTerm: string;
   onItemClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   containerId: string;
@@ -100,8 +100,9 @@ const SearchBarSuggest = ({ query, entitiesQuery, searchTerm, onItemClick, conta
       }
     });
 
-    if (entitiesQuery.data && entitiesQuery.data.length > 0) {
-      const entityItems = entitiesQuery.data.slice(0, ENTITIES_QUERY_LIMIT).map(item => ({
+    const entities = entitiesQuery.data?.entities ?? [];
+    if (entities.length > 0) {
+      const entityItems = entities.slice(0, ENTITIES_QUERY_LIMIT).map(item => ({
         type: 'golembase_entity' as const,
         golembase_entity: item.key,
       }));

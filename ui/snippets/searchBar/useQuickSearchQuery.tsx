@@ -5,6 +5,8 @@ import useApiQuery from 'lib/api/useApiQuery';
 import useDebounce from 'lib/hooks/useDebounce';
 import useQueryEntities from 'ui/entity/utils/useQueryEntities';
 
+const RPC_LIMIT = 5;
+
 export default function useQuickSearchQuery() {
   const [ searchTerm, setSearchTerm ] = React.useState('');
 
@@ -23,7 +25,10 @@ export default function useQuickSearchQuery() {
   });
 
   const entitiesQuery = useQueryEntities(debouncedSearchTerm, {
-    enabled: Boolean(debouncedSearchTerm),
+    searchOptions: {
+      resultsPerPage: RPC_LIMIT,
+      includeData: { payload: false },
+    },
     retry: false,
   });
 
