@@ -1,4 +1,4 @@
-import type { Attribute } from '@arkiv-network/sdk';
+import type { Attribute, Address } from '@arkiv-network/sdk';
 import type { UseQueryResult } from '@tanstack/react-query';
 
 import type { FullEntity } from '@golembase/l3-indexer-types';
@@ -29,6 +29,10 @@ export interface ExtendEntityFormFields {
   btl: string;
 }
 
+export interface ChangeEntityOwnerFormFields {
+  newOwner: Address;
+}
+
 export interface ArkivEntityData {
   payload: Uint8Array;
   attributes: Array<Attribute>;
@@ -38,4 +42,8 @@ export interface ArkivEntityData {
 
 export interface ArkivExtendEntity {
   expiresIn: number;
+}
+
+export interface ArkivChangeEntityOwner {
+  newOwner: Address;
 }
