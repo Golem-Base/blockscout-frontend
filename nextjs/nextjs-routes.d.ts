@@ -49,6 +49,7 @@ declare module "nextjs-routes" {
     | StaticRoute<"/custom-contract-txs">
     | StaticRoute<"/deposits">
     | StaticRoute<"/dispute-games">
+    | DynamicRoute<"/entity/[key]/change-owner", { "key": string }>
     | DynamicRoute<"/entity/[key]/extend", { "key": string }>
     | DynamicRoute<"/entity/[key]/update", { "key": string }>
     | DynamicRoute<"/entity/[key]", { "key": string }>
