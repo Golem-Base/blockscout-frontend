@@ -85,6 +85,7 @@ export const PAGE_TYPE_DICT: Record<Route['pathname'], string> = {
   '/leaderboards/accounts-with-the-most-data': 'Top Accounts with the Most Data',
   '/custom-contract-txs': 'Custom Contract Transactions',
   '/consensus-data': 'L2 Consensus & Performance Metrics',
+  '/entity/[key]/change-owner': 'Change entity owner',
 
   // service routes, added only to make typescript happy
   '/login': 'Login',
