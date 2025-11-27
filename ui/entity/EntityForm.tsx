@@ -9,8 +9,8 @@ import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import { Button } from 'toolkit/chakra/button';
 import ContentLoader from 'ui/shared/ContentLoader';
 
+import Datepicker from './fields/DatePicker';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
-import EntityFieldBtl from './fields/EntityFieldBtl';
 import EntityFieldData from './fields/EntityFieldData';
 import ReturnButton from './ReturnButton';
 import { mapEntityFormDataToArkivCreate } from './utils/utils';
@@ -95,7 +95,7 @@ const EntityForm = ({
         >
           <EntityFieldData hint="Choose between uploading a file or entering text data for your entity"/>
 
-          <EntityFieldBtl hint="Block to Live - number of blocks until this entity expires"/>
+          <Datepicker value={ new Date() } label="Entity expiration date" name="expirationDate"/>
 
           <EntityFieldAnnotations variant="string" hint="Add string metadata as key-value pairs"/>
 
