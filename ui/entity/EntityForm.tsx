@@ -27,6 +27,8 @@ const EntityForm = ({
   initialValues,
   edit = false,
 }: Props) => {
+  const [ expirationDate, setExpirationDate ] = React.useState<Date>(new Date());
+
   const formApi = useForm<EntityFormFields>({
     mode: 'all',
     defaultValues: {
@@ -66,6 +68,12 @@ const EntityForm = ({
     setError('root', { message: undefined });
   }, [ setError ]);
 
+  const handleExpirationDateChange = React.useCallback((date: Date | null) => {
+    if (!date) return;
+
+    setExpirationDate(date);
+  }, [ setExpirationDate ]);
+
   if (isLoading) {
     return <ContentLoader/>;
   }
@@ -95,7 +103,7 @@ const EntityForm = ({
         >
           <EntityFieldData hint="Choose between uploading a file or entering text data for your entity"/>
 
-          <Datepicker value={ new Date() } label="Entity expiration date" name="expirationDate"/>
+          <Datepicker value={ expirationDate } onChange={ handleExpirationDateChange } label="Entity expiration date" name="expirationDate"/>
 
           <EntityFieldAnnotations variant="string" hint="Add string metadata as key-value pairs"/>
 
