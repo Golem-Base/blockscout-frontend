@@ -6,6 +6,7 @@ import type { ArkivExtendEntity } from '../entity/utils/types';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
+import dayjs from 'lib/date/dayjs';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -63,9 +64,13 @@ const EntityExtend = () => {
       return <ContentLoader/>;
     }
 
+    const now = dayjs().toISOString();
+    const initialExpiresAtTimestamp = entityQuery.data?.expires_at_timestamp || now;
+
     return (
       <ExtendEntityForm
         onSubmit={ handleSubmit }
+        initialExpiresAtTimestamp={ initialExpiresAtTimestamp }
       />
     );
   })();
