@@ -29,9 +29,6 @@ const EntityForm = ({
   initialValues,
   edit = false,
 }: Props) => {
-  const formattedExpirationDate = initialValues?.expirationDate ?
-    dayjs(initialValues.expirationDate).format(FORMAT_DATE_TIME) :
-    '';
 
   const formApi = useForm<EntityFormFields>({
     mode: 'all',
@@ -41,7 +38,6 @@ const EntityForm = ({
       stringAnnotations: [],
       numericAnnotations: [],
       ...initialValues,
-      expirationDate: formattedExpirationDate,
     },
   });
   const { handleSubmit, formState, setError, setValue } = formApi;
