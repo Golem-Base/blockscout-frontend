@@ -7,9 +7,10 @@ import type { ArkivEntityData, EntityFormFields } from './utils/types';
 
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import { Button } from 'toolkit/chakra/button';
+import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
 import ContentLoader from 'ui/shared/ContentLoader';
 
-import Datepicker from './fields/DatePicker';
+import EntityFormRow from './EntityFormRow';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldData from './fields/EntityFieldData';
 import ReturnButton from './ReturnButton';
@@ -27,14 +28,12 @@ const EntityForm = ({
   initialValues,
   edit = false,
 }: Props) => {
-  const [ expirationDate, setExpirationDate ] = React.useState<Date>(new Date());
-
   const formApi = useForm<EntityFormFields>({
     mode: 'all',
     defaultValues: {
       dataText: '',
       dataFile: [],
-      btl: '',
+      expirationDate: '',
       stringAnnotations: [],
       numericAnnotations: [],
       ...initialValues,
@@ -52,6 +51,7 @@ const EntityForm = ({
 
     try {
       const mappedData = await mapEntityFormDataToArkivCreate(data);
+
       await onSubmit?.(mappedData);
     } catch (e) {
       // eslint-disable-next-line
@@ -67,12 +67,6 @@ const EntityForm = ({
   const handleFormChange = React.useCallback(() => {
     setError('root', { message: undefined });
   }, [ setError ]);
-
-  const handleExpirationDateChange = React.useCallback((date: Date | null) => {
-    if (!date) return;
-
-    setExpirationDate(date);
-  }, [ setExpirationDate ]);
 
   if (isLoading) {
     return <ContentLoader/>;
@@ -95,15 +89,24 @@ const EntityForm = ({
         onSubmit={ handleSubmit(onFormSubmit) }
         onChange={ handleFormChange }
       >
+
         <Grid
           as="section"
           columnGap="30px"
           rowGap={{ base: 2, lg: 5 }}
           templateColumns={{ base: '1fr', lg: 'minmax(auto, 680px) minmax(0, 340px)' }}
         >
-          <EntityFieldData hint="Choose between uploading a file or entering text data for your entity"/>
 
-          <Datepicker value={ expirationDate } onChange={ handleExpirationDateChange } label="Entity expiration date" name="expirationDate"/>
+          <EntityFieldData hint="Choose between uploading a file or entering text data for your entity"/>
+          <EntityFormRow>
+            <FormFieldText
+              name="expirationDate"
+              label="Entity expiration date"
+              inputProps={{ type: 'datetime-local' }}
+              placeholder="Select date and time"
+            />
+            <span>Select expiration date and time</span>
+          </EntityFormRow>
 
           <EntityFieldAnnotations variant="string" hint="Add string metadata as key-value pairs"/>
 

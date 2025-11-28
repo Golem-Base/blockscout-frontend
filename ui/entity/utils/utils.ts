@@ -1,4 +1,5 @@
 import type { Attribute } from '@arkiv-network/sdk';
+import { ExpirationTime } from '@arkiv-network/sdk/utils';
 
 import type {
   Annotation,
@@ -50,13 +51,13 @@ export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields)
     payload,
     attributes,
     contentType: getMimeType(formData.dataFile[0]),
-    expiresIn: await convertBtlToExpiresIn(formData.btl),
+    expiresIn: ExpirationTime.fromDate(new Date(formData.expirationDate)),
   };
 }
 
 export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    expiresIn: await convertBtlToExpiresIn(formData.btl),
+    expiresIn: ExpirationTime.fromDate(new Date(formData.expirationDate)),
   };
 }
 
