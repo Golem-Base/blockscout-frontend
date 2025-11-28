@@ -13,7 +13,7 @@ import ContentLoader from 'ui/shared/ContentLoader';
 
 import EntityFormRow from './EntityFormRow';
 import ReturnButton from './ReturnButton';
-import { mapExtendEntityFormDataToArkivExtend } from './utils/utils';
+import { FORMAT_DATE_TIME, mapExtendEntityFormDataToArkivExtend } from './utils/utils';
 
 interface Props {
   onSubmit?: (data: ArkivExtendEntity) => Promise<void>;
@@ -21,8 +21,6 @@ interface Props {
 }
 
 const submitText = 'Extend Entity';
-
-const FORMAT_DATE_TIME = 'YYYY-MM-DDTHH:mm';
 
 const ExtendEntityForm = ({
   onSubmit,
@@ -63,7 +61,6 @@ const ExtendEntityForm = ({
       event.target.value = valueToSet;
     }
 
-    // Always update react-hook-form with the (possibly clamped) value
     setValue('expirationDate', valueToSet, { shouldValidate: true });
   }, [ initialExpiresAtTimestamp, setValue ]);
 

@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import type { ArkivEntityData, EntityFormFields } from './utils/types';
 
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
+import dayjs from 'lib/date/dayjs';
 import { Button } from 'toolkit/chakra/button';
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
 import ContentLoader from 'ui/shared/ContentLoader';
@@ -14,7 +15,7 @@ import EntityFormRow from './EntityFormRow';
 import EntityFieldAnnotations from './fields/EntityFieldAnnotations';
 import EntityFieldData from './fields/EntityFieldData';
 import ReturnButton from './ReturnButton';
-import { mapEntityFormDataToArkivCreate } from './utils/utils';
+import { FORMAT_DATE_TIME, mapEntityFormDataToArkivCreate } from './utils/utils';
 
 interface Props {
   onSubmit?: (data: ArkivEntityData) => Promise<void>;
@@ -28,18 +29,22 @@ const EntityForm = ({
   initialValues,
   edit = false,
 }: Props) => {
+  const formattedExpirationDate = initialValues?.expirationDate ?
+    dayjs(initialValues.expirationDate).format(FORMAT_DATE_TIME) :
+    '';
+
   const formApi = useForm<EntityFormFields>({
     mode: 'all',
     defaultValues: {
       dataText: '',
       dataFile: [],
-      expirationDate: '',
       stringAnnotations: [],
       numericAnnotations: [],
       ...initialValues,
+      expirationDate: formattedExpirationDate,
     },
   });
-  const { handleSubmit, formState, setError } = formApi;
+  const { handleSubmit, formState, setError, setValue } = formApi;
 
   const { isConnected, isLoading } = useArkivClient();
 
@@ -67,6 +72,20 @@ const EntityForm = ({
   const handleFormChange = React.useCallback(() => {
     setError('root', { message: undefined });
   }, [ setError ]);
+
+  const handleClampMinDate = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = dayjs(event.target.value);
+    const minDate = dayjs();
+
+    let valueToSet = event.target.value;
+
+    if (selectedDate.isBefore(minDate)) {
+      valueToSet = minDate.format(FORMAT_DATE_TIME);
+      event.target.value = valueToSet;
+    }
+
+    setValue('expirationDate', valueToSet, { shouldValidate: true });
+  }, [ setValue ]);
 
   if (isLoading) {
     return <ContentLoader/>;
@@ -102,7 +121,11 @@ const EntityForm = ({
             <FormFieldText
               name="expirationDate"
               label="Entity expiration date"
-              inputProps={{ type: 'datetime-local' }}
+              inputProps={{
+                type: 'datetime-local',
+                onChange: handleClampMinDate,
+                min: dayjs().format(FORMAT_DATE_TIME),
+              }}
               placeholder="Select date and time"
             />
             <span>Select expiration date and time</span>
