@@ -18,15 +18,15 @@ export interface Annotation {
 }
 
 export interface EntityFormFields {
+  expirationDate: string;
   dataText: string;
   dataFile: Array<File>;
-  btl: string;
   stringAnnotations: Array<Annotation>;
   numericAnnotations: Array<Annotation>;
 }
 
 export interface ExtendEntityFormFields {
-  btl: string;
+  expirationDate: string;
 }
 
 export interface ChangeEntityOwnerFormFields {
