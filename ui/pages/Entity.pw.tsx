@@ -71,6 +71,7 @@ test.describe('Entity page', () => {
     };
 
     const component = await render(<Entity/>, { hooksConfig: hooksConfigExpired });
+    await expect(component.getByText('Entity Details')).toBeVisible();
     await expect(component).toHaveScreenshot();
   });
 

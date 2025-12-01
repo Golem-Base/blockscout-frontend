@@ -15,15 +15,11 @@ const NEXT_ROUTER_MOCK = {
 beforeMount(async({ hooksConfig }: { hooksConfig?: { router: typeof router } }) => {
   // Before mount, redefine useRouter to return mock value from test.
 
-  // Use Object.defineProperty to work around ESM read-only import restrictions
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Object.defineProperty(router as any, 'useRouter', {
-    value: () => ({
-      ...NEXT_ROUTER_MOCK,
-      ...hooksConfig?.router,
-    }),
-    writable: true,
-    configurable: true,
+  // @ts-ignore: I really want to redefine this property :)
+  // eslint-disable-next-line no-import-assign
+  router.useRouter = () => ({
+    ...NEXT_ROUTER_MOCK,
+    ...hooksConfig?.router,
   });
 
   // set current date
