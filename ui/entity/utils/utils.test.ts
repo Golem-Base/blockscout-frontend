@@ -1,3 +1,5 @@
+import MockDate from 'mockdate';
+
 import type { EntityFormFields, ExtendEntityFormFields } from './types';
 import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
 
@@ -34,6 +36,16 @@ const createMockFile = (content: string | Uint8Array, name: string, type: string
 };
 
 describe('entity utils', () => {
+  const MOCK_CURRENT_DATE = '2024-06-15T10:00:00Z';
+
+  beforeEach(() => {
+    MockDate.set(MOCK_CURRENT_DATE);
+  });
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   describe('generateAnnotationId', () => {
     it('should generate a random string', () => {
       const id1 = generateAnnotationId();
@@ -51,11 +63,11 @@ describe('entity utils', () => {
       jest.clearAllMocks();
     });
 
-    it('should map form data with file correctly and convert btl to expiresIn', async() => {
+    it('should map form data with file correctly and convert expirationDate to expiresIn lifespan value', async() => {
       const formData: EntityFormFields = {
         dataText: '',
         dataFile: [ mockFile ],
-        expirationDate: '2024-06-15T10:30',
+        expirationDate: '2024-06-15T12:30',
         stringAnnotations: [
           { id: '1', key: 'stringKey1', value: 'stringValue1' },
           { id: '2', key: 'stringKey2', value: 'stringValue2' },
@@ -68,7 +80,7 @@ describe('entity utils', () => {
 
       const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.expiresIn).toBe(246);
+      expect(result.expiresIn).toBe(1800);
       expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('test file content')));
       expect(result.contentType).toBe('text/plain');
       expect(result.attributes).toEqual([
@@ -83,14 +95,14 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'Hello, World!',
         dataFile: [],
-        expirationDate: '2024-06-15T10:30',
+        expirationDate: '2024-06-15T12:30',
         stringAnnotations: [],
         numericAnnotations: [],
       };
 
       const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.expiresIn).toBe(912);
+      expect(result.expiresIn).toBe(1800);
       expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('Hello, World!')));
       expect(result.contentType).toBe('text/plain');
       expect(result.attributes).toEqual([]);
@@ -103,7 +115,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'This should be ignored',
         dataFile: [ binaryFile ],
-        expirationDate: '2024-06-15T10:30',
+        expirationDate: '2024-06-15T12:45',
         stringAnnotations: [ { id: '1', key: 'test', value: 'value' } ],
         numericAnnotations: [ { id: '1', key: 'count', value: '5' } ],
       };
@@ -112,7 +124,7 @@ describe('entity utils', () => {
 
       expect(result.payload).toEqual(binaryData);
       expect(result.contentType).toBe('application/octet-stream');
-      expect(result.expiresIn).toBe(1998);
+      expect(result.expiresIn).toBe(2700);
       expect(result.attributes).toHaveLength(2);
     });
 
@@ -132,24 +144,24 @@ describe('entity utils', () => {
   });
 
   describe('mapExtendEntityFormDataToArkivExtend', () => {
-    it('should map extend form data and convert btl to expiresIn', async() => {
+    it('should map extend form data and convert expirationDate to expiresIn lifespan value', async() => {
       const formData: ExtendEntityFormFields = {
         expirationDate: dayjs().add(10, 'minutes').format(FORMAT_DATE_TIME),
       };
 
       const result = await mapExtendEntityFormDataToArkivExtend(formData);
 
-      expect(result.expiresIn).toBe(1000); // 500 blocks * 2 seconds = 1000 seconds
+      expect(result.expiresIn).toBe(600);
     });
 
-    it('should handle small btl values', async() => {
+    it('should handle small expirationDate values', async() => {
       const formData: ExtendEntityFormFields = {
         expirationDate: dayjs().add(2, 'seconds').format(FORMAT_DATE_TIME),
       };
 
       const result = await mapExtendEntityFormDataToArkivExtend(formData);
 
-      expect(result.expiresIn).toBe(2);
+      expect(result.expiresIn).toBe(0);
     });
   });
 
