@@ -15,6 +15,7 @@ import {
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import IconSvg from 'ui/shared/IconSvg';
 
+import EntityChangeOwnerActionButton from './EntityChangeOwnerActionButton';
 import EntityDeleteActionButton from './EntityDeleteActionButton';
 import EntityExtendActionButton from './EntityExtendActionButton';
 import EntityUpdateActionButton from './EntityUpdateActionButton';
@@ -67,6 +68,14 @@ const EntityActionsList = ({ className, entityQuery }: Props) => {
               disabled={ entityQuery.isLoading }
             />
             <EntityExtendActionButton
+              size="sm"
+              variant="ghost"
+              w="100%"
+              justifyContent="flex-start"
+              entity={ entityQuery.data }
+              disabled={ entityQuery.isLoading }
+            />
+            <EntityChangeOwnerActionButton
               size="sm"
               variant="ghost"
               w="100%"
