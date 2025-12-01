@@ -67,7 +67,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: '',
         dataFile: [ mockFile ],
-        expirationDate: '2024-06-15T12:30',
+        expirationDate: dayjs().add(30, 'minutes').format(FORMAT_DATE_TIME),
         stringAnnotations: [
           { id: '1', key: 'stringKey1', value: 'stringValue1' },
           { id: '2', key: 'stringKey2', value: 'stringValue2' },
@@ -95,7 +95,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'Hello, World!',
         dataFile: [],
-        expirationDate: '2024-06-15T12:30',
+        expirationDate: dayjs().add(30, 'minutes').format(FORMAT_DATE_TIME),
         stringAnnotations: [],
         numericAnnotations: [],
       };
@@ -115,7 +115,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'This should be ignored',
         dataFile: [ binaryFile ],
-        expirationDate: '2024-06-15T12:45',
+        expirationDate: dayjs().add(45, 'minutes').format(FORMAT_DATE_TIME),
         stringAnnotations: [ { id: '1', key: 'test', value: 'value' } ],
         numericAnnotations: [ { id: '1', key: 'count', value: '5' } ],
       };
@@ -132,7 +132,7 @@ describe('entity utils', () => {
       const formData: EntityFormFields = {
         dataText: 'Plain text',
         dataFile: [],
-        expirationDate: '2024-06-15T10:30',
+        expirationDate: dayjs().add(30, 'minutes').format(FORMAT_DATE_TIME),
         stringAnnotations: [],
         numericAnnotations: [],
       };
@@ -199,7 +199,7 @@ describe('entity utils', () => {
 
       expect(result.dataText).toBe('Hello');
       expect(result.dataFile).toEqual([]);
-      expect(result.expirationDate).toBe('2024-06-15T12:30');
+      expect(result.expirationDate).toBe(dayjs(mockEntity.expires_at_timestamp).format(FORMAT_DATE_TIME));
       expect(result.stringAnnotations).toHaveLength(2);
       expect(result.numericAnnotations).toHaveLength(2);
     });
