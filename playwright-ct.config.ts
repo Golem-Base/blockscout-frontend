@@ -82,7 +82,10 @@ const config: PlaywrightTestConfig = defineConfig({
           { find: 'ui/shared/reCaptcha/useReCaptcha', replacement: './playwright/mocks/ui/shared/recaptcha/useReCaptcha.js' },
 
           // Mock for @arkiv-network/sdk to avoid process reference error
-          { find: '@arkiv-network/sdk', replacement: './playwright/mocks/modules/@arkiv-network/sdk.js' },
+          // Note: More specific subpath aliases must come before the general alias
+          { find: /^@arkiv-network\/sdk\/utils$/, replacement: './playwright/mocks/modules/@arkiv-network/utils.js' },
+          { find: /^@arkiv-network\/sdk\/chains$/, replacement: './playwright/mocks/modules/@arkiv-network/sdk.js' },
+          { find: /^@arkiv-network\/sdk$/, replacement: './playwright/mocks/modules/@arkiv-network/sdk.js' },
 
           // Mock for useArkivClient to control wallet connection state
           { find: 'lib/arkiv/useArkivClient', replacement: './playwright/mocks/lib/arkiv/useArkivClient.ts' },
