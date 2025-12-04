@@ -51,13 +51,13 @@ export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields)
     payload,
     attributes,
     contentType: getMimeType(formData.dataFile[0]),
-    expiresIn: ExpirationTime.fromDate(new Date(formData.expirationDate)),
+    expiresIn: ExpirationTime.fromDate(dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).toDate()),
   };
 }
 
 export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    expiresIn: ExpirationTime.fromDate(new Date(formData.expirationDate)),
+    expiresIn: ExpirationTime.fromDate(dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).toDate()),
   };
 }
 
