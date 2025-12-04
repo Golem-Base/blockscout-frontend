@@ -50,6 +50,14 @@ const EntityForm = ({
       return;
     }
 
+    const expirationDate = dayjs(data.expirationDate);
+    const now = dayjs();
+
+    if (expirationDate.isBefore(now) || expirationDate === now) {
+      setError('root', { message: 'Expiration date must be in the future' });
+      return;
+    }
+
     try {
       const mappedData = await mapEntityFormDataToArkivCreate(data);
 
