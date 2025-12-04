@@ -53,7 +53,7 @@ const EntityForm = ({
     const expirationDate = dayjs(data.expirationDate);
     const now = dayjs();
 
-    if (expirationDate.isBefore(now) || expirationDate === now) {
+    if (!expirationDate.isAfter(now)) {
       setError('root', { message: 'Expiration date must be in the future' });
       return;
     }
