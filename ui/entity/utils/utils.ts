@@ -17,6 +17,14 @@ import { Kb } from 'toolkit/utils/consts';
 
 export const MAX_SIZE = 100 * Kb;
 
+const BLOCK_TIME = 2;
+
+export function calculateExpiresIn(dateTimeString: string): number {
+  const targetDate = dayjs(dateTimeString).set('second', 0).set('millisecond', 0).toDate();
+  const expiresIn = ExpirationTime.fromDate(targetDate);
+  return Math.floor(expiresIn / BLOCK_TIME) * BLOCK_TIME;
+}
+
 // MimeType from @arkiv-network/sdk
 export const MIME_TYPES = [
   'text/plain', 'text/html', 'text/css', 'text/csv', 'text/xml', 'text/javascript',
@@ -51,13 +59,13 @@ export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields)
     payload,
     attributes,
     contentType: getMimeType(formData.dataFile[0]),
-    expiresIn: ExpirationTime.fromDate(dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).toDate()),
+    expiresInDateTime: dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME),
   };
 }
 
 export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    expiresIn: ExpirationTime.fromDate(dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).toDate()),
+    expiresInDateTime: dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME),
   };
 }
 

@@ -37,11 +37,11 @@ export interface ArkivEntityData {
   payload: Uint8Array;
   attributes: Array<Attribute>;
   contentType: MimeType;
-  expiresIn: number;
+  expiresInDateTime: string;
 }
 
 export interface ArkivExtendEntity {
-  expiresIn: number;
+  expiresInDateTime: string;
 }
 
 export interface ArkivChangeEntityOwner {

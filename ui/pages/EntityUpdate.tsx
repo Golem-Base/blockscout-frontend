@@ -16,8 +16,7 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import EntityForm from '../entity/EntityForm';
 import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
-import { mapFullEntityToFormFields,
-} from '../entity/utils/utils';
+import { calculateExpiresIn, mapFullEntityToFormFields } from '../entity/utils/utils';
 
 const EntityUpdate = () => {
   const router = useRouter();
@@ -46,7 +45,10 @@ const EntityUpdate = () => {
   const handleSubmit = React.useCallback(async(entityData: ArkivEntityData) => {
     const client = await createClient();
     const updatedAfter = String(Date.now());
-    await client.updateEntity({ ...entityData, entityKey: key as Hex });
+
+    const expiresIn = calculateExpiresIn(entityData.expiresInDateTime);
+
+    await client.updateEntity({ ...entityData, entityKey: key as Hex, expiresIn });
 
     toaster.success({
       title: 'Success',
