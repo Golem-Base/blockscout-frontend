@@ -80,7 +80,7 @@ describe('entity utils', () => {
 
       const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.expiresIn).toBe(1800);
+      expect(result.expiresInDateTime).toBe(dayjs().add(30, 'minutes').set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME));
       expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('test file content')));
       expect(result.contentType).toBe('text/plain');
       expect(result.attributes).toEqual([
@@ -102,7 +102,7 @@ describe('entity utils', () => {
 
       const result = await mapEntityFormDataToArkivCreate(formData);
 
-      expect(result.expiresIn).toBe(1800);
+      expect(result.expiresInDateTime).toBe(dayjs().add(30, 'minutes').set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME));
       expect(Array.from(result.payload)).toEqual(Array.from(new TextEncoder().encode('Hello, World!')));
       expect(result.contentType).toBe('text/plain');
       expect(result.attributes).toEqual([]);
@@ -124,7 +124,7 @@ describe('entity utils', () => {
 
       expect(result.payload).toEqual(binaryData);
       expect(result.contentType).toBe('application/octet-stream');
-      expect(result.expiresIn).toBe(2700);
+      expect(result.expiresInDateTime).toBe(dayjs().add(45, 'minutes').set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME));
       expect(result.attributes).toHaveLength(2);
     });
 
@@ -151,7 +151,7 @@ describe('entity utils', () => {
 
       const result = await mapExtendEntityFormDataToArkivExtend(formData);
 
-      expect(result.expiresIn).toBe(600);
+      expect(result.expiresInDateTime).toBe(dayjs().add(10, 'minutes').format(FORMAT_DATE_TIME));
     });
 
     it('should handle small expirationDate values', async() => {
@@ -161,7 +161,7 @@ describe('entity utils', () => {
 
       const result = await mapExtendEntityFormDataToArkivExtend(formData);
 
-      expect(result.expiresIn).toBe(0);
+      expect(result.expiresInDateTime).toBe(dayjs().add(2, 'seconds').set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME));
     });
   });
 
