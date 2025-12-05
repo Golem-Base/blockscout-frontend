@@ -8,6 +8,7 @@ import { toaster } from 'toolkit/chakra/toaster';
 import PageTitle from 'ui/shared/Page/PageTitle';
 
 import EntityForm from '../entity/EntityForm';
+import { calculateExpiresIn } from '../entity/utils/utils';
 
 const EntityCreate = () => {
   const router = useRouter();
@@ -15,7 +16,9 @@ const EntityCreate = () => {
 
   const handleSubmit = React.useCallback(async(entityData: ArkivEntityData) => {
     const client = await createClient();
-    const { entityKey } = await client.createEntity(entityData);
+    const expiresIn = calculateExpiresIn(entityData.expiresInDateTime);
+
+    const { entityKey } = await client.createEntity({ ...entityData, expiresIn });
 
     toaster.success({
       title: 'Success',

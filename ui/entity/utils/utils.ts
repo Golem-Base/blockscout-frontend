@@ -1,4 +1,5 @@
 import type { Attribute } from '@arkiv-network/sdk';
+import { ExpirationTime } from '@arkiv-network/sdk/utils';
 
 import type {
   Annotation,
@@ -10,11 +11,19 @@ import type {
 } from './types';
 import type { FullEntity } from '@golembase/l3-indexer-types';
 
-import { createPublicClient } from 'lib/arkiv/useArkivClient';
+import dayjs from 'lib/date/dayjs';
 import hexToUtf8 from 'lib/hexToUtf8';
 import { Kb } from 'toolkit/utils/consts';
 
 export const MAX_SIZE = 100 * Kb;
+
+const BLOCK_TIME = 2;
+
+export function calculateExpiresIn(dateTimeString: string): number {
+  const targetDate = dayjs(dateTimeString).set('second', 0).set('millisecond', 0).toDate();
+  const expiresIn = ExpirationTime.fromDate(targetDate);
+  return Math.floor(expiresIn / BLOCK_TIME) * BLOCK_TIME;
+}
 
 // MimeType from @arkiv-network/sdk
 export const MIME_TYPES = [
@@ -50,21 +59,23 @@ export async function mapEntityFormDataToArkivCreate(formData: EntityFormFields)
     payload,
     attributes,
     contentType: getMimeType(formData.dataFile[0]),
-    expiresIn: await convertBtlToExpiresIn(formData.btl),
+    expiresInDateTime: dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME),
   };
 }
 
 export async function mapExtendEntityFormDataToArkivExtend(formData: ExtendEntityFormFields): Promise<ArkivExtendEntity> {
   return {
-    expiresIn: await convertBtlToExpiresIn(formData.btl),
+    expiresInDateTime: dayjs(formData.expirationDate).set('second', 0).set('millisecond', 0).format(FORMAT_DATE_TIME),
   };
 }
+
+export const FORMAT_DATE_TIME = 'YYYY-MM-DDTHH:mm';
 
 export function mapFullEntityToFormFields(entity: FullEntity): EntityFormFields {
   return {
     dataText: entity.data ? hexToUtf8(entity.data) : '',
     dataFile: [],
-    btl: '',
+    expirationDate: entity.expires_at_timestamp ? dayjs(entity.expires_at_timestamp).format(FORMAT_DATE_TIME) : '',
     stringAnnotations: entity.string_annotations.map(mapApiAnnotationToFormAnnotation),
     numericAnnotations: entity.numeric_annotations.map(mapApiAnnotationToFormAnnotation),
   };
@@ -78,12 +89,6 @@ async function convertFormDataToUint8Array(formData: EntityFormFields): Promise<
 
   const encoder = new TextEncoder();
   return encoder.encode(formData.dataText);
-}
-
-async function convertBtlToExpiresIn(btl: string): Promise<number> {
-  const publicClient = createPublicClient();
-  const blockTiming = await publicClient.getBlockTiming();
-  return Number(btl) * blockTiming.blockDuration;
 }
 
 function getMimeType(file?: File): MimeType {

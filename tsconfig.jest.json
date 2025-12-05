@@ -9,13 +9,19 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
     "incremental": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "decs.d.ts", "global.d.ts"],
-  "exclude": ["node_modules", "node_modules_linux"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "decs.d.ts",
+    "global.d.ts"
+  ],
+  "exclude": ["node_modules", "node_modules_linux"]
 }

@@ -6,6 +6,7 @@ import type { ArkivExtendEntity } from '../entity/utils/types';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
+import dayjs from 'lib/date/dayjs';
 import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -16,6 +17,7 @@ import PageTitle from 'ui/shared/Page/PageTitle';
 
 import ExtendEntityForm from '../entity/ExtendEntityForm';
 import { useCanEditEntity } from '../entity/utils/useCanEditEntity';
+import { calculateExpiresIn } from '../entity/utils/utils';
 
 const EntityExtend = () => {
   const router = useRouter();
@@ -44,7 +46,20 @@ const EntityExtend = () => {
   const handleSubmit = React.useCallback(async(data: ArkivExtendEntity) => {
     const client = await createClient();
     const updatedAfter = String(Date.now());
-    await client.extendEntity({ ...data, entityKey: key as Hex });
+
+    if (!entityQuery.data?.expires_at_timestamp) {
+      toaster.success({
+        title: 'Error',
+        description: `Failed to fetch expiration date of entity ${ key }`,
+      });
+
+      return;
+    }
+
+    const newExpiresIn = calculateExpiresIn(data.expiresInDateTime);
+    const existingExpiresIn = calculateExpiresIn(entityQuery.data.expires_at_timestamp);
+
+    await client.extendEntity({ ...data, entityKey: key as Hex, expiresIn: newExpiresIn - existingExpiresIn });
 
     toaster.success({
       title: 'Success',
@@ -52,7 +67,7 @@ const EntityExtend = () => {
     });
 
     await router.push({ pathname: '/entity/[key]', query: { key, updated: updatedAfter } }, undefined, { shallow: true });
-  }, [ createClient, router, key ]);
+  }, [ createClient, entityQuery.data?.expires_at_timestamp, key, router ]);
 
   const content = (() => {
     if (entityQuery.isError) {
@@ -63,9 +78,13 @@ const EntityExtend = () => {
       return <ContentLoader/>;
     }
 
+    const now = dayjs().toISOString();
+    const initialExpiresAtTimestamp = entityQuery.data?.expires_at_timestamp || now;
+
     return (
       <ExtendEntityForm
         onSubmit={ handleSubmit }
+        initialExpiresAtTimestamp={ initialExpiresAtTimestamp }
       />
     );
   })();

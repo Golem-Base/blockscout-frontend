@@ -6,26 +6,33 @@ import { FormProvider, useForm } from 'react-hook-form';
 import type { ArkivExtendEntity, ExtendEntityFormFields } from './utils/types';
 
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
+import dayjs from 'lib/date/dayjs';
 import { Button } from 'toolkit/chakra/button';
+import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
 import ContentLoader from 'ui/shared/ContentLoader';
 
-import EntityFieldBtl from './fields/EntityFieldBtl';
+import EntityFormRow from './EntityFormRow';
 import ReturnButton from './ReturnButton';
-import { mapExtendEntityFormDataToArkivExtend } from './utils/utils';
+import { FORMAT_DATE_TIME, mapExtendEntityFormDataToArkivExtend } from './utils/utils';
 
 interface Props {
   onSubmit?: (data: ArkivExtendEntity) => Promise<void>;
+  initialExpiresAtTimestamp: string;
 }
 
 const submitText = 'Extend Entity';
 
 const ExtendEntityForm = ({
   onSubmit,
+  initialExpiresAtTimestamp,
 }: Props) => {
   const formApi = useForm<ExtendEntityFormFields>({
     mode: 'all',
+    defaultValues: {
+      expirationDate: dayjs(initialExpiresAtTimestamp).format(FORMAT_DATE_TIME),
+    },
   });
-  const { handleSubmit, formState, setError } = formApi;
+  const { handleSubmit, formState, setError, setValue } = formApi;
 
   const { isConnected, isLoading } = useArkivClient();
 
@@ -42,6 +49,20 @@ const ExtendEntityForm = ({
       setError('root', { message: `Failed to extend entity` });
     }
   }, [ isConnected, setError, onSubmit ]);
+
+  const handleClampMinDate = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = dayjs(event.target.value);
+    const minDate = dayjs(initialExpiresAtTimestamp);
+
+    let valueToSet = event.target.value;
+
+    if (selectedDate.isBefore(minDate)) {
+      valueToSet = minDate.format(FORMAT_DATE_TIME);
+      event.target.value = valueToSet;
+    }
+
+    setValue('expirationDate', valueToSet, { shouldValidate: true });
+  }, [ initialExpiresAtTimestamp, setValue ]);
 
   const handleFormChange = React.useCallback(() => {
     setError('root', { message: undefined });
@@ -72,7 +93,19 @@ const ExtendEntityForm = ({
           rowGap={{ base: 2, lg: 5 }}
           templateColumns={{ base: '1fr', lg: 'minmax(auto, 680px) minmax(0, 340px)' }}
         >
-          <EntityFieldBtl hint="Number of Blocks to add to current expiration"/>
+          <EntityFormRow>
+            <FormFieldText
+              name="expirationDate"
+              label="New expiration date and time"
+              inputProps={{
+                type: 'datetime-local',
+                min: dayjs(initialExpiresAtTimestamp).format(FORMAT_DATE_TIME),
+                onChange: handleClampMinDate,
+              }}
+              placeholder="Select date and time"
+            />
+            <span>Select new expiration date and time</span>
+          </EntityFormRow>
         </Grid>
 
         { formState.errors.root?.message && (
