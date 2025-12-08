@@ -66,6 +66,20 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     }));
   }, [ items ]);
 
+  const blockUtilizationChartData: Array<TimeChartItem> = React.useMemo(() => {
+    const baseDate = new Date(0);
+    const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
+    return items.map((item, index) => {
+      const gasUsed = Number(item.gas_used) || item.value || 0;
+      const utilization = gasLimitValue > 0 ? (gasUsed / gasLimitValue) * 100 : 0;
+      return {
+        date: new Date(baseDate.getTime() + index),
+        value: utilization,
+        dateLabel: item.label,
+      };
+    });
+  }, [ items ]);
+
   const chartData: TimeChartData = React.useMemo(() => {
     const series = [ {
       items: lineChartData,
@@ -81,10 +95,16 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
         color: lineColor,
         valueFormatter: (value: number) => value.toLocaleString(),
       });
+      series.push({
+        items: blockUtilizationChartData,
+        name: 'Block utilization',
+        color: lineColor,
+        valueFormatter: (value: number) => `${ value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }%`,
+      });
     }
 
     return series;
-  }, [ lineChartData, gasLimitChartData, lineColor, items ]);
+  }, [ lineChartData, gasLimitChartData, blockUtilizationChartData, lineColor, items ]);
 
   const xScale = React.useMemo(() => {
     if (items.length === 0) {
