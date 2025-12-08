@@ -39,7 +39,7 @@ const BlockGasUsageHistogramWidget = ({ title, description }: Props) => {
   }));
 
   return (
-    <Box 
+    <Box
       flex={ 1 }
       borderRadius="lg"
       borderWidth="1px"
