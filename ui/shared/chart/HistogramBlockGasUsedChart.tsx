@@ -70,9 +70,8 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
 
     const maxGasUsedValue = d3.max(items, (d) => Number(d.gas_used) || d.value || 0) || 0;
 
-    const gasLimit = items[0] ? Number(items[0].gas_limit) : 0;
 
-    const maxValue = Math.max(maxGasUsedValue, gasLimit);
+    const maxValue = maxGasUsedValue;
 
     if (minGasUsed === maxValue) {
       const padding = maxValue * 0.1 || 1;
@@ -94,10 +93,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
 
     return scale;
   }, [ items, innerHeight ]);
-
-  const gasLimitValue = React.useMemo(() => {
-    return items[0] ? Number(items[0].gas_limit) : 0;
-  }, [ items ]);
 
   const yAxisTickFormatter = React.useCallback(() => {
     return (d: d3.AxisDomain) => {
@@ -149,7 +144,7 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
         opacity={ rect ? 1 : 0 }
       >
         <g transform={ `translate(${ margin.left },${ margin.top })` }>
-          <ChartGridLine
+          <ChartGridLine 
             type="horizontal"
             scale={ yScale }
             ticks={ 5 }
@@ -179,30 +174,24 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
             />
           )) }
 
-          { gasLimitValue > 0 && (
-            <>
+          { items[0]?.gas_limit && (() => {
+            const gasLimitValue = Number(items[0].gas_limit);
+            const gasLimitY = yScale(gasLimitValue);
+            return (
               <line
                 x1={ 0 }
+                y1={ gasLimitY }
                 x2={ innerWidth }
-                y1={ Math.max(yScale(gasLimitValue), -5) }
-                y2={ Math.max(yScale(gasLimitValue), -5) }
+                y2={ gasLimitY }
                 stroke={ gasLimitLineColor }
-                strokeWidth={ 1.5 }
-                strokeDasharray="6,4"
+                strokeWidth={ 1 }
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray="6 6"
                 opacity={ 0.6 }
               />
-              <text
-                x={ innerWidth - 5 }
-                y={ Math.max(yScale(gasLimitValue) - 5, 10) }
-                fontSize="10px"
-                fill={ gasLimitLineColor }
-                textAnchor="end"
-                opacity={ 0.8 }
-              >
-                Gas Limit ({ gasLimitValue.toLocaleString() })
-              </text>
-            </>
-          ) }
+            );
+          })() }
         </g>
       </svg>
 
