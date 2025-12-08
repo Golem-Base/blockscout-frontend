@@ -11,7 +11,7 @@ import { getGolemBaseChartQueryParams } from './utils/getGolemBaseChartQueryPara
 export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count' | 'entity-count';
 export type GolemChartQueryResolution = 'HOUR' | 'DAY';
 
-export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count', 'entity-count', ];
+export const golemChartIds: Array<GolemChartId> = [ 'data-usage', 'storage-forecast', 'operation-count', 'entity-count' ];
 
 export const getChartResourceName = (id: GolemChartId) => {
   const resourceMap = {
