@@ -211,18 +211,15 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
       return;
     }
 
-    // Handle Ctrl/Cmd+Click to open in new tab
     if (event.ctrlKey || event.metaKey) {
       const href = `/block/${ blockNumber }`;
       window.open(href, '_blank', 'noopener,noreferrer');
     } else {
-      // Left click - navigate in same tab
       router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: blockNumber } });
     }
   }, [ getBlockNumberFromClick, router ]);
 
   const handleChartAuxClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
-    // Only handle middle mouse button (button === 1), ignore right click (button === 2)
     if (event.button === 1) {
       event.preventDefault();
       const blockNumber = getBlockNumberFromClick(event);
