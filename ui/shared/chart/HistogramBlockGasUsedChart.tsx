@@ -1,5 +1,6 @@
 import { Box, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
@@ -20,6 +21,7 @@ export interface HistogramItem {
   gas_used?: string;
   gas_limit?: string;
   gas_usage_percentage?: string;
+  block_number?: string;
 }
 
 interface Props {
@@ -32,11 +34,13 @@ type UseTokenTokensAttribute = Parameters<typeof useToken>[1];
 const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
 const DEFAULT_HEIGHT = 300;
 const colorTokens: UseTokenTokensAttribute = [ 'blue.200' ];
+const baseDate = new Date(0);
 
 const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const isMobile = useIsMobile();
   const overlayRef = React.useRef<SVGRectElement>(null);
+  const router = useRouter();
 
   const [
     lineColor,
@@ -48,7 +52,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
 
   const lineChartData: Array<TimeChartItem> = React.useMemo(() => {
-    const baseDate = new Date(0);
     return items.map((item, index) => ({
       date: new Date(baseDate.getTime() + index),
       value: Number(item.gas_used) || item.value || 0,
@@ -57,7 +60,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
   }, [ items ]);
 
   const gasLimitChartData: Array<TimeChartItem> = React.useMemo(() => {
-    const baseDate = new Date(0);
     const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
     return items.map((item, index) => ({
       date: new Date(baseDate.getTime() + index),
@@ -67,7 +69,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
   }, [ items ]);
 
   const blockUtilizationChartData: Array<TimeChartItem> = React.useMemo(() => {
-    const baseDate = new Date(0);
     const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
     return items.map((item, index) => {
       const gasUsed = Number(item.gas_used) || item.value || 0;
@@ -80,13 +81,28 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     });
   }, [ items ]);
 
+  const blockNumberChartData: Array<TimeChartItem> = React.useMemo(() => {
+    return items.map((item, index) => ({
+      date: new Date(baseDate.getTime() + index),
+      value: Number(item.block_number) || Number(item.label) || 0,
+      dateLabel: item.label,
+    }));
+  }, [ items ]);
+
   const chartData: TimeChartData = React.useMemo(() => {
-    const series = [ {
-      items: lineChartData,
-      name: 'Gas used',
-      color: lineColor,
-      valueFormatter: (value: number) => value.toLocaleString(),
-    } ];
+    const series = [
+      {
+        items: blockNumberChartData,
+        name: 'Block number',
+        color: lineColor,
+        valueFormatter: (value: number) => value.toLocaleString(),
+      },
+      {
+        items: lineChartData,
+        name: 'Gas used',
+        color: lineColor,
+        valueFormatter: (value: number) => value.toLocaleString(),
+      } ];
 
     if (items[0]?.gas_limit) {
       series.push({
@@ -104,7 +120,7 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     }
 
     return series;
-  }, [ lineChartData, gasLimitChartData, blockUtilizationChartData, lineColor, items ]);
+  }, [ blockNumberChartData, lineColor, lineChartData, items, gasLimitChartData, blockUtilizationChartData ]);
 
   const xScale = React.useMemo(() => {
     if (items.length === 0) {
@@ -170,6 +186,54 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     };
   }, [ items ]);
 
+  const getBlockNumberFromClick = React.useCallback((event: React.MouseEvent<SVGRectElement>): string | null => {
+    if (!overlayRef.current || items.length === 0) {
+      return null;
+    }
+
+    const [ x ] = d3.pointer(event, overlayRef.current);
+    const xDate = xScale.invert(x);
+    const baseDate = new Date(0);
+    const index = Math.round(xDate.getTime() - baseDate.getTime());
+
+    if (index >= 0 && index < items.length) {
+      const item = items[index];
+      return item.block_number || item.label || null;
+    }
+
+    return null;
+  }, [ items, xScale ]);
+
+  const handleChartClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
+    const blockNumber = getBlockNumberFromClick(event);
+
+    if (!blockNumber) {
+      return;
+    }
+
+    // Handle Ctrl/Cmd+Click to open in new tab
+    if (event.ctrlKey || event.metaKey) {
+      const href = `/block/${ blockNumber }`;
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      // Left click - navigate in same tab
+      router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: blockNumber } });
+    }
+  }, [ getBlockNumberFromClick, router ]);
+
+  const handleChartAuxClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
+    // Only handle middle mouse button (button === 1), ignore right click (button === 2)
+    if (event.button === 1) {
+      event.preventDefault();
+      const blockNumber = getBlockNumberFromClick(event);
+
+      if (blockNumber) {
+        const href = `/block/${ blockNumber }`;
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }, [ getBlockNumberFromClick ]);
+
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
   }
@@ -226,7 +290,13 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
             strokeWidth={ isMobile ? 1 : 2 }
           />
 
-          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
+          <ChartOverlay
+            ref={ overlayRef }
+            width={ innerWidth }
+            height={ innerHeight }
+            onClick={ handleChartClick }
+            onAuxClick={ handleChartAuxClick }
+          >
             <ChartTooltip
               anchorEl={ overlayRef.current }
               width={ innerWidth }
@@ -234,6 +304,7 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
               xScale={ xScale }
               yScale={ yScale }
               data={ chartData }
+              hideDateLabel
               noAnimation
             />
           </ChartOverlay>
