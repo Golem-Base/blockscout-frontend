@@ -1,14 +1,18 @@
-import { Box, Text, useToken } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
+import { Box, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
 import React from 'react';
+
+import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
 import useClientRect from 'lib/hooks/useClientRect';
 import useIsMobile from 'lib/hooks/useIsMobile';
 
+import ChartArea from './ChartArea';
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
-import HistogramBlockTransactionsChartBar from './HistogramBlockTransactionsChartBar';
+import ChartLine from './ChartLine';
+import ChartOverlay from './ChartOverlay';
+import ChartTooltip from './ChartTooltip';
 
 export interface HistogramItem {
   label: string;
@@ -20,67 +24,82 @@ interface Props {
   height?: number;
 }
 
-interface TooltipData {
-  x: number;
-  y: number;
-  label: string;
-  value: number;
-}
-
-type UseTokenTokensAttribute = Parameters<typeof useToken>[1];
-
 const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
 const DEFAULT_HEIGHT = 300;
-const colorTokens: UseTokenTokensAttribute = [ 'blackAlpha.900', 'blue.100' ];
+const baseDate = new Date(0);
 
 const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
-  const [ hoveredIndex, setHoveredIndex ] = React.useState<number>();
-  const [ tooltipData, setTooltipData ] = React.useState<TooltipData>();
   const isMobile = useIsMobile();
-
-  const [
-    tooltipBg,
-    labelColor,
-  ] = useToken('colors', colorTokens);
+  const [ color ] = useToken('colors', 'blue.200');
+  const overlayRef = React.useRef<SVGRectElement>(null);
 
   const margin = getMargin(isMobile);
 
   const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
 
-  const xScale = React.useMemo(() => d3.scaleBand()
-    .domain(items.map((_, i) => String(i)))
-    .range([ 0, innerWidth ])
-    .padding(0.6), [ items, innerWidth ]);
+  const chartData: Array<TimeChartItem> = React.useMemo(() => {
+    return items.map((item, index) => ({
+      date: new Date(baseDate.getTime() + index),
+      value: item.value,
+      dateLabel: item.label,
+    }));
+  }, [ items ]);
 
-  const yScale = React.useMemo(() => d3.scaleLinear()
-    .domain([ 0, d3.max(items, (d) => d.value) || 0 ])
-    .range([ innerHeight, 0 ])
-    .nice(), [ items, innerHeight ]);
+  const chartDataFormatted: TimeChartData = React.useMemo(() => {
+    return [ {
+      items: chartData,
+      name: 'Block number',
+      color,
+      valueFormatter: (value: number) => value.toLocaleString(),
+    },
+    {
+      items: chartData,
+      name: 'Transactions count',
+      color,
+      valueFormatter: (value: number) => value.toLocaleString(),
+    } ];
+  }, [ chartData, color ]);
 
-  const handleBarMouseEnter = React.useCallback((index: number, event: React.MouseEvent<SVGRectElement>) => {
-    setHoveredIndex(index);
-    const barRect = event.currentTarget.getBoundingClientRect();
-
-    if (rect) {
-      const x = barRect.left - rect.left + barRect.width / 2;
-      const y = barRect.top - rect.top;
-      const item = items[index] as HistogramItem;
-
-      setTooltipData({
-        x,
-        y,
-        label: item.label,
-        value: item.value,
-      });
+  const xScale = React.useMemo(() => {
+    if (items.length === 0) {
+      return d3.scaleTime().domain([ new Date(0), new Date(1) ]).range([ 0, innerWidth ]);
     }
-  }, [ items, rect ]);
+    return d3.scaleTime()
+      .domain([ baseDate, new Date(baseDate.getTime() + items.length - 1) ])
+      .range([ 0, innerWidth ])
+      .nice();
+  }, [ items.length, innerWidth ]);
 
-  const handleBarMouseLeave = React.useCallback(() => {
-    setHoveredIndex(undefined);
-    setTooltipData(undefined);
+  const xTickFormat = React.useCallback(() => {
+    return (domainValue: d3.AxisDomain) => {
+      const dateValue = domainValue as Date;
+      const index = Math.round(dateValue.getTime() - baseDate.getTime());
+      return items[index]?.label ?? '';
+    };
+  }, [ items ]);
+
+  const yTickFormat = React.useCallback(() => {
+    return (domainValue: d3.AxisDomain) => {
+      const value = domainValue as number;
+      return Number.isInteger(value) ? value.toString() : '';
+    };
   }, []);
+
+  const yScale = React.useMemo(() => {
+    if (items.length === 0) {
+      return d3.scaleLinear().domain([ 0, 0 ]).range([ innerHeight, 0 ]);
+    }
+    const maxValue = d3.max(items, (d) => d.value) || 0;
+    const minValue = d3.min(items, (d) => d.value) || 0;
+    const domainMax = maxValue === minValue && maxValue > 0 ? maxValue * 2 : maxValue;
+
+    return d3.scaleLinear()
+      .domain([ 0, domainMax ])
+      .range([ innerHeight, 0 ])
+      .nice();
+  }, [ items, innerHeight ]);
 
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
@@ -103,71 +122,54 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
             noAnimation
           />
 
+          <ChartArea
+            data={ chartData }
+            color={ color }
+            xScale={ xScale }
+            yScale={ yScale }
+            noAnimation
+          />
+
+          <ChartLine
+            data={ chartData }
+            xScale={ xScale }
+            yScale={ yScale }
+            stroke={ color }
+            animation="none"
+            strokeWidth={ isMobile ? 1 : 2 }
+          />
+
           <ChartAxis
             type="left"
             scale={ yScale }
             ticks={ 4 }
+            tickFormatGenerator={ yTickFormat }
             noAnimation
           />
 
-          { items.map((item, index) => (
-            <HistogramBlockTransactionsChartBar
-              key={ index }
-              item={ item }
-              index={ index }
+          <ChartAxis
+            type="bottom"
+            scale={ xScale }
+            transform={ `translate(0, ${ innerHeight })` }
+            ticks={ isMobile ? 4 : 6 }
+            tickFormatGenerator={ xTickFormat }
+            noAnimation
+          />
+
+          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
+            <ChartTooltip
+              anchorEl={ overlayRef.current }
+              width={ innerWidth }
+              height={ innerHeight }
               xScale={ xScale }
               yScale={ yScale }
-              innerHeight={ innerHeight }
-              isHovered={ hoveredIndex === index }
-              onMouseEnter={ handleBarMouseEnter }
-              onMouseLeave={ handleBarMouseLeave }
+              data={ chartDataFormatted }
+              noAnimation
+              hideDateLabel
             />
-          )) }
+          </ChartOverlay>
         </g>
       </svg>
-
-      { tooltipData && (
-        <Box
-          position="absolute"
-          left={ `${ tooltipData.x }px` }
-          top="-40px"
-          transform="translate(-50%, 0%)"
-          bg={ tooltipBg }
-          borderRadius="12px"
-          paddingX={ 3 }
-          paddingY={ 2 }
-          pointerEvents="none"
-          zIndex={ 10 }
-          fontSize="12px"
-          fontWeight={ 500 }
-          color="white"
-        >
-          <Box
-            display="grid"
-            gridTemplateColumns="auto 1fr"
-            gap={ 2 }
-            mb="8px"
-            pb="6px"
-            borderBottom="1px solid rgba(255,255,255,0.1)"
-          >
-            <Text color={ labelColor }>
-              Block
-            </Text>
-            <Text whiteSpace="nowrap" fontWeight={ 600 } textAlign="right">
-              { tooltipData.label }
-            </Text>
-          </Box>
-
-          <Box display="grid" gridTemplateColumns="auto 1fr" gap={ 2 } rowGap="2px">
-            <Text color={ labelColor }>
-              Transactions count
-            </Text>
-            <Text whiteSpace="nowrap" textAlign="right">
-              { BigNumber(tooltipData.value).toFormat() }
-            </Text>
-          </Box>
-        </Box>
-      ) }
     </Box>
   );
 };
