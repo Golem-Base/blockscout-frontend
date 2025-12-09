@@ -23,6 +23,7 @@ interface Props {
   anchorEl: SVGRectElement | null;
   noAnimation?: boolean;
   resolution?: ChartResolution | Resolution;
+  hideDateLabel?: boolean;
 }
 
 const ChartTooltip = ({
@@ -34,6 +35,7 @@ const ChartTooltip = ({
   anchorEl,
   noAnimation,
   resolution,
+  hideDateLabel,
   ...props
 }: Props) => {
   const ref = React.useRef<SVGGElement>(null);
@@ -47,7 +49,7 @@ const ChartTooltip = ({
   const renderPoints = useRenderPoints(ref, { data, xScale, yScale });
   const renderTitle = useRenderTitle(ref);
   const renderRows = useRenderRows(ref, { data, xScale });
-  const renderBackdrop = useRenderBackdrop(ref, { seriesNum: data.length, transitionDuration });
+  const renderBackdrop = useRenderBackdrop(ref, { seriesNum: data.length - (hideDateLabel ? 1 : 0), transitionDuration });
 
   const draw = React.useCallback((pointer: Pointer) => {
     if (pointer.point) {
@@ -163,7 +165,7 @@ const ChartTooltip = ({
       <ChartTooltipContent>
         <ChartTooltipBackdrop/>
         <ChartTooltipTitle resolution={ resolution }/>
-        <ChartTooltipRow label={ getDateLabel(resolution) } lineNum={ 1 }/>
+        { !hideDateLabel && <ChartTooltipRow label={ getDateLabel(resolution) } lineNum={ 1 }/> }
         { data.map(({ name }, index) => <ChartTooltipRow key={ name } label={ name } lineNum={ index + 1 }/>) }
       </ChartTooltipContent>
     </g>

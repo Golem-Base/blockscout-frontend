@@ -1,13 +1,19 @@
-import { Box, Text, useToken } from '@chakra-ui/react';
+import { Box, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
+import { useRouter } from 'next/router';
 import React from 'react';
+
+import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
 import useClientRect from 'lib/hooks/useClientRect';
 import useIsMobile from 'lib/hooks/useIsMobile';
 
+import ChartArea from './ChartArea';
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
-import HistogramBlockGasUsedChartBar from './HistogramBlockGasUsedChartBar';
+import ChartLine from './ChartLine';
+import ChartOverlay from './ChartOverlay';
+import ChartTooltip from './ChartTooltip';
 
 export interface HistogramItem {
   label: string;
@@ -15,6 +21,7 @@ export interface HistogramItem {
   gas_used?: string;
   gas_limit?: string;
   gas_usage_percentage?: string;
+  block_number?: string;
 }
 
 interface Props {
@@ -22,33 +29,21 @@ interface Props {
   height?: number;
 }
 
-interface TooltipData {
-  x: number;
-  y: number;
-  label: string;
-  value: number;
-  gas_used: number;
-  gas_limit: number;
-  gas_usage_percentage: number;
-}
-
 type UseTokenTokensAttribute = Parameters<typeof useToken>[1];
 
 const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobile ? 80 : 25, left: 50 });
 const DEFAULT_HEIGHT = 300;
-const colorTokens: UseTokenTokensAttribute = [ 'blackAlpha.900', 'blue.100', 'green.400', 'blue.400', 'orange.400', 'red.400' ];
+const colorTokens: UseTokenTokensAttribute = [ 'blue.200' ];
+const baseDate = new Date(0);
 
 const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
-  const [ hoveredIndex, setHoveredIndex ] = React.useState<number>();
-  const [ tooltipData, setTooltipData ] = React.useState<TooltipData>();
   const isMobile = useIsMobile();
+  const overlayRef = React.useRef<SVGRectElement>(null);
+  const router = useRouter();
 
   const [
-    tooltipBg,
-    labelColor,
-    createColor,
-    gasLimitLineColor,
+    lineColor,
   ] = useToken('colors', colorTokens);
 
   const margin = getMargin(isMobile);
@@ -56,10 +51,87 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
   const innerWidth = rect ? Math.max(rect.width - margin.left - margin.right, 0) : 0;
   const innerHeight = Math.max(height - margin.top - margin.bottom, 0);
 
-  const xScale = React.useMemo(() => d3.scaleBand()
-    .domain(items.map((_, i) => String(i)))
-    .range([ 0, innerWidth ])
-    .padding(0.6), [ items, innerWidth ]);
+  const lineChartData: Array<TimeChartItem> = React.useMemo(() => {
+    return items.map((item, index) => ({
+      date: new Date(baseDate.getTime() + index),
+      value: Number(item.gas_used) || item.value || 0,
+      dateLabel: item.label,
+    }));
+  }, [ items ]);
+
+  const gasLimitChartData: Array<TimeChartItem> = React.useMemo(() => {
+    const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
+    return items.map((item, index) => ({
+      date: new Date(baseDate.getTime() + index),
+      value: gasLimitValue,
+      dateLabel: item.label,
+    }));
+  }, [ items ]);
+
+  const blockUtilizationChartData: Array<TimeChartItem> = React.useMemo(() => {
+    const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
+    return items.map((item, index) => {
+      const gasUsed = Number(item.gas_used) || item.value || 0;
+      const utilization = gasLimitValue > 0 ? (gasUsed / gasLimitValue) * 100 : 0;
+      return {
+        date: new Date(baseDate.getTime() + index),
+        value: utilization,
+        dateLabel: item.label,
+      };
+    });
+  }, [ items ]);
+
+  const blockNumberChartData: Array<TimeChartItem> = React.useMemo(() => {
+    return items.map((item, index) => ({
+      date: new Date(baseDate.getTime() + index),
+      value: Number(item.block_number) || Number(item.label) || 0,
+      dateLabel: item.label,
+    }));
+  }, [ items ]);
+
+  const chartData: TimeChartData = React.useMemo(() => {
+    const series = [
+      {
+        items: blockNumberChartData,
+        name: 'Block number',
+        color: lineColor,
+        valueFormatter: (value: number) => value.toLocaleString(),
+      },
+      {
+        items: lineChartData,
+        name: 'Gas used',
+        color: lineColor,
+        valueFormatter: (value: number) => value.toLocaleString(),
+      } ];
+
+    if (items[0]?.gas_limit) {
+      series.push({
+        items: gasLimitChartData,
+        name: 'Gas limit',
+        color: lineColor,
+        valueFormatter: (value: number) => value.toLocaleString(),
+      });
+      series.push({
+        items: blockUtilizationChartData,
+        name: 'Block utilization',
+        color: lineColor,
+        valueFormatter: (value: number) => `${ value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }%`,
+      });
+    }
+
+    return series;
+  }, [ blockNumberChartData, lineColor, lineChartData, items, gasLimitChartData, blockUtilizationChartData ]);
+
+  const xScale = React.useMemo(() => {
+    if (items.length === 0) {
+      return d3.scaleTime().domain([ new Date(0), new Date(1) ]).range([ 0, innerWidth ]);
+    }
+    const baseDate = new Date(0);
+    return d3.scaleTime()
+      .domain([ baseDate, new Date(baseDate.getTime() + items.length - 1) ])
+      .range([ 0, innerWidth ])
+      .nice();
+  }, [ items.length, innerWidth ]);
 
   const yScale = React.useMemo(() => {
     if (items.length === 0) {
@@ -67,12 +139,8 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     }
 
     const minGasUsed = d3.min(items, (d) => Number(d.gas_used) || d.value || 0) || 0;
-
     const maxGasUsedValue = d3.max(items, (d) => Number(d.gas_used) || d.value || 0) || 0;
-
-    const gasLimit = items[0] ? Number(items[0].gas_limit) : 0;
-
-    const maxValue = Math.max(maxGasUsedValue, gasLimit);
+    const maxValue = maxGasUsedValue;
 
     if (minGasUsed === maxValue) {
       const padding = maxValue * 0.1 || 1;
@@ -95,10 +163,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     return scale;
   }, [ items, innerHeight ]);
 
-  const gasLimitValue = React.useMemo(() => {
-    return items[0] ? Number(items[0].gas_limit) : 0;
-  }, [ items ]);
-
   const yAxisTickFormatter = React.useCallback(() => {
     return (d: d3.AxisDomain) => {
       const num = Number(d);
@@ -110,31 +174,62 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     };
   }, []);
 
-  const handleBarMouseEnter = React.useCallback((index: number, event: React.MouseEvent<SVGRectElement>) => {
-    setHoveredIndex(index);
-    const barRect = event.currentTarget.getBoundingClientRect();
+  const xAxisTickFormatter = React.useCallback(() => {
+    return (d: d3.AxisDomain) => {
+      const date = d as Date;
+      const baseDate = new Date(0);
+      const index = Math.round(date.getTime() - baseDate.getTime());
+      if (index >= 0 && index < items.length) {
+        return items[index].label;
+      }
+      return '';
+    };
+  }, [ items ]);
 
-    if (rect) {
-      const x = barRect.left - rect.left + barRect.width / 2;
-      const y = barRect.top - rect.top;
-      const item = items[index];
-
-      setTooltipData({
-        x,
-        y,
-        label: item.label,
-        value: Number(item.gas_used),
-        gas_used: Number(item.gas_used),
-        gas_limit: Number(item.gas_limit),
-        gas_usage_percentage: Number(item.gas_usage_percentage),
-      });
+  const getBlockNumberFromClick = React.useCallback((event: React.MouseEvent<SVGRectElement>): string | null => {
+    if (!overlayRef.current || items.length === 0) {
+      return null;
     }
-  }, [ items, rect ]);
 
-  const handleBarMouseLeave = React.useCallback(() => {
-    setHoveredIndex(undefined);
-    setTooltipData(undefined);
-  }, []);
+    const [ x ] = d3.pointer(event, overlayRef.current);
+    const xDate = xScale.invert(x);
+    const baseDate = new Date(0);
+    const index = Math.round(xDate.getTime() - baseDate.getTime());
+
+    if (index >= 0 && index < items.length) {
+      const item = items[index];
+      return item.block_number || item.label || null;
+    }
+
+    return null;
+  }, [ items, xScale ]);
+
+  const handleChartClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
+    const blockNumber = getBlockNumberFromClick(event);
+
+    if (!blockNumber) {
+      return;
+    }
+
+    if (event.ctrlKey || event.metaKey) {
+      const href = `/block/${ blockNumber }`;
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: blockNumber } });
+    }
+  }, [ getBlockNumberFromClick, router ]);
+
+  const handleChartAuxClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
+    if (event.button === 1) {
+      event.preventDefault();
+      const blockNumber = getBlockNumberFromClick(event);
+
+      if (blockNumber) {
+        const href = `/block/${ blockNumber }`;
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }, [ getBlockNumberFromClick ]);
 
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
@@ -165,106 +260,53 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
             noAnimation
           />
 
-          { items.map((item, index) => (
-            <HistogramBlockGasUsedChartBar
-              key={ index }
-              item={ item }
-              index={ index }
+          <ChartAxis
+            type="bottom"
+            scale={ xScale }
+            transform={ `translate(0, ${ innerHeight })` }
+            ticks={ isMobile ? 4 : 8 }
+            tickFormatGenerator={ xAxisTickFormatter }
+            anchorEl={ overlayRef.current }
+            noAnimation
+          />
+
+          <ChartArea
+            data={ lineChartData }
+            xScale={ xScale }
+            yScale={ yScale }
+            color={ lineColor }
+            noAnimation
+          />
+
+          <ChartLine
+            data={ lineChartData }
+            xScale={ xScale }
+            yScale={ yScale }
+            stroke={ lineColor }
+            animation="none"
+            strokeWidth={ isMobile ? 1 : 2 }
+          />
+
+          <ChartOverlay
+            ref={ overlayRef }
+            width={ innerWidth }
+            height={ innerHeight }
+            onClick={ handleChartClick }
+            onAuxClick={ handleChartAuxClick }
+          >
+            <ChartTooltip
+              anchorEl={ overlayRef.current }
+              width={ innerWidth }
+              height={ innerHeight }
               xScale={ xScale }
               yScale={ yScale }
-              innerHeight={ innerHeight }
-              isHovered={ hoveredIndex === index }
-              onMouseEnter={ handleBarMouseEnter }
-              onMouseLeave={ handleBarMouseLeave }
+              data={ chartData }
+              hideDateLabel
+              noAnimation
             />
-          )) }
-
-          { gasLimitValue > 0 && (
-            <>
-              <line
-                x1={ 0 }
-                x2={ innerWidth }
-                y1={ Math.max(yScale(gasLimitValue), -5) }
-                y2={ Math.max(yScale(gasLimitValue), -5) }
-                stroke={ gasLimitLineColor }
-                strokeWidth={ 1.5 }
-                strokeDasharray="6,4"
-                opacity={ 0.6 }
-              />
-              <text
-                x={ innerWidth - 5 }
-                y={ Math.max(yScale(gasLimitValue) - 5, 10) }
-                fontSize="10px"
-                fill={ gasLimitLineColor }
-                textAnchor="end"
-                opacity={ 0.8 }
-              >
-                Gas Limit ({ gasLimitValue.toLocaleString() })
-              </text>
-            </>
-          ) }
+          </ChartOverlay>
         </g>
       </svg>
-
-      { tooltipData && (
-        <Box
-          position="absolute"
-          left={ `${ tooltipData.x }px` }
-          top="-10%"
-          transform="translate(-50%, 0%)"
-          bg={ tooltipBg }
-          borderRadius="12px"
-          paddingX={ 3 }
-          paddingY={ 2 }
-          pointerEvents="none"
-          zIndex={ 10 }
-          fontSize="12px"
-          fontWeight={ 500 }
-          color="white"
-        >
-          <Box
-            display="grid"
-            gridTemplateColumns="auto 1fr"
-            gap={ 2 }
-            mb="8px"
-            pb="6px"
-            borderBottom="1px solid rgba(255,255,255,0.1)"
-          >
-            <Text color={ labelColor }>
-              Block
-            </Text>
-            <Text whiteSpace="nowrap" fontWeight={ 600 } textAlign="right">
-              { tooltipData.label }
-            </Text>
-          </Box>
-
-          <Box display="grid" gridTemplateColumns="auto 1fr" gap={ 2 } rowGap="2px">
-            <Text color={ createColor }>
-              Gas limit
-            </Text>
-            <Text whiteSpace="nowrap" textAlign="right">
-              { tooltipData.gas_limit?.toLocaleString() }
-            </Text>
-
-            <Text color={ createColor }>
-              Gas usage percentage
-            </Text>
-            <Text whiteSpace="nowrap" textAlign="right">
-              { tooltipData.gas_usage_percentage ?
-                `${ (Number(tooltipData.gas_usage_percentage) * 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }%` :
-                ''
-              }
-            </Text>
-
-            <Text color={ createColor }>
-              Gas used
-            </Text>
-            <Text whiteSpace="nowrap" textAlign="right">
-              { tooltipData.gas_used?.toLocaleString() }
-            </Text>
-          </Box>
-        </Box>
-      ) }
     </Box>
   );
 };
