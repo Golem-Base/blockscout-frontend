@@ -47,7 +47,7 @@ export default function useStats() {
       transactionsSection.charts.push({
         id: 'transactions-block',
         title: 'Recent block transactions',
-        description: 'Recent transactions in the last 100 blocks',
+        description: 'Recent transactions in the last 300 blocks',
         units: undefined,
         resolutions: [],
       });
