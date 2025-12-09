@@ -3,7 +3,7 @@ import type * as d3 from 'd3';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import type { HistogramItem } from './HistogramBlockTransactionsChart';
+import type { HistogramItem } from './BlockTransactionsChart';
 
 interface Props {
   item: HistogramItem;

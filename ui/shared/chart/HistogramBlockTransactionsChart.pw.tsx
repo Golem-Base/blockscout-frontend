@@ -3,8 +3,8 @@ import React from 'react';
 
 import { test, expect } from 'playwright/lib';
 
-import HistogramBlockTransactionsChart from './HistogramBlockTransactionsChart';
-import type { HistogramItem } from './HistogramBlockTransactionsChart';
+import HistogramBlockTransactionsChart from './BlockTransactionsChart';
+import type { HistogramItem } from './BlockTransactionsChart';
 
 const testData: Array<HistogramItem> = times(100, (i) => (
   {

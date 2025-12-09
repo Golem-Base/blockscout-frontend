@@ -1,6 +1,5 @@
 import { Box, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
@@ -14,6 +13,7 @@ import ChartGridLine from './ChartGridLine';
 import ChartLine from './ChartLine';
 import ChartOverlay from './ChartOverlay';
 import ChartTooltip from './ChartTooltip';
+import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface HistogramItem {
   label: string;
@@ -39,8 +39,7 @@ const baseDate = new Date(0);
 const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const isMobile = useIsMobile();
-  const overlayRef = React.useRef<SVGRectElement>(null);
-  const router = useRouter();
+  const overlayRef = React.useRef<SVGRectElement | null>(null);
 
   const [
     lineColor,
@@ -126,7 +125,6 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     if (items.length === 0) {
       return d3.scaleTime().domain([ new Date(0), new Date(1) ]).range([ 0, innerWidth ]);
     }
-    const baseDate = new Date(0);
     return d3.scaleTime()
       .domain([ baseDate, new Date(baseDate.getTime() + items.length - 1) ])
       .range([ 0, innerWidth ])
@@ -186,50 +184,12 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     };
   }, [ items ]);
 
-  const getBlockNumberFromClick = React.useCallback((event: React.MouseEvent<SVGRectElement>): string | null => {
-    if (!overlayRef.current || items.length === 0) {
-      return null;
-    }
-
-    const [ x ] = d3.pointer(event, overlayRef.current);
-    const xDate = xScale.invert(x);
-    const baseDate = new Date(0);
-    const index = Math.round(xDate.getTime() - baseDate.getTime());
-
-    if (index >= 0 && index < items.length) {
-      const item = items[index];
-      return item.block_number || item.label || null;
-    }
-
-    return null;
-  }, [ items, xScale ]);
-
-  const handleChartClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
-    const blockNumber = getBlockNumberFromClick(event);
-
-    if (!blockNumber) {
-      return;
-    }
-
-    if (event.ctrlKey || event.metaKey) {
-      const href = `/block/${ blockNumber }`;
-      window.open(href, '_blank', 'noopener,noreferrer');
-    } else {
-      router.push({ pathname: '/block/[height_or_hash]', query: { height_or_hash: blockNumber } });
-    }
-  }, [ getBlockNumberFromClick, router ]);
-
-  const handleChartAuxClick = React.useCallback((event: React.MouseEvent<SVGRectElement>) => {
-    if (event.button === 1) {
-      event.preventDefault();
-      const blockNumber = getBlockNumberFromClick(event);
-
-      if (blockNumber) {
-        const href = `/block/${ blockNumber }`;
-        window.open(href, '_blank', 'noopener,noreferrer');
-      }
-    }
-  }, [ getBlockNumberFromClick ]);
+  const { handleChartClick, handleChartAuxClick } = useChartBlockNavigation({
+    overlayRef,
+    items,
+    xScale,
+    baseDate,
+  });
 
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;

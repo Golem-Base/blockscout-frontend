@@ -13,6 +13,7 @@ import ChartGridLine from './ChartGridLine';
 import ChartLine from './ChartLine';
 import ChartOverlay from './ChartOverlay';
 import ChartTooltip from './ChartTooltip';
+import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface HistogramItem {
   label: string;
@@ -28,7 +29,7 @@ const getMargin = (isMobile?: boolean) => ({ top: 10, right: 10, bottom: isMobil
 const DEFAULT_HEIGHT = 300;
 const baseDate = new Date(0);
 
-const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
+const BlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const isMobile = useIsMobile();
   const [ color ] = useToken('colors', 'blue.200');
@@ -101,6 +102,14 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
       .nice();
   }, [ items, innerHeight ]);
 
+  const { handleChartClick, handleChartAuxClick } = useChartBlockNavigation({
+    overlayRef,
+    items,
+    xScale,
+    baseDate,
+    getBlockIdentifier: (item) => item.label,
+  });
+
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
   }
@@ -156,7 +165,7 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
             noAnimation
           />
 
-          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
+          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight } onAuxClick={ handleChartAuxClick } onClick={ handleChartClick }>
             <ChartTooltip
               anchorEl={ overlayRef.current }
               width={ innerWidth }
@@ -174,4 +183,4 @@ const HistogramBlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Pro
   );
 };
 
-export default React.memo(HistogramBlockTransactionsChart);
+export default React.memo(BlockTransactionsChart);

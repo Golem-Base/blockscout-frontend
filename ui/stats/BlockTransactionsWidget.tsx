@@ -4,7 +4,7 @@ import React from 'react';
 import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_TRANSACTIONS_HISTOGRAM } from 'stubs/stats';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import HistogramBlockTransactionsChart from 'ui/shared/chart/HistogramBlockTransactionsChart';
+import BlockTransactionsChart from 'ui/shared/chart/BlockTransactionsChart';
 import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
@@ -13,7 +13,7 @@ type Props = {
   description: string;
 };
 
-const BlockTransactionsHistogramWidget = ({ title, description }: Props) => {
+const BlockTransactionsWidget = ({ title, description }: Props) => {
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockTransactions', {
     queryOptions: {
       refetchOnMount: false,
@@ -55,7 +55,7 @@ const BlockTransactionsHistogramWidget = ({ title, description }: Props) => {
       { isPlaceholderData ? (
         <Box h="300px" w="100%"/>
       ) : (
-        <HistogramBlockTransactionsChart
+        <BlockTransactionsChart
           items={ chartItems }
         />
       ) }
@@ -63,4 +63,4 @@ const BlockTransactionsHistogramWidget = ({ title, description }: Props) => {
   );
 };
 
-export default BlockTransactionsHistogramWidget;
+export default BlockTransactionsWidget;
