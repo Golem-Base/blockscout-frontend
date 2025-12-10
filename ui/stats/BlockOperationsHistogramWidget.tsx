@@ -6,13 +6,13 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_OPERATIONS_HISTOGRAM } from 'stubs/stats';
 import { Select } from 'toolkit/chakra/select';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import HistogramBlockOperationsChart from 'ui/shared/chart/HistogramBlockOperationsChart';
-import type { OperationTypeCount } from 'ui/shared/chart/HistogramBlockOperationsChartBar';
-import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
+import type { Item } from 'ui/shared/chart/BlockOperationsChart';
+import HistogramBlockOperationsChart from 'ui/shared/chart/BlockOperationsChart';
+import type { OperationTypeCount } from 'ui/shared/chart/BlockOperationsChartBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
 const BlockOperationsHistogramWidget = () => {
-  const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete' ]);
+  const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete', 'changeowner' ]);
 
   const handleOperationChange = React.useCallback((e: { value: Array<string> }) => {
     setSelectedOperations(e.value);
@@ -36,7 +36,7 @@ const BlockOperationsHistogramWidget = () => {
     return null;
   }
 
-  const chartItems: Array<HistogramItem> = data.chart.map((item) => ({
+  const chartItems: Array<Item> = data.chart.map((item) => ({
     label: item.block_number,
     value: sum(Object.values(pick(item, [ 'create_count', 'update_count', 'extend_count', 'delete_count', 'changeowner_count' ])).map(Number)),
     ...item,

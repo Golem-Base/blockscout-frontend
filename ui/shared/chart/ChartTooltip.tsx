@@ -24,6 +24,7 @@ interface Props {
   noAnimation?: boolean;
   resolution?: ChartResolution | Resolution;
   hideDateLabel?: boolean;
+  dateLabelText?: string;
 }
 
 const ChartTooltip = ({
@@ -36,6 +37,7 @@ const ChartTooltip = ({
   noAnimation,
   resolution,
   hideDateLabel,
+  dateLabelText,
   ...props
 }: Props) => {
   const ref = React.useRef<SVGGElement>(null);
@@ -165,7 +167,7 @@ const ChartTooltip = ({
       <ChartTooltipContent>
         <ChartTooltipBackdrop/>
         <ChartTooltipTitle resolution={ resolution }/>
-        { !hideDateLabel && <ChartTooltipRow label={ getDateLabel(resolution) } lineNum={ 1 }/> }
+        { !hideDateLabel && <ChartTooltipRow label={ dateLabelText ?? getDateLabel(resolution) } lineNum={ 1 }/> }
         { data.map(({ name }, index) => <ChartTooltipRow key={ name } label={ name } lineNum={ index + 1 }/>) }
       </ChartTooltipContent>
     </g>

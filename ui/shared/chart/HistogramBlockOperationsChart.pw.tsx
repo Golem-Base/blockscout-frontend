@@ -2,11 +2,11 @@ import React from 'react';
 
 import { test, expect } from 'playwright/lib';
 
-import type { HistogramItem } from './HistogramBlockOperationsChart';
-import HistogramBlockOperationsChart from './HistogramBlockOperationsChart';
-import type { OperationTypeCount } from './HistogramBlockOperationsChartBar';
+import type { Item } from './BlockOperationsChart';
+import HistogramBlockOperationsChart from './BlockOperationsChart';
+import type { OperationTypeCount } from './BlockOperationsChartBar';
 
-const testData: Array<HistogramItem> = [
+const testData: Array<Item> = [
   {
     label: '1245524',
     value: 5,
