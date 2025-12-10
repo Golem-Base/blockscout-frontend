@@ -75,7 +75,7 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }:
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.gas_used) }</Text>
+          <Text>{ formatBigNum(data.cost) }</Text>
         </Skeleton>
       </ItemValue>
 

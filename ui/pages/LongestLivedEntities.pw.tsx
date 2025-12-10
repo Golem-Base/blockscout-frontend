@@ -18,6 +18,7 @@ const longestLivedEntities: PaginatedResponse<LeaderboardEntitiesByBtlResponse> 
       status: EntityStatus.ACTIVE,
       expires_at_timestamp_sec: String(18000001759909158),
       data: '0x1234567890abcdef1234567890abcdef',
+      cost: '0',
     },
     {
       expires_at_block_number: '1000000000000000000',
@@ -27,6 +28,7 @@ const longestLivedEntities: PaginatedResponse<LeaderboardEntitiesByBtlResponse> 
       status: EntityStatus.ACTIVE,
       expires_at_timestamp_sec: String(3520387490),
       data: '0x1234567890abcdef1234567890abcdef',
+      cost: '0',
     },
   ],
   next_page_params: {

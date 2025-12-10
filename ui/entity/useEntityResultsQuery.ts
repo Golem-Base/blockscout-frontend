@@ -13,6 +13,7 @@ export const ENTITY_RESULT_ITEM: Entity = pick(ENTITY, [
   'status',
   'last_updated_at_tx_hash',
   'expires_at_block_number',
+  'cost',
 ]);
 
 export const ENTITY_FILTER_KEYS = [

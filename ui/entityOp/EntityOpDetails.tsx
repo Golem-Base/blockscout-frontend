@@ -106,7 +106,7 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.gas_used || '0') }</Text>
+          <Text>{ formatBigNum(data.cost || '0') }</Text>
         </Skeleton>
       </ItemValue>
 
@@ -114,7 +114,7 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <CurrencyValue
-            value={ data.fees_paid }
+            value={ data.total_cost }
             decimals={ String(config.chain.currency.decimals) }
             currency={ currencyUnits.ether }
             flexWrap="wrap"

@@ -187,7 +187,7 @@ describe('entity utils', () => {
         expires_at_block_number: '2234567',
         expires_at_timestamp: '2024-06-15T10:30Z',
         owner: '0xabcdef1234567890',
-        gas_used: '21000',
+        cost: '21000',
         fees_paid: '500000000000000',
         updated_at_tx_hash: '0x1234567890abcdef',
         updated_at_operation_index: '0',
