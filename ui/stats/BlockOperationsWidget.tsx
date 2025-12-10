@@ -20,7 +20,7 @@ const BlockOperationsHistogramWidget = () => {
 
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockOperations', {
     queryParams: {
-      limit: 30,
+      limit: 150,
     },
     queryOptions: {
       refetchOnMount: false,
@@ -68,7 +68,7 @@ const BlockOperationsHistogramWidget = () => {
           </Skeleton>
 
           <Skeleton loading={ isPlaceholderData } color="text.secondary" fontSize="xs" mt={ 1 }>
-            <span>Operations count by block</span>
+            <span>Block operations in the last 150 blocks</span>
           </Skeleton>
         </Box>
 
