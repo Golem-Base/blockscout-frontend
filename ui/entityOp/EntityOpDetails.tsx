@@ -106,11 +106,11 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.cost || '0') }</Text>
+          <Text>{ formatBigNum(data.cost || '0') } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 
-      <ItemLabel hint="Fee paid for this operation">Fee paid</ItemLabel>
+      <ItemLabel hint="Gas consumed by the entire transaction">Total gas used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <CurrencyValue

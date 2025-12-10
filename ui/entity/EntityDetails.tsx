@@ -4,6 +4,7 @@ import { formatUnits } from 'viem';
 
 import type { EntityQuery } from './utils/types';
 
+import { currencyUnits } from 'lib/units';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
@@ -86,7 +87,7 @@ const EntityDetails = ({ entityQuery }: Props) => {
       <ItemLabel hint="Total gas consumed by this entity">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatUnits(BigInt(data.cost || '0'), 0) }</Text>
+          <Text>{ formatUnits(BigInt(data.cost || '0'), 0) } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 

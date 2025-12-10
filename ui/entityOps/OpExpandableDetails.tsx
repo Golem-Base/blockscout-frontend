@@ -2,6 +2,7 @@ import { Text } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import { currencyUnits } from 'lib/units';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { ENTITY_HISTORY_ENTRY } from 'stubs/entityOps';
 import { Skeleton } from 'toolkit/chakra/skeleton';
@@ -75,7 +76,7 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }:
       <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.cost) }</Text>
+          <Text>{ formatBigNum(data.cost) } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 
