@@ -5,12 +5,10 @@ import React from 'react';
 import type { EntityOpQuery, TxOpCountQuery } from './types';
 import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
 
-import config from 'configs/app';
 import { currencyUnits } from 'lib/units';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import EntityOpType from 'ui/entityOps/EntityOpType';
-import CurrencyValue from 'ui/shared/CurrencyValue';
 import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -107,18 +105,6 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemValue>
         <Skeleton loading={ isLoading }>
           <Text>{ formatBigNum(data.cost || '0') } { currencyUnits.ether }</Text>
-        </Skeleton>
-      </ItemValue>
-
-      <ItemLabel hint="Gas consumed by the entire transaction">Total gas used</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <CurrencyValue
-            value={ data.total_cost }
-            decimals={ String(config.chain.currency.decimals) }
-            currency={ currencyUnits.ether }
-            flexWrap="wrap"
-          />
         </Skeleton>
       </ItemValue>
     </Container>
