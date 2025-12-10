@@ -3,8 +3,8 @@ import React from 'react';
 
 import { test, expect } from 'playwright/lib';
 
-import HistogramBlockTransactionsChart from './HistogramBlockTransactionsChart';
-import type { HistogramItem } from './HistogramBlockTransactionsChart';
+import BlockTransactionsChart from './BlockTransactionsChart';
+import type { HistogramItem } from './BlockTransactionsChart';
 
 const testData: Array<HistogramItem> = times(100, (i) => (
   {
@@ -14,13 +14,13 @@ const testData: Array<HistogramItem> = times(100, (i) => (
 ));
 
 test('histogram with block transactions +@dark-mode +@mobile', async({ render }) => {
-  const component = await render(<HistogramBlockTransactionsChart items={ testData } height={ 350 }/>);
+  const component = await render(<BlockTransactionsChart items={ testData } height={ 350 }/>);
 
   await expect(component).toHaveScreenshot();
 });
 
 test('histogram with block transactions tooltip', async({ render, page }) => {
-  const component = await render(<HistogramBlockTransactionsChart items={ testData } height={ 350 }/>);
+  const component = await render(<BlockTransactionsChart items={ testData } height={ 350 }/>);
 
   const svg = component.locator('svg');
   const svgBox = await svg.boundingBox();

@@ -15,7 +15,7 @@ import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import IconSvg from 'ui/shared/IconSvg';
 
 import BlockGasUsageHistogramWidget from './BlockGasUsageHistogramWidget';
-import BlockTransactionsHistogramWidget from './BlockTransactionsHistogramWidget';
+import BlockTransactionsWidget from './BlockTransactionsWidget';
 import ChartsLoadingErrorAlert from './ChartsLoadingErrorAlert';
 import ChartWidgetContainer from './ChartWidgetContainer';
 import GolemChartWidgetContainer from './GolemChartWidgetContainer';
@@ -119,7 +119,7 @@ const ChartsWidgetsList = ({ filterQuery, isError, isPlaceholderData, charts, in
 
                   if (chart.id === 'transactions-block') {
                     return (
-                      <BlockTransactionsHistogramWidget key={ chart.id }
+                      <BlockTransactionsWidget key={ chart.id }
                         title={ chart.title }
                         description={ chart.description }/>
                     );
