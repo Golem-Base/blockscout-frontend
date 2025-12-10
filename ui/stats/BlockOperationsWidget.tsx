@@ -7,7 +7,7 @@ import { BLOCK_OPERATIONS_HISTOGRAM } from 'stubs/stats';
 import { Select } from 'toolkit/chakra/select';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import type { Item } from 'ui/shared/chart/BlockOperationsChart';
-import HistogramBlockOperationsChart from 'ui/shared/chart/BlockOperationsChart';
+import BlockOperationsChart from 'ui/shared/chart/BlockOperationsChart';
 import type { OperationTypeCount } from 'ui/shared/chart/BlockOperationsChartBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
@@ -86,7 +86,7 @@ const BlockOperationsHistogramWidget = () => {
       { isPlaceholderData ? (
         <Box h="300px" w="100%"/>
       ) : (
-        <HistogramBlockOperationsChart
+        <BlockOperationsChart
           items={ chartItems }
           visibleOperations={ visibleOperations }
         />
