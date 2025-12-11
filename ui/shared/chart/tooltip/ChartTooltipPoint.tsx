@@ -73,6 +73,11 @@ export function useRenderPoints(ref: React.RefObject<SVGGElement | null>, params
           return 'translate(-100,-100)';
         }
 
+        // Hide point when value is 0
+        if (d.value === 0) {
+          return 'translate(-100,-100)';
+        }
+
         const xPos = params.xScale(d.date);
         const yPos = params.yScale(d.value);
 
