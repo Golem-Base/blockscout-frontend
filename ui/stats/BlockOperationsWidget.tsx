@@ -6,13 +6,13 @@ import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_OPERATIONS_HISTOGRAM } from 'stubs/stats';
 import { Select } from 'toolkit/chakra/select';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import HistogramBlockOperationsChart from 'ui/shared/chart/HistogramBlockOperationsChart';
-import type { OperationTypeCount } from 'ui/shared/chart/HistogramBlockOperationsChartBar';
-import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
+import type { Item } from 'ui/shared/chart/BlockOperationsChart';
+import BlockOperationsChart from 'ui/shared/chart/BlockOperationsChart';
+import type { OperationTypeCount } from 'ui/shared/chart/BlockOperationsChartBar';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
 const BlockOperationsHistogramWidget = () => {
-  const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete' ]);
+  const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete', 'changeowner' ]);
 
   const handleOperationChange = React.useCallback((e: { value: Array<string> }) => {
     setSelectedOperations(e.value);
@@ -20,7 +20,7 @@ const BlockOperationsHistogramWidget = () => {
 
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockOperations', {
     queryParams: {
-      limit: 30,
+      limit: 150,
     },
     queryOptions: {
       refetchOnMount: false,
@@ -36,7 +36,7 @@ const BlockOperationsHistogramWidget = () => {
     return null;
   }
 
-  const chartItems: Array<HistogramItem> = data.chart.map((item) => ({
+  const chartItems: Array<Item> = data.chart.map((item) => ({
     label: item.block_number,
     value: sum(Object.values(pick(item, [ 'create_count', 'update_count', 'extend_count', 'delete_count', 'changeowner_count' ])).map(Number)),
     ...item,
@@ -68,7 +68,7 @@ const BlockOperationsHistogramWidget = () => {
           </Skeleton>
 
           <Skeleton loading={ isPlaceholderData } color="text.secondary" fontSize="xs" mt={ 1 }>
-            <span>Operations count by block</span>
+            <span>Block operations in the last 150 blocks</span>
           </Skeleton>
         </Box>
 
@@ -86,7 +86,7 @@ const BlockOperationsHistogramWidget = () => {
       { isPlaceholderData ? (
         <Box h="300px" w="100%"/>
       ) : (
-        <HistogramBlockOperationsChart
+        <BlockOperationsChart
           items={ chartItems }
           visibleOperations={ visibleOperations }
         />

@@ -4,7 +4,7 @@ import React from 'react';
 import config from 'configs/app';
 import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import PageTitle from 'ui/shared/Page/PageTitle';
-import BlockOperationsHistogramWidget from 'ui/stats/BlockOperationsHistogramWidget';
+import BlockOperationsHistogramWidget from 'ui/stats/BlockOperationsWidget';
 
 import DataSizeHistogramWidget from '../stats/DataSizeHistogramWidget';
 import NumberWidgetsList from '../stats/NumberWidgetsList';

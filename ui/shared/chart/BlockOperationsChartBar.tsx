@@ -16,7 +16,7 @@ interface Props {
   visibleOperations: Array<OperationTypeCount>;
 }
 
-export type OperationTypeCount = 'create_count' | 'update_count' | 'extend_count' | 'delete_count';
+export type OperationTypeCount = 'create_count' | 'update_count' | 'extend_count' | 'delete_count' | 'changeowner_count';
 
 interface OperationConfig {
   key: OperationTypeCount;
@@ -57,7 +57,7 @@ const OPERATIONS: Array<OperationConfig> = [
   },
 ];
 
-const HistogramBlockOperationsChartBar = ({
+const BlockOperationsChartBar = ({
   item,
   index,
   xScale,
@@ -70,17 +70,7 @@ const HistogramBlockOperationsChartBar = ({
   const x = xScale(String(index)) || 0;
   const barWidth = xScale.bandwidth();
 
-  const createColors = useToken('colors', [ 'green.200', 'green.400', 'green.300', 'green.500' ]);
-  const updateColors = useToken('colors', [ 'blue.200', 'blue.400', 'blue.300', 'blue.500' ]);
-  const extendColors = useToken('colors', [ 'orange.200', 'orange.400', 'orange.300', 'orange.500' ]);
-  const deleteColors = useToken('colors', [ 'red.200', 'red.400', 'red.300', 'red.500' ]);
-
-  const colorMap = {
-    create_count: createColors,
-    update_count: updateColors,
-    extend_count: extendColors,
-    delete_count: deleteColors,
-  };
+  const colors = useToken('colors', [ 'blue.200', 'blue.400', 'blue.300', 'blue.500' ]);
 
   let cumulativeValue = 0;
   const segments = OPERATIONS.filter(operation => visibleOperations.includes(operation.key)).map((operation) => {
@@ -105,7 +95,6 @@ const HistogramBlockOperationsChartBar = ({
     <>
       <defs>
         { segments.map(({ operation }) => {
-          const colors = colorMap[operation.key];
           const [ colorLight, color, hoverColorLight, hoverColor ] = colors;
           const gradientId = `bar-gradient-${ operation.key }-${ index }`;
           const gradientHoverId = `bar-gradient-hover-${ operation.key }-${ index }`;
@@ -150,4 +139,4 @@ const HistogramBlockOperationsChartBar = ({
   );
 };
 
-export default React.memo(HistogramBlockOperationsChartBar);
+export default React.memo(BlockOperationsChartBar);
