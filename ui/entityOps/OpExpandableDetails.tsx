@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import { currencyUnits } from 'lib/units';
-import { formatBigNum } from 'lib/web3/formatBigNum';
 import { ENTITY_HISTORY_ENTRY } from 'stubs/entityOps';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import { WEI } from 'toolkit/utils/consts';
 import OperationSpecificData from 'ui/entityOp/OperationSpecificData';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
@@ -73,10 +74,10 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }:
         />
       </ItemValue>
 
-      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
+      <ItemLabel hint="Cost of this operation">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.cost) } { currencyUnits.ether }</Text>
+          <Text>{ BigNumber(data.cost).div(WEI).toFormat() } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 

@@ -8,6 +8,7 @@ import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
 import { currencyUnits } from 'lib/units';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import { WEI } from 'toolkit/utils/consts';
 import EntityOpType from 'ui/entityOps/EntityOpType';
 import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
@@ -101,10 +102,10 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
 
       <OperationSpecificData data={ data } isLoading={ isLoading } withTimestamps/>
 
-      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
+      <ItemLabel hint="Cost of this operation">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.cost || '0') } { currencyUnits.ether }</Text>
+          <Text>{ BigNumber(data.cost).div(WEI).toFormat() } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
     </Container>

@@ -21,7 +21,6 @@ const mockOperationsResponse = {
 };
 
 test('base view +@mobile', async({ render, mockApiResponse }) => {
-
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
     queryParams: { operation: 'CREATE', page_size: '50', transaction_hash: txMock.base.hash },
   });
@@ -45,6 +44,8 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
       <TxEntityOps txQuery={ txQuery }/>
     </Box>,
   );
+
+  await component.waitFor();
 
   await expect(component).toHaveScreenshot();
 });
