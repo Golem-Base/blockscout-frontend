@@ -40,5 +40,7 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
     { hooksConfig },
   );
 
+  await component.waitFor();
+
   await expect(component).toHaveScreenshot();
 });
