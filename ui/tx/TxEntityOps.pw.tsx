@@ -45,7 +45,5 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
     </Box>,
   );
 
-  await component.waitFor({ timeout: 5_000 });
-
   await expect(component).toHaveScreenshot();
 });

@@ -5,10 +5,10 @@ import React from 'react';
 import type { EntityOpQuery, TxOpCountQuery } from './types';
 import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
 
+import { getSafeCost } from 'lib/getSafeCost';
 import { currencyUnits } from 'lib/units';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { WEI } from 'toolkit/utils/consts';
 import EntityOpType from 'ui/entityOps/EntityOpType';
 import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
@@ -31,6 +31,8 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
   const sumCounts = (c: CountOperationsResponse) => BigNumber.sum(...Object.values(c));
 
   const txOpCount = !isCountLoading && counts ? sumCounts(counts) : BigNumber(0);
+
+  const safeCost = React.useMemo(() => getSafeCost(data?.cost), [ data?.cost ]);
 
   if (!data) {
     return null;
@@ -105,7 +107,7 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
       <ItemLabel hint="Cost of this operation">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ BigNumber(data.cost).div(WEI).toFormat() } { currencyUnits.ether }</Text>
+          <Text>{ safeCost } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
     </Container>

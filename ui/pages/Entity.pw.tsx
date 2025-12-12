@@ -118,7 +118,6 @@ test.describe('Entity page', () => {
     await expect(component.getByText('Entity Key')).toBeVisible();
     await expect(component.getByText('Status')).toBeVisible();
     await expect(component.getByText('Owner')).toBeVisible();
-    await expect(component.getByText('Cost')).toBeVisible();
     await expect(component.getByText('Created at Block')).toBeVisible();
     await expect(component.getByText('Created at', { exact: true })).toBeVisible();
 

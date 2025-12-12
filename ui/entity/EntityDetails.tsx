@@ -1,12 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
-import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { EntityQuery } from './utils/types';
 
+import { getSafeCost } from 'lib/getSafeCost';
 import { currencyUnits } from 'lib/units';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { WEI } from 'toolkit/utils/consts';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -23,6 +22,8 @@ interface Props {
 
 const EntityDetails = ({ entityQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityQuery;
+
+  const safeCost = React.useMemo(() => getSafeCost(data?.cost), [ data?.cost ]);
 
   if (!data) {
     return null;
@@ -88,7 +89,7 @@ const EntityDetails = ({ entityQuery }: Props) => {
       <ItemLabel hint="Total cost of this entity">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ BigNumber(data.cost).div(WEI).toFormat() } { currencyUnits.ether }</Text>
+          <Text>{ safeCost } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 
