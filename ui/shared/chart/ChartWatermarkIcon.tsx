@@ -3,7 +3,7 @@ import { Icon } from '@chakra-ui/react';
 import React from 'react';
 
 // eslint-disable-next-line no-restricted-imports
-import logoIcon from 'icons/networks/logo-placeholder.svg';
+import logoIcon from 'icons/networks/logo.svg';
 
 const ChartWatermarkIcon = (props: IconProps) => {
   return (
