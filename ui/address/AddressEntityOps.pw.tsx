@@ -40,7 +40,7 @@ test('base view +@mobile', async({ render, mockApiResponse }) => {
     { hooksConfig },
   );
 
-  await component.waitFor();
+  await component.waitFor({ timeout: 5_000 });
 
   await expect(component).toHaveScreenshot();
 });
