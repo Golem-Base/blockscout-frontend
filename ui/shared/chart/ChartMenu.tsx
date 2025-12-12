@@ -15,9 +15,12 @@ import { isBrowser } from 'toolkit/utils/isBrowser';
 import IconSvg from 'ui/shared/IconSvg';
 
 import FullscreenChartModal from './FullscreenChartModal';
+import FullscreenHistogramModal from './FullscreenHistogramModal';
+import type { HistogramItem } from './HistogramBlockGasUsedChart';
 
 export type Props = {
   items?: Array<TimeChartItem>;
+  histogramItems?: Array<HistogramItem>;
   title: string;
   description?: string;
   units?: string;
@@ -34,6 +37,7 @@ const DOWNLOAD_IMAGE_SCALE = 5;
 
 const ChartMenu = ({
   items,
+  histogramItems,
   title,
   description,
   units,
@@ -157,7 +161,17 @@ const ChartMenu = ({
           </MenuItem>
         </MenuContent>
       </MenuRoot>
-      { items && (
+      { histogramItems ? (
+        <FullscreenHistogramModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ histogramItems }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) : items && (
         <FullscreenChartModal
           open={ fullscreenDialog.open }
           onOpenChange={ fullscreenDialog.onOpenChange }
