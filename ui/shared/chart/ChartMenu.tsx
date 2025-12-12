@@ -14,6 +14,8 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import { isBrowser } from 'toolkit/utils/isBrowser';
 import IconSvg from 'ui/shared/IconSvg';
 
+import type { HistogramItem as BlockTransactionsHistogramItem } from './BlockTransactionsChart';
+import FullscreenBlockTransactionsModal from './FullscreenBlockTransactionsModal';
 import FullscreenChartModal from './FullscreenChartModal';
 import FullscreenHistogramModal from './FullscreenHistogramModal';
 import type { HistogramItem } from './HistogramBlockGasUsedChart';
@@ -21,6 +23,7 @@ import type { HistogramItem } from './HistogramBlockGasUsedChart';
 export type Props = {
   items?: Array<TimeChartItem>;
   histogramItems?: Array<HistogramItem>;
+  blockTransactionsItems?: Array<BlockTransactionsHistogramItem>;
   title: string;
   description?: string;
   units?: string;
@@ -38,6 +41,7 @@ const DOWNLOAD_IMAGE_SCALE = 5;
 const ChartMenu = ({
   items,
   histogramItems,
+  blockTransactionsItems,
   title,
   description,
   units,
@@ -161,7 +165,20 @@ const ChartMenu = ({
           </MenuItem>
         </MenuContent>
       </MenuRoot>
-      { histogramItems ? (
+
+      { blockTransactionsItems && (
+        <FullscreenBlockTransactionsModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ blockTransactionsItems }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) }
+
+      { histogramItems && (
         <FullscreenHistogramModal
           open={ fullscreenDialog.open }
           onOpenChange={ fullscreenDialog.onOpenChange }
@@ -171,7 +188,9 @@ const ChartMenu = ({
           zoomRange={ zoomRange }
           handleZoomReset={ handleZoomReset }
         />
-      ) : items && (
+      ) }
+
+      { items && (
         <FullscreenChartModal
           open={ fullscreenDialog.open }
           onOpenChange={ fullscreenDialog.onOpenChange }
