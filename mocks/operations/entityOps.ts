@@ -13,7 +13,6 @@ export const createEntityOperation = (operationType: OperationType): Operation =
   index: '0',
   btl: '1',
   cost: '10000000',
-  fees_paid: '10000000',
   expires_at_timestamp: '2024-12-31T23:59:59.000Z',
   expires_at_timestamp_sec: '1735689599',
 });

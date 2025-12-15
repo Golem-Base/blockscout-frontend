@@ -38,7 +38,6 @@ export const base: golemBaseIndexer.FullEntity = {
   owner: '0x742d35cc6bc59fb56d41229f1e5e0d5c3f2cf9b7',
   creator: '0x742d35cc6bc59fb56d41229f1e5e0d5c3f2cf9b7',
   cost: '21000',
-  fees_paid: '500000000000000',
   updated_at_tx_hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
@@ -60,7 +59,6 @@ export const deleted: golemBaseIndexer.FullEntity = {
   expires_at_timestamp: '2024-06-10T08:15:00Z',
   owner: '0x8ba1f109551bd432803012645hac136c0b1b6b7b',
   cost: '25000',
-  fees_paid: '750000000000000',
   updated_at_tx_hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
@@ -94,7 +92,6 @@ export const expired: golemBaseIndexer.FullEntity = {
   expires_at_timestamp: '2024-01-31T12:00:00Z',
   owner: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc',
   cost: '18500',
-  fees_paid: '370000000000000',
   updated_at_tx_hash: '0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
@@ -138,7 +135,6 @@ export const withLargeData: golemBaseIndexer.FullEntity = {
   expires_at_timestamp: '2024-08-01T14:20:30Z',
   owner: '0x90f79bf6eb2c4f870365e785982e1f101e93b906',
   cost: '85000',
-  fees_paid: '1700000000000000',
   updated_at_tx_hash: '0x5555666677778888999900001111222233334444555566667777888899990000',
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
@@ -164,7 +160,6 @@ export const noData: golemBaseIndexer.FullEntity = {
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',
   updated_at_timestamp: '2024-01-15T10:30:00',
-  fees_paid: '0',
 };
 
 export const withJsonData: golemBaseIndexer.FullEntity = {

@@ -46,7 +46,6 @@ export const ENTITY_BASE: FullEntity = {
   expires_at_timestamp: '2024-06-15T10:30:00Z',
   owner: ADDRESS_HASH,
   cost: '21000',
-  fees_paid: '500000000000000',
   updated_at_tx_hash: TX_HASH,
   updated_at_operation_index: '0',
   updated_at_block_number: '1234567',

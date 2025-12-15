@@ -241,10 +241,10 @@ const AddressPageContent = () => {
         component: <AddressEntityOps shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
         subTabs: ENTITY_OPS_TABS,
       },
-      addressStatsQuery.data?.created_entities?.length ? {
+      addressStatsQuery.data?.owned_entities?.length ? {
         id: 'owned_entities',
         title: 'Owned entities',
-        count: Number(addressStatsQuery.data.created_entities),
+        count: Number(addressStatsQuery.data.owned_entities),
         component: <AddressOwnedEntities shouldRender={ !isTabsLoading } isQueryEnabled={ areQueriesEnabled }/>,
       } : undefined,
       txInterpretation.isEnabled && txInterpretation.provider === 'noves' ?
