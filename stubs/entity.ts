@@ -45,7 +45,7 @@ export const ENTITY_BASE: FullEntity = {
   expires_at_block_number: '2234567',
   expires_at_timestamp: '2024-06-15T10:30:00Z',
   owner: ADDRESS_HASH,
-  gas_used: '21000',
+  cost: '21000',
   fees_paid: '500000000000000',
   updated_at_tx_hash: TX_HASH,
   updated_at_operation_index: '0',
@@ -64,4 +64,5 @@ export const ENTITY: Entity = {
   expires_at_block_number: '2234567',
   created_at_tx_hash: TX_HASH,
   data: '0x48656c6c6f20576f726c64',
+  cost: '21000',
 };

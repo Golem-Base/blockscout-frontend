@@ -2,7 +2,8 @@ import { Text } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
-import { formatBigNum } from 'lib/web3/formatBigNum';
+import { getSafeCost } from 'lib/getSafeCost';
+import { currencyUnits } from 'lib/units';
 import { ENTITY_HISTORY_ENTRY } from 'stubs/entityOps';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import OperationSpecificData from 'ui/entityOp/OperationSpecificData';
@@ -28,6 +29,8 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }:
       placeholderData: ENTITY_HISTORY_ENTRY,
     },
   });
+
+  const safeCost = React.useMemo(() => getSafeCost(data?.cost), [ data?.cost ]);
 
   if (!data) {
     return null;
@@ -72,10 +75,10 @@ const OpExpandableDetails = ({ txHash, opIndex, withEntity, withOperationType }:
         />
       </ItemValue>
 
-      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
+      <ItemLabel hint="Cost of this operation">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.gas_used) }</Text>
+          <Text>{ safeCost } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 

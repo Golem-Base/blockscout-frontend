@@ -1,9 +1,10 @@
 import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
-import { formatUnits } from 'viem';
 
 import type { EntityQuery } from './utils/types';
 
+import { getSafeCost } from 'lib/getSafeCost';
+import { currencyUnits } from 'lib/units';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Container, ItemDivider, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
@@ -21,6 +22,8 @@ interface Props {
 
 const EntityDetails = ({ entityQuery }: Props) => {
   const { data, isPlaceholderData: isLoading } = entityQuery;
+
+  const safeCost = React.useMemo(() => getSafeCost(data?.cost), [ data?.cost ]);
 
   if (!data) {
     return null;
@@ -83,10 +86,10 @@ const EntityDetails = ({ entityQuery }: Props) => {
         </>
       ) }
 
-      <ItemLabel hint="Total gas consumed by this entity">Gas Used</ItemLabel>
+      <ItemLabel hint="Total cost of this entity">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatUnits(BigInt(data.gas_used || '0'), 0) }</Text>
+          <Text>{ safeCost } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
 

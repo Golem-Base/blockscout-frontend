@@ -5,12 +5,11 @@ import React from 'react';
 import type { EntityOpQuery, TxOpCountQuery } from './types';
 import type { CountOperationsResponse } from '@golembase/l3-indexer-types';
 
-import config from 'configs/app';
+import { getSafeCost } from 'lib/getSafeCost';
 import { currencyUnits } from 'lib/units';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import EntityOpType from 'ui/entityOps/EntityOpType';
-import CurrencyValue from 'ui/shared/CurrencyValue';
 import { Container, ItemLabel, ItemValue } from 'ui/shared/DetailedInfo/DetailedInfo';
 import DetailedInfoTimestamp from 'ui/shared/DetailedInfo/DetailedInfoTimestamp';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
@@ -32,6 +31,8 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
   const sumCounts = (c: CountOperationsResponse) => BigNumber.sum(...Object.values(c));
 
   const txOpCount = !isCountLoading && counts ? sumCounts(counts) : BigNumber(0);
+
+  const safeCost = React.useMemo(() => getSafeCost(data?.cost), [ data?.cost ]);
 
   if (!data) {
     return null;
@@ -103,22 +104,10 @@ const EntityOpDetails = ({ entityOpQuery, txOpCountQuery }: Props) => {
 
       <OperationSpecificData data={ data } isLoading={ isLoading } withTimestamps/>
 
-      <ItemLabel hint="Gas consumed by this operation">Gas Used</ItemLabel>
+      <ItemLabel hint="Cost of this operation">Cost</ItemLabel>
       <ItemValue>
         <Skeleton loading={ isLoading }>
-          <Text>{ formatBigNum(data.gas_used || '0') }</Text>
-        </Skeleton>
-      </ItemValue>
-
-      <ItemLabel hint="Fee paid for this operation">Fee paid</ItemLabel>
-      <ItemValue>
-        <Skeleton loading={ isLoading }>
-          <CurrencyValue
-            value={ data.fees_paid }
-            decimals={ String(config.chain.currency.decimals) }
-            currency={ currencyUnits.ether }
-            flexWrap="wrap"
-          />
+          <Text>{ safeCost } { currencyUnits.ether }</Text>
         </Skeleton>
       </ItemValue>
     </Container>
