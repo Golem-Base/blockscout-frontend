@@ -19,7 +19,6 @@ const mockOperationsResponse = {
 };
 
 test('base view +@mobile', async({ render, mockApiResponse }) => {
-
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
     queryParams: { operation: 'CREATE', page_size: '50', sender: ADDRESS_HASH },
   });
