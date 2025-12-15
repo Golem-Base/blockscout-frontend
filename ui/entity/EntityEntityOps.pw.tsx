@@ -18,7 +18,7 @@ const mockOperationsResponse = {
   next_page_params: null,
 };
 
-test('base view +@mobile', async({ render, mockApiResponse }) => {
+test('base view', async({ render, mockApiResponse }) => {
 
   await mockApiResponse('golemBaseIndexer:operations', mockOperationsResponse, {
     queryParams: { operation: 'ALL', page_size: '50', entity_key: ENTITY_KEY },
