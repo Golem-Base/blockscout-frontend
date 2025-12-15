@@ -15,6 +15,7 @@ import ChartGridLine from './ChartGridLine';
 import ChartLine from './ChartLine';
 import ChartOverlay from './ChartOverlay';
 import ChartTooltip from './ChartTooltip';
+import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface Item extends BlockOperationPoint {
   label: string;
@@ -155,6 +156,13 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
     };
   }, [ items ]);
 
+  const { handleChartClick, handleChartAuxClick } = useChartBlockNavigation({
+    overlayRef,
+    items,
+    xScale,
+    baseDate,
+  });
+
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
   }
@@ -211,7 +219,7 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
             strokeWidth={ isMobile ? 1 : 2 }
           />
 
-          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight }>
+          <ChartOverlay ref={ overlayRef } width={ innerWidth } height={ innerHeight } onClick={ handleChartClick } onAuxClick={ handleChartAuxClick }>
             <ChartTooltip
               anchorEl={ overlayRef.current }
               width={ innerWidth }
