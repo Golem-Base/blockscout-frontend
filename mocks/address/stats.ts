@@ -17,4 +17,5 @@ export const statsResponse: AddressStatsResponse = {
   first_seen_timestamp: '2024-01-11T10:30:00Z',
   last_seen_block: '32',
   last_seen_timestamp: '2024-01-14T10:30:00Z',
+  owned_entities: '3',
 };

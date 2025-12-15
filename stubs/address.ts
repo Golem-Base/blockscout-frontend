@@ -66,6 +66,7 @@ export const ADDRESS_STATS: AddressStatsResponse = {
     extend_count: '1',
     changeowner_count: '0',
   },
+  owned_entities: '3',
 };
 
 export const ADDRESS_TABS_COUNTERS: AddressTabsCounters = {
