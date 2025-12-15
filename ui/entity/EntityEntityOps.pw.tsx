@@ -40,5 +40,7 @@ test('base view', async({ render, mockApiResponse }) => {
     { hooksConfig },
   );
 
+  await component.waitFor({ state: 'attached', timeout: 5_000 });
+
   await expect(component).toHaveScreenshot();
 });
