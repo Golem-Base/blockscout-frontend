@@ -6,25 +6,28 @@ import { DialogBody, DialogContent, DialogHeader, DialogRoot } from 'toolkit/cha
 import { Heading } from 'toolkit/chakra/heading';
 import IconSvg from 'ui/shared/IconSvg';
 
-import type { HistogramItem } from './HistogramBlockGasUsedChart';
-import HistogramBlockGasUsedChart from './HistogramBlockGasUsedChart';
+import type { Item } from './BlockOperationsChart';
+import BlockOperationsChart from './BlockOperationsChart';
+import type { OperationTypeCount } from './BlockOperationsChartBar';
 
 type Props = {
   open: boolean;
   onOpenChange: ({ open }: { open: boolean }) => void;
   title: string;
   description?: string;
-  items: Array<HistogramItem>;
+  items: Array<Item>;
+  visibleOperations: Array<OperationTypeCount>;
   zoomRange?: [ Date, Date ];
   handleZoomReset: () => void;
 };
 
-const FullscreenHistogramModal = ({
+const FullscreenBlockOperationsModal = ({
   open,
   onOpenChange,
   title,
   description,
   items,
+  visibleOperations,
   zoomRange,
   handleZoomReset,
 }: Props) => {
@@ -67,11 +70,11 @@ const FullscreenHistogramModal = ({
               </Button>
             ) }
           </Grid>
-          <HistogramBlockGasUsedChart items={ items } height={ 500 }/>
+          <BlockOperationsChart items={ items } visibleOperations={ visibleOperations } height={ 500 }/>
         </DialogBody>
       </DialogContent>
     </DialogRoot>
   );
 };
 
-export default FullscreenHistogramModal;
+export default FullscreenBlockOperationsModal;

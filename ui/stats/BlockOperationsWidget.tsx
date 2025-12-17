@@ -2,8 +2,6 @@ import { Box, createListCollection, Flex } from '@chakra-ui/react';
 import { sum, pick } from 'es-toolkit/compat';
 import React, { useMemo, useRef } from 'react';
 
-import type { TimeChartItem } from 'ui/shared/chart/types';
-
 import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_OPERATIONS_HISTOGRAM } from 'stubs/stats';
 import { Select } from 'toolkit/chakra/select';
@@ -14,8 +12,6 @@ import type { OperationTypeCount } from 'ui/shared/chart/BlockOperationsChartBar
 import ChartMenu from 'ui/shared/chart/ChartMenu';
 import useZoom from 'ui/shared/chart/useZoom';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
-
-const baseDate = new Date(0);
 
 const BlockOperationsHistogramWidget = () => {
   const chartRef = useRef<HTMLDivElement>(null);
@@ -49,17 +45,6 @@ const BlockOperationsHistogramWidget = () => {
 
   const visibleOperations = selectedOperations.map(operation => `${ operation }_count` as OperationTypeCount);
   const hasItems = chartItems.length > 2;
-
-  const menuItems: Array<TimeChartItem> = useMemo(() => {
-    return chartItems.map((item, index) => {
-      const total = visibleOperations.reduce((acc, operation) => acc + (Number(item[operation]) || 0), 0);
-      return {
-        date: new Date(baseDate.getTime() + index),
-        value: total,
-        dateLabel: item.label,
-      };
-    });
-  }, [ chartItems, visibleOperations ]);
 
   if (isError) {
     return <DataFetchAlert/>;
@@ -111,7 +96,8 @@ const BlockOperationsHistogramWidget = () => {
 
           { hasItems && (
             <ChartMenu
-              items={ menuItems }
+              blockOperationsItems={ chartItems }
+              blockOperationsVisibleOperations={ visibleOperations }
               title="Block operations"
               description="Block operations in the last 150 blocks"
               isLoading={ isPlaceholderData }

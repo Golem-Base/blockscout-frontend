@@ -6,8 +6,8 @@ import { DialogBody, DialogContent, DialogHeader, DialogRoot } from 'toolkit/cha
 import { Heading } from 'toolkit/chakra/heading';
 import IconSvg from 'ui/shared/IconSvg';
 
-import type { HistogramItem } from './HistogramBlockGasUsedChart';
-import HistogramBlockGasUsedChart from './HistogramBlockGasUsedChart';
+import type { HistogramItem } from './HistogramChart';
+import HistogramChart from './HistogramChart';
 
 type Props = {
   open: boolean;
@@ -19,7 +19,7 @@ type Props = {
   handleZoomReset: () => void;
 };
 
-const FullscreenHistogramModal = ({
+const FullscreenDataSizeHistogramModal = ({
   open,
   onOpenChange,
   title,
@@ -67,11 +67,11 @@ const FullscreenHistogramModal = ({
               </Button>
             ) }
           </Grid>
-          <HistogramBlockGasUsedChart items={ items } height={ 500 }/>
+          <HistogramChart items={ items } height={ 500 }/>
         </DialogBody>
       </DialogContent>
     </DialogRoot>
   );
 };
 
-export default FullscreenHistogramModal;
+export default FullscreenDataSizeHistogramModal;
