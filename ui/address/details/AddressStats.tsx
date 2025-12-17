@@ -89,8 +89,8 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
       <ItemDivider/>
 
       { renderItem(
-        'Created entities',
-        'Number of entities created by this address',
+        'Owned entities',
+        'Number of entities owned by this address',
         <Link
           href={
             route({
@@ -99,8 +99,15 @@ const AddressStats = ({ addressHash, isLoading }: Props) => {
             })
           }
         >
-          { formatBigNum(data.created_entities) }
+          { formatBigNum(data.owned_entities) }
         </Link>,
+      ) }
+
+      { renderItem(
+        'Created entities',
+        'Number of entities created by this address',
+        formatBigNum(data.created_entities)
+        ,
       ) }
 
       { renderItem(
