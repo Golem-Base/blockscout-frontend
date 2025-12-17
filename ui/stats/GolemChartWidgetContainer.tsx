@@ -1,4 +1,4 @@
-import { chakra } from '@chakra-ui/react';
+import { chakra, Text } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React, { useCallback, useEffect } from 'react';
 
@@ -40,11 +40,15 @@ const GolemChartWidgetContainer = ({
 
   const { items, lineQuery } = useGolemChartQuery(id, resolution, interval, !isPlaceholderData);
 
+  const isStorageForecastAllInterval = React.useMemo(() => {
+    return interval === 'all' && id === 'storage-forecast';
+  }, [ interval, id ]);
+
   useEffect(() => {
-    if (lineQuery.isError) {
+    if (!isStorageForecastAllInterval && lineQuery.isError) {
       onLoadingError();
     }
-  }, [ lineQuery.isError, onLoadingError ]);
+  }, [ lineQuery.isError, onLoadingError, isStorageForecastAllInterval ]);
 
   const valueFormatter = useCallback((value: string | number) => {
     const valueFormatterMap: Record<GolemChartId, string> = {
@@ -56,6 +60,20 @@ const GolemChartWidgetContainer = ({
 
     return valueFormatterMap[id];
   }, [ id ]);
+
+  const customStorageForecastAllIntervalNoDataMessage = React.useMemo(() => {
+    if (!isStorageForecastAllInterval) return;
+
+    return (
+      <Text
+        color="text.secondary"
+        fontSize="sm"
+        textAlign="center"
+      >
+        Projection is not available for <b>All time</b> range.<br/>Please, select limited interval option.
+      </Text>
+    );
+  }, [ isStorageForecastAllInterval ]);
 
   return (
     <ChartWidget
@@ -70,6 +88,7 @@ const GolemChartWidgetContainer = ({
       href={ href }
       resolution={ resolution }
       valueFormatter={ valueFormatter }
+      customNoDataMessage={ customStorageForecastAllIntervalNoDataMessage }
     />
   );
 };
