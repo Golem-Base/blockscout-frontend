@@ -14,10 +14,24 @@ import { useDisclosure } from 'toolkit/hooks/useDisclosure';
 import { isBrowser } from 'toolkit/utils/isBrowser';
 import IconSvg from 'ui/shared/IconSvg';
 
+import type { Item as BlockOperationsItem } from './BlockOperationsChart';
+import type { OperationTypeCount } from './BlockOperationsChartBar';
+import type { HistogramItem as BlockTransactionsHistogramItem } from './BlockTransactionsChart';
+import FullscreenBlockOperationsModal from './FullscreenBlockOperationsModal';
+import FullscreenBlockTransactionsModal from './FullscreenBlockTransactionsModal';
 import FullscreenChartModal from './FullscreenChartModal';
+import FullscreenDataSizeHistogramModal from './FullscreenDataSizeHistogramModal';
+import FullscreenHistogramModal from './FullscreenHistogramModal';
+import type { HistogramItem } from './HistogramBlockGasUsedChart';
+import type { HistogramItem as DataSizeHistogramItem } from './HistogramChart';
 
 export type Props = {
   items?: Array<TimeChartItem>;
+  histogramItems?: Array<HistogramItem>;
+  blockTransactionsItems?: Array<BlockTransactionsHistogramItem>;
+  dataSizeHistogramItems?: Array<DataSizeHistogramItem>;
+  blockOperationsItems?: Array<BlockOperationsItem>;
+  blockOperationsVisibleOperations?: Array<OperationTypeCount>;
   title: string;
   description?: string;
   units?: string;
@@ -34,6 +48,11 @@ const DOWNLOAD_IMAGE_SCALE = 5;
 
 const ChartMenu = ({
   items,
+  histogramItems,
+  blockTransactionsItems,
+  dataSizeHistogramItems,
+  blockOperationsItems,
+  blockOperationsVisibleOperations,
   title,
   description,
   units,
@@ -157,6 +176,56 @@ const ChartMenu = ({
           </MenuItem>
         </MenuContent>
       </MenuRoot>
+
+      { blockTransactionsItems && (
+        <FullscreenBlockTransactionsModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ blockTransactionsItems }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) }
+
+      { histogramItems && (
+        <FullscreenHistogramModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ histogramItems }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) }
+
+      { dataSizeHistogramItems && (
+        <FullscreenDataSizeHistogramModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ dataSizeHistogramItems }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) }
+
+      { blockOperationsItems && blockOperationsVisibleOperations && (
+        <FullscreenBlockOperationsModal
+          open={ fullscreenDialog.open }
+          onOpenChange={ fullscreenDialog.onOpenChange }
+          items={ blockOperationsItems }
+          visibleOperations={ blockOperationsVisibleOperations }
+          title={ title }
+          description={ description }
+          zoomRange={ zoomRange }
+          handleZoomReset={ handleZoomReset }
+        />
+      ) }
+
       { items && (
         <FullscreenChartModal
           open={ fullscreenDialog.open }
