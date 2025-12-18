@@ -25,6 +25,7 @@ export type Props = {
   noAnimation?: boolean;
   resolution?: ChartResolution | Resolution;
   valueFormatter?: (value: number | string) => string;
+  customNoDataMessage?: React.ReactNode;
 };
 
 const ChartWidgetContent = ({
@@ -40,6 +41,7 @@ const ChartWidgetContent = ({
   noAnimation,
   resolution,
   valueFormatter,
+  customNoDataMessage,
 }: Props) => {
   const hasItems = items && items.length > 2;
 
@@ -51,14 +53,16 @@ const ChartWidgetContent = ({
         flexGrow={ 1 }
         py={ 4 }
       >
-        <Text
-          color="text.secondary"
-          fontSize="sm"
-          textAlign="center"
-        >
-          { `The data didn${ apos }t load. Please, ` }
-          <Link href={ window.document.location.href }>try to reload the page.</Link>
-        </Text>
+        { customNoDataMessage || (
+          <Text
+            color="text.secondary"
+            fontSize="sm"
+            textAlign="center"
+          >
+            { `The data didn${ apos }t load. Please, ` }
+            <Link href={ window.document.location.href }>try to reload the page.</Link>
+          </Text>
+        ) }
       </Flex>
     );
   }

@@ -31,6 +31,7 @@ export type Props = {
   href?: Route;
   resolution?: ChartResolution | Resolution;
   valueFormatter?: (value: number | string) => string;
+  customNoDataMessage?: React.ReactNode;
 };
 
 const ChartWidget = ({
@@ -46,6 +47,7 @@ const ChartWidget = ({
   href,
   resolution,
   valueFormatter,
+  customNoDataMessage,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
@@ -65,6 +67,7 @@ const ChartWidget = ({
       noAnimation={ noAnimation }
       resolution={ resolution }
       valueFormatter={ valueFormatter }
+      customNoDataMessage={ customNoDataMessage }
     />
   );
 
