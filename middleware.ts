@@ -7,7 +7,7 @@ import * as middlewares from 'nextjs/middlewares/index';
 function generateNonce(): string {
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
-  // Convert to base64 using btoa
+
   const binaryString = String.fromCharCode(...array);
   return btoa(binaryString);
 }
@@ -27,8 +27,8 @@ export async function middleware(req: NextRequest) {
 
   const res = NextResponse.next();
 
-  // Generate nonce for CSP using Web Crypto API
   const nonce = generateNonce();
+
   res.cookies.set('x-nonce', nonce, {
     httpOnly: false,
     sameSite: 'strict',
