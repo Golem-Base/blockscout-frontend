@@ -6,7 +6,6 @@ import config from 'configs/app';
 const feature = config.features.umami;
 
 const Umami = () => {
-  // Read nonce from meta tag
   const [ nonce, setNonce ] = React.useState<string | undefined>();
 
   React.useEffect(() => {
