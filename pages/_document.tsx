@@ -25,13 +25,18 @@ class MyDocument extends Document {
 
     const initialProps = await Document.getInitialProps(ctx);
 
-    return initialProps;
+    // Read nonce from cookie
+    const cookieString = ctx.req?.headers.cookie || '';
+    const nonce = cookieString.split('x-nonce=')[1]?.split(';')[0];
+
+    return { ...initialProps, nonce };
   }
 
   render() {
+    const { nonce } = this.props;
     return (
       <Html lang="en">
-        <Head>
+        <Head nonce={ nonce as string | undefined }>
           { /* FONTS */ }
           <link
             href={ config.UI.fonts.heading?.url ?? 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' }
@@ -59,10 +64,13 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon-180x180.png"/>
           <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/android-chrome-192x192.png"/>
           <link rel="preload" as="image" href={ svgSprite.href }/>
+          { this.props.nonce && (
+            <meta name="csp-nonce" content={ this.props.nonce as string }/>
+          ) }
         </Head>
         <body>
           <Main/>
-          <NextScript/>
+          <NextScript nonce={ this.props.nonce as string | undefined }/>
         </body>
       </Html>
     );

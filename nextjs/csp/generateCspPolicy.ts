@@ -1,9 +1,9 @@
 import * as descriptors from './policies';
 import { makePolicyString, mergeDescriptors } from './utils';
 
-function generateCspPolicy() {
+function generateCspPolicy(nonce?: string) {
   const policyDescriptor = mergeDescriptors(
-    descriptors.app(),
+    descriptors.app(nonce),
     descriptors.ad(),
     descriptors.cloudFlare(),
     descriptors.gasHawk(),
@@ -21,7 +21,7 @@ function generateCspPolicy() {
     descriptors.usernameApi(),
     descriptors.walletConnect(),
     descriptors.ffMetamask(),
-    descriptors.umami(),
+    descriptors.umami(nonce),
   );
 
   return makePolicyString(policyDescriptor);

@@ -23,7 +23,7 @@ const externalFontsDomains = (() => {
   } catch (error) {}
 })();
 
-export function app(): CspDev.DirectiveDescriptor {
+export function app(nonce?: string): CspDev.DirectiveDescriptor {
   return {
     'default-src': [
       // KEY_WORDS.NONE,
@@ -71,6 +71,12 @@ export function app(): CspDev.DirectiveDescriptor {
 
       // CapybaraRunner
       '\'sha256-5+YTmTcBwCYdJ8Jetbr6kyjGp0Ry/H7ptpoun6CrSwQ=\'',
+
+      // Next.js inline script hash (fallback if nonce doesn't work for all scripts)
+      '\'sha256-/ZmmXHg9XaKeWp0VJihBDn4cJ7lLM1jUtpgqdgVFvmA=\'',
+
+      // Nonce for inline scripts (e.g., __NEXT_DATA__)
+      ...(nonce ? [ `'nonce-${ nonce }'` ] : []),
     ],
 
     'style-src': [
