@@ -26,7 +26,7 @@ const Page: NextPage<Props<typeof pathname>> = (props: Props<typeof pathname>) =
 export default Page;
 
 export const getServerSideProps: GetServerSideProps<Props<typeof pathname>> = async(ctx) => {
-  const golemBaseSpecialStorageAddress = '0x0000000000000000000000000000000060138453';
+  const golemBaseSpecialStorageAddress = '0x00000000000000000000000000000061726b6976';
   const hash = ctx.query.hash;
 
   if (hash === golemBaseSpecialStorageAddress) {
