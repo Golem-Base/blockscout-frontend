@@ -68,10 +68,11 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
   }, [ items ]);
 
   const blockUtilizationChartData: Array<TimeChartItem> = React.useMemo(() => {
-    const gasLimitValue = items[0]?.gas_limit ? Number(items[0].gas_limit) : 0;
     return items.map((item, index) => {
+      const gasLimitValue = item?.gas_limit ? Number(item.gas_limit) : 0;
       const gasUsed = Number(item.gas_used) || item.value || 0;
-      const utilization = gasLimitValue > 0 ? (gasUsed / gasLimitValue) * 100 : 0;
+      const utilization = ((gasUsed / gasLimitValue) * 100);
+
       return {
         date: new Date(baseDate.getTime() + index),
         value: utilization,
@@ -80,46 +81,29 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
     });
   }, [ items ]);
 
-  const blockNumberChartData: Array<TimeChartItem> = React.useMemo(() => {
-    return items.map((item, index) => ({
-      date: new Date(baseDate.getTime() + index),
-      value: Number(item.block_number) || Number(item.label) || 0,
-      dateLabel: item.label,
-    }));
-  }, [ items ]);
-
   const chartData: TimeChartData = React.useMemo(() => {
     const series = [
-      {
-        items: blockNumberChartData,
-        name: 'Block number',
-        color: lineColor,
-        valueFormatter: (value: number) => value.toLocaleString(),
-      },
       {
         items: lineChartData,
         name: 'Gas used',
         color: lineColor,
         valueFormatter: (value: number) => value.toLocaleString(),
-      } ];
-
-    if (items[0]?.gas_limit) {
-      series.push({
+      },
+      {
         items: gasLimitChartData,
         name: 'Gas limit',
         color: lineColor,
         valueFormatter: (value: number) => value.toLocaleString(),
-      });
-      series.push({
+      },
+      {
         items: blockUtilizationChartData,
         name: 'Block utilization',
         color: lineColor,
         valueFormatter: (value: number) => `${ value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }%`,
-      });
-    }
+      } ];
 
     return series;
-  }, [ blockNumberChartData, lineColor, lineChartData, items, gasLimitChartData, blockUtilizationChartData ]);
+  }, [ lineColor, lineChartData, gasLimitChartData, blockUtilizationChartData ]);
 
   const xScale = React.useMemo(() => {
     if (items.length === 0) {
@@ -261,8 +245,8 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
               xScale={ xScale }
               yScale={ yScale }
               data={ chartData }
-              hideDateLabel
               noAnimation
+              dateLabelText="Block number"
             />
           </ChartOverlay>
         </g>

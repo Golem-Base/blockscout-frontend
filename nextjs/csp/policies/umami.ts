@@ -4,19 +4,22 @@ import config from 'configs/app';
 
 const feature = config.features.umami;
 
-export function umami(): CspDev.DirectiveDescriptor {
+export function umami(nonce?: string): CspDev.DirectiveDescriptor {
   if (!feature.isEnabled) {
     return {};
   }
 
-  const { origin } = new URL(feature.src);
+  const { origin: scriptOrigin } = new URL(feature.src);
+  const apiOrigin = feature.apiSrc;
 
   return {
     'connect-src': [
-      origin,
+      scriptOrigin,
+      apiOrigin,
     ],
     'script-src': [
-      origin,
+      scriptOrigin,
+      ...(nonce ? [ `'nonce-${ nonce }'` ] : []),
     ],
   };
 }

@@ -4,6 +4,14 @@ import { NextResponse } from 'next/server';
 import * as csp from 'nextjs/csp/index';
 import * as middlewares from 'nextjs/middlewares/index';
 
+function generateNonce(): string {
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+
+  const binaryString = String.fromCharCode(...array);
+  return btoa(binaryString);
+}
+
 export async function middleware(req: NextRequest) {
   const isPageRequest = req.headers.get('accept')?.includes('text/html');
   const start = Date.now();
@@ -19,13 +27,22 @@ export async function middleware(req: NextRequest) {
 
   const res = NextResponse.next();
 
+  const nonce = generateNonce();
+
+  res.cookies.set('x-nonce', nonce, {
+    httpOnly: false,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  });
+
   middlewares.colorTheme(req, res);
   middlewares.addressFormat(req, res);
   middlewares.scamTokens(req, res);
 
   const end = Date.now();
 
-  const cspHeader = await csp.get();
+  const cspHeader = await csp.get(nonce);
 
   res.headers.append('Content-Security-Policy', cspHeader);
   res.headers.append('Server-Timing', `middleware;dur=${ end - start }`);

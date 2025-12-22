@@ -80,7 +80,7 @@ const EntityOpsTableItem = ({ item, isLoading }: Props) => {
             expiresAtTimestampSec={ item.expires_at_timestamp_sec }
             expiresAtTimestamp={ item.expires_at_timestamp }
             isLoading={ isLoading }
-            justifyItems="right"
+            justifyItems="flex-end"
           />
         </TableCell>
         <TableCell borderColor={ mainRowBorderColor } verticalAlign="middle" textAlign="right">
