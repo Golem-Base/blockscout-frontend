@@ -14,6 +14,7 @@ const consensusInfo: ConsensusInfoResponse = {
   rollup_gas_price: '1000000251',
   rollup_gas_used: '216190',
   rollup_transaction_fee: '216190054263690',
+  rollup_average_transaction_cost: '343454234',
   safe_block_number: '100',
   safe_block_timestamp: '100',
 };
@@ -26,6 +27,7 @@ const emptyConsensusInfo: ConsensusInfoResponse = {
   rollup_gas_price: '0',
   rollup_gas_used: '0',
   rollup_transaction_fee: '0',
+  rollup_average_transaction_cost: '0',
   safe_block_number: '0',
   safe_block_timestamp: '0',
 };
