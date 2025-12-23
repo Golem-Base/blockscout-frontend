@@ -9,7 +9,7 @@ import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import dayjs from 'lib/date/dayjs';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
-import { emptyConsensusInfo } from 'stubs/consensusData';
+import { consensusData } from 'stubs/consensusData';
 import isCustomAppError from 'ui/shared/AppError/isCustomAppError';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import EmptySearchResult from 'ui/shared/EmptySearchResult';
@@ -79,13 +79,18 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
       label: 'Rollup transaction fee',
       value: `${ BigNumber(consensusInfo.rollup_transaction_fee).div(decimalsDivisor).toFixed() } ${ parentChainCurrencySymbol }`,
     },
+    rollup_average_transaction_cost: {
+      icon: 'donate',
+      label: 'Rollup average transaction cost',
+      value: `${ BigNumber(consensusInfo.rollup_average_transaction_cost).div(decimalsDivisor).toFixed() } ${ parentChainCurrencySymbol }`,
+    },
   };
 };
 
 const L2ConsensusData = () => {
   const consensusInfoQuery = useApiQuery('golemBaseIndexer:consensusInfo', {
     queryOptions: {
-      placeholderData: emptyConsensusInfo,
+      placeholderData: consensusData,
     },
   });
 
@@ -136,7 +141,11 @@ const L2ConsensusData = () => {
         <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 } >
           <StatsWidget { ...items.rollup_gas_price } isLoading={ isLoading }/>
           <StatsWidget { ...items.rollup_gas_used } isLoading={ isLoading }/>
+        </Flex>
+
+        <Flex flexDir={{ base: 'column', md: 'row' }} gridGap={ 2 } >
           <StatsWidget { ...items.rollup_transaction_fee } isLoading={ isLoading }/>
+          <StatsWidget { ...items.rollup_average_transaction_cost } isLoading={ isLoading }/>
         </Flex>
       </Flex>
     </>
