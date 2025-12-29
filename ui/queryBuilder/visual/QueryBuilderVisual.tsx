@@ -18,13 +18,30 @@ import ValueEditor from './ValueEditor';
 import 'react-querybuilder/dist/query-builder.css';
 
 interface Props {
-  initialValue: string;
+  value: string;
+  onValueChange: (value: string) => void;
   onSubmit: (value: string) => void;
   isLoading?: boolean;
 }
 
-const QueryBuilderVisual = ({ initialValue, onSubmit, isLoading }: Props) => {
-  const [ query, setQuery ] = React.useState<RuleGroupType>(() => stringToRuleGroup(initialValue));
+const QueryBuilderVisual = ({ value, onValueChange, onSubmit, isLoading }: Props) => {
+  const [ query, setQuery ] = React.useState<RuleGroupType>(() => stringToRuleGroup(value));
+  const lastEmittedValueRef = React.useRef<string>(value);
+
+  React.useEffect(() => {
+    // Only update query if value changed externally (not from our own handleQueryChange)
+    if (value !== lastEmittedValueRef.current) {
+      const newQuery = stringToRuleGroup(value);
+      setQuery(newQuery);
+    }
+  }, [ value ]);
+
+  const handleQueryChange = React.useCallback((newQuery: RuleGroupType) => {
+    setQuery(newQuery);
+    const stringValue = ruleGroupToString(newQuery);
+    lastEmittedValueRef.current = stringValue;
+    onValueChange(stringValue);
+  }, [ onValueChange ]);
 
   const handleSubmit = React.useCallback(() => {
     onSubmit(ruleGroupToString(query));
@@ -60,7 +77,7 @@ const QueryBuilderVisual = ({ initialValue, onSubmit, isLoading }: Props) => {
       <QueryBuilderChakra>
         <QueryBuilder
           query={ query }
-          onQueryChange={ setQuery }
+          onQueryChange={ handleQueryChange }
           getOperators={ getOperators }
           validator={ validateQuery }
           resetOnFieldChange={ false }

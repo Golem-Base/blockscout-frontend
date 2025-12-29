@@ -79,13 +79,13 @@ const detailsByOperator: Record<string, string> = {
 };
 
 interface Props {
-  initialValue: string;
+  value: string;
+  onValueChange: (value: string) => void;
   onSubmit: (value: string) => void;
   isLoading?: boolean;
 }
 
-const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
-  const [ value, setValue ] = React.useState(initialValue);
+const QueryBuilderInput = ({ value, onValueChange, onSubmit, isLoading }: Props) => {
   const instanceRef = React.useRef<Monaco | null>(null);
   const editorRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -98,8 +98,8 @@ const QueryBuilderInput = ({ initialValue, onSubmit, isLoading }: Props) => {
   }, [ colorMode ]);
 
   const handleChange = React.useCallback((newValue: string | undefined) => {
-    setValue(newValue || '');
-  }, []);
+    onValueChange(newValue || '');
+  }, [ onValueChange ]);
 
   const handleSubmit = React.useCallback(() => {
     if (validation.isValid) {
