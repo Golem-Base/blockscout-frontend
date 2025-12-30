@@ -22,7 +22,7 @@ test('histogram with block transactions +@dark-mode +@mobile', async({ render })
 test('histogram with block transactions tooltip', async({ render, page }) => {
   const component = await render(<BlockTransactionsChart items={ testData } height={ 350 }/>);
 
-  const svg = component.locator('svg');
+  const svg = component.locator('svg[width="100%"]');
   const svgBox = await svg.boundingBox();
 
   const barIndex = 2;

@@ -87,7 +87,7 @@ test('histogram with block operations tooltip', async({ render, page }) => {
   const visibleOperations: Array<OperationTypeCount> = [ 'create_count', 'delete_count', 'extend_count', 'update_count', 'changeowner_count' ];
   const component = await render(<BlockOperationsChart items={ testData } height={ 350 } visibleOperations={ visibleOperations }/>);
 
-  const svg = component.locator('svg');
+  const svg = component.locator('svg[width="100%"]');
   const svgBox = await svg.boundingBox();
 
   const barIndex = 2;
