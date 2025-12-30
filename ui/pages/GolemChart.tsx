@@ -24,6 +24,7 @@ import useGolemChartQuery from 'ui/shared/chart/useGolemChartQuery';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import IconSvg from 'ui/shared/IconSvg';
 import PageTitle from 'ui/shared/Page/PageTitle';
+import AllTimeIntervalNoDataMessage from 'ui/stats/AllTimeIntervalNoDataMessage';
 import { STATS_INTERVALS } from 'ui/stats/constants';
 
 const StandardChart = () => {
@@ -48,6 +49,10 @@ const StandardChart = () => {
 
   const { items, info, lineQuery } = useGolemChartQuery(id, resolution as GolemChartQueryResolution, interval, true, params);
 
+  const isStorageForecastAllInterval = React.useMemo(() => {
+    return interval === 'all' && id === 'storage-forecast';
+  }, [ interval, id ]);
+
   React.useEffect(() => {
     if (info && !config.meta.seo.enhancedDataEnabled) {
       metadata.update({ pathname: '/stats/[id]', query: { id } }, info);
@@ -65,7 +70,13 @@ const StandardChart = () => {
     } catch (error) {}
   }, [ info, id ]);
 
-  if (lineQuery.isError) {
+  const customStorageForecastAllIntervalNoDataMessage = React.useMemo(() => {
+    if (!isStorageForecastAllInterval) return;
+
+    return <AllTimeIntervalNoDataMessage/>;
+  }, [ isStorageForecastAllInterval ]);
+
+  if (!isStorageForecastAllInterval && lineQuery.isError) {
     if (isCustomAppError(lineQuery.error)) {
       throwOnResourceLoadError({ resource: 'stats:line', error: lineQuery.error, isError: true });
     }
@@ -194,6 +205,7 @@ const StandardChart = () => {
           handleZoom={ handleZoom }
           emptyText="No data for the selected resolution & interval."
           resolution={ resolution }
+          customNoDataMessage={ customStorageForecastAllIntervalNoDataMessage }
         />
       </Flex>
     </>
