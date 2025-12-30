@@ -25,7 +25,7 @@ const BlockGasUsageHistogramWidget = ({ title, description }: Props) => {
 
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockGasUsage', {
     queryParams: {
-      limit: 30,
+      limit: 300,
     },
     queryOptions: {
       refetchOnMount: false,
