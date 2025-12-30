@@ -6,6 +6,7 @@ import useClientRect from 'lib/hooks/useClientRect';
 
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';
+import ChartWatermarkIcon from './ChartWatermarkIcon';
 import HistogramChartBar from './HistogramChartBar';
 
 export interface HistogramItem {
@@ -116,6 +117,8 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
           />
         </g>
       </svg>
+
+      <ChartWatermarkIcon w="162px" h="60px"/>
 
       { tooltipData && (
         <Box

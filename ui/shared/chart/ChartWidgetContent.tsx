@@ -92,7 +92,7 @@ const ChartWidgetContent = ({
         resolution={ resolution }
         valueFormatter={ valueFormatter }
       />
-      <ChartWatermarkIcon w="162px" h="15%"/>
+      <ChartWatermarkIcon w="162px" h="60px"/>
     </Box>
   );
 };
