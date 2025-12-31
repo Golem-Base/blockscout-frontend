@@ -65,6 +65,23 @@ const BlockDetailsStats = ({ blockHeight, isLoading }: Props) => {
         </>
       ) }
 
+      { data.consensus && (
+        <>
+          <ItemDivider/>
+
+          { renderItem(
+            'Consensus status',
+            'Consensus status for this block',
+            `${ data.consensus.status } ${
+              data.consensus.status === 'unsafe' &&
+              data.consensus.expected_safe_at_block ?
+                `(expected safe at block ${ data.consensus.expected_safe_at_block })` :
+                ''
+            }`,
+          ) }
+        </>
+      ) }
+
       { data.counts && (
         <>
           <ItemDivider/>
