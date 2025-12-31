@@ -26,6 +26,7 @@
 	| "block_full"
 	| "block_slim"
 	| "block"
+	| "brands/arkiv"
 	| "brands/blockscout"
 	| "brands/celenium"
 	| "brands/graph"
