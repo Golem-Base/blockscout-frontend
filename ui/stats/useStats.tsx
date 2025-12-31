@@ -34,7 +34,7 @@ export default function useStats() {
       gasSection.charts.push({
         id: 'gas-block',
         title: 'Gas per block',
-        description: 'Gas usage over time for recent 150 blocks',
+        description: 'Gas usage over time for recent 300 blocks',
         units: 'Gwei',
         resolutions: [],
       });
