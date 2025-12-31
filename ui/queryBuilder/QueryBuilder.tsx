@@ -12,7 +12,13 @@ interface Props {
   isLoading?: boolean;
 }
 
-const QueryBuilder = (props: Props) => {
+const QueryBuilder = ({ initialValue, onSubmit, isLoading }: Props) => {
+  const [ currentValue, setCurrentValue ] = React.useState(initialValue);
+
+  React.useEffect(() => {
+    setCurrentValue(initialValue);
+  }, [ initialValue ]);
+
   return (
     <Box>
       <TabsRoot defaultValue="visual" variant="segmented" size="sm">
@@ -22,11 +28,20 @@ const QueryBuilder = (props: Props) => {
         </TabsList>
 
         <TabsContent value="visual">
-          <QueryBuilderVisual { ...props }
+          <QueryBuilderVisual
+            value={ currentValue }
+            onValueChange={ setCurrentValue }
+            onSubmit={ onSubmit }
+            isLoading={ isLoading }
           />
         </TabsContent>
         <TabsContent value="input">
-          <QueryBuilderInput { ...props }/>
+          <QueryBuilderInput
+            value={ currentValue }
+            onValueChange={ setCurrentValue }
+            onSubmit={ onSubmit }
+            isLoading={ isLoading }
+          />
         </TabsContent>
       </TabsRoot>
     </Box>
