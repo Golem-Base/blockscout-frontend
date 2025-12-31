@@ -1,4 +1,4 @@
-import { chakra, Text } from '@chakra-ui/react';
+import { chakra } from '@chakra-ui/react';
 import BigNumber from 'bignumber.js';
 import React, { useCallback, useEffect } from 'react';
 
@@ -12,6 +12,7 @@ import type { GolemChartId } from 'ui/shared/chart/useGolemChartQuery';
 import useGolemChartQuery from 'ui/shared/chart/useGolemChartQuery';
 
 import ChartWidget from '../shared/chart/ChartWidget';
+import AllTimeIntervalNoDataMessage from './AllTimeIntervalNoDataMessage';
 
 type Props = {
   id: GolemChartId;
@@ -64,15 +65,7 @@ const GolemChartWidgetContainer = ({
   const customStorageForecastAllIntervalNoDataMessage = React.useMemo(() => {
     if (!isStorageForecastAllInterval) return;
 
-    return (
-      <Text
-        color="text.secondary"
-        fontSize="sm"
-        textAlign="center"
-      >
-        Projection is not available for <b>All time</b> range.<br/>Please, select limited interval option.
-      </Text>
-    );
+    return <AllTimeIntervalNoDataMessage/>;
   }, [ isStorageForecastAllInterval ]);
 
   return (
