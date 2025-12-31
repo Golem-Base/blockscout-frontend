@@ -13,6 +13,7 @@ import ChartGridLine from './ChartGridLine';
 import ChartLine from './ChartLine';
 import ChartOverlay from './ChartOverlay';
 import ChartTooltip from './ChartTooltip';
+import ChartWatermarkIcon from './ChartWatermarkIcon';
 import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface HistogramItem {
@@ -251,6 +252,8 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
           </ChartOverlay>
         </g>
       </svg>
+
+      <ChartWatermarkIcon w="162px" h="60px"/>
     </Box>
   );
 };
