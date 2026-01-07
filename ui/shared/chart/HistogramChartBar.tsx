@@ -27,8 +27,13 @@ const HistogramChartBar = ({
 }: Props) => {
   const x = xScale(String(index)) || 0;
   const barWidth = xScale.bandwidth();
-  const barHeight = innerHeight - yScale(item.value);
-  const y = yScale(item.value);
+  const calculatedBarHeight = innerHeight - yScale(item.value);
+  const barY = yScale(item.value);
+
+  const MIN_BAR_HEIGHT = 0;
+  const barHeight = Math.max(calculatedBarHeight, MIN_BAR_HEIGHT);
+  const adjustedBarY = calculatedBarHeight < MIN_BAR_HEIGHT ? innerHeight - MIN_BAR_HEIGHT : barY;
+  const isMinHeight = calculatedBarHeight < MIN_BAR_HEIGHT;
 
   const [ barColor ] = useToken('colors', [ 'blue.200' ]);
   const [ barColorLight ] = useToken('colors', [ 'blue.100' ]);
@@ -56,12 +61,25 @@ const HistogramChartBar = ({
       </defs>
       <rect
         x={ x }
-        y={ y }
+        y={ 0 }
+        width={ barWidth }
+        height={ innerHeight }
+        fill="transparent"
+        style={{ cursor: 'pointer' }}
+        onMouseEnter={ handleMouseEnter }
+        onMouseLeave={ onMouseLeave }
+      />
+      <rect
+        x={ x }
+        y={ adjustedBarY }
         width={ barWidth }
         height={ barHeight }
         fill={ `url(#${ isHovered ? gradientHoverId : gradientId })` }
+        stroke={ barColor }
+        strokeWidth={ isMinHeight ? 0.5 : 0 }
+        opacity={ isMinHeight ? 0.7 : 1 }
         rx={ 2 }
-        style={{ cursor: 'pointer', transition: 'fill 0.2s ease' }}
+        style={{ cursor: 'pointer', transition: 'fill 0.2s ease, opacity 0.2s ease' }}
         onMouseEnter={ handleMouseEnter }
         onMouseLeave={ onMouseLeave }
       />

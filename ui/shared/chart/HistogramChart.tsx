@@ -40,30 +40,35 @@ function calculatePosition({ pointX, pointY, canvasWidth, canvasHeight, nodeWidt
 
   if (pointX + offset + nodeWidth <= canvasWidth) {
     const x = pointX + offset;
-    const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    // const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    const y = pointY;
     return [ x, y ];
   }
 
   if (nodeWidth + offset <= pointX) {
     const x = pointX - offset - nodeWidth;
-    const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    // const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    const y = pointY;
     return [ x, y ];
   }
 
   if (nodeHeight + topOffset <= pointY) {
     const x = clamp(pointX - nodeWidth / 2, 0, canvasWidth - nodeWidth);
-    const y = pointY - topOffset - nodeHeight;
+    // const y = pointY - topOffset - nodeHeight;
+    const y = pointY;
     return [ x, y ];
   }
 
   if (pointY + offset + nodeHeight <= canvasHeight) {
     const x = clamp(pointX - nodeWidth / 2, 0, canvasWidth - nodeWidth);
-    const y = pointY + offset;
+    // const y = pointY + offset;
+    const y = pointY;
     return [ x, y ];
   }
 
   const x = clamp(pointX / 2, 0, canvasWidth - nodeWidth);
-  const y = clamp(pointY / 2, 0, canvasHeight - nodeHeight);
+  // const y = clamp(pointY / 2, 0, canvasHeight - nodeHeight);
+  const y = pointY;
 
   return [ x, y ];
 }
@@ -101,10 +106,11 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
     const barRect = event.currentTarget.getBoundingClientRect();
     if (rect) {
       const x = barRect.left - rect.left + barRect.width / 2;
-      const y = barRect.top - rect.top;
+      const barTopY = yScale(items[index].value);
+      const y = margin.top + (barTopY / 2);
       setTooltipData({ x, y, label: items[index].label, value: items[index].value });
     }
-  }, [ items, rect ]);
+  }, [ items, rect, yScale ]);
 
   const handleBarMouseLeave = React.useCallback(() => {
     setHoveredIndex(null);
