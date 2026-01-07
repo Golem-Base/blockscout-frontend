@@ -2,7 +2,6 @@ import React from 'react';
 
 import * as statsLineMock from 'mocks/stats/line';
 import { test, expect } from 'playwright/lib';
-import formatDate from 'ui/shared/chart/utils/formatIntervalDate';
 
 import Chart from './Chart';
 
@@ -18,25 +17,21 @@ const hooksConfig = {
   },
 };
 
-test('base view +@dark-mode +@mobile', async({ render, mockApiResponse, page }) => {
-  const date = new Date();
-  date.setMonth(date.getMonth() - 1);
+test('base view +@dark-mode +@mobile', async({ render, page }) => {
+  const urlPattern = new RegExp(`.*/api/v1/lines/${ CHART_ID }.*resolution=DAY`);
 
-  const chartApiUrl = await mockApiResponse(
-    'stats:line',
-    statsLineMock.averageGasPrice,
-    {
-      pathParams: { id: CHART_ID },
-      queryParams: {
-        from: formatDate(date),
-        to: '2022-11-11',
-        resolution: 'DAY',
-      },
-    },
-  );
+  await page.route(urlPattern, (route) => route.fulfill({
+    status: 200,
+    json: statsLineMock.averageGasPrice,
+  }));
 
   const component = await render(<Chart/>, { hooksConfig });
-  await page.waitForResponse(chartApiUrl);
+
+  await page.waitForResponse((response) => {
+    return response.url().includes(`/api/v1/lines/${ CHART_ID }`) &&
+           response.url().includes('resolution=DAY');
+  });
+
   await page.waitForFunction(() => {
     return document.querySelector('path[data-name="chart-Charttitle-fullscreen"]')?.getAttribute('opacity') === '1';
   });
