@@ -1,5 +1,6 @@
 import { Box, Flex, Text, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
+import { clamp } from 'es-toolkit';
 import React from 'react';
 
 import useClientRect from 'lib/hooks/useClientRect';
@@ -21,11 +22,63 @@ interface Props {
 
 const margin = ({ top: 10, right: 10, bottom: 80, left: 50 });
 const DEFAULT_HEIGHT = 300;
+const TOOLTIP_OFFSET = 16;
+const TOOLTIP_TOP_OFFSET = 8;
+
+interface CalculatePositionParams {
+  pointX: number;
+  pointY: number;
+  offset: number;
+  nodeWidth: number;
+  nodeHeight: number;
+  canvasWidth: number;
+  canvasHeight: number;
+}
+
+function calculatePosition({ pointX, pointY, canvasWidth, canvasHeight, nodeWidth, nodeHeight, offset }: CalculatePositionParams): [ number, number ] {
+  const topOffset = TOOLTIP_TOP_OFFSET;
+
+  if (pointX + offset + nodeWidth <= canvasWidth) {
+    const x = pointX + offset;
+    // const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    const y = pointY;
+    return [ x, y ];
+  }
+
+  if (nodeWidth + offset <= pointX) {
+    const x = pointX - offset - nodeWidth;
+    // const y = clamp(pointY - nodeHeight / 2, 0, canvasHeight - nodeHeight);
+    const y = pointY;
+    return [ x, y ];
+  }
+
+  if (nodeHeight + topOffset <= pointY) {
+    const x = clamp(pointX - nodeWidth / 2, 0, canvasWidth - nodeWidth);
+    // const y = pointY - topOffset - nodeHeight;
+    const y = pointY;
+    return [ x, y ];
+  }
+
+  if (pointY + offset + nodeHeight <= canvasHeight) {
+    const x = clamp(pointX - nodeWidth / 2, 0, canvasWidth - nodeWidth);
+    // const y = pointY + offset;
+    const y = pointY;
+    return [ x, y ];
+  }
+
+  const x = clamp(pointX / 2, 0, canvasWidth - nodeWidth);
+  // const y = clamp(pointY / 2, 0, canvasHeight - nodeHeight);
+  const y = pointY;
+
+  return [ x, y ];
+}
 
 const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
+  const tooltipRef = React.useRef<HTMLDivElement>(null);
   const [ hoveredIndex, setHoveredIndex ] = React.useState<number | null>(null);
   const [ tooltipData, setTooltipData ] = React.useState<{ x: number; y: number; label: string; value: number } | null>(null);
+  const [ tooltipPosition, setTooltipPosition ] = React.useState<{ left: number; top: number } | null>(null);
 
   const [ tooltipBg ] = useToken('colors', [ 'blackAlpha.900' ]);
   const [ labelColor ] = useToken('colors', [ 'blue.100' ]);
@@ -53,15 +106,38 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
     const barRect = event.currentTarget.getBoundingClientRect();
     if (rect) {
       const x = barRect.left - rect.left + barRect.width / 2;
-      const y = barRect.top - rect.top;
+      const barTopY = yScale(items[index].value);
+      const y = margin.top + (barTopY / 2);
       setTooltipData({ x, y, label: items[index].label, value: items[index].value });
     }
-  }, [ items, rect ]);
+  }, [ items, rect, yScale ]);
 
   const handleBarMouseLeave = React.useCallback(() => {
     setHoveredIndex(null);
     setTooltipData(null);
+    setTooltipPosition(null);
   }, []);
+
+  React.useLayoutEffect(() => {
+    if (!tooltipData || !rect || !tooltipRef.current) {
+      return;
+    }
+
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    if (tooltipRect.width > 0 && tooltipRect.height > 0) {
+      const [ x, y ] = calculatePosition({
+        pointX: tooltipData.x,
+        pointY: tooltipData.y,
+        canvasWidth: rect.width,
+        canvasHeight: height,
+        nodeWidth: tooltipRect.width,
+        nodeHeight: tooltipRect.height,
+        offset: TOOLTIP_OFFSET,
+      });
+
+      setTooltipPosition({ left: x, top: y });
+    }
+  }, [ tooltipData, rect, height ]);
 
   if (items.length === 0) {
     return <Box w="100%" h={ `${ height }px` }/>;
@@ -122,10 +198,10 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
 
       { tooltipData && (
         <Box
+          ref={ tooltipRef }
           position="absolute"
-          left={ `${ tooltipData.x }px` }
-          top={ `${ tooltipData.y - 50 }px` }
-          transform="translateX(-50%)"
+          left={ tooltipPosition ? `${ tooltipPosition.left }px` : `${ tooltipData.x }px` }
+          top={ tooltipPosition ? `${ tooltipPosition.top }px` : `${ tooltipData.y - 50 }px` }
           bg={ tooltipBg }
           borderRadius="12px"
           paddingX={ 3 }
@@ -135,6 +211,7 @@ const HistogramChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
           fontSize="12px"
           fontWeight={ 500 }
           color="white"
+          opacity={ tooltipPosition ? 1 : 0 }
         >
           <Flex gap={ 2 } mb="2px">
             <Text color={ labelColor } minW="80px">
