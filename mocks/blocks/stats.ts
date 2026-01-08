@@ -13,4 +13,8 @@ export const statsResponse: BlockStatsResponse = {
     block_bytes: '190000',
     total_bytes: '1230000000',
   },
+  consensus: {
+    status: 'safe',
+    expected_safe_at_timestamp: '2026-01-07T10:30:00Z',
+  },
 };

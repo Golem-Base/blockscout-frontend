@@ -1,6 +1,8 @@
+import { Text } from '@chakra-ui/react';
 import React from 'react';
 
 import useApiQuery from 'lib/api/useApiQuery';
+import dayjs from 'lib/date/dayjs';
 import formatDataSize from 'lib/formatDataSize';
 import { formatBigNum } from 'lib/web3/formatBigNum';
 import { BLOCK_STATS } from 'stubs/block';
@@ -29,7 +31,7 @@ const BlockDetailsStats = ({ blockHeight, isLoading }: Props) => {
   }
 
   const loading = isLoading || isPlaceholderData;
-  const renderItem = (label: string, hint: string, value: string) => (
+  const renderItem = (label: string, hint: string, value: React.ReactNode) => (
     <>
       <DetailedInfo.ItemLabel
         hint={ hint }
@@ -38,9 +40,13 @@ const BlockDetailsStats = ({ blockHeight, isLoading }: Props) => {
         { label }
       </DetailedInfo.ItemLabel>
       <DetailedInfo.ItemValue>
-        <Skeleton loading={ loading }>
-          { value }
-        </Skeleton>
+        { typeof value === 'string' ? (
+          <Skeleton loading={ loading }>
+            { value }
+          </Skeleton>
+        ) : (
+          value
+        ) }
       </DetailedInfo.ItemValue>
     </>
   );
@@ -61,6 +67,26 @@ const BlockDetailsStats = ({ blockHeight, isLoading }: Props) => {
             'Total storage used',
             'Total storage used on chain at this point in time (cumulative sum up to this block)',
             formatDataSize(data.storage?.total_bytes),
+          ) }
+        </>
+      ) }
+
+      { data.consensus && (
+        <>
+          <ItemDivider/>
+
+          { renderItem(
+            'Consensus status',
+            'Consensus status for this block',
+            <>
+              <Text>{ data.consensus.status }</Text> {
+                data.consensus.status === 'unsafe' &&
+                data.consensus.expected_safe_at_timestamp && (
+                  <Text color="text.secondary" ml={ 1 }>
+                    (expected 'safe' status on { dayjs(data.consensus.expected_safe_at_timestamp).format('lll') })
+                  </Text>
+                ) }
+            </>,
           ) }
         </>
       ) }

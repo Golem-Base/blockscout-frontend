@@ -42,7 +42,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
     finalized_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Finalized block timestamp',
-      value: dayjs.unix(Number(consensusInfo.finalized_block_timestamp)).format('lll'),
+      value: dayjs(consensusInfo.finalized_block_timestamp).format('lll'),
     },
     unsafe_block_number: {
       icon: 'block_full',
@@ -52,7 +52,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
     unsafe_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Unsafe block created at',
-      value: dayjs.unix(Number(consensusInfo.unsafe_block_timestamp)).format('lll'),
+      value: dayjs(consensusInfo.unsafe_block_timestamp).format('lll'),
     },
     safe_block_number: {
       icon: 'block_full',
@@ -62,7 +62,7 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
     safe_block_timestamp: {
       icon: 'block_countdown_full',
       label: 'Safe block created at',
-      value: dayjs.unix(Number(consensusInfo.safe_block_timestamp)).format('lll'),
+      value: dayjs(consensusInfo.safe_block_timestamp).format('lll'),
     },
     rollup_gas_price: {
       icon: 'gas',

@@ -51,4 +51,8 @@ export const BLOCK_STATS: BlockStatsResponse = {
     block_bytes: '140000',
     total_bytes: '120000000',
   },
+  consensus: {
+    status: 'unsafe',
+    expected_safe_at_timestamp: '2026-01-07T10:30:00Z',
+  },
 };

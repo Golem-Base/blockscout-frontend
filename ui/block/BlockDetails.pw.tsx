@@ -14,7 +14,7 @@ const hooksConfig = {
   },
 };
 
-test('regular block +@mobile +@dark-mode', async({ render, page, mockApiResponse }) => {
+test('regular block +@mobile +@dark-mode', async({ render, mockApiResponse }) => {
   const query = {
     data: blockMock.base,
     isPending: false,
@@ -23,12 +23,10 @@ test('regular block +@mobile +@dark-mode', async({ render, page, mockApiResponse
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 
-  await page.getByText('View details').click();
-
   await expect(component).toHaveScreenshot();
 });
 
-test('genesis block', async({ render, page, mockApiResponse }) => {
+test('genesis block', async({ render, mockApiResponse }) => {
   const query = {
     data: blockMock.genesis,
     isPending: false,
@@ -37,12 +35,10 @@ test('genesis block', async({ render, page, mockApiResponse }) => {
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 
-  await page.getByText('View details').click();
-
   await expect(component).toHaveScreenshot();
 });
 
-test('with blob txs', async({ render, page, mockEnvs, mockApiResponse }) => {
+test('with blob txs', async({ render, mockEnvs, mockApiResponse }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_DATA_AVAILABILITY_ENABLED', 'true' ],
   ]);
@@ -54,12 +50,10 @@ test('with blob txs', async({ render, page, mockEnvs, mockApiResponse }) => {
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
 
-  await page.getByText('View details').click();
-
   await expect(component).toHaveScreenshot();
 });
 
-test('rootstock custom fields', async({ render, page, mockEnvs }) => {
+test('rootstock custom fields', async({ render, mockEnvs }) => {
   await mockEnvs(ENVS_MAP.blockHiddenFields);
   const query = {
     data: blockMock.rootstock,
@@ -67,8 +61,6 @@ test('rootstock custom fields', async({ render, page, mockEnvs }) => {
   } as BlockQuery;
 
   const component = await render(<BlockDetails query={ query }/>, { hooksConfig });
-
-  await page.getByText('View details').click();
 
   await expect(component).toHaveScreenshot();
 });
