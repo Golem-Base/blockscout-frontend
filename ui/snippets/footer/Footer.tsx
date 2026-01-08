@@ -9,7 +9,6 @@ import config from 'configs/app';
 import type { ResourceError } from 'lib/api/resources';
 import useApiQuery from 'lib/api/useApiQuery';
 import useFetch from 'lib/hooks/useFetch';
-import useIssueUrl from 'lib/hooks/useIssueUrl';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { copy } from 'toolkit/utils/htmlEntities';
@@ -36,15 +35,8 @@ const Footer = () => {
     },
   });
   const apiVersionUrl = getApiVersionUrl(backendVersionData?.backend_version);
-  const issueUrl = useIssueUrl(backendVersionData?.backend_version);
 
   const BLOCKSCOUT_LINKS = [
-    {
-      icon: 'edit' as const,
-      iconSize: '16px',
-      text: 'Submit an issue',
-      url: issueUrl,
-    },
     {
       icon: 'social/git' as const,
       iconSize: '18px',
@@ -61,7 +53,7 @@ const Footer = () => {
       icon: 'social/discord' as const,
       iconSize: '24px',
       text: 'Discord',
-      url: 'https://discord.gg/HMnYuCyB',
+      url: 'https://discord.com/invite/arkiv',
     },
     {
       icon: 'brands/arkiv' as const,
@@ -244,12 +236,10 @@ const Footer = () => {
           gridTemplateColumns={{
             base: 'repeat(auto-fill, 160px)',
             lg: 'repeat(2, 160px)',
-            xl: 'repeat(3, 160px)',
           }}
           gridTemplateRows={{
             base: 'auto',
-            lg: 'repeat(3, auto)',
-            xl: 'repeat(2, auto)',
+            lg: 'repeat(2, auto)',
           }}
           gridAutoFlow={{ base: 'row', lg: 'column' }}
           alignContent="start"
