@@ -4,7 +4,7 @@ import {
   ChartResolution,
   OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
 } from '@golembase/l3-indexer-types';
-import type { ChainIndicatorId, ChainIndicatorIdWithNoBlockTransactions as ChainIndicatorId } from 'types/homepage';
+import type { ChainIndicatorIdWithNoBlockTransactions } from 'types/homepage';
 import type { ChartFilter, OnFilterChange, SimpleChartData, TimeChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
@@ -27,7 +27,7 @@ export type UseFetchChartDataResult = {
   filters?: Array<ChartFilter>;
 };
 
-export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFetchChartDataResult {
+export default function useChartDataQuery(indicatorId: ChainIndicatorIdWithNoBlockTransactions): UseFetchChartDataResult {
   const [ filters, setFilters ] = React.useState<Record<string, string>>({
     operation: OperationTypeFilter.ALL,
   });

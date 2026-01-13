@@ -100,7 +100,7 @@ const Footer = () => {
         _empty={{ display: 'none' }}
       >
         { !config.UI.indexingAlert.intTxs.isHidden && <IntTxsIndexingStatus/> }
-        <NetworkAddToWallet/>
+        <NetworkAddToWallet source="Footer"/>
         <RpcEndpointSwitcher/>
       </Flex>
     );

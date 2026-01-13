@@ -5,8 +5,8 @@ import React from 'react';
 import type { BlockOperationPoint } from '@golembase/l3-indexer-types';
 import type { TimeChartItem } from 'ui/shared/chart/types';
 
-import useClientRect from 'lib/hooks/useClientRect';
 import useIsMobile from 'lib/hooks/useIsMobile';
+import { useClientRect } from 'toolkit/hooks/useClientRect';
 
 import type { OperationTypeCount } from './BlockOperationsChartBar';
 import ChartArea from './ChartArea';

@@ -38,7 +38,7 @@ const SearchBarMobile = ({ isHeroBanner, onGoToSearchResults }: Props) => {
   const router = useRouter();
 
   const { open, onOpen, onClose, onOpenChange } = useDisclosure();
-  const { searchTerm, debouncedSearchTerm, handleSearchTermChange, query, zetaChainCCTXQuery, externalSearchItem } = useQuickSearchQuery();
+  const { searchTerm, entitiesQuery, debouncedSearchTerm, handleSearchTermChange, query, zetaChainCCTXQuery, externalSearchItem } = useQuickSearchQuery();
   const recentSearchKeywords = getRecentSearchKeywords();
 
   const navigateToResults = React.useCallback(() => {
@@ -151,6 +151,7 @@ const SearchBarMobile = ({ isHeroBanner, onGoToSearchResults }: Props) => {
           { searchTerm.trim().length > 0 && (
             <SearchBarSuggest
               query={ query }
+              entitiesQuery={ entitiesQuery }
               searchTerm={ debouncedSearchTerm }
               onItemClick={ handleItemClick }
               zetaChainCCTXQuery={ zetaChainCCTXQuery }

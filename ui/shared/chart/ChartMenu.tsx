@@ -6,11 +6,11 @@ import type { TimeChartItem } from './types';
 import type { Resolution } from '@blockscout/stats-types';
 
 import dayjs from 'lib/date/dayjs';
-import saveAsCSV from 'lib/saveAsCSV';
 import { useColorModeValue } from 'toolkit/chakra/color-mode';
 import { IconButton } from 'toolkit/chakra/icon-button';
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from 'toolkit/chakra/menu';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
+import { saveAsCsv } from 'toolkit/utils/file';
 import { isBrowser } from 'toolkit/utils/isBrowser';
 import IconSvg from 'ui/shared/IconSvg';
 
@@ -112,7 +112,7 @@ const ChartMenu = ({
         dayjs(item.date).format('YYYY-MM-DD'), String(item.value),
       ]);
 
-      saveAsCSV(headerRows, dataRows, `${ title } (Blockscout stats)`);
+      saveAsCsv(headerRows, dataRows, `${ title } (Blockscout stats)`);
     }
   }, [ items, title ]);
 

@@ -28,7 +28,7 @@ const EntityChangeOwnerActionButton = ({ entity, className, ...props }: Props) =
       asChild
     >
       <Button { ...props }>
-        <IconSvg name="user_op_slim" boxSize={ 4 } mr={ 2 }/>
+        <IconSvg name="user_op" boxSize={ 4 } mr={ 2 }/>
         Change Owner
       </Button>
     </Link>

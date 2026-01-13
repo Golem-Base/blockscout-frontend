@@ -4,8 +4,8 @@ import React from 'react';
 
 import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
-import useClientRect from 'lib/hooks/useClientRect';
 import useIsMobile from 'lib/hooks/useIsMobile';
+import { useClientRect } from 'toolkit/hooks/useClientRect';
 
 import ChartArea from './ChartArea';
 import ChartAxis from './ChartAxis';

@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { clamp } from 'es-toolkit';
 import React from 'react';
 
-import useClientRect from 'lib/hooks/useClientRect';
+import { useClientRect } from 'toolkit/hooks/useClientRect';
 
 import ChartAxis from './ChartAxis';
 import ChartGridLine from './ChartGridLine';

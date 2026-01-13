@@ -4,9 +4,9 @@ import React from 'react';
 
 import type { ChartMargin } from 'ui/shared/chart/types';
 
-import useClientRect from 'lib/hooks/useClientRect';
 import { Tooltip } from 'toolkit/chakra/tooltip';
-import calculateInnerSize from 'ui/shared/chart/utils/calculateInnerSize';
+import { calculateInnerSize } from 'toolkit/components/charts/utils/calculateInnerSize';
+import { useClientRect } from 'toolkit/hooks/useClientRect';
 
 import SimpleChartContentScrollWrapper from './SimpleChartContentScrollWrapper';
 
