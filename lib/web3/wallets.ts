@@ -34,5 +34,6 @@ export const WALLETS_INFO: Record<Exclude<WalletType, 'none'>, WalletInfo> = {
   brave: {
     name: 'Brave Wallet',
     icon: 'wallets/brave',
+    color: '#4C54D2',
   },
 };

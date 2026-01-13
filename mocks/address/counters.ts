@@ -5,6 +5,7 @@ export const forAddress: AddressCounters = {
   token_transfers_count: '420',
   transactions_count: '5462',
   validations_count: '0',
+  amount_spent_count: '345789248390',
 };
 
 export const forContract: AddressCounters = {

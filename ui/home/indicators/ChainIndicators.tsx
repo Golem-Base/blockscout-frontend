@@ -152,7 +152,7 @@ const ChainIndicators = () => {
         id: 'data_usage' as const,
         title: 'Daily data usage',
         value: (() => {
-          if (typeof statsApiQueryResult.data?.monthly_data_usage === 'number' && statsApiQueryResult.data.monthly_data_usage !== null) {
+          if (typeof statsApiQueryResult.data?.monthly_data_usage === 'number') {
             return formatDataSize(statsApiQueryResult.data.monthly_data_usage);
           }
           return '';
@@ -164,7 +164,7 @@ const ChainIndicators = () => {
         id: 'operation_trends' as const,
         title: 'Operation trends',
         value: (() => {
-          if (typeof statsApiQueryResult.data?.monthly_operation_trends === 'number' && statsApiQueryResult.data.monthly_operation_trends !== null) {
+          if (typeof statsApiQueryResult.data?.monthly_operation_trends === 'number') {
             return Number(statsApiQueryResult.data.monthly_operation_trends).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' });
           }
           return 'N/A';
