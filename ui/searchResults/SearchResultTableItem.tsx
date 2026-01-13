@@ -18,7 +18,8 @@ import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { TableCell, TableRow } from 'toolkit/chakra/table';
 import { Tag } from 'toolkit/chakra/tag';
-import { ADDRESS_REGEXP } from 'toolkit/components/forms/validators/address';
+import { SECOND } from 'toolkit/utils/consts';
+import { ADDRESS_REGEXP } from 'toolkit/utils/regexp';
 import ContractCertifiedLabel from 'ui/shared/ContractCertifiedLabel';
 import * as AddressEntity from 'ui/shared/entities/address/AddressEntity';
 import * as BlobEntity from 'ui/shared/entities/blob/BlobEntity';
@@ -34,6 +35,7 @@ import IconSvg from 'ui/shared/IconSvg';
 import type { SearchResultAppItem } from 'ui/shared/search/utils';
 import { getItemCategory, searchItemTitles } from 'ui/shared/search/utils';
 import TacOperationStatus from 'ui/shared/statusTag/TacOperationStatus';
+import Time from 'ui/shared/time/Time';
 
 import SearchResultEntityTag from './SearchResultEntityTag';
 
@@ -86,6 +88,7 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
                 </Link>
                 { data.certified && <ContractCertifiedLabel iconSize={ 4 } boxSize={ 4 } ml={ 1 }/> }
                 { data.is_verified_via_admin_panel && !data.certified && <IconSvg name="certified" boxSize={ 4 } ml={ 1 } color="green.500"/> }
+                { data.reputation && <TokenEntity.Reputation value={ data.reputation }/> }
               </Flex>
             </TableCell>
             <TableCell verticalAlign="middle">
@@ -170,7 +173,7 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
             ) }
             { data.type === 'metadata_tag' && (
               <TableCell colSpan={ addressName ? 1 : 2 } verticalAlign="middle" textAlign="right">
-                <SearchResultEntityTag metadata={ data.metadata } searchTerm={ searchTerm }/>
+                <SearchResultEntityTag metadata={ data.metadata } addressHash={ hash } searchTerm={ searchTerm }/>
               </TableCell>
             ) }
           </>
@@ -184,7 +187,7 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
           <>
             <TableCell>
               <Flex alignItems="center">
-                <IconSvg name="publictags_slim" boxSize={ 6 } mr={ 2 } color="gray.500"/>
+                <IconSvg name="publictags" boxSize={ 6 } mr={ 2 } color="icon.primary"/>
                 <Link
                   href={ route({ pathname: '/address/[hash]', query: { hash: data.address_hash } }) }
                   fontWeight={ 700 }
@@ -289,10 +292,10 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
                 </Flex>
               ) }
             </TableCell>
-            { !isFutureBlock && (
+            { !isFutureBlock && data.timestamp && (
               <TableCell fontSize="sm" verticalAlign="middle" isNumeric>
                 <Skeleton loading={ isLoading } color="text.secondary">
-                  <span>{ dayjs(data.timestamp).format('llll') }</span>
+                  <Time timestamp={ data.timestamp } format="lll_s"/>
                 </Skeleton>
               </TableCell>
             ) }
@@ -321,7 +324,35 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
               </TxEntity.Container>
             </TableCell>
             <TableCell fontSize="sm" verticalAlign="middle" isNumeric>
-              <Text color="text.secondary">{ dayjs(data.timestamp).format('llll') }</Text>
+              <Time timestamp={ data.timestamp } color="text.secondary" format="lll_s"/>
+            </TableCell>
+          </>
+        );
+      }
+
+      case 'zetaChainCCTX': {
+        return (
+          <>
+            <TableCell colSpan={ 2 } fontSize="sm">
+              <TxEntity.Container>
+                <IconSvg name="interop" boxSize={ 5 } marginRight={ 1 } color="text.secondary"/>
+                <TxEntity.Link
+                  isLoading={ isLoading }
+                  hash={ data.cctx.index }
+                  href={ route({ pathname: '/cc/tx/[hash]', query: { hash: data.cctx.index } }) }
+                  onClick={ handleLinkClick }
+                >
+                  <TxEntity.Content
+                    asProp={ data.cctx.index === searchTerm ? 'mark' : 'span' }
+                    hash={ data.cctx.index }
+                    textStyle="sm"
+                    fontWeight={ 700 }
+                  />
+                </TxEntity.Link>
+              </TxEntity.Container>
+            </TableCell>
+            <TableCell fontSize="sm" verticalAlign="middle" isNumeric>
+              <Time timestamp={ Number(data.cctx.last_update_timestamp) * SECOND } color="text.secondary" format="lll_s"/>
             </TableCell>
           </>
         );
@@ -350,7 +381,7 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
               </OperationEntity.Container>
             </TableCell>
             <TableCell fontSize="sm" verticalAlign="middle" isNumeric>
-              <Text color="text.secondary">{ dayjs(data.tac_operation.timestamp).format('llll') }</Text>
+              <Time timestamp={ data.tac_operation.timestamp } color="text.secondary" format="lll_s"/>
             </TableCell>
           </>
         );
@@ -407,7 +438,7 @@ const SearchResultTableItem = ({ data, searchTerm, isLoading, addressFormat }: P
               </UserOpEntity.Container>
             </TableCell>
             <TableCell fontSize="sm" verticalAlign="middle" isNumeric>
-              <Text color="text.secondary">{ dayjs(data.timestamp).format('llll') }</Text>
+              <Time timestamp={ data.timestamp } color="text.secondary" format="lll_s"/>
             </TableCell>
           </>
         );

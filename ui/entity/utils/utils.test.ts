@@ -4,6 +4,7 @@ import type { EntityFormFields, ExtendEntityFormFields } from './types';
 import type { EntityStatus, FullEntity } from '@golembase/l3-indexer-types';
 
 import dayjs from 'lib/date/dayjs';
+import { describe, it, expect, vitest, beforeEach, afterEach } from 'vitest';
 
 import {
   FORMAT_DATE_TIME,
@@ -13,9 +14,9 @@ import {
   mapFullEntityToFormFields,
 } from './utils';
 
-jest.mock('lib/arkiv/useArkivClient', () => ({
-  createPublicClient: jest.fn(() => ({
-    getBlockTiming: jest.fn().mockResolvedValue({
+vitest.mock('lib/arkiv/useArkivClient', () => ({
+  createPublicClient: vitest.fn(() => ({
+    getBlockTiming: vitest.fn().mockResolvedValue({
       currentBlock: BigInt(100),
       currentBlockTime: 1000000,
       blockDuration: 2,
@@ -25,7 +26,7 @@ jest.mock('lib/arkiv/useArkivClient', () => ({
 
 const createMockFile = (content: string | Uint8Array, name: string, type: string) => {
   const encodedContent = content instanceof Uint8Array ? content : new TextEncoder().encode(content);
-  const mockArrayBuffer = jest.fn().mockResolvedValue(encodedContent.buffer);
+  const mockArrayBuffer = vitest.fn().mockResolvedValue(encodedContent.buffer);
 
   return {
     name,
@@ -60,7 +61,7 @@ describe('entity utils', () => {
     const mockFile = createMockFile('test file content', 'test.txt', 'text/plain');
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      vitest.clearAllMocks();
     });
 
     it('should map form data with file correctly and convert expirationDate to expiresIn lifespan value', async() => {

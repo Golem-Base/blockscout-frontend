@@ -2,7 +2,9 @@ import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 import config from 'configs/app';
+import useIsMobile from 'lib/hooks/useIsMobile';
 import HeroBanner from 'ui/home/HeroBanner';
+import Highlights from 'ui/home/Highlights';
 import ChainIndicators from 'ui/home/indicators/ChainIndicators';
 import LatestArbitrumL2Batches from 'ui/home/latestBatches/LatestArbitrumL2Batches';
 import LatestZkEvmL2Batches from 'ui/home/latestBatches/LatestZkEvmL2Batches';
@@ -15,6 +17,8 @@ import TopNotice from 'ui/shared/TopNotice';
 const rollupFeature = config.features.rollup;
 
 const Home = () => {
+  const isMobile = useIsMobile();
+
   const leftWidget = (() => {
     if (rollupFeature.isEnabled && !rollupFeature.homepage.showLatestBlocks) {
       switch (rollupFeature.type) {
@@ -36,7 +40,8 @@ const Home = () => {
         <Stats/>
         <ChainIndicators/>
       </Flex>
-      <AdBanner mt={ 6 } mx="auto" display={{ base: 'flex', lg: 'none' }} justifyContent="center"/>
+      { !isMobile && config.UI.homepage.highlights && <Highlights mt={ 3 }/> }
+      { isMobile && <AdBanner mt={ 6 } mx="auto" justifyContent="center" format="mobile"/> }
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 6 }>
         { leftWidget }
         <Box flexGrow={ 1 }>

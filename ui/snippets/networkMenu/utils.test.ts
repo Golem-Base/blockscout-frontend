@@ -1,5 +1,7 @@
 import type { useRouter } from 'next/router';
 
+import { describe, it, expect } from 'vitest';
+
 import { getStaticNetworkPath } from './utils';
 
 const mockRouter = (pathname: string, asPath: string) => ({

@@ -1,4 +1,5 @@
 import type { RollupType } from 'types/client/rollup';
+import type { AdditionalTokenType } from 'types/client/token';
 import type { NetworkVerificationType, NetworkVerificationTypeEnvs } from 'types/networks';
 
 import { getPrioritizedRpcUrls } from 'lib/web3/rpcPreference';
@@ -40,6 +41,7 @@ const chain = Object.freeze({
   currency: {
     name: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_NAME'),
     weiName: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_WEI_NAME'),
+    gweiName: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_GWEI_NAME'),
     symbol: getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL'),
     decimals: Number(getEnvValue('NEXT_PUBLIC_NETWORK_CURRENCY_DECIMALS')) || DEFAULT_CURRENCY_DECIMALS,
   },
@@ -48,6 +50,7 @@ const chain = Object.freeze({
   },
   hasMultipleGasCurrencies: getEnvValue('NEXT_PUBLIC_NETWORK_MULTIPLE_GAS_CURRENCIES') === 'true',
   tokenStandard: getEnvValue('NEXT_PUBLIC_NETWORK_TOKEN_STANDARD_NAME') || 'ERC',
+  additionalTokenTypes: parseEnvJson<Array<AdditionalTokenType>>(getEnvValue('NEXT_PUBLIC_NETWORK_ADDITIONAL_TOKEN_TYPES')) || [],
   get rpcUrls() {
     return getPrioritizedRpcUrls(staticRpcUrls);
   },

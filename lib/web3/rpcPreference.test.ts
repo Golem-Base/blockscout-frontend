@@ -1,8 +1,10 @@
+import { describe, it, expect, vitest, beforeEach } from 'vitest';
+
 import { getPrioritizedRpcUrls, getRpcPreference, setRpcPreference } from './rpcPreference';
 
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
+  getItem: vitest.fn(),
+  setItem: vitest.fn(),
 };
 
 Object.defineProperty(window, 'localStorage', {
@@ -12,7 +14,7 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('rpcPreference', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vitest.clearAllMocks();
   });
 
   describe('getRpcPreference', () => {

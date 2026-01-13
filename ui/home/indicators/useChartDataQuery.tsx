@@ -4,72 +4,28 @@ import {
   ChartResolution,
   OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
 } from '@golembase/l3-indexer-types';
-import type { ChainIndicatorIdWithNoBlockTransactions as ChainIndicatorId } from 'types/homepage';
-import type { ChartFilter, OnFilterChange, SimpleChartData, TimeChartData, TimeChartDataItem, TimeChartItemRaw } from 'ui/shared/chart/types';
+import type { ChainIndicatorId, ChainIndicatorIdWithNoBlockTransactions as ChainIndicatorId } from 'types/homepage';
+import type { ChartFilter, OnFilterChange, SimpleChartData, TimeChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import capitalizeFirstLetter from 'lib/capitalizeFirstLetter';
 import dayjs from 'lib/date/dayjs';
-import formatDataSize from 'lib/formatDataSize';
 
-import { prepareChartItemsWithDate } from './utils/prepareChartItems';
+import { getChartData } from './utils/chart';
 
 const rollupFeature = config.features.rollup;
 const isOptimisticRollup = rollupFeature.isEnabled && rollupFeature.type === 'optimistic';
 const isArbitrumRollup = rollupFeature.isEnabled && rollupFeature.type === 'arbitrum';
 
-const CHART_ITEMS: Record<ChainIndicatorId, Pick<TimeChartDataItem, 'name' | 'valueFormatter'>> = {
-  daily_txs: {
-    name: 'Tx/day',
-    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-  },
-  daily_operational_txs: {
-    name: 'Tx/day',
-    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-  },
-  coin_price: {
-    name: `${ config.chain.currency.symbol } price`,
-    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 }),
-  },
-  secondary_coin_price: {
-    name: `${ config.chain.currency.symbol } price`,
-    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 }),
-  },
-  market_cap: {
-    name: 'Market cap',
-    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2 }),
-  },
-  tvl: {
-    name: 'TVL',
-    valueFormatter: (x: number) => '$' + x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-  },
-  data_usage: {
-    name: 'Data usage',
-    valueFormatter: (x: number) => formatDataSize(x),
-  },
-  operation_trends: {
-    name: 'Operation trends',
-    valueFormatter: (x: number) => x.toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
-  },
-};
-
 const isStatsFeatureEnabled = config.features.stats.isEnabled;
 
-type UseFetchChartDataResult = {
+export type UseFetchChartDataResult = {
   isError: boolean;
   isPending: boolean;
   data: TimeChartData | SimpleChartData;
   filters?: Array<ChartFilter>;
 };
-
-function getChartData(indicatorId: ChainIndicatorId, data: Array<TimeChartItemRaw>): TimeChartData {
-  return [ {
-    items: prepareChartItemsWithDate(data),
-    name: CHART_ITEMS[indicatorId].name,
-    valueFormatter: CHART_ITEMS[indicatorId].valueFormatter,
-  } ];
-}
 
 export default function useChartDataQuery(indicatorId: ChainIndicatorId): UseFetchChartDataResult {
   const [ filters, setFilters ] = React.useState<Record<string, string>>({

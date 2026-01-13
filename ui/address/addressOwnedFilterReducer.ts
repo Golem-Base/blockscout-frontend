@@ -14,12 +14,12 @@ export type FilterState = {
   };
 };
 
-  type FilterAction =
-    | { type: 'SET_STATUS'; payload: string }
-    | { type: 'SET_INPUT_VALUE'; payload: { key: keyof FilterState['inputValues']; value: string } }
-    | { type: 'SET_ERROR'; payload: { key: keyof FilterState['errors']; value: boolean } }
-    | { type: 'CLEAR_ERRORS' }
-    | { type: 'INITIALIZE'; payload: { defaultStatus: string; query: Record<string, string> } };
+type FilterAction =
+    | { type: 'SET_STATUS'; payload: string } |
+    { type: 'SET_INPUT_VALUE'; payload: { key: keyof FilterState['inputValues']; value: string } } |
+    { type: 'SET_ERROR'; payload: { key: keyof FilterState['errors']; value: boolean } } |
+    { type: 'CLEAR_ERRORS' } |
+    { type: 'INITIALIZE'; payload: { defaultStatus: string; query: Record<string, string> } };
 
 export type SetInputValue = (key: keyof FilterState['inputValues'], value: string) => void;
 export type SetError = (key: keyof FilterState['errors'], value: boolean) => void;

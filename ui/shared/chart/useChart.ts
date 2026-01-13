@@ -64,11 +64,6 @@ export const useChart = () => {
   const isMobile = useIsMobile();
   const isInBrowser = isBrowser();
 
-  const backLink = {
-    label: 'Back to charts list',
-    url: '/stats',
-  };
-
   const onIntervalChange = React.useCallback((interval: StatsIntervalIds) => {
     setIntervalState(interval);
     router.push(
@@ -109,7 +104,6 @@ export const useChart = () => {
     ref,
     isMobile,
     isInBrowser,
-    backLink,
     defaultResolution,
   };
 

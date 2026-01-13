@@ -13,7 +13,7 @@ import ChartMenu from 'ui/shared/chart/ChartMenu';
 import useZoom from 'ui/shared/chart/useZoom';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 
-const BlockOperationsHistogramWidget = () => {
+const BlockOperationsWidget = () => {
   const chartRef = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
   const [ selectedOperations, setSelectedOperations ] = React.useState([ 'create', 'update', 'extend', 'delete', 'changeowner' ]);
@@ -122,4 +122,4 @@ const BlockOperationsHistogramWidget = () => {
   );
 };
 
-export default BlockOperationsHistogramWidget;
+export default BlockOperationsWidget;

@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import hexToSize from './hexToSize';
 
 describe('hexToSize', () => {

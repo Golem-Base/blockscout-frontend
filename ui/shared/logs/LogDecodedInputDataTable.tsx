@@ -6,9 +6,9 @@ import type { DecodedInput } from 'types/api/decodedInput';
 import type { ArrayElement } from 'types/utils';
 
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import { TruncatedText } from 'toolkit/components/truncation/TruncatedText';
 import CopyToClipboard from 'ui/shared/CopyToClipboard';
 import AddressEntity from 'ui/shared/entities/address/AddressEntity';
-import TruncatedValue from 'ui/shared/TruncatedValue';
 
 import StorageEntity from '../entities/entity/StorageEntity';
 
@@ -63,7 +63,7 @@ const Row = ({ name, type, indexed, value, isLoading }: ArrayElement<DecodedInpu
       const text = JSON.stringify(value, undefined, 4);
       return (
         <Flex alignItems="flex-start" justifyContent="space-between" whiteSpace="normal" wordBreak="break-all">
-          <TruncatedValue value={ text } isLoading={ isLoading }/>
+          <TruncatedText text={ text } loading={ isLoading }/>
           <CopyToClipboard text={ text } isLoading={ isLoading }/>
         </Flex>
       );
@@ -71,7 +71,7 @@ const Row = ({ name, type, indexed, value, isLoading }: ArrayElement<DecodedInpu
 
     return (
       <Flex alignItems="flex-start" justifyContent="space-between" whiteSpace="normal" wordBreak="break-all">
-        <TruncatedValue value={ value } isLoading={ isLoading }/>
+        <TruncatedText text={ value } loading={ isLoading }/>
         <CopyToClipboard text={ value } isLoading={ isLoading }/>
       </Flex>
     );
@@ -79,8 +79,8 @@ const Row = ({ name, type, indexed, value, isLoading }: ArrayElement<DecodedInpu
 
   return (
     <>
-      <TruncatedValue value={ name } isLoading={ isLoading }/>
-      <TruncatedValue value={ type } isLoading={ isLoading }/>
+      <TruncatedText text={ name } loading={ isLoading }/>
+      <TruncatedText text={ type } loading={ isLoading }/>
       { indexed !== undefined && (
         <Skeleton loading={ isLoading } display="inline-block">{ indexed ? 'true' : 'false' }</Skeleton>
       ) }

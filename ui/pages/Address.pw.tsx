@@ -46,11 +46,11 @@ test('degradation view', async({ render, page, mockRpcResponse, mockApiResponse 
   await mockApiResponse('general:address_counters', addressCountersMock.forValidator, { pathParams: { hash: addressMock.hash } });
   await mockApiResponse('general:address_tabs_counters', null as never, { pathParams: { hash: addressMock.hash }, status: 500 });
   await mockApiResponse('general:address_txs', null as never, { pathParams: { hash: addressMock.hash }, status: 500 });
-  await mockRpcResponse({
+  await mockRpcResponse([ {
     Method: 'eth_getBalance',
     Parameters: [ addressMock.hash, 'latest' ],
     ReturnType: numberToHex(1234567890123456),
-  });
+  } ]);
   await mockApiResponse('golemBaseIndexer:addressStats', null as never, { pathParams: { address: addressMock.hash }, status: 500 });
 
   const component = await render(<Address/>, { hooksConfig });

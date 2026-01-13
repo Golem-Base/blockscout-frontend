@@ -6,6 +6,9 @@ export const SUPPORTED_WALLETS = [
   'metamask',
   'coinbase',
   'token_pocket',
+  'rabby',
+  'okx',
+  'trust',
   'brave',
 ] as const;
 
@@ -14,4 +17,5 @@ export type WalletType = ArrayElement<typeof SUPPORTED_WALLETS>;
 export interface WalletInfo {
   name: string;
   icon: IconName;
+  color: string;
 }

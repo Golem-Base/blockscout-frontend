@@ -1,48 +1,75 @@
-import type { MarketplaceAppOverview } from 'types/client/marketplace';
-import type { SearchResultItem } from 'types/client/search';
+import type { CctxListItem } from '@blockscout/zetachain-cctx-types';
+import { getFeaturePayload } from 'configs/app/features/types';
+import type { MarketplaceApp } from 'types/client/marketplace';
+import type { QuickSearchResultItem } from 'types/client/search';
 
 import config from 'configs/app';
 
+const nameServicesFeature = config.features.nameServices;
+
+const dappEntityName = getFeaturePayload(config.features.marketplace)?.titles.entity_name ?? '';
+
 export type ApiCategory =
-  'token' | 'nft' | 'address' | 'public_tag' | 'transaction' | 'block' | 'user_operation' | 'blob' | 'domain' | 'tac_operation' | 'golembase_entity';
-export type Category = ApiCategory | 'app';
+  'token' |
+  'nft' |
+  'address' |
+  'public_tag' |
+  'transaction' |
+  'block' |
+  'user_operation' |
+  'blob' |
+  'domain' |
+  'cluster' |
+  'tac_operation' |
+    'golembase_entity';
+export type Category = ApiCategory | 'app' | 'zetaChainCCTX';
 
 export type ItemsCategoriesMap =
-Record<ApiCategory, Array<SearchResultItem>> &
-Record<'app', Array<MarketplaceAppOverview>>;
+Record<ApiCategory, Array<QuickSearchResultItem>> &
+Record<'app', Array<MarketplaceApp>> &
+Record<'zetaChainCCTX', Array<CctxListItem>>;
 
 export type SearchResultAppItem = {
   type: 'app';
-  app: MarketplaceAppOverview;
+  app: MarketplaceApp;
 };
 
-export const searchCategories: Array<{ id: Category; title: string }> = [
-  { id: 'app', title: 'DApps' },
-  { id: 'token', title: `Tokens (${ config.chain.tokenStandard }-20)` },
-  { id: 'nft', title: `NFTs (${ config.chain.tokenStandard }-721 & 1155)` },
-  { id: 'address', title: 'Addresses' },
-  { id: 'public_tag', title: 'Public tags' },
-  { id: 'transaction', title: 'Transactions' },
-  { id: 'block', title: 'Blocks' },
-  { id: 'tac_operation', title: 'Operations' },
-  { id: 'golembase_entity', title: 'Entities' },
+export const searchCategories: Array<{ id: Category; title: string; tabTitle: string }> = [
+  { id: 'token', title: `Tokens (${ config.chain.tokenStandard }-20)`, tabTitle: 'Tokens' },
+  { id: 'nft', title: `NFTs (${ config.chain.tokenStandard }-721 & 1155)`, tabTitle: 'NFTs' },
+  { id: 'address', title: 'Addresses', tabTitle: 'Addresses' },
+  { id: 'public_tag', title: 'Public tags', tabTitle: 'Public tags' },
+  { id: 'transaction', title: 'Transactions', tabTitle: 'Transactions' },
+  { id: 'block', title: 'Blocks', tabTitle: 'Blocks' },
+  { id: 'tac_operation', title: 'Operations', tabTitle: 'Operations' },
+  { id: 'zetaChainCCTX', title: 'CCTXs', tabTitle: 'CCTXs' },
+  { id: 'golembase_entity', title: 'Entities', tabTitle: 'Entities' },
 ];
 
 if (config.features.userOps.isEnabled) {
-  searchCategories.push({ id: 'user_operation', title: 'User operations' });
+  searchCategories.push({ id: 'user_operation', title: 'User operations', tabTitle: 'User ops' });
 }
 
 if (config.features.dataAvailability.isEnabled) {
-  searchCategories.push({ id: 'blob', title: 'Blobs' });
+  searchCategories.push({ id: 'blob', title: 'Blobs', tabTitle: 'Blobs' });
 }
 
-if (config.features.nameService.isEnabled) {
-  searchCategories.unshift({ id: 'domain', title: 'Names' });
+if (config.features.marketplace.isEnabled) {
+  searchCategories.unshift({ id: 'app', title: `${ dappEntityName }s`, tabTitle: `${ dappEntityName }s` });
+}
+
+if ((nameServicesFeature.isEnabled && nameServicesFeature.ens.isEnabled) || config.features.opSuperchain.isEnabled) {
+  searchCategories.unshift({ id: 'domain', title: 'Names', tabTitle: 'Names' });
+}
+
+if (nameServicesFeature.isEnabled && nameServicesFeature.clusters.isEnabled) {
+  searchCategories.unshift({ id: 'cluster', title: 'Cluster Name', tabTitle: 'Cluster' });
 }
 
 export const searchItemTitles: Record<Category, { itemTitle: string; itemTitleShort: string }> = {
-  app: { itemTitle: 'DApp', itemTitleShort: 'App' },
+  app: { itemTitle: dappEntityName, itemTitleShort: dappEntityName },
   domain: { itemTitle: 'Name', itemTitleShort: 'Name' },
+  cluster: { itemTitle: 'Cluster', itemTitleShort: 'Cluster' },
   token: { itemTitle: 'Token', itemTitleShort: 'Token' },
   nft: { itemTitle: 'NFT', itemTitleShort: 'NFT' },
   address: { itemTitle: 'Address', itemTitleShort: 'Address' },
@@ -53,9 +80,10 @@ export const searchItemTitles: Record<Category, { itemTitle: string; itemTitleSh
   blob: { itemTitle: 'Blob', itemTitleShort: 'Blob' },
   tac_operation: { itemTitle: 'Operations', itemTitleShort: 'Operations' },
   golembase_entity: { itemTitle: 'Entity', itemTitleShort: 'Entity' },
+  zetaChainCCTX: { itemTitle: 'CCTX', itemTitleShort: 'CCTX' },
 };
 
-export function getItemCategory(item: SearchResultItem | SearchResultAppItem): Category | undefined {
+export function getItemCategory(item: QuickSearchResultItem | SearchResultAppItem): Category | undefined {
   switch (item.type) {
     case 'address':
     case 'contract':
@@ -89,8 +117,14 @@ export function getItemCategory(item: SearchResultItem | SearchResultAppItem): C
     case 'ens_domain': {
       return 'domain';
     }
+    case 'cluster': {
+      return 'cluster';
+    }
     case 'tac_operation': {
       return 'tac_operation';
+    }
+    case 'zetaChainCCTX': {
+      return 'zetaChainCCTX';
     }
     case 'golembase_entity': {
       return 'golembase_entity';

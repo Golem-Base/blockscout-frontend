@@ -8,6 +8,8 @@ import * as serverTiming from 'nextjs/utils/serverTiming';
 import config from 'configs/app';
 import * as svgSprite from 'ui/shared/IconSvg';
 
+const marketplaceFeature = config.features.marketplace;
+
 interface MyDocumentProps extends DocumentInitialProps {
   nonce?: string;
 }
@@ -56,6 +58,12 @@ class MyDocument extends Document<MyDocumentProps> {
             <>
               { /* eslint-disable-next-line @next/next/no-sync-scripts */ }
               <script src="/assets/multichain/config.js"/>
+            </>
+          ) }
+          { marketplaceFeature.isEnabled && marketplaceFeature.essentialDapps && (
+            <>
+              { /* eslint-disable-next-line @next/next/no-sync-scripts */ }
+              <script src="/assets/essential-dapps/chains.js"/>
             </>
           ) }
 
