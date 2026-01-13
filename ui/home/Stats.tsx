@@ -230,7 +230,7 @@ const Stats = () => {
       },
       apiData?.golembase_active_entities_size && {
         id: 'golembase_active_entities_size' as const,
-        icon: 'layers' as const,
+        icon: 'collection' as const,
         label: 'Active entities size',
         value: formatDataSize(apiData.golembase_active_entities_size),
         isLoading,
@@ -258,7 +258,7 @@ const Stats = () => {
       },
       apiData?.golembase_total_entities_created && {
         id: 'golembase_total_entities_created' as const,
-        icon: 'layers' as const,
+        icon: 'collection' as const,
         label: 'Total entities created',
         value: `${ BigNumber(apiData.golembase_total_entities_created).toFormat() }`,
       },
@@ -277,7 +277,7 @@ const Stats = () => {
         isLoading,
       },
     ]
-      .filter(Boolean)
+      .filter((item): item is HomeStatsItem => Boolean(item))
       .filter(isHomeStatsItemEnabled)
       .sort(sortHomeStatsItems);
   })();
