@@ -4,6 +4,7 @@ import type { TChainIndicator } from './types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
+import formatDataSize from 'lib/formatDataSize';
 import { HOMEPAGE_STATS, HOMEPAGE_STATS_MICROSERVICE } from 'stubs/stats';
 import IconSvg from 'ui/shared/IconSvg';
 import NativeTokenIcon from 'ui/shared/NativeTokenIcon';
@@ -146,6 +147,30 @@ const ChainIndicators = () => {
           '$' + Number(statsApiQueryResult.data.tvl).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' }),
         hint: 'Total value of digital assets locked or staked in a chain',
         icon: <IconSvg name="lock" boxSize={ 6 } bgColor="#517FDB" borderRadius="base" color="white"/>,
+      },
+      {
+        id: 'data_usage' as const,
+        title: 'Daily data usage',
+        value: (() => {
+          if (typeof statsApiQueryResult.data?.monthly_data_usage === 'number' && statsApiQueryResult.data.monthly_data_usage !== null) {
+            return formatDataSize(statsApiQueryResult.data.monthly_data_usage);
+          }
+          return '';
+        })(),
+        hint: 'Daily amount of data added to the chain in the last 30 days',
+        icon: <IconSvg name="blob" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
+      },
+      {
+        id: 'operation_trends' as const,
+        title: 'Operation trends',
+        value: (() => {
+          if (typeof statsApiQueryResult.data?.monthly_operation_trends === 'number' && statsApiQueryResult.data.monthly_operation_trends !== null) {
+            return Number(statsApiQueryResult.data.monthly_operation_trends).toLocaleString(undefined, { maximumFractionDigits: 2, notation: 'compact' });
+          }
+          return 'N/A';
+        })(),
+        hint: 'Daily amount of operations that have occurred in the last 30 days',
+        icon: <IconSvg name="transactions" boxSize={ 6 } bgColor="#56ACD1" borderRadius="base" color="white"/>,
       },
     ]
       .filter(isIndicatorEnabled)
