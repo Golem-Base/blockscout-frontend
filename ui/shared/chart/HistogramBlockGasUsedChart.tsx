@@ -216,10 +216,11 @@ const HistogramBlockGasUsedChart = ({ items, height = DEFAULT_HEIGHT }: Props) =
           />
 
           <ChartArea
+            id="histogram-block-gas-used-chart"
             data={ lineChartData }
             xScale={ xScale }
             yScale={ yScale }
-            color={ lineColor }
+            gradient={{ startColor: lineColor, stopColor: lineColor }}
             noAnimation
           />
 

@@ -1,12 +1,15 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
+import type { StatsIntervalIds } from 'types/client/stats';
+
 import multichainConfig from 'configs/multichain';
 import { MultichainProvider } from 'lib/contexts/multichain';
 import useRoutedChainSelect from 'lib/multichain/useRoutedChainSelect';
 import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import PageTitle from 'ui/shared/Page/PageTitle';
 import ChartsWidgetsList from 'ui/stats/ChartsWidgetsList';
+import { STATS_INTERVALS } from 'ui/stats/constants';
 import NumberWidgetsList from 'ui/stats/NumberWidgetsList';
 import StatsFilters from 'ui/stats/StatsFilters';
 import useStats from 'ui/stats/useStats';
@@ -66,6 +69,7 @@ const OpSuperchainStats = () => {
             interval={ interval }
             onIntervalChange={ handleIntervalChange }
             onFilterInputChange={ handleFilterChange }
+            intervalOptions={ Object.keys(STATS_INTERVALS) as Array<StatsIntervalIds> }
           />
         </Box>
 

@@ -110,7 +110,7 @@ const ChartWidgetGraph = ({
         <ChartArea
           id={ chartId }
           data={ displayedData }
-          color={ color }
+          gradient={{ startColor: color, stopColor: color }}
           xScale={ axes.x.scale }
           yScale={ axes.y.scale }
           noAnimation={ noAnimation }

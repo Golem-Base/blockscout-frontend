@@ -133,8 +133,9 @@ const BlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
           />
 
           <ChartArea
+            id="block-transactions-chart"
             data={ chartData }
-            color={ color }
+            gradient={{ startColor: color, stopColor: color }}
             xScale={ xScale }
             yScale={ yScale }
             noAnimation

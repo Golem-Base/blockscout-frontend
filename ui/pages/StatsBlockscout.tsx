@@ -20,7 +20,6 @@ export const StatsBlockscout = () => {
     handleIntervalChange,
     handleFilterChange,
     displayedCharts,
-    filterQuery,
     initialFilterQuery,
   } = useStats();
 
@@ -43,12 +42,13 @@ export const StatsBlockscout = () => {
       </Box>
 
       <ChartsWidgetsList
-        filterQuery={ filterQuery }
         initialFilterQuery={ initialFilterQuery }
         isError={ isError }
         isPlaceholderData={ isPlaceholderData }
         charts={ displayedCharts }
         interval={ interval }
+        sections={ sections }
+        selectedSectionId={ currentSection }
       />
     </Box>
   );

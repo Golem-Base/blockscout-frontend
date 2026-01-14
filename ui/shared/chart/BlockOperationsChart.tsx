@@ -204,10 +204,11 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
           />
 
           <ChartArea
+            id="block-operations-chart"
             data={ lineChartData }
             xScale={ xScale }
             yScale={ yScale }
-            color={ lineColor }
+            gradient={{ startColor: lineColor, stopColor: lineColor }}
             noAnimation
           />
 
