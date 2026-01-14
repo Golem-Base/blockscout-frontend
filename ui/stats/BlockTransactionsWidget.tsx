@@ -1,13 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useMemo, useRef } from 'react';
 
-import type { TimeChartItem } from 'ui/shared/chart/types';
-
 import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_TRANSACTIONS_HISTOGRAM } from 'stubs/stats';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import type { TimeChartData } from 'toolkit/components/charts';
 import BlockTransactionsChart from 'ui/shared/chart/BlockTransactionsChart';
 import ChartMenu from 'ui/shared/chart/ChartMenu';
+import { useChartsConfig } from 'ui/shared/chart/config';
 import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
 import useZoom from 'ui/shared/chart/useZoom';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
@@ -22,6 +22,7 @@ const baseDate = new Date(0);
 const BlockTransactionsWidget = ({ title, description }: Props) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
+  const chartsConfig = useChartsConfig();
 
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockTransactions', {
     queryOptions: {
@@ -41,16 +42,21 @@ const BlockTransactionsWidget = ({ title, description }: Props) => {
     }));
   }, [ data?.chart ]);
 
-  const menuItems: Array<TimeChartItem> = useMemo(() => {
+  const menuItems: TimeChartData = useMemo(() => {
     if (!data?.chart) {
       return [];
     }
     return data.chart.map((item, index) => ({
-      date: new Date(baseDate.getTime() + index),
-      value: Number(item.tx_count) || 0,
-      dateLabel: item.block_number,
+      id: item.block_number,
+      name: item.block_number,
+      charts: chartsConfig,
+      items: [ {
+        date: new Date(baseDate.getTime() + index),
+        value: Number(item.tx_count) || 0,
+        dateLabel: item.block_number,
+      } ],
     }));
-  }, [ data?.chart ]);
+  }, [ chartsConfig, data?.chart ]);
 
   if (isError) {
     return <DataFetchAlert/>;

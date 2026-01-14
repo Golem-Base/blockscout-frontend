@@ -5,7 +5,9 @@ import type { StatsIntervalIds } from 'types/client/stats';
 import useApiQuery from 'lib/api/useApiQuery';
 import { useAppContext } from 'lib/contexts/app';
 import type { ApiData } from 'lib/metadata';
+import type { TimeChartData } from 'toolkit/components/charts';
 import { getGolemBaseChartQueryParams } from 'toolkit/components/charts/utils/getGolemBaseChartQueryParams';
+import { useChartsConfig } from 'ui/shared/chart/config';
 
 export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count' | 'entity-count';
 export type GolemChartQueryResolution = 'HOUR' | 'DAY';
@@ -60,9 +62,11 @@ export default function useGolemChartQuery(
     }
   }, [ info, lineQuery.data?.info, lineQuery.isPlaceholderData ]);
 
-  const items = React.useMemo(() => lineQuery.data?.chart?.map((item) => {
-    return { date: new Date(item.date), date_to: new Date(item.date_to), value: Number(item.value) };
-  }), [ lineQuery ]);
+  const chartsConfig = useChartsConfig();
+
+  const items: TimeChartData | undefined = React.useMemo(() => lineQuery.data?.chart?.map((item) => {
+    return { id, name: id, charts: chartsConfig, items: [ { date: new Date(item.date), date_to: new Date(item.date_to), value: Number(item.value) } ] };
+  }), [ chartsConfig, id, lineQuery.data?.chart ]);
 
   return {
     items,

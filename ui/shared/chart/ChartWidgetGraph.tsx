@@ -4,9 +4,10 @@ import React from 'react';
 
 import { Resolution } from '@blockscout/stats-types';
 import { ChartResolution } from '@golembase/l3-indexer-types';
-import type { ChartMargin, TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
+import type { ChartMargin, TimeChartItem } from 'ui/shared/chart/types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
+import type { TimeChartData } from 'toolkit/components/charts';
 import { ChartArea } from 'toolkit/components/charts/parts/ChartArea';
 import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
 import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
@@ -15,6 +16,7 @@ import { ChartOverlay } from 'toolkit/components/charts/parts/ChartOverlay';
 import { ChartSelectionX } from 'toolkit/components/charts/parts/ChartSelectionX';
 import { ChartTooltip } from 'toolkit/components/charts/parts/ChartTooltip';
 import { useTimeChartController } from 'toolkit/components/charts/utils/useTimeChartController';
+import { useChartsConfig } from 'ui/shared/chart/config';
 
 interface Props {
   isEnlarged?: boolean;
@@ -46,6 +48,7 @@ const ChartWidgetGraph = ({
   const isMobile = useIsMobile();
   const [ color ] = useToken('colors', 'blue.200');
   const chartId = `chart-${ title.split(' ').join('') }-${ isEnlarged ? 'fullscreen' : 'small' }`;
+  const chartsConfig = useChartsConfig();
 
   const overlayRef = React.useRef<SVGRectElement>(null);
 
@@ -62,8 +65,8 @@ const ChartWidgetGraph = ({
   [ items, range, resolution, valueFormatter ]);
 
   const chartData: TimeChartData = React.useMemo(() => {
-    return [ { items: displayedData, name: 'Value', color, units, valueFormatter } ];
-  }, [ color, displayedData, units, valueFormatter ]);
+    return [ { id: chartId, charts: chartsConfig, items: displayedData, name: 'Value', color, units, valueFormatter } ];
+  }, [ chartId, chartsConfig, color, displayedData, units, valueFormatter ]);
 
   const margin: ChartMargin = React.useMemo(() => ({ ...DEFAULT_CHART_MARGIN, ...marginProps }), [ marginProps ]);
   const axesConfig = React.useMemo(() => {

@@ -2,16 +2,14 @@ import { useCopyToClipboard } from '@uidotdev/usehooks';
 import domToImage from 'dom-to-image';
 import React from 'react';
 
-import type { TimeChartItem } from './types';
 import type { Resolution } from '@blockscout/stats-types';
 
-import dayjs from 'lib/date/dayjs';
 import { useColorModeValue } from 'toolkit/chakra/color-mode';
 import { IconButton } from 'toolkit/chakra/icon-button';
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from 'toolkit/chakra/menu';
+import type { TimeChartData } from 'toolkit/components/charts';
 import FullscreenChartModal from 'toolkit/components/charts/ChartFullscreenDialog';
 import { useDisclosure } from 'toolkit/hooks/useDisclosure';
-import { saveAsCsv } from 'toolkit/utils/file';
 import { isBrowser } from 'toolkit/utils/isBrowser';
 import IconSvg from 'ui/shared/IconSvg';
 
@@ -26,7 +24,7 @@ import type { HistogramItem } from './HistogramBlockGasUsedChart';
 import type { HistogramItem as DataSizeHistogramItem } from './HistogramChart';
 
 export type Props = {
-  items?: Array<TimeChartItem>;
+  items?: TimeChartData;
   histogramItems?: Array<HistogramItem>;
   blockTransactionsItems?: Array<BlockTransactionsHistogramItem>;
   dataSizeHistogramItems?: Array<DataSizeHistogramItem>;
@@ -34,7 +32,6 @@ export type Props = {
   blockOperationsVisibleOperations?: Array<OperationTypeCount>;
   title: string;
   description?: string;
-  units?: string;
   isLoading: boolean;
   chartRef: React.RefObject<HTMLDivElement | null>;
   chartUrl?: string;
@@ -55,7 +52,6 @@ const ChartMenu = ({
   blockOperationsVisibleOperations,
   title,
   description,
-  units,
   isLoading,
   chartRef,
   chartUrl,
@@ -102,19 +98,6 @@ const ChartMenu = ({
       }
     }, 100);
   }, [ pngBackgroundColor, title, chartRef ]);
-
-  const handleSVGSavingClick = React.useCallback(() => {
-    if (items) {
-      const headerRows = [
-        'Date', 'Value',
-      ];
-      const dataRows = items.map((item) => [
-        dayjs(item.date).format('YYYY-MM-DD'), String(item.value),
-      ]);
-
-      saveAsCsv(headerRows, dataRows, `${ title } (Blockscout stats)`);
-    }
-  }, [ items, title ]);
 
   // TS thinks window.navigator.share can't be undefined, but it can
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -166,13 +149,6 @@ const ChartMenu = ({
           >
             <IconSvg name="files/image" boxSize={ 5 }/>
             Save as PNG
-          </MenuItem>
-          <MenuItem
-            value="save-csv"
-            onClick={ handleSVGSavingClick }
-          >
-            <IconSvg name="files/csv" boxSize={ 5 }/>
-            Save as CSV
           </MenuItem>
         </MenuContent>
       </MenuRoot>
@@ -230,10 +206,9 @@ const ChartMenu = ({
         <FullscreenChartModal
           open={ fullscreenDialog.open }
           onOpenChange={ fullscreenDialog.onOpenChange }
-          items={ items }
+          charts={ items }
           title={ title }
           description={ description }
-          units={ units }
           resolution={ resolution }
           zoomRange={ zoomRange }
           handleZoom={ handleZoom }

@@ -113,7 +113,6 @@ const ChartsWidgetsList = ({ isError, isPlaceholderData, charts, interval, initi
                         title={ chart.title }
                         description={ chart.description }
                         interval={ interval }
-                        units={ chart.units || undefined }
                         isPlaceholderData={ isPlaceholderData }
                         onLoadingError={ handleChartLoadingError }
                         href={{ pathname: '/stats/[id]', query: { id: chart.id } }}
