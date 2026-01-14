@@ -5,15 +5,15 @@ import React from 'react';
 import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
+import { ChartArea } from 'toolkit/components/charts/parts/ChartArea';
+import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
+import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
+import { ChartLine } from 'toolkit/components/charts/parts/ChartLine';
+import { ChartOverlay } from 'toolkit/components/charts/parts/ChartOverlay';
+import { ChartTooltip } from 'toolkit/components/charts/parts/ChartTooltip';
+import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
 import { useClientRect } from 'toolkit/hooks/useClientRect';
 
-import ChartArea from './ChartArea';
-import ChartAxis from './ChartAxis';
-import ChartGridLine from './ChartGridLine';
-import ChartLine from './ChartLine';
-import ChartOverlay from './ChartOverlay';
-import ChartTooltip from './ChartTooltip';
-import ChartWatermarkIcon from './ChartWatermarkIcon';
 import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface HistogramItem {

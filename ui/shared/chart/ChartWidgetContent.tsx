@@ -7,9 +7,9 @@ import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
 import { apos } from 'toolkit/utils/htmlEntities';
 
-import ChartWatermarkIcon from './ChartWatermarkIcon';
 import ChartWidgetGraph from './ChartWidgetGraph';
 
 export type Props = {

@@ -5,8 +5,7 @@ import type { StatsIntervalIds } from 'types/client/stats';
 import useApiQuery from 'lib/api/useApiQuery';
 import { useAppContext } from 'lib/contexts/app';
 import type { ApiData } from 'lib/metadata';
-
-import { getGolemBaseChartQueryParams } from './utils/getGolemBaseChartQueryParams';
+import { getGolemBaseChartQueryParams } from 'toolkit/components/charts/utils/getGolemBaseChartQueryParams';
 
 export type GolemChartId = 'data-usage' | 'storage-forecast' | 'operation-count' | 'entity-count';
 export type GolemChartQueryResolution = 'HOUR' | 'DAY';

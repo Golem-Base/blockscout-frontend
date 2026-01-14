@@ -1,8 +1,8 @@
 import { chakra } from '@chakra-ui/react';
 import React from 'react';
 
-import getCurrencyValue from 'lib/getCurrencyValue';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import calculateUsdValue from 'ui/shared/value/calculateUsdValue';
 
 interface Props {
   value: string | null;
@@ -29,7 +29,7 @@ const CurrencyValue = ({ value, currency = '', decimals, exchangeRate, className
       </chakra.span>
     );
   }
-  const { valueStr: valueResult, usd: usdResult } = getCurrencyValue({ value, accuracy, accuracyUsd, exchangeRate, decimals });
+  const { valueStr: valueResult, usdStr: usdResult } = calculateUsdValue({ amount: value, accuracy, accuracyUsd, exchangeRate, decimals });
 
   return (
     <chakra.span className={ className } display="inline-flex" rowGap={ 3 } columnGap={ 1 }>

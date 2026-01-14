@@ -3,11 +3,11 @@ import * as d3 from 'd3';
 import { clamp } from 'es-toolkit';
 import React from 'react';
 
+import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
+import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
+import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
 import { useClientRect } from 'toolkit/hooks/useClientRect';
 
-import ChartAxis from './ChartAxis';
-import ChartGridLine from './ChartGridLine';
-import ChartWatermarkIcon from './ChartWatermarkIcon';
 import HistogramChartBar from './HistogramChartBar';
 
 export interface HistogramItem {

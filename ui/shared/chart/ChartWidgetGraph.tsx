@@ -7,14 +7,14 @@ import { ChartResolution } from '@golembase/l3-indexer-types';
 import type { ChartMargin, TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
-import ChartArea from 'ui/shared/chart/ChartArea';
-import ChartAxis from 'ui/shared/chart/ChartAxis';
-import ChartGridLine from 'ui/shared/chart/ChartGridLine';
-import ChartLine from 'ui/shared/chart/ChartLine';
-import ChartOverlay from 'ui/shared/chart/ChartOverlay';
-import ChartSelectionX from 'ui/shared/chart/ChartSelectionX';
-import ChartTooltip from 'ui/shared/chart/ChartTooltip';
-import useTimeChartController from 'ui/shared/chart/useTimeChartController';
+import { ChartArea } from 'toolkit/components/charts/parts/ChartArea';
+import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
+import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
+import { ChartLine } from 'toolkit/components/charts/parts/ChartLine';
+import { ChartOverlay } from 'toolkit/components/charts/parts/ChartOverlay';
+import { ChartSelectionX } from 'toolkit/components/charts/parts/ChartSelectionX';
+import { ChartTooltip } from 'toolkit/components/charts/parts/ChartTooltip';
+import { useTimeChartController } from 'toolkit/components/charts/utils/useTimeChartController';
 
 interface Props {
   isEnlarged?: boolean;

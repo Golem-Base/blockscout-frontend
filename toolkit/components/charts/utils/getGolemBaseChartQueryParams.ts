@@ -2,9 +2,8 @@ import { OperationTypeFilter_OperationTypeFilter as OperationTypeFilter } from '
 import type { StatsIntervalIds } from 'types/client/stats';
 
 import dayjs from 'lib/date/dayjs';
+import type { GolemChartId, GolemChartQueryResolution } from 'ui/shared/chart/useGolemChartQuery';
 import { STATS_INTERVALS } from 'ui/stats/constants';
-
-import type { GolemChartId, GolemChartQueryResolution } from '../useGolemChartQuery';
 
 interface GetGolemBaseChartQueryParamsAttributes {
   id: GolemChartId;
