@@ -2,8 +2,8 @@ import * as d3 from 'd3';
 import React from 'react';
 
 import { Resolution } from '../types';
+import type { TimeChartData } from '../types';
 import type { ChartResolution } from '@golembase/l3-indexer-types';
-import type { TimeChartData } from 'ui/shared/chart/types';
 
 import ChartTooltipBackdrop, { useRenderBackdrop } from './tooltip/ChartTooltipBackdrop';
 import ChartTooltipContent, { useRenderContent } from './tooltip/ChartTooltipContent';
@@ -16,6 +16,7 @@ import type { Pointer } from './tooltip/pointerTracker';
 
 export interface ChartTooltipProps {
   width?: number;
+  tooltipWidth?: number;
   height?: number;
   data: TimeChartData;
   xScale: d3.ScaleTime<number, number>;
@@ -31,6 +32,7 @@ export const ChartTooltip = React.memo(({
   xScale,
   yScale,
   width,
+  tooltipWidth = 200,
   height,
   data,
   anchorEl,
@@ -50,8 +52,8 @@ export const ChartTooltip = React.memo(({
   const renderContent = useRenderContent(ref, { chart: { width, height }, transitionDuration });
   const renderPoints = useRenderPoints(ref, { data, xScale, yScale });
   const renderTitle = useRenderTitle(ref);
-  const renderRows = useRenderRows(ref, { data, xScale });
-  const renderBackdrop = useRenderBackdrop(ref, { seriesNum: data.length - (hideDateLabel ? 1 : 0), transitionDuration });
+  const renderRows = useRenderRows(ref, { data, xScale, minWidth: tooltipWidth });
+  const renderBackdrop = useRenderBackdrop(ref, { seriesNum: data.length, transitionDuration });
 
   const draw = React.useCallback((pointer: Pointer) => {
     if (pointer.point) {
@@ -69,6 +71,8 @@ export const ChartTooltip = React.memo(({
     if (!isVisible.current) {
       if (transitionDuration) {
         d3.select(ref.current)
+          .transition()
+          .delay(transitionDuration)
           .attr('opacity', 1);
       } else {
         d3.select(ref.current)
