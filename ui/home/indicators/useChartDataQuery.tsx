@@ -4,8 +4,9 @@ import {
   ChartResolution,
   OperationTypeFilter_OperationTypeFilter as OperationTypeFilter,
 } from '@golembase/l3-indexer-types';
+import type { TimeChartData } from 'toolkit/components/charts/types';
 import type { ChainIndicatorIdWithNoBlockTransactions } from 'types/homepage';
-import type { ChartFilter, OnFilterChange, SimpleChartData, TimeChartData } from 'ui/shared/chart/types';
+import type { ChartFilter, OnFilterChange, SimpleChartData } from 'ui/shared/chart/types';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';

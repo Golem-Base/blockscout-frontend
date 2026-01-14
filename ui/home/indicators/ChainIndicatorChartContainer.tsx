@@ -2,6 +2,7 @@ import { chakra } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TimeChartData } from 'toolkit/components/charts/types';
+import type { SimpleChartData } from 'ui/shared/chart/types';
 
 import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
@@ -10,7 +11,7 @@ import ChainIndicatorChartContent from './ChainIndicatorChartContent';
 import SimpleChartContent from './SimpleChartContent';
 
 type Props = {
-  data: TimeChartData;
+  data: TimeChartData | SimpleChartData;
   isError: boolean;
   isPending: boolean;
 };
@@ -36,7 +37,7 @@ const ChainIndicatorChartContainer = ({ data, isError, isPending }: Props) => {
     return <SimpleChartContent data={ data as unknown as [{ items: Array<{ x: number; y: number }> }] }/>;
   }
 
-  return <ChainIndicatorChartContent data={ data }/>;
+  return <ChainIndicatorChartContent data={ data as TimeChartData }/>;
 };
 
 export default React.memo(ChainIndicatorChartContainer);

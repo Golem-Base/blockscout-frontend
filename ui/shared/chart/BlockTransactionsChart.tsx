@@ -2,9 +2,10 @@ import { Box, useToken } from '@chakra-ui/react';
 import * as d3 from 'd3';
 import React from 'react';
 
-import type { TimeChartData, TimeChartItem } from 'ui/shared/chart/types';
+import type { TimeChartItem } from 'ui/shared/chart/types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
+import type { TimeChartData } from 'toolkit/components/charts';
 import { ChartArea } from 'toolkit/components/charts/parts/ChartArea';
 import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
 import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
@@ -13,6 +14,7 @@ import { ChartOverlay } from 'toolkit/components/charts/parts/ChartOverlay';
 import { ChartTooltip } from 'toolkit/components/charts/parts/ChartTooltip';
 import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
 import { useClientRect } from 'toolkit/hooks/useClientRect';
+import { useChartsConfig } from 'ui/shared/chart/config';
 
 import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
@@ -35,6 +37,7 @@ const BlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
   const isMobile = useIsMobile();
   const [ color ] = useToken('colors', 'blue.200');
   const overlayRef = React.useRef<SVGRectElement>(null);
+  const chartsConfig = useChartsConfig();
 
   const margin = getMargin(isMobile);
 
@@ -51,18 +54,13 @@ const BlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
 
   const chartDataFormatted: TimeChartData = React.useMemo(() => {
     return [ {
-      items: chartData,
-      name: 'Block number',
-      color,
-      valueFormatter: (value: number) => value.toLocaleString(),
-    },
-    {
+      id: 'block-transactions',
       items: chartData,
       name: 'Transactions count',
-      color,
+      charts: chartsConfig,
       valueFormatter: (value: number) => value.toLocaleString(),
     } ];
-  }, [ chartData, color ]);
+  }, [ chartData, chartsConfig ]);
 
   const xScale = React.useMemo(() => {
     if (items.length === 0) {

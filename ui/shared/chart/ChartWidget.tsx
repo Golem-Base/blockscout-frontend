@@ -50,7 +50,7 @@ const ChartWidget = ({
   const ref = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
 
-  const hasItems = items && items.length > 2;
+  const hasItems = items && items.length > 0 && items[0]?.items && items[0].items.length > 2;
 
   const content = (
     <ChartWidgetContent

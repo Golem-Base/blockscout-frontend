@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import React from 'react';
 
-import { Resolution } from '../types';
 import type { TimeChartData } from '../types';
+import { Resolution } from '../types';
 import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import ChartTooltipBackdrop, { useRenderBackdrop } from './tooltip/ChartTooltipBackdrop';

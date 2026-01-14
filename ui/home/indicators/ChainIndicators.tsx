@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { TChainIndicator } from './types';
+import type { ChainIndicatorIdWithNoBlockTransactions } from 'types/homepage';
 
 import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
@@ -180,7 +181,7 @@ const ChainIndicators = () => {
   const [ selectedIndicatorId, selectIndicatorId ] = React.useState(indicators[0]?.id);
   const selectedIndicator = indicators.find(({ id }) => id === selectedIndicatorId);
 
-  const chartQuery = useChartDataQuery(selectedIndicatorId);
+  const chartQuery = useChartDataQuery((selectedIndicatorId ?? indicators[0]?.id ?? 'daily_txs') as ChainIndicatorIdWithNoBlockTransactions);
 
   if (indicators.length === 0) {
     return null;

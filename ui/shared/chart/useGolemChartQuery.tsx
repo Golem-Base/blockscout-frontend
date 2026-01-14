@@ -64,9 +64,21 @@ export default function useGolemChartQuery(
 
   const chartsConfig = useChartsConfig();
 
-  const items: TimeChartData | undefined = React.useMemo(() => lineQuery.data?.chart?.map((item) => {
-    return { id, name: id, charts: chartsConfig, items: [ { date: new Date(item.date), date_to: new Date(item.date_to), value: Number(item.value) } ] };
-  }), [ chartsConfig, id, lineQuery.data?.chart ]);
+  const items: TimeChartData | undefined = React.useMemo(() => {
+    if (!lineQuery.data?.chart || lineQuery.data.chart.length === 0) {
+      return undefined;
+    }
+    return [ {
+      id,
+      name: id,
+      charts: chartsConfig,
+      items: lineQuery.data.chart.map((item) => ({
+        date: new Date(item.date),
+        date_to: new Date(item.date_to),
+        value: Number(item.value),
+      })),
+    } ];
+  }, [ chartsConfig, id, lineQuery.data?.chart ]);
 
   return {
     items,
