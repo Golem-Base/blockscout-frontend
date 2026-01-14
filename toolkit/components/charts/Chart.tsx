@@ -1,8 +1,8 @@
 import { defaultsDeep } from 'es-toolkit/compat';
 import React from 'react';
 
-import type { AxesConfigFn, ChartMargin, TimeChartData } from './types';
-import { Resolution } from './types';
+import type { AxesConfigFn, ChartMargin, TimeChartData, Resolution } from './types';
+import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import useIsMobile from 'lib/hooks/useIsMobile';
 
@@ -22,7 +22,7 @@ export interface ChartProps {
   onZoom: (range: [ Date, Date ]) => void;
   margin?: ChartMargin;
   noAnimation?: boolean;
-  resolution?: Resolution;
+  resolution?: ChartResolution | Resolution;
   axesConfig?: AxesConfigFn;
   isEnlarged?: boolean;
 }
@@ -162,7 +162,6 @@ export const Chart = React.memo(({
           <ChartTooltip
             anchorEl={ overlayRef.current }
             width={ innerWidth }
-            tooltipWidth={ (resolution === Resolution.WEEK) ? 280 : 200 }
             height={ innerHeight }
             xScale={ axes.x.scale }
             yScale={ axes.y.scale }
