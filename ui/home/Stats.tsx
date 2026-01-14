@@ -277,9 +277,9 @@ const Stats = () => {
         isLoading,
       },
     ]
-      .filter((item): item is HomeStatsItem => Boolean(item))
+      .filter(Boolean)
       .filter(isHomeStatsItemEnabled)
-      .sort(sortHomeStatsItems);
+      .sort(sortHomeStatsItems) as Array<HomeStatsItem>;
   })();
 
   if (items.length === 0) {
