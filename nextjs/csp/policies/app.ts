@@ -72,6 +72,9 @@ export function app(isPrivateMode = false, nonce?: string): CspDev.DirectiveDesc
       // Next.js inline script hash (fallback if nonce doesn't work for all scripts)
       '\'sha256-/ZmmXHg9XaKeWp0VJihBDn4cJ7lLM1jUtpgqdgVFvmA=\'',
 
+      // Coinbase Wallet SDK initCCA.js inline script hash
+      '\'sha256-NzvNrqk5jB9YZATwo5BF4JoRlJ02HsnFikbKXgEPdaQ=\'',
+
       // Nonce for inline scripts (e.g., __NEXT_DATA__)
       ...(nonce ? [ `'nonce-${ nonce }'` ] : []),
     ],
