@@ -118,7 +118,7 @@ export default function useNavItems(): ReturnType {
     const consensusData = {
       text: 'L2 Consensus & Performance',
       nextRoute: { pathname: '/consensus-data' as const },
-      icon: 'arrows/south-east',
+      icon: 'layers',
       isActive: pathname === '/consensus-data',
     };
     const rollupTxnBatches = {
@@ -258,7 +258,7 @@ export default function useNavItems(): ReturnType {
       {
         text: 'Accounts with the most data',
         nextRoute: { pathname: '/leaderboards/accounts-with-the-most-data' as const },
-        icon: 'top-accounts',
+        icon: 'database',
         isActive: pathname === '/leaderboards/accounts-with-the-most-data',
       },
       {
@@ -288,7 +288,7 @@ export default function useNavItems(): ReturnType {
       {
         text: 'Effectively largest entities',
         nextRoute: { pathname: '/leaderboards/effectively-largest-entities' as const },
-        icon: 'stats',
+        icon: 'database',
         isActive: pathname === '/leaderboards/effectively-largest-entities',
       },
       { text: 'Longest lived entities',
