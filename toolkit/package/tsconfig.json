@@ -25,6 +25,7 @@
       "ui/*": ["../ui/*"],
       "public/*": ["../public/*"],
       "toolkit/*": ["./*"],
+      "nextjs/*": ["../nextjs/*"],
       "nextjs-routes": ["../nextjs/nextjs-routes.d.ts"],
     },
     "types": ["vite/client", "node"],
