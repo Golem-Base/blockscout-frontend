@@ -74,6 +74,7 @@
     "@opentelemetry/sdk-trace-node": "1.22.0",
     "@opentelemetry/semantic-conventions": "1.22.0",
     "@openzeppelin/contracts": "5.4.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-querybuilder/chakra": "^8.8.4",
     "@reown/appkit": "1.7.20",
     "@reown/appkit-adapter-wagmi": "1.7.20",

@@ -5428,6 +5428,13 @@
     "@swc/helpers" "^0.5.0"
     clsx "^2.0.0"
 
+"@react-native-async-storage/async-storage@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-2.2.0.tgz#a3aa565253e46286655560172f4e366e8969f5ad"
+  integrity sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-querybuilder/chakra@^8.8.4":
   version "8.14.0"
   resolved "https://registry.yarnpkg.com/@react-querybuilder/chakra/-/chakra-8.14.0.tgz#c8738174afce4e5af80d8086a1b2009a1f3c4baf"
