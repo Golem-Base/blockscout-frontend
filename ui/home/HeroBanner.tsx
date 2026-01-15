@@ -96,11 +96,11 @@ const HeroBanner = () => {
             </Box>
           ) }
         </Flex>
-        <Box display={{ base: 'flex', lg: 'none' }}>
+        <Box display={{ base: 'flex', lg: 'none' }} gap={ 3 }>
           <EntitySearchLink/>
           <SearchBarMobile isHeroBanner/>
         </Box>
-        <Box display={{ base: 'none', lg: 'flex' }}>
+        <Box display={{ base: 'none', lg: 'flex' }} gap={ 3 }>
           <EntitySearchLink/>
           <SearchBar isHeroBanner/>
         </Box>
