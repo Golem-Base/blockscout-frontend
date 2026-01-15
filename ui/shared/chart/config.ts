@@ -25,7 +25,7 @@ export function useChartsConfig(): Array<ChartConfig> {
 }
 
 export function useDefaultLineColor() {
-  const [ lineColor ] = useToken('colors', useColorModeValue('theme.graph.line._light', 'theme.graph.line._dark'));
+  const [ lineColor ] = useToken('colors', useColorModeValue('theme.graph.gradient.start._light', 'theme.graph.gradient.start._dark'));
   return React.useMemo(() => lineColor, [ lineColor ]);
 }
 
