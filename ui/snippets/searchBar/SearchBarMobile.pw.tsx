@@ -41,14 +41,13 @@ test.beforeEach(async({ mockAssetResponse, mockEnvs, mockTextAd }) => {
 test.use({ viewport: devices['iPhone 13 Pro'].viewport });
 
 test('search by token name +@dark-mode', async({ render, page, mockApiResponse }) => {
-  const apiUrl = await mockApiResponse('general:quick_search', [
+  await mockApiResponse('general:quick_search', [
     searchMock.token1,
     searchMock.token2,
   ], { queryParams: { q: 'o' } });
   await render(<SearchBarMobile/>);
   await openSearchDrawer(page);
   await getSearchInput(page).fill('o');
-  await page.waitForResponse(apiUrl);
 
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1200, height: 600 } });
 });
