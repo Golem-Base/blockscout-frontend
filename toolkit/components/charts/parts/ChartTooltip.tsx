@@ -181,7 +181,7 @@ export const ChartTooltip = React.memo(({
         <ChartTooltipBackdrop/>
         <ChartTooltipTitle resolution={ resolution }/>
         { !hideDateLabel && <ChartTooltipRow label={ dateLabelText ?? getDateLabel(resolution) } lineNum={ 1 }/> }
-        { data.map(({ name }, index) => <ChartTooltipRow key={ name } label={ name } lineNum={ index + 1 }/>) }
+        { data.map(({ name }, index) => <ChartTooltipRow key={ name } label={ name.replace('-', ' ') } lineNum={ index + 1 }/>) }
       </ChartTooltipContent>
     </g>
   );
