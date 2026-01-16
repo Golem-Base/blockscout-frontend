@@ -174,7 +174,7 @@ const BlockTransactionsChart = ({ items, height = DEFAULT_HEIGHT }: Props) => {
               yScale={ yScale }
               data={ chartDataFormatted }
               noAnimation
-              hideDateLabel
+              dateLabelText="Block number"
             />
           </ChartOverlay>
         </g>
