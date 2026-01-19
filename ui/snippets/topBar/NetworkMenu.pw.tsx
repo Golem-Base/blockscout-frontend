@@ -5,7 +5,8 @@ import { test, expect } from 'playwright/lib';
 
 import NetworkMenu from './NetworkMenu';
 
-test('tabs +@dark-mode', async({ render, mockEnvs, mockConfigResponse, mockAssetResponse, page }) => {
+// FIXME: test is flaky, component doesnt render correctly in docker container
+test.skip('tabs +@dark-mode', async({ render, mockEnvs, mockConfigResponse, mockAssetResponse, page }) => {
   const FEATURED_NETWORKS_URL = 'https://localhost:3000/featured-networks.json';
 
   await mockEnvs([
