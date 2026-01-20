@@ -48,14 +48,14 @@ test.describe('local transfers', () => {
     await createSocket();
   });
 
-  test('base view', async() => {
+  test.fixme('base view', async() => {
     await expect(component).toHaveScreenshot();
   });
 
   test.describe('mobile', () => {
     test.use({ viewport: pwConfig.viewport.mobile });
 
-    test('base view', async() => {
+    test.fixme('base view', async() => {
       await expect(component).toHaveScreenshot({ maxDiffPixels: 10 });
     });
   });

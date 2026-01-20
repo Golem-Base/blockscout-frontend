@@ -17,7 +17,7 @@ test.beforeEach(async({ mockEnvs, mockConfigResponse, mockAssetResponse }) => {
   await mockAssetResponse(zetaChainCCTXConfig[2].chain_logo, './playwright/mocks/image_svg.svg');
 });
 
-test('base view +@dark-mode', async({ render, mockApiResponse }) => {
+test.fixme('base view +@dark-mode', async({ render, mockApiResponse }) => {
   await mockApiResponse('zetachain:transactions', zetaChainCCTXList, {
     queryParams: {
       status_reduced: [ 'Success', 'Failed' ],

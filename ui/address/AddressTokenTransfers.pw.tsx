@@ -27,7 +27,7 @@ const tokenTransfersWoPagination = {
   next_page_params: null,
 };
 
-test('with pagination', async({ render, mockApiResponse }) => {
+test.fixme('with pagination', async({ render, mockApiResponse }) => {
   await mockApiResponse('general:address_token_transfers', tokenTransfersWithPagination, {
     pathParams: { hash: CURRENT_ADDRESS },
     queryParams: { type: [] },

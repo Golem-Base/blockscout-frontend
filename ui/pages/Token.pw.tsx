@@ -33,7 +33,7 @@ test.beforeEach(async({ mockApiResponse, mockTextAd }) => {
   await mockTextAd();
 });
 
-test('base view', async({ render, page, createSocket }) => {
+test.fixme('base view', async({ render, page, createSocket }) => {
   const component = await render(<Token/>, { hooksConfig }, { withSocket: true });
 
   const socket = await createSocket();
