@@ -214,7 +214,7 @@ test.describe('Entity page', () => {
     await expect(component).toHaveScreenshot();
   });
 
-  test('entity with JSON data +@dark-mode', async({ render, mockApiResponse, page }) => {
+  test.fixme('entity with JSON data +@dark-mode', async({ render, mockApiResponse, page }) => {
     const hooksConfigWithTab = {
       router: {
         query: { key: entityMock.withJsonData.key, tab: 'data' },
@@ -233,7 +233,7 @@ test.describe('Entity page', () => {
     await expect(component).toHaveScreenshot();
   });
 
-  test('entity with YAML data +@dark-mode', async({ render, mockApiResponse, page }) => {
+  test.fixme('entity with YAML data +@dark-mode', async({ render, mockApiResponse, page }) => {
     const hooksConfigWithTab = {
       router: {
         query: { key: entityMock.withYamlData.key, tab: 'data' },

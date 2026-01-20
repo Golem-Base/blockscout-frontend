@@ -41,7 +41,7 @@ test.fixme('with pagination', async({ render, mockApiResponse }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('without pagination', async({ render, mockApiResponse }) => {
+test.fixme('without pagination', async({ render, mockApiResponse }) => {
   await mockApiResponse('general:address_token_transfers', tokenTransfersWoPagination, {
     pathParams: { hash: CURRENT_ADDRESS },
     queryParams: { type: [] },

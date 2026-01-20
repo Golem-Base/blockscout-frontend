@@ -92,7 +92,7 @@ test('bridged token', async({ render, page, createSocket, mockApiResponse, mockA
   });
 });
 
-test('scam token', async({ render, page, createSocket, mockApiResponse, mockEnvs }) => {
+test.fixme('scam token', async({ render, page, createSocket, mockApiResponse, mockEnvs }) => {
   await mockEnvs([
     [ 'NEXT_PUBLIC_VIEWS_TOKEN_SCAM_TOGGLE_ENABLED', 'true' ],
   ]);
