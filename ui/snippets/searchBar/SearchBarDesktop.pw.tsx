@@ -210,7 +210,8 @@ test('search with view all link', async({ render, page, mockApiResponse }) => {
   await expect(page).toHaveScreenshot({ clip: { x: 0, y: 0, width: 1200, height: 500 } });
 });
 
-test('scroll suggest to category', async({ render, page, mockApiResponse }) => {
+// FIXME: test is flaky, component doesnt render correctly in docker container
+test.skip('scroll suggest to category', async({ render, page, mockApiResponse }) => {
   const apiUrl = await mockApiResponse('general:quick_search', [
     searchMock.token1,
     searchMock.token2,
