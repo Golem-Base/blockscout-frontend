@@ -1,24 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-# yarn test:pw:docker ui/address/AddressEntityOps.pw.tsx --update-snapshots
 # yarn test:pw:docker ui/address/AddressTokenTransfers.pw.tsx --update-snapshots
 # yarn test:pw:docker ui/address/AddressTxs.pw.tsx --update-snapshots
-yarn test:pw:docker ui/entity/EntityEntityOps.pw.tsx --update-snapshots
-yarn test:pw:docker ui/megaEth/uptime/Uptime.pw.tsx --update-snapshots
-yarn test:pw:docker ui/optimismSuperchain/address/OpSuperchainAddressTxs.pw.tsx --update-snapshots
-yarn test:pw:docker ui/optimismSuperchain/searchResults/SearchResults.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/Address.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/Block.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/EntityChangeOwner.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/EntityCreate.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/EntityExtend.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/EntityUpdate.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/Home.pw.tsx --update-snapshots
-yarn test:pw:docker ui/pages/Token.pw.tsx --update-snapshots
-yarn test:pw:docker ui/shared/address/AddressFromTo.pw.tsx --update-snapshots
-yarn test:pw:docker ui/shared/TokenTransfer/TokenTransferList.pw.tsx --update-snapshots
-yarn test:pw:docker ui/shared/TokenTransfer/TokenTransferTable.pw.tsx --update-snapshots
 yarn test:pw:docker ui/snippets/searchBar/SearchBarDesktop.pw.tsx --update-snapshots
 
 
