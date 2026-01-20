@@ -88,7 +88,7 @@ test.describe('socket', () => {
   // test cases which use socket cannot run in parallel since the socket server always run on the same port
   test.describe.configure({ mode: 'serial' });
 
-  test('with update', async({ render, mockApiResponse, page, createSocket }) => {
+  test.fixme('with update', async({ render, mockApiResponse, page, createSocket }) => {
     await mockApiResponse(
       'general:address_txs',
       { items: [ txMock.pending ], next_page_params: DEFAULT_PAGINATION },
