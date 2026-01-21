@@ -1,19 +1,19 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-import type { TimeChartItem } from './types';
 import type { Resolution } from '@blockscout/stats-types';
 import type { ChartResolution } from '@golembase/l3-indexer-types';
 
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import type { TimeChartData } from 'toolkit/components/charts';
+import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
 import { apos } from 'toolkit/utils/htmlEntities';
 
-import ChartWatermarkIcon from './ChartWatermarkIcon';
 import ChartWidgetGraph from './ChartWidgetGraph';
 
 export type Props = {
-  items?: Array<TimeChartItem>;
+  items?: TimeChartData;
   title: string;
   units?: string;
   isLoading?: boolean;
@@ -43,7 +43,7 @@ const ChartWidgetContent = ({
   valueFormatter,
   customNoDataMessage,
 }: Props) => {
-  const hasItems = items && items.length > 2;
+  const hasItems = items && items.length > 0 && items[0]?.items && items[0].items.length > 2;
 
   if (isError) {
     return (

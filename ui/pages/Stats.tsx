@@ -4,7 +4,7 @@ import React from 'react';
 import config from 'configs/app';
 import useEtherscanRedirects from 'lib/router/useEtherscanRedirects';
 import PageTitle from 'ui/shared/Page/PageTitle';
-import BlockOperationsHistogramWidget from 'ui/stats/BlockOperationsWidget';
+import BlockOperationsWidget from 'ui/stats/BlockOperationsWidget';
 
 import DataSizeHistogramWidget from '../stats/DataSizeHistogramWidget';
 import NumberWidgetsList from '../stats/NumberWidgetsList';
@@ -26,7 +26,7 @@ const Stats = () => {
 
       <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} mb={{ base: 6, sm: 8 }} gap={ 4 } width="100%">
         <DataSizeHistogramWidget/>
-        <BlockOperationsHistogramWidget/>
+        <BlockOperationsWidget/>
       </Grid>
 
       <Flex flexDirection="column" gap={ 16 }>

@@ -9,7 +9,7 @@ import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import dayjs from 'lib/date/dayjs';
 import { Button } from 'toolkit/chakra/button';
 import { FormFieldText } from 'toolkit/components/forms/fields/FormFieldText';
-import ContentLoader from 'ui/shared/ContentLoader';
+import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 
 import EntityFormRow from './EntityFormRow';
 import ReturnButton from './ReturnButton';

@@ -1,7 +1,6 @@
 import { chakra, Flex } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 
-import type { TimeChartItem } from './types';
 import type { Resolution } from '@blockscout/stats-types';
 import type { ChartResolution } from '@golembase/l3-indexer-types';
 
@@ -12,6 +11,7 @@ import { IconButton } from 'toolkit/chakra/icon-button';
 import { Link } from 'toolkit/chakra/link';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
+import type { TimeChartData } from 'toolkit/components/charts';
 import IconSvg from 'ui/shared/IconSvg';
 
 import ChartMenu from './ChartMenu';
@@ -19,10 +19,9 @@ import ChartWidgetContent from './ChartWidgetContent';
 import useZoom from './useZoom';
 
 export type Props = {
-  items?: Array<TimeChartItem>;
+  items?: TimeChartData;
   title: string;
   description?: string;
-  units?: string;
   isLoading: boolean;
   className?: string;
   isError: boolean;
@@ -41,7 +40,6 @@ const ChartWidget = ({
   isLoading,
   className,
   isError,
-  units,
   emptyText,
   noAnimation,
   href,
@@ -52,14 +50,13 @@ const ChartWidget = ({
   const ref = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
 
-  const hasItems = items && items.length > 2;
+  const hasItems = items && items.length > 0 && items[0]?.items && items[0].items.length > 2;
 
   const content = (
     <ChartWidgetContent
       items={ items }
       isError={ isError }
       isLoading={ isLoading }
-      units={ units }
       title={ title }
       emptyText={ emptyText }
       handleZoom={ handleZoom }
@@ -138,7 +135,6 @@ const ChartWidget = ({
               chartUrl={ href ? config.app.baseUrl + route(href) : undefined }
               isLoading={ isLoading }
               chartRef={ ref }
-              units={ units }
               handleZoom={ handleZoom }
               handleZoomReset={ handleZoomReset }
               zoomRange={ zoomRange }

@@ -2,6 +2,7 @@ import { capitalize } from 'es-toolkit';
 import React from 'react';
 
 import type { Block } from 'types/api/block';
+import type { ClusterChainConfig } from 'types/multichain';
 
 import config from 'configs/app';
 import { AddressHighlightProvider } from 'lib/contexts/addressHighlight';
@@ -21,6 +22,7 @@ interface Props {
   socketInfoNum?: number;
   showSocketErrorAlert?: boolean;
   showSocketInfo?: boolean;
+  chainData?: ClusterChainConfig;
 }
 
 interface TableColumnHeaders extends React.ComponentProps<typeof TableColumnHeader> {
@@ -34,7 +36,7 @@ const FEES_COL_WEIGHT = 22;
 
 const isRollup = config.features.rollup.isEnabled;
 
-const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum, showSocketErrorAlert }: Props) => {
+const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum, showSocketErrorAlert, chainData }: Props) => {
   const initialList = useInitialList({
     data: data ?? [],
     idFn: (item) => item.height,
@@ -48,6 +50,10 @@ const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum
     (!isRollup && !config.UI.views.block.hiddenFields?.burnt_fees ? FEES_COL_WEIGHT : 0);
 
   const tableColumnHeaders: Array<TableColumnHeaders> = [
+    {
+      width: '38px',
+      visible: Boolean(chainData),
+    },
     {
       width: '180px',
       children: <>
@@ -71,6 +77,7 @@ const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum
       width: '64px',
       children: 'Txn',
       visible: true,
+      isNumeric: true,
     },
     {
       width: `${ GAS_COL_WEIGHT / widthBase * 100 }%`,
@@ -96,7 +103,7 @@ const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum
 
   return (
     <AddressHighlightProvider>
-      <TableRoot minWidth="1070px" fontWeight={ 500 }>
+      <TableRoot minWidth={ chainData ? '1100px' : '1070px' } fontWeight={ 500 }>
         <TableHeaderSticky top={ top }>
           <TableRow>
             { tableColumnHeaders
@@ -125,6 +132,7 @@ const BlocksTable = ({ data, isLoading, top, page, showSocketInfo, socketInfoNum
               enableTimeIncrement={ page === 1 && !isLoading }
               isLoading={ isLoading }
               animation={ initialList.getAnimationProp(item) }
+              chainData={ chainData }
             />
           )) }
         </TableBody>

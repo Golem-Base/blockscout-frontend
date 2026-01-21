@@ -18,7 +18,6 @@ type Props = {
   id: GolemChartId;
   title: string;
   description: string;
-  units?: string;
   interval: StatsIntervalIds;
   onLoadingError: () => void;
   isPlaceholderData: boolean;
@@ -32,7 +31,6 @@ const GolemChartWidgetContainer = ({
   description,
   interval,
   onLoadingError,
-  units,
   isPlaceholderData,
   className,
   href,
@@ -73,7 +71,6 @@ const GolemChartWidgetContainer = ({
       isError={ lineQuery.isError }
       items={ items }
       title={ title }
-      units={ units }
       description={ description }
       isLoading={ lineQuery.isPlaceholderData }
       minH="230px"

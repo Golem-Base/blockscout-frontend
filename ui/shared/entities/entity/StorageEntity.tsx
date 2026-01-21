@@ -27,10 +27,7 @@ const Link = chakra((props: LinkProps) => {
 
 const Icon = (props: EntityBase.IconBaseProps) => {
   return (
-    <EntityBase.Icon
-      { ...props }
-      name={ props.name ?? 'docs' }
-    />
+    <EntityBase.Icon { ...props }/>
   );
 };
 

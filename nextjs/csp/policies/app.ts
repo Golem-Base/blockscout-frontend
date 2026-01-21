@@ -1,7 +1,5 @@
 import type CspDev from 'csp-dev';
 
-import { getFeaturePayload } from 'configs/app/features/types';
-
 import config from 'configs/app';
 
 import { KEY_WORDS } from '../utils';
@@ -23,7 +21,7 @@ const externalFontsDomains = (() => {
   } catch (error) {}
 })();
 
-export function app(nonce?: string): CspDev.DirectiveDescriptor {
+export function app(isPrivateMode = false, nonce?: string): CspDev.DirectiveDescriptor {
   return {
     'default-src': [
       // KEY_WORDS.NONE,
@@ -45,7 +43,6 @@ export function app(nonce?: string): CspDev.DirectiveDescriptor {
 
       // chain RPC server
       ...config.chain.rpcUrls,
-      ...(getFeaturePayload(config.features.rollup)?.parentChain?.rpcUrls ?? []),
       'https://infragrid.v.network', // RPC providers
 
       // github (spec for api-docs page)
@@ -74,6 +71,9 @@ export function app(nonce?: string): CspDev.DirectiveDescriptor {
 
       // Next.js inline script hash (fallback if nonce doesn't work for all scripts)
       '\'sha256-/ZmmXHg9XaKeWp0VJihBDn4cJ7lLM1jUtpgqdgVFvmA=\'',
+
+      // Coinbase Wallet SDK initCCA.js inline script hash
+      '\'sha256-NzvNrqk5jB9YZATwo5BF4JoRlJ02HsnFikbKXgEPdaQ=\'',
 
       // Nonce for inline scripts (e.g., __NEXT_DATA__)
       ...(nonce ? [ `'nonce-${ nonce }'` ] : []),
@@ -131,10 +131,14 @@ export function app(nonce?: string): CspDev.DirectiveDescriptor {
       KEY_WORDS.NONE,
     ],
 
-    'frame-src': [
-      // could be a marketplace app or NFT media (html-page)
-      '*',
-    ],
+    // Restrict frame-src in private mode to prevent iframe tracking
+    // In normal mode, frame-src is also set by marketplace.ts when marketplace is enabled
+    ...(isPrivateMode ? {} as CspDev.DirectiveDescriptor : {
+      'frame-src': [
+        // could be a marketplace app or NFT media (html-page)
+        '*',
+      ],
+    }),
 
     'frame-ancestors': [
       KEY_WORDS.SELF,

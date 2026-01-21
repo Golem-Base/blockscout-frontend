@@ -2,12 +2,14 @@ import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { AddressCoinBalanceHistoryItem } from 'types/api/address';
+import type { ClusterChainConfig } from 'types/multichain';
 
 import { TableCell, TableRow } from 'toolkit/chakra/table';
-import { WEI } from 'toolkit/utils/consts';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
+import ChainIcon from 'ui/shared/externalChains/ChainIcon';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
+import { WEI } from 'ui/shared/value/utils';
 
 import AddressCoinBalanceDelta from './AddressCoinBalanceDelta';
 import AddressCoinBalanceValue from './AddressCoinBalanceValue';
@@ -15,6 +17,7 @@ import AddressCoinBalanceValue from './AddressCoinBalanceValue';
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
   isLoading: boolean;
+  chainData?: ClusterChainConfig;
 };
 
 const AddressCoinBalanceTableItem = (props: Props) => {
@@ -22,6 +25,11 @@ const AddressCoinBalanceTableItem = (props: Props) => {
 
   return (
     <TableRow>
+      { props.chainData && (
+        <TableCell>
+          <ChainIcon data={ props.chainData } isLoading={ props.isLoading }/>
+        </TableCell>
+      ) }
       <TableCell>
         <BlockEntity
           isLoading={ props.isLoading }

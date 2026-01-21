@@ -2,6 +2,7 @@ import React from 'react';
 import type { AddEthereumChainParameter } from 'viem';
 
 import config from 'configs/app';
+import { useMultichainContext } from 'lib/contexts/multichain';
 import getErrorObj from 'lib/errors/getErrorObj';
 import { SECOND } from 'toolkit/utils/consts';
 
@@ -9,27 +10,30 @@ import useRewardsActivity from '../hooks/useRewardsActivity';
 import useProvider from './useProvider';
 import { getHexadecimalChainId } from './utils';
 
-function getParams(): AddEthereumChainParameter {
-  if (!config.chain.id) {
+function getParams(chainConfig: typeof config): AddEthereumChainParameter {
+  if (!chainConfig.chain.id) {
     throw new Error('Missing required chain config');
   }
 
   return {
-    chainId: getHexadecimalChainId(Number(config.chain.id)),
-    chainName: config.chain.name ?? '',
+    chainId: getHexadecimalChainId(Number(chainConfig.chain.id)),
+    chainName: chainConfig.chain.name ?? '',
     nativeCurrency: {
-      name: config.chain.currency.name ?? '',
-      symbol: config.chain.currency.symbol ?? '',
-      decimals: config.chain.currency.decimals ?? 18,
+      name: chainConfig.chain.currency.name ?? '',
+      symbol: chainConfig.chain.currency.symbol ?? '',
+      decimals: chainConfig.chain.currency.decimals ?? 18,
     },
-    rpcUrls: config.chain.rpcUrls,
-    blockExplorerUrls: [ config.app.baseUrl ],
+    rpcUrls: chainConfig.chain.rpcUrls,
+    blockExplorerUrls: [ chainConfig.app.baseUrl ],
   };
 }
 
 export default function useAddChain() {
-  const { wallet, provider } = useProvider();
+  const { data: { wallet, provider } = {} } = useProvider();
   const { trackUsage } = useRewardsActivity();
+  const multichainContext = useMultichainContext();
+
+  const chainConfig = multichainContext?.chain.app_config || config;
 
   return React.useCallback(async() => {
     if (!wallet || !provider) {
@@ -41,7 +45,7 @@ export default function useAddChain() {
     try {
       await provider.request({
         method: 'wallet_addEthereumChain',
-        params: [ getParams() ],
+        params: [ getParams(chainConfig) ],
       });
     } catch (error) {
       const errorObj = getErrorObj(error) as { code?: number; message?: string };
@@ -58,5 +62,5 @@ export default function useAddChain() {
     if (Date.now() - start > SECOND) {
       await trackUsage('add_network');
     }
-  }, [ wallet, provider, trackUsage ]);
+  }, [ wallet, provider, chainConfig, trackUsage ]);
 }

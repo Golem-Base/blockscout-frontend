@@ -5,17 +5,19 @@ import React from 'react';
 import type { BlockOperationPoint } from '@golembase/l3-indexer-types';
 import type { TimeChartItem } from 'ui/shared/chart/types';
 
-import useClientRect from 'lib/hooks/useClientRect';
 import useIsMobile from 'lib/hooks/useIsMobile';
+import type { TimeChartData } from 'toolkit/components/charts';
+import { ChartArea } from 'toolkit/components/charts/parts/ChartArea';
+import { ChartAxis } from 'toolkit/components/charts/parts/ChartAxis';
+import { ChartGridLine } from 'toolkit/components/charts/parts/ChartGridLine';
+import { ChartLine } from 'toolkit/components/charts/parts/ChartLine';
+import { ChartOverlay } from 'toolkit/components/charts/parts/ChartOverlay';
+import { ChartTooltip } from 'toolkit/components/charts/parts/ChartTooltip';
+import { ChartWatermark as ChartWatermarkIcon } from 'toolkit/components/charts/parts/ChartWatermark';
+import { useClientRect } from 'toolkit/hooks/useClientRect';
+import { useChartsConfig } from 'ui/shared/chart/config';
 
 import type { OperationTypeCount } from './BlockOperationsChartBar';
-import ChartArea from './ChartArea';
-import ChartAxis from './ChartAxis';
-import ChartGridLine from './ChartGridLine';
-import ChartLine from './ChartLine';
-import ChartOverlay from './ChartOverlay';
-import ChartTooltip from './ChartTooltip';
-import ChartWatermarkIcon from './ChartWatermarkIcon';
 import useChartBlockNavigation from './hooks/useChartBlockNavigation';
 
 export interface Item extends BlockOperationPoint {
@@ -40,6 +42,7 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
   const [ rect, ref ] = useClientRect<SVGSVGElement>();
   const isMobile = useIsMobile();
   const overlayRef = React.useRef<SVGRectElement>(null);
+  const chartsConfig = useChartsConfig();
 
   const [ lineColor ] = useToken('colors', colorTokens);
 
@@ -70,25 +73,27 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
     };
 
     return visibleOperations.map((operation) => ({
+      id: `operation-${ operation }`,
       items: items.map((item, index) => ({
         date: new Date(baseDate.getTime() + index),
         value: Number(item[operation]) || 0,
         dateLabel: item.label,
       })),
       name: operationLabels[operation],
-      color: lineColor,
+      charts: chartsConfig,
       valueFormatter: (value: number) => value.toLocaleString(),
     }));
-  }, [ visibleOperations, items, lineColor ]);
+  }, [ visibleOperations, items, chartsConfig ]);
 
   const totalSeries = React.useMemo(() => ({
+    id: 'total',
     items: lineChartData,
     name: 'Total',
-    color: lineColor,
+    charts: chartsConfig,
     valueFormatter: (value: number) => value.toLocaleString(),
-  }), [ lineChartData, lineColor ]);
+  }), [ lineChartData, chartsConfig ]);
 
-  const chartData = React.useMemo(() => [
+  const chartData: TimeChartData = React.useMemo(() => [
     ...operationSeries,
     totalSeries,
   ], [ operationSeries, totalSeries ]);
@@ -204,10 +209,11 @@ const BlockOperationsChart = ({ items, height = DEFAULT_HEIGHT, visibleOperation
           />
 
           <ChartArea
+            id="block-operations-chart"
             data={ lineChartData }
             xScale={ xScale }
             yScale={ yScale }
-            color={ lineColor }
+            gradient={{ startColor: lineColor, stopColor: lineColor }}
             noAnimation
           />
 

@@ -3,14 +3,15 @@ import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import type { AddressCoinBalanceHistoryItem } from 'types/api/address';
+import type { ClusterChainConfig } from 'types/multichain';
 
 import { currencyUnits } from 'lib/units';
 import { Skeleton } from 'toolkit/chakra/skeleton';
-import { WEI } from 'toolkit/utils/consts';
 import BlockEntity from 'ui/shared/entities/block/BlockEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
 import ListItemMobile from 'ui/shared/ListItemMobile/ListItemMobile';
 import TimeWithTooltip from 'ui/shared/time/TimeWithTooltip';
+import { WEI } from 'ui/shared/value/utils';
 
 import AddressCoinBalanceDelta from './AddressCoinBalanceDelta';
 import AddressCoinBalanceValue from './AddressCoinBalanceValue';
@@ -18,6 +19,7 @@ import AddressCoinBalanceValue from './AddressCoinBalanceValue';
 type Props = AddressCoinBalanceHistoryItem & {
   page: number;
   isLoading: boolean;
+  chainData?: ClusterChainConfig;
 };
 
 const AddressCoinBalanceListItem = (props: Props) => {
@@ -39,8 +41,9 @@ const AddressCoinBalanceListItem = (props: Props) => {
         <BlockEntity
           isLoading={ props.isLoading }
           number={ props.block_number }
-          noIcon
+          noIcon={ !props.chainData }
           fontWeight={ 700 }
+          chain={ props.chainData }
         />
       </Flex>
       { props.transaction_hash && (

@@ -10,8 +10,8 @@ import throwOnAbsentParamError from 'lib/errors/throwOnAbsentParamError';
 import throwOnResourceLoadError from 'lib/errors/throwOnResourceLoadError';
 import getQueryParamString from 'lib/router/getQueryParamString';
 import { toaster } from 'toolkit/chakra/toaster';
+import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 import ChangeEntityOwnerForm from 'ui/entity/ChangeEntityOwnerForm';
-import ContentLoader from 'ui/shared/ContentLoader';
 import DataFetchAlert from 'ui/shared/DataFetchAlert';
 import PageTitle from 'ui/shared/Page/PageTitle';
 

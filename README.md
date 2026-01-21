@@ -17,6 +17,8 @@ See also [compose files](https://github.com/Golem-Base/blockscout-compose-files)
 - [App ENVs list](./docs/ENVS.md)
 - [Contribution guide](./docs/CONTRIBUTING.md)
 - [Making a custom build](./docs/CUSTOM_BUILD.md)
+- [Frontend migration guide](https://docs.blockscout.com/setup/deployment/frontend-migration)
+- [Manual deployment guide with backend and microservices](https://docs.blockscout.com/setup/deployment/manual-deployment-guide)
 - [Golem Base L3 Development Guide](./docs/GOLEMBASE_L3_DEV.md) - Development guide for Golem Base L3 network
 
 ## License

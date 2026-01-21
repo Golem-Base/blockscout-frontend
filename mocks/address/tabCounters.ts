@@ -9,4 +9,5 @@ export const base: AddressTabsCounters = {
   validations_count: 42,
   withdrawals_count: 11,
   golembase_operations_count: 13,
+  beacon_deposits_count: 10,
 };

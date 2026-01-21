@@ -24,7 +24,7 @@ export const clientConfig: Configuration | undefined = feature.isEnabled ? {
     code_version: feature.codeVersion,
     app_instance: feature.instance,
   },
-  checkIgnore(isUncaught, args, item) {
+  checkIgnore(_isUncaught, _args, item) {
     if (isBot(window.navigator.userAgent)) {
       return true;
     }

@@ -35,32 +35,32 @@ const getStats = (consensusInfo: ConsensusInfoResponse): Record<keyof ConsensusI
 
   return {
     finalized_block_number: {
-      icon: 'block_full',
+      icon: 'block',
       label: 'Finalized block number',
       value: consensusInfo.finalized_block_number,
     },
     finalized_block_timestamp: {
-      icon: 'block_countdown_full',
+      icon: 'block_countdown',
       label: 'Finalized block timestamp',
       value: dayjs(consensusInfo.finalized_block_timestamp).format('lll'),
     },
     unsafe_block_number: {
-      icon: 'block_full',
+      icon: 'block',
       label: 'Unsafe block number',
       value: consensusInfo.unsafe_block_number,
     },
     unsafe_block_timestamp: {
-      icon: 'block_countdown_full',
+      icon: 'block_countdown',
       label: 'Unsafe block created at',
       value: dayjs(consensusInfo.unsafe_block_timestamp).format('lll'),
     },
     safe_block_number: {
-      icon: 'block_full',
+      icon: 'block',
       label: 'Safe block number',
       value: consensusInfo.safe_block_number,
     },
     safe_block_timestamp: {
-      icon: 'block_countdown_full',
+      icon: 'block_countdown',
       label: 'Safe block created at',
       value: dayjs(consensusInfo.safe_block_timestamp).format('lll'),
     },

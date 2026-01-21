@@ -1,12 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useMemo, useRef } from 'react';
 
-import type { TimeChartItem } from 'ui/shared/chart/types';
-
 import useApiQuery from 'lib/api/useApiQuery';
 import { BLOCK_GAS_USAGE_HISTOGRAM } from 'stubs/stats';
 import { Skeleton } from 'toolkit/chakra/skeleton';
+import type { TimeChartData } from 'toolkit/components/charts';
 import ChartMenu from 'ui/shared/chart/ChartMenu';
+import { useChartsConfig } from 'ui/shared/chart/config';
 import HistogramBlockGasUsedChart from 'ui/shared/chart/HistogramBlockGasUsedChart';
 import type { HistogramItem } from 'ui/shared/chart/HistogramChart';
 import useZoom from 'ui/shared/chart/useZoom';
@@ -22,6 +22,7 @@ const baseDate = new Date(0);
 const BlockGasUsageHistogramWidget = ({ title, description }: Props) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const { zoomRange, handleZoom, handleZoomReset } = useZoom();
+  const chartsConfig = useChartsConfig();
 
   const { data, isPlaceholderData, isError } = useApiQuery('golemBaseIndexer:chartBlockGasUsage', {
     queryParams: {
@@ -45,16 +46,21 @@ const BlockGasUsageHistogramWidget = ({ title, description }: Props) => {
     }));
   }, [ data?.chart ]);
 
-  const menuItems: Array<TimeChartItem> = useMemo(() => {
+  const menuItems: TimeChartData = useMemo(() => {
     if (!data?.chart) {
       return [];
     }
     return data.chart.map((item, index) => ({
-      date: new Date(baseDate.getTime() + index),
-      value: Number(item.gas_used) || 0,
-      dateLabel: item.block_number,
+      id: 'gas-used',
+      name: 'Gas used',
+      charts: chartsConfig,
+      items: [ {
+        date: new Date(baseDate.getTime() + index),
+        value: Number(item.gas_used) || 0,
+        dateLabel: item.block_number,
+      } ],
     }));
-  }, [ data?.chart ]);
+  }, [ chartsConfig, data?.chart ]);
 
   if (isError) {
     return <DataFetchAlert/>;

@@ -1,5 +1,7 @@
-export type ApiName = 'general' | 'admin' | 'bens' | 'contractInfo' | 'golemBaseIndexer' |
-  'metadata' | 'multichain' | 'rewards' | 'stats' | 'tac' | 'visualize';
+export type ApiName =
+'general' | 'admin' | 'bens' | 'contractInfo' | 'clusters' | 'external' |
+'metadata' | 'multichainAggregator' | 'multichainStats' | 'rewards' | 'stats' | 'tac' |
+'userOps' | 'visualize' | 'zetachain' | 'golemBaseIndexer';
 
 export interface ApiResource {
   path: string;

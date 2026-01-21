@@ -7,7 +7,7 @@ import type { ArkivChangeEntityOwner, ChangeEntityOwnerFormFields } from './util
 
 import { useArkivClient } from 'lib/arkiv/useArkivClient';
 import { Button } from 'toolkit/chakra/button';
-import ContentLoader from 'ui/shared/ContentLoader';
+import { ContentLoader } from 'toolkit/components/loaders/ContentLoader';
 
 import EntityFieldNewOwnerAddress from './fields/EntityFieldNewOwnerAddress';
 import ReturnButton from './ReturnButton';

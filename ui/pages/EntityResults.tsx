@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useAppContext } from 'lib/contexts/app';
 import EntityResultsBar from 'ui/entity/EntityResultsBar';
 import EntityResultsTable from 'ui/entity/EntityResultsTable';
 import useEntityResultsQuery from 'ui/entity/useEntityResultsQuery';
@@ -13,20 +12,6 @@ import HeaderMobile from 'ui/snippets/header/HeaderMobile';
 
 const EntityResults = () => {
   const { data, isPlaceholderData, isError, pagination } = useEntityResultsQuery();
-  const appProps = useAppContext();
-
-  const backLink = React.useMemo(() => {
-    const hasGoBackLink = appProps.referrer && appProps.referrer.includes('/entity');
-
-    if (!hasGoBackLink) {
-      return;
-    }
-
-    return {
-      label: 'Back to entity',
-      url: appProps.referrer,
-    };
-  }, [ appProps.referrer ]);
 
   if (!data) {
     return null;
@@ -34,7 +19,7 @@ const EntityResults = () => {
 
   return (
     <>
-      <HeaderMobile hideSearchBar/>
+      <HeaderMobile hideSearchButton/>
       <Layout.MainArea>
         <Layout.SideBar/>
         <Layout.MainColumn>
@@ -42,7 +27,7 @@ const EntityResults = () => {
           <HeaderDesktop hideSearchBar/>
           <AppErrorBoundary>
             <Layout.Content flexGrow={ 0 }>
-              <PageTitle title="Entity results" backLink={ backLink }/>
+              <PageTitle title="Entity results"/>
               <EntityResultsBar
                 data={ data }
                 isLoading={ isPlaceholderData }

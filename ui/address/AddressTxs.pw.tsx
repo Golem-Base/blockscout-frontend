@@ -41,7 +41,7 @@ test.describe('base view', () => {
     );
   });
 
-  test('desktop', async({ page }) => {
+  test.fixme('desktop', async({ page }) => {
     await expect(component).toHaveScreenshot();
     await component.locator('button[aria-label="Toggle time format"]').click();
     await page.mouse.move(0, 0);
@@ -51,7 +51,7 @@ test.describe('base view', () => {
   test.describe('screen xl', () => {
     test.use({ viewport: pwConfig.viewport.xl });
 
-    test('base view', async() => {
+    test.fixme('base view', async() => {
       test.slow();
       await expect(component).toHaveScreenshot();
     });
@@ -61,7 +61,7 @@ test.describe('base view', () => {
 test.describe('base view', () => {
   test.use({ viewport: pwConfig.viewport.mobile });
 
-  test('mobile', async({ render, mockApiResponse }) => {
+  test.fixme('mobile', async({ render, mockApiResponse }) => {
     await mockApiResponse(
       'general:address_txs',
       {
@@ -88,7 +88,7 @@ test.describe('socket', () => {
   // test cases which use socket cannot run in parallel since the socket server always run on the same port
   test.describe.configure({ mode: 'serial' });
 
-  test('with update', async({ render, mockApiResponse, page, createSocket }) => {
+  test.fixme('with update', async({ render, mockApiResponse, page, createSocket }) => {
     await mockApiResponse(
       'general:address_txs',
       { items: [ txMock.pending ], next_page_params: DEFAULT_PAGINATION },

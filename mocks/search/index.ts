@@ -28,6 +28,7 @@ export const token1: SearchResultToken = {
   exchange_rate: null,
   is_verified_via_admin_panel: true,
   is_smart_contract_verified: true,
+  reputation: 'ok',
 };
 
 export const token2: SearchResultToken = {
@@ -43,6 +44,7 @@ export const token2: SearchResultToken = {
   exchange_rate: '1.11',
   is_verified_via_admin_panel: false,
   is_smart_contract_verified: false,
+  reputation: 'ok',
 };
 
 export const block1: SearchResultBlock = {
@@ -170,7 +172,9 @@ export const metatag2: SearchResultMetadataTag = {
   metadata: {
     name: 'utko',
     slug: 'utko',
-    meta: {},
+    meta: {
+      cexDeposit: 'true',
+    },
     tagType: 'name',
     ordinal: 1,
   },

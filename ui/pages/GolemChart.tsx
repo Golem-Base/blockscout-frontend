@@ -42,7 +42,6 @@ const StandardChart = () => {
     ref,
     isMobile,
     isInBrowser,
-    backLink,
     onIntervalChange,
     handleReset,
   } = useChart();
@@ -117,7 +116,6 @@ const StandardChart = () => {
         title={ info?.title || lineQuery.data?.info?.title || '' }
         mb={ 3 }
         isLoading={ isInfoLoading }
-        backLink={ backLink }
         secondRow={ info?.description || lineQuery.data?.info?.description }
         withTextAd
       />

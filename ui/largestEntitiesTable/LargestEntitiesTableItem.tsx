@@ -36,6 +36,7 @@ const LargestEntitiesTableItem = ({
           entityKey={ item.entity_key }
           isLoading={ isLoading }
           truncation="dynamic"
+          icon={{ name: 'docs' }}
         />
       </TableCell>
       <TableCell isNumeric>

@@ -1,6 +1,6 @@
 import type * as bens from '@blockscout/bens-types';
 import type * as tac from '@blockscout/tac-operation-lifecycle-types';
-import type { TokenType } from 'types/api/token';
+import type { TokenReputation, TokenType } from 'types/api/token';
 
 import type { AddressMetadataTagApi } from './addressMetadata';
 
@@ -11,6 +11,7 @@ export const SEARCH_RESULT_TYPES = {
   transaction: 'transaction',
   contract: 'contract',
   ens_domain: 'ens_domain',
+  cluster: 'cluster',
   label: 'label',
   user_operation: 'user_operation',
   blob: 'blob',
@@ -36,6 +37,7 @@ export interface SearchResultToken {
   is_smart_contract_verified: boolean;
   filecoin_robust_address?: string | null;
   certified?: boolean;
+  reputation: TokenReputation | null;
 }
 
 type SearchResultEnsInfo = {
@@ -78,6 +80,19 @@ export interface SearchResultDomain extends SearchResultAddressData {
     name: string;
     names_count: number;
     protocol?: bens.ProtocolInfo;
+  };
+}
+
+export interface SearchResultCluster extends SearchResultAddressData {
+  type: 'cluster';
+  cluster_info: {
+    cluster_id: string;
+    name: string;
+    owner: string;
+    created_at?: string;
+    expires_at?: string | null;
+    total_wei_amount?: string;
+    is_testnet?: boolean;
   };
 }
 
@@ -133,6 +148,7 @@ export type SearchResultItem =
   SearchResultUserOp |
   SearchResultBlob |
   SearchResultDomain |
+  SearchResultCluster |
   SearchResultMetadataTag |
   SearchResultTacOperation |
   SearchResultGolembaseEntity;

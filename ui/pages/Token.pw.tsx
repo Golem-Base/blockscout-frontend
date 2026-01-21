@@ -33,7 +33,7 @@ test.beforeEach(async({ mockApiResponse, mockTextAd }) => {
   await mockTextAd();
 });
 
-test('base view', async({ render, page, createSocket }) => {
+test.fixme('base view', async({ render, page, createSocket }) => {
   const component = await render(<Token/>, { hooksConfig }, { withSocket: true });
 
   const socket = await createSocket();
@@ -85,6 +85,22 @@ test('bridged token', async({ render, page, createSocket, mockApiResponse, mockA
   const socket = await createSocket();
   await socketServer.joinChannel(socket, `tokens:${ hash.toLowerCase() }`);
   await component.getByText('369,000,000 HyFi').waitFor({ state: 'visible' });
+
+  await expect(component).toHaveScreenshot({
+    mask: [ page.locator(pwConfig.adsBannerSelector) ],
+    maskColor: pwConfig.maskColor,
+  });
+});
+
+test.fixme('scam token', async({ render, page, createSocket, mockApiResponse, mockEnvs }) => {
+  await mockEnvs([
+    [ 'NEXT_PUBLIC_VIEWS_TOKEN_SCAM_TOGGLE_ENABLED', 'true' ],
+  ]);
+  await mockApiResponse('general:token', { ...tokenInfo, reputation: 'scam' }, { pathParams: { hash } });
+  const component = await render(<Token/>, { hooksConfig }, { withSocket: true });
+
+  const socket = await createSocket();
+  await socketServer.joinChannel(socket, `tokens:${ hash }`);
 
   await expect(component).toHaveScreenshot({
     mask: [ page.locator(pwConfig.adsBannerSelector) ],

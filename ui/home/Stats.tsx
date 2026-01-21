@@ -7,13 +7,15 @@ import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import formatDataSize from 'lib/formatDataSize';
 import { HOMEPAGE_STATS, HOMEPAGE_STATS_MICROSERVICE } from 'stubs/stats';
-import { WEI } from 'toolkit/utils/consts';
 import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
 import GasPrice from 'ui/shared/gas/GasPrice';
 import IconSvg from 'ui/shared/IconSvg';
 import type { Props as StatsWidgetProps } from 'ui/shared/stats/StatsWidget';
+import { WEI } from 'ui/shared/value/utils';
 
 import StatsList from './StatsList';
+import type { HomeStatsItem } from './utils';
+import { isHomeStatsItemEnabled, sortHomeStatsItems } from './utils';
 
 export interface Item extends StatsWidgetProps {
   id: HomeStatsWidgetId;
@@ -107,7 +109,7 @@ const Stats = () => {
 
   const golemBaseSlotSizeInBytes = 32;
 
-  const items: Array<Item> = (() => {
+  const items: Array<HomeStatsItem> = (() => {
     if (!statsData && !apiData) {
       return [];
     }
@@ -120,8 +122,8 @@ const Stats = () => {
           boxSize={ 5 }
           flexShrink={ 0 }
           cursor="pointer"
-          color="icon.info"
-          _hover={{ color: 'link.primary.hove' }}
+          color="icon.secondary"
+          _hover={{ color: 'hover' }}
         />
       </GasInfoTooltip>
     ) : null;
@@ -129,7 +131,7 @@ const Stats = () => {
     return [
       latestBatchQuery?.data !== undefined && {
         id: 'latest_batch' as const,
-        icon: 'txn_batches_slim' as const,
+        icon: 'txn_batches' as const,
         label: 'Latest batch',
         value: latestBatchQuery.data.toLocaleString(),
         href: { pathname: '/batches' as const },
@@ -137,7 +139,7 @@ const Stats = () => {
       },
       (statsData?.total_blocks?.value || apiData?.total_blocks) && {
         id: 'total_blocks' as const,
-        icon: 'block_slim' as const,
+        icon: 'block' as const,
         label: statsData?.total_blocks?.title || 'Total blocks',
         value: Number(statsData?.total_blocks?.value || apiData?.total_blocks).toLocaleString(),
         href: { pathname: '/blocks' as const },
@@ -145,7 +147,7 @@ const Stats = () => {
       },
       (statsData?.total_transactions?.value || apiData?.total_transactions) && {
         id: 'total_txs' as const,
-        icon: 'transactions_slim' as const,
+        icon: 'transactions' as const,
         label: statsData?.total_transactions?.title || 'Total transactions',
         value: Number(statsData?.total_transactions?.value || apiData?.total_transactions).toLocaleString(),
         href: { pathname: '/txs' as const },
@@ -153,7 +155,7 @@ const Stats = () => {
       },
       (isArbitrumRollup && statsData?.total_operational_transactions?.value) && {
         id: 'total_operational_txs' as const,
-        icon: 'transactions_slim' as const,
+        icon: 'transactions' as const,
         label: statsData?.total_operational_transactions?.title || 'Total operational transactions',
         value: Number(statsData?.total_operational_transactions?.value).toLocaleString(),
         href: { pathname: '/txs' as const },
@@ -168,7 +170,7 @@ const Stats = () => {
       },
       (isOptimisticRollup && statsData?.op_stack_total_operational_transactions?.value) && {
         id: 'total_operational_txs' as const,
-        icon: 'transactions_slim' as const,
+        icon: 'transactions' as const,
         label: statsData?.op_stack_total_operational_transactions?.title || 'Total operational transactions',
         value: Number(statsData?.op_stack_total_operational_transactions?.value).toLocaleString(),
         href: { pathname: '/txs' as const },
@@ -176,7 +178,7 @@ const Stats = () => {
       },
       apiData?.last_output_root_size && {
         id: 'latest_l1_state_batch' as const,
-        icon: 'txn_batches_slim' as const,
+        icon: 'txn_batches' as const,
         label: 'Latest L1 state batch',
         value: apiData?.last_output_root_size,
         href: { pathname: '/batches' as const },
@@ -206,7 +208,7 @@ const Stats = () => {
       },
       apiData?.celo && {
         id: 'current_epoch' as const,
-        icon: 'hourglass_slim' as const,
+        icon: 'hourglass' as const,
         label: 'Current epoch',
         value: `#${ apiData.celo.epoch_number }`,
         href: { pathname: '/epochs/[number]' as const, query: { number: String(apiData.celo.epoch_number) } },
@@ -221,14 +223,14 @@ const Stats = () => {
       },
       apiData?.golembase_used_slots && {
         id: 'golembase_used_slots' as const,
-        icon: 'chart-pie' as const,
+        icon: 'pie_chart' as const,
         label: 'Used storage',
         value: formatDataSize(apiData.golembase_used_slots * golemBaseSlotSizeInBytes),
         isLoading,
       },
       apiData?.golembase_active_entities_size && {
         id: 'golembase_active_entities_size' as const,
-        icon: 'layers' as const,
+        icon: 'collection' as const,
         label: 'Active entities size',
         value: formatDataSize(apiData.golembase_active_entities_size),
         isLoading,
@@ -256,7 +258,7 @@ const Stats = () => {
       },
       apiData?.golembase_total_entities_created && {
         id: 'golembase_total_entities_created' as const,
-        icon: 'layers' as const,
+        icon: 'collection' as const,
         label: 'Total entities created',
         value: `${ BigNumber(apiData.golembase_total_entities_created).toFormat() }`,
       },
@@ -276,18 +278,8 @@ const Stats = () => {
       },
     ]
       .filter(Boolean)
-      .filter((item) => config.UI.homepage.stats.includes(item.id))
-      .sort((a, b) => {
-        const indexA = config.UI.homepage.stats.indexOf(a.id);
-        const indexB = config.UI.homepage.stats.indexOf(b.id);
-        if (indexA > indexB) {
-          return 1;
-        }
-        if (indexA < indexB) {
-          return -1;
-        }
-        return 0;
-      });
+      .filter(isHomeStatsItemEnabled)
+      .sort(sortHomeStatsItems) as Array<HomeStatsItem>;
   })();
 
   if (items.length === 0) {

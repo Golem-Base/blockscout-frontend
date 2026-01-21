@@ -3,6 +3,7 @@ import React from 'react';
 
 import type { LineCharts } from '@blockscout/stats-types';
 import type { StatsIntervalIds } from 'types/client/stats';
+import type { ExternalChainExtended } from 'types/externalChains';
 
 import useApiQuery from 'lib/api/useApiQuery';
 import getQueryParamString from 'lib/router/getQueryParamString';
@@ -11,13 +12,18 @@ import { STATS_CHARTS } from 'stubs/stats';
 import { isChartNameMatches } from './utils/isChartNameMatches';
 import { isSectionMatches } from './utils/isSectionMatches';
 
-export default function useStats() {
+interface Props {
+  chain?: ExternalChainExtended;
+}
+
+export default function useStats({ chain }: Props = {}) {
   const router = useRouter();
 
   const { data, isPlaceholderData, isError } = useApiQuery('stats:lines', {
     queryOptions: {
       placeholderData: STATS_CHARTS,
     },
+    chain,
   });
 
   const extendedData: LineCharts | undefined = React.useMemo(() => {

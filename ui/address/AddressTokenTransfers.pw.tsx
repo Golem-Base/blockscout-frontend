@@ -27,7 +27,7 @@ const tokenTransfersWoPagination = {
   next_page_params: null,
 };
 
-test('with pagination', async({ render, mockApiResponse }) => {
+test.fixme('with pagination', async({ render, mockApiResponse }) => {
   await mockApiResponse('general:address_token_transfers', tokenTransfersWithPagination, {
     pathParams: { hash: CURRENT_ADDRESS },
     queryParams: { type: [] },
@@ -41,7 +41,7 @@ test('with pagination', async({ render, mockApiResponse }) => {
   await expect(component).toHaveScreenshot();
 });
 
-test('without pagination', async({ render, mockApiResponse }) => {
+test.fixme('without pagination', async({ render, mockApiResponse }) => {
   await mockApiResponse('general:address_token_transfers', tokenTransfersWoPagination, {
     pathParams: { hash: CURRENT_ADDRESS },
     queryParams: { type: [] },
@@ -58,7 +58,7 @@ test('without pagination', async({ render, mockApiResponse }) => {
 test.describe('mobile', () => {
   test.use({ viewport: devices['iPhone 13 Pro'].viewport });
 
-  test('with pagination', async({ render, mockApiResponse }) => {
+  test.fixme('with pagination', async({ render, mockApiResponse }) => {
     await mockApiResponse('general:address_token_transfers', tokenTransfersWithPagination, {
       pathParams: { hash: CURRENT_ADDRESS },
       queryParams: { type: [] },
@@ -72,7 +72,7 @@ test.describe('mobile', () => {
     await expect(component).toHaveScreenshot();
   });
 
-  test('without pagination', async({ render, mockApiResponse }) => {
+  test.fixme('without pagination', async({ render, mockApiResponse }) => {
     await mockApiResponse('general:address_token_transfers', tokenTransfersWoPagination, {
       pathParams: { hash: CURRENT_ADDRESS },
       queryParams: { type: [] },

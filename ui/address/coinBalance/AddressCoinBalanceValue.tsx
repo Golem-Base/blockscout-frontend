@@ -4,7 +4,7 @@ import React from 'react';
 import { getShortenedBigNumber } from 'lib/getShortenedBigNumber';
 import { Skeleton } from 'toolkit/chakra/skeleton';
 import { Tooltip } from 'toolkit/chakra/tooltip';
-import { WEI } from 'toolkit/utils/consts';
+import { WEI } from 'ui/shared/value/utils';
 
 export function formatScientific(value: string) {
   const str = value.replace(/^0+/, '');

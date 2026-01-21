@@ -17,7 +17,6 @@ export const StatsGolem = () => {
     interval,
     handleIntervalChange,
     handleFilterChange,
-    filterQuery,
   } = useGolemStats();
 
   return (
@@ -37,12 +36,13 @@ export const StatsGolem = () => {
       </Box>
 
       <ChartsWidgetsList
-        filterQuery={ filterQuery }
         initialFilterQuery=""
         isError={ false }
         isPlaceholderData={ false }
         charts={ displayedCharts }
         interval={ interval }
+        sections={ displayedCharts }
+        selectedSectionId={ currentSection }
       />
     </Box>
   );

@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { render, screen } from 'jest/lib';
+import { describe, it, expect, vitest } from 'vitest';
+import { render, screen } from 'vitest/lib';
 
 import TxDetailsOther from './TxDetailsOther';
 
-jest.mock('ui/shared/DetailedInfo/DetailedInfo', () => ({
+vitest.mock('ui/shared/DetailedInfo/DetailedInfo', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   ItemLabel: ({ children, hint }: { children: React.ReactNode; hint: string }) => (
     <div data-testid="item-label" data-hint={ hint }>{ children }</div>

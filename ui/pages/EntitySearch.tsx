@@ -228,7 +228,7 @@ const SearchEntityPageContent = () => {
 
   return (
     <>
-      <HeaderMobile hideSearchBar/>
+      <HeaderMobile hideSearchButton/>
       <Layout.MainArea>
         <Layout.SideBar/>
         <Layout.MainColumn paddingTop={{ base: 3, lg: 6 }}>

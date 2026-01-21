@@ -9,7 +9,9 @@ import * as mockAssetResponse from './fixtures/mockAssetResponse';
 import * as mockConfigResponse from './fixtures/mockConfigResponse';
 import * as mockContractReadResponse from './fixtures/mockContractReadResponse';
 import * as mockEnvs from './fixtures/mockEnvs';
+import * as mockEssentialDappsChainsConfig from './fixtures/mockEssentialDappsChainsConfig';
 import * as mockFeatures from './fixtures/mockFeatures';
+import * as mockMultichainConfig from './fixtures/mockMultichainConfig';
 import * as mockRpcResponse from './fixtures/mockRpcResponse';
 import * as mockTextAd from './fixtures/mockTextAd';
 import * as render from './fixtures/render';
@@ -23,6 +25,8 @@ export interface Fixtures {
   mockContractReadResponse: mockContractReadResponse.MockContractReadResponseFixture;
   mockEnvs: mockEnvs.MockEnvsFixture;
   mockFeatures: mockFeatures.MockFeaturesFixture;
+  mockMultichainConfig: mockMultichainConfig.MockMultichainConfigFixture;
+  mockEssentialDappsChainsConfig: mockEssentialDappsChainsConfig.MockEssentialDappsChainsConfigFixture;
   mockArkiv: mockArkiv.MockArkivFixture;
   mockRpcResponse: mockRpcResponse.MockRpcResponseFixture;
   createSocket: socketServer.CreateSocketFixture;
@@ -40,6 +44,8 @@ const test = base.extend<Fixtures>({
   mockContractReadResponse: mockContractReadResponse.default,
   mockEnvs: mockEnvs.default,
   mockFeatures: mockFeatures.default,
+  mockMultichainConfig: mockMultichainConfig.default,
+  mockEssentialDappsChainsConfig: mockEssentialDappsChainsConfig.default,
   mockArkiv: mockArkiv.default,
   mockRpcResponse: mockRpcResponse.default,
   // FIXME: for some reason Playwright does not intercept requests to text ad provider when running multiple tests in parallel
